@@ -1,5 +1,19 @@
 # Cosmo Tech Business Webapp
 
+## Chainguard images
+
+The main dockerfiles are now using chainguard base images. In order to build these images, you will need a chainguard
+account, and will have to log in with [chainguardctl](https://edu.chainguard.dev/chainguard/chainctl-usage/how-to-install-chainctl/):
+
+```
+chainctl auth login
+chainctl auth configure-docker --pull-token --save --parent cosmotech --name "$(echo $USER)" --ttl=24h
+```
+
+:information_source: If you cannot or don't want to use chainguard, the legacy dockerfiles can be found in the
+_legacy_dockerfiles_ folder, but please keep in mind that these files are not officially maintained and are no longer
+tested.
+
 ## Webapp Server
 
 The server for the Cosmo Tech business webapp uses the [serve](https://github.com/vercel/serve) NPM package to serve a
