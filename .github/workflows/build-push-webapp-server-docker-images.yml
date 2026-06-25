@@ -40,6 +40,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write # Required for OIDC federation (chainguard-dev/setup-chainctl)
+
     steps:
       - name: Checkout git repository
         uses: actions/checkout@v5
@@ -52,6 +54,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker pull token setup for chainguard images
+        uses: chainguard-dev/setup-chainctl@2cddd35a2f120d9973e58094dc6878c93cf58c28 # v0.5.1
+        with:
+          identity: ${{ secrets.CHAINGUARD_IDENTITY_GH_WORKFLOW_MIGRATION }}
 
       - name: "webapp-server: extract Docker metadata (tags, labels)"
         id: webapp-server-metadata

@@ -1,9 +1,6 @@
 # ==== Install dependencies ====
 
-FROM cgr.dev/cosmotech/node:24-dev AS install_build_dependencies
-
-# Setting "USER root" is required to run "corepack enable"
-USER root
+FROM node:24-slim AS install_build_dependencies
 
 WORKDIR /webapp
 RUN corepack enable
@@ -40,11 +37,14 @@ RUN PUBLIC_URL="$PUBLIC_URL" VITE_BUILD_NUMBER="$VITE_BUILD_NUMBER" yarn buildWi
 
 # ==== Serve - "universal" server mode ====
 
-FROM cgr.dev/cosmotech/node-python-bash:24 AS server-universal
+FROM node:24-slim AS server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
 
-# Setting "USER root" is required to install serve globally
-USER root
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y python3
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
 
 WORKDIR /webapp
 ENV NODE_ENV=production
@@ -56,21 +56,21 @@ COPY --from=build-universal /webapp/scripts/patch_webapp_server ./patch_webapp_s
 
 EXPOSE 3000
 RUN chown -R node:node /webapp
-RUN chmod 705 /webapp
-
+RUN chmod 700 /webapp
 USER node
-ENTRYPOINT [ "/bin/bash" ]
-CMD ["patch_webapp_server/patch_and_start_server.sh"]
+CMD ["bash", "patch_webapp_server/patch_and_start_server.sh"]
 
 HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || exit 1
 
 # ==== Serve - "specific" server mode (default) ====
 
-FROM cgr.dev/cosmotech/node-python-bash:24
+FROM node:24-slim AS server-specific
 LABEL com.cosmotech.business-webapp.buildType="specific"
 
-# Setting "USER root" is required to install serve globally
-USER root
+RUN apt-get update && apt-get -y upgrade
+# Remove Yarn v1
+RUN rm /usr/local/bin/yarn*
+RUN rm -rf /opt/yarn-v1.22.22
 
 WORKDIR /webapp
 ENV NODE_ENV=production
@@ -81,7 +81,6 @@ COPY --from=build-specific /webapp/build ./build
 
 EXPOSE 3000
 USER node
-ENTRYPOINT [ "serve" ]
-CMD [ "-s", "build" ]
+CMD ["serve","-s", "build"]
 
 HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || exit 1
