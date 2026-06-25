@@ -41,20 +41,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:16.9.0":
-  version: 16.9.0
-  resolution: "@azure/msal-common@npm:16.9.0"
-  checksum: 10c0/48a876096e57715b40ad392779d8848fa3c851fc4b847fe900f067e39b45bf8a20e8f95d1155f3763f05998fe14b3de974220503b17bd802f995c3d4a269c207
+"@azure/msal-common@npm:16.10.0":
+  version: 16.10.0
+  resolution: "@azure/msal-common@npm:16.10.0"
+  checksum: 10c0/770cef6ebb2df69d9c5cb76fc963ee2633f1c0757852596227075bad99c72eb447c825cc6fa9f5f3bf920dd847ad4410cae9f08fa9314147ee00b7f267332c2a
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^5.2.5":
-  version: 5.2.5
-  resolution: "@azure/msal-node@npm:5.2.5"
+"@azure/msal-node@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@azure/msal-node@npm:5.3.0"
   dependencies:
-    "@azure/msal-common": "npm:16.9.0"
+    "@azure/msal-common": "npm:16.10.0"
     jsonwebtoken: "npm:^9.0.0"
-  checksum: 10c0/00288d66355e0256e03f54845ce923a108a04c943f9ae597a5fca49e33c3e7fd790678d3823e08a8dcf4561461276bf853c35a77b2385d7405d48d7fb0cc156d
+  checksum: 10c0/b82ec87b5a81f27b1207490398b75f392ec55b133fc4de8b778e1f0586518d7181d72a99bc7bcb1e14d858f78f2571f356326cec6a1890a3b06514e57e6cc348
   languageName: node
   linkType: hard
 
@@ -4119,7 +4119,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.18.0, axios@npm:^1.6.1":
+"axios@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "axios@npm:1.18.1"
+  dependencies:
+    follow-redirects: "npm:^1.16.0"
+    form-data: "npm:^4.0.5"
+    https-proxy-agent: "npm:^5.0.1"
+    proxy-from-env: "npm:^2.1.0"
+  checksum: 10c0/9d9378a3af0d0ad730a52ad9d15ec7201f3926ad6e7e8bbffc5ae21ca2835ad11d1d9598698f5dd9718917486039f55ea1d7dc23d8e44fa827a55cc3262c02fc
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.1":
   version: 1.18.0
   resolution: "axios@npm:1.18.0"
   dependencies:
@@ -4135,7 +4147,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azure-sample-webapp@workspace:."
   dependencies:
-    "@azure/msal-node": "npm:^5.2.5"
+    "@azure/msal-node": "npm:^5.3.0"
     "@babel/core": "npm:^7.29.7"
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/preset-react": "npm:^7.29.7"
@@ -4157,10 +4169,10 @@ __metadata:
     "@testing-library/react": "npm:^16.3.2"
     "@trivago/prettier-plugin-sort-imports": "npm:^6.0.2"
     "@vitejs/plugin-react": "npm:^6.0.3"
-    axios: "npm:^1.18.0"
+    axios: "npm:^1.18.1"
     babel-jest: "npm:^30.4.1"
     cross-env: "npm:^10.1.0"
-    cypress: "npm:^15.17.0"
+    cypress: "npm:^15.18.0"
     cypress-file-upload: "npm:^5.0.8"
     cypress-localstorage-commands: "npm:^2.3.0"
     cypress-mochawesome-reporter: "npm:^4.0.2"
@@ -4171,15 +4183,15 @@ __metadata:
     eslint-plugin-cypress: "npm:^6.4.1"
     eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-jest: "npm:^29.15.2"
-    eslint-plugin-n: "npm:^18.1.0"
+    eslint-plugin-n: "npm:^18.2.0"
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-prettier: "npm:^5.5.6"
     eslint-plugin-promise: "npm:^7.3.0"
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-hooks: "npm:^7.1.1"
     fast-deep-equal: "npm:^3.1.3"
-    globals: "npm:^17.6.0"
-    i18next: "npm:^26.3.1"
+    globals: "npm:^17.7.0"
+    i18next: "npm:^26.3.2"
     i18next-browser-languagedetector: "npm:^8.2.1"
     i18next-http-backend: "npm:^4.0.0"
     jest: "npm:^30.4.2"
@@ -4194,7 +4206,7 @@ __metadata:
     react-countdown: "npm:^2.3.6"
     react-dom: "npm:^19.2.7"
     react-fade-in: "npm:^2.0.1"
-    react-hook-form: "npm:^7.79.0"
+    react-hook-form: "npm:^7.80.0"
     react-i18next: "npm:^17.0.8"
     react-idle-timer: "npm:^5.7.3"
     react-redux: "npm:^9.3.0"
@@ -5160,9 +5172,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:^15.17.0":
-  version: 15.17.0
-  resolution: "cypress@npm:15.17.0"
+"cypress@npm:^15.18.0":
+  version: 15.18.0
+  resolution: "cypress@npm:15.18.0"
   dependencies:
     "@cypress/request": "npm:^4.0.0"
     "@cypress/xvfb": "npm:^1.2.4"
@@ -5205,7 +5217,7 @@ __metadata:
     yauzl: "npm:^3.3.1"
   bin:
     cypress: bin/cypress
-  checksum: 10c0/4f8c38b075ba0f470d948fe9d705b3afc9d87f8a5e7e8592eaef88ae040ed42d3076fadf04c1eb1ef4806b3e9258f8daea14c2b1e05bf159530ad0e23d822d04
+  checksum: 10c0/948782e11ece8c5f3c3945308d807fb52f0ee8708d23b3a9bae3f112834ce1627f44c2cd457506e499f29782bdcb2513021489afcb11885e576c012d58115aab
   languageName: node
   linkType: hard
 
@@ -6042,9 +6054,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^18.1.0":
-  version: 18.1.0
-  resolution: "eslint-plugin-n@npm:18.1.0"
+"eslint-plugin-n@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "eslint-plugin-n@npm:18.2.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.5.0"
     enhanced-resolve: "npm:^5.17.1"
@@ -6063,7 +6075,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10c0/19f555e79213a0b2a6ccf1ab6150ecc98ee00cf12e99bf277429793574c25ac47b05b4133eac9a9ee7989ba62793f71dacb8a2b0a001d5e70d96c3dde69c05d3
+  checksum: 10c0/7d55896d669a5147270a3366da36decc7e3c8ff35245c1da23966353ff82881d7d6cf592ba16e40b7eeb6765a901d114a01bb100138753c20eb34fa5c3891238
   languageName: node
   linkType: hard
 
@@ -6856,6 +6868,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"globals@npm:^17.7.0":
+  version: 17.7.0
+  resolution: "globals@npm:17.7.0"
+  checksum: 10c0/e83f791acf537b85fa1632ac48a45432a1999a61acd9f955b5c2145f66d6b5000a7945029874b6184fa2dfac8d33af03885a5a7ffa457866f1bcf0b40d0c1291
+  languageName: node
+  linkType: hard
+
 "globalthis@npm:^1.0.4":
   version: 1.0.4
   resolution: "globalthis@npm:1.0.4"
@@ -7155,15 +7174,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^26.3.1":
-  version: 26.3.1
-  resolution: "i18next@npm:26.3.1"
+"i18next@npm:^26.3.2":
+  version: 26.3.2
+  resolution: "i18next@npm:26.3.2"
   peerDependencies:
     typescript: ^5 || ^6
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/8f26cb9a09b648edde395a58c2fe890dd996cb81a969d0a05da178b9cb4ce3dee009f9c677a480bb58b5a9d8bbf762fd226111626b015e9bbd66b96132dbba39
+  checksum: 10c0/937180cf9e88ab4ce3b8249d969d65200b012b10eaeadd45671fcaa7bb206ef3263a9023a84a9c8a1de3656dad6c7e93aa306f5e79f0df2821c7ab5bc45f3734
   languageName: node
   linkType: hard
 
@@ -9935,12 +9954,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.79.0":
-  version: 7.79.0
-  resolution: "react-hook-form@npm:7.79.0"
+"react-hook-form@npm:^7.80.0":
+  version: 7.80.0
+  resolution: "react-hook-form@npm:7.80.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/d34edf52766b911dd8c7f583ab7345bca60a352ae96cd8cb82e808e7875c36de21b2d4ee0afc40f693e1d98f0b3d6b47929cb873ca39d3b7b54a56cef6a5cb6d
+  checksum: 10c0/9a2a1316a562d3a144e3854ce22123b08fe886c8e0327a0682d3d30312a851beac115049f285bacd20d9dd1bdfe7d05333b5dab8ecb9b18c2976557220c8e648
   languageName: node
   linkType: hard
 
