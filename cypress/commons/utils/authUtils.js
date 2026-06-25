@@ -43,25 +43,25 @@ function _findAccessTokenFromMSALResponse(authResponse) {
   return undefined;
 }
 
-// Reset provider & access token in local storage
-async function resetAuthDataInLocalStorage() {
-  window.localStorage.removeItem('authAccessToken');
-  window.localStorage.removeItem('authProvider');
+// Reset provider & access token in session storage
+async function resetAuthDataInSessionStorage() {
+  window.sessionStorage.removeItem('authAccessToken');
+  window.sessionStorage.removeItem('authProvider');
 }
 
-// Set provider & access token in local storage based on the content of the authentication response
-async function setAuthDataInLocalStorage(authResponse) {
-  window.localStorage.setItem('authAccessToken', _findAccessTokenFromMSALResponse(authResponse));
-  window.localStorage.setItem('authProvider', 'auth-dev');
+// Set provider & access token in session storage based on the content of the authentication response
+async function setAuthDataInSessionStorage(authResponse) {
+  window.sessionStorage.setItem('authAccessToken', _findAccessTokenFromMSALResponse(authResponse));
+  window.sessionStorage.setItem('authProvider', 'auth-dev');
 }
 
 const fetchServiceAccountTokenIfEnabled = () => {
-  if (USE_SERVICE_ACCOUNT && !window.localStorage.getItem('authAccessToken')) {
+  if (USE_SERVICE_ACCOUNT && !window.sessionStorage.getItem('authAccessToken')) {
     cy.task('fetchServiceAccountToken').then((authResponse) => {
-      setAuthDataInLocalStorage(authResponse);
+      setAuthDataInSessionStorage(authResponse);
     });
   } else {
-    resetAuthDataInLocalStorage();
+    resetAuthDataInSessionStorage();
   }
 };
 
@@ -73,7 +73,5 @@ export const authUtils = {
   forgeAccessTokenWithFakeRoles,
   forgeIdTokenWithFakeUser,
   getUserFromToken,
-  resetAuthDataInLocalStorage,
-  setAuthDataInLocalStorage,
   fetchServiceAccountTokenIfEnabled,
 };

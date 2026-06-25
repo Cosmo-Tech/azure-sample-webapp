@@ -1,6 +1,5 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import 'cypress-localstorage-commands';
 import { USER_EXAMPLE } from '../../../fixtures/stubbing/default/users';
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { stub } from '../../services/stubbing';
@@ -33,12 +32,11 @@ function login(options) {
     ['defaultLogin', cy.id],
     () => {
       setup.initCypressAndStubbing({ noInterceptionMiddlewares: options?.noInterceptionMiddlewares });
-      cy.clearLocalStorageSnapshot();
 
       let reqAuthAlias;
       let browseCallback;
       if (auth.USE_SERVICE_ACCOUNT || auth.USE_API_KEY) {
-        // Note: login with the "dev" login button will only work if the access_token is already set in local storage
+        // Note: login with the "dev" login button will only work if the access_token is already set in session storage
         stub.setFakeUser(USER_EXAMPLE);
         if (auth.USE_API_KEY) {
           browseCallback = () => Login.getDevLoginButton().click();
@@ -57,15 +55,15 @@ function login(options) {
       validate() {
         if (auth.USE_API_KEY) return;
 
-        cy.getAllLocalStorage().then((localStorage) => {
+        cy.getAllSessionStorage().then((sessionStorage) => {
           // Can't use `Cypress.config('baseUrl')` below, because when deployed, the webapp base URL can include
-          // a subpath after the domain name (e.g. "/cosmotech-webapp/brewery"), that is not present in the local
+          // a subpath after the domain name (e.g. "/cosmotech-webapp/brewery"), that is not present in the session
           // storage key
           // Use location.host instead of hostname to also get the port number (e.g. localhost:3000), it is
           // necessary when the webapp runs locally
           const baseUrl = `${window.location.protocol}//${window.location.host}`;
-          expect(localStorage[baseUrl].authProvider).not.to.eq(undefined);
-          expect(localStorage[baseUrl].authAccessToken).not.to.eq(undefined);
+          expect(sessionStorage[baseUrl].authProvider).not.to.eq(undefined);
+          expect(sessionStorage[baseUrl].authAccessToken).not.to.eq(undefined);
         });
       },
     }
