@@ -3,9 +3,9 @@
 import { DEFAULT_SIMULATION_RUNNER, USERS_LIST } from '../default';
 
 export const SCENARIO_RUNS = [
-  { id: 'run-stubbedrun01', state: 'Created' },
+  { id: 'run-stubbedrun01', state: 'NotStarted' },
   { id: 'run-stubbedrun02', state: 'Successful' },
-  { id: 'run-stubbedrun03', state: 'Created' },
+  { id: 'run-stubbedrun03', state: 'NotStarted' },
   { id: 'run-stubbedrun04', state: 'Successful' },
   { id: 'run-stubbedrun05', state: 'Failed' },
   { id: 'run-stubbedrun06', state: 'Successful' },
@@ -15,7 +15,7 @@ export const SCENARIOS = [
   {
     ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr01',
-    lastRunInfo: { lastRunId: 'run-stubbedrun01', lastRunStatus: 'Created' },
+    lastRunInfo: { lastRunId: 'run-stubbedrun01', lastRunStatus: 'NotStarted' },
     name: 'Simple Scenario 1',
     tags: ['brewery', 'tag', 'global'],
     description: 'A short description of a scenario to easily keep track of its purpose',
@@ -36,7 +36,7 @@ export const SCENARIOS = [
   {
     ...DEFAULT_SIMULATION_RUNNER,
     id: 'r-stubbedrnr03',
-    lastRunInfo: { lastRunId: 'run-stubbedrun03', lastRunStatus: 'Created' },
+    lastRunInfo: { lastRunId: 'run-stubbedrun03', lastRunStatus: 'NotStarted' },
     name: 'Scenario august',
     tags: ['supply', 'cypress'],
     description: 'A short description of a global scenario to easily keep track of its purpose',
