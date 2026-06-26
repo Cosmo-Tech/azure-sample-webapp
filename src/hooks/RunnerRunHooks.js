@@ -10,7 +10,7 @@ import { DatasetsUtils, RunnersUtils } from '../utils';
 
 // Note that this function only works in the context of the dataset manager because it uses the "current dataset" and
 // looks for the runner in the list of ETL runners. For the simulation view, use "useDownloadSimulationLogsFile" instead
-export const useDownloadLogsFile = () => {
+export const useDownloadETLLogs = () => {
   const getRunner = useGetETLRunnerById();
 
   const organizationId = useOrganizationId();

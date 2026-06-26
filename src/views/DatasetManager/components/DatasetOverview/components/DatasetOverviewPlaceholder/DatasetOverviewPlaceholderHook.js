@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useGetDatasetRunnerStatus } from '../../../../../../hooks/DatasetRunnerHooks';
-import { useDownloadLogsFile } from '../../../../../../hooks/RunnerRunHooks';
+import { useDownloadETLLogs } from '../../../../../../hooks/RunnerRunHooks';
 import { RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
 import { useCurrentDataset, useCurrentDatasetId, useRefreshDataset } from '../../../../../../state/datasets/hooks';
 import { useStopETLRunner } from '../../../../../../state/runner/hooks';
@@ -13,7 +13,7 @@ export const useDatasetOverviewPlaceholder = () => {
   const currentDatasetType = DatasetsUtils.getDatasetOption(currentDataset, 'sourceType');
   const currentDatasetId = useCurrentDatasetId();
   const refreshDataset = useRefreshDataset();
-  const downloadLogsFile = useDownloadLogsFile();
+  const downloadLogsFile = useDownloadETLLogs();
   const stopETLRunner = useStopETLRunner();
 
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
