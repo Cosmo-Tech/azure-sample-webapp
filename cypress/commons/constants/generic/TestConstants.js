@@ -56,6 +56,7 @@ export const API_ENDPOINT = {
   RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)',
   START_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/start', // Endpoint to start the runner
   RUNNER_STATE: URL_ROOT + '/.*/runs/(run-[\\w]+)/status',
+  RUNNER_RUN_LOGS: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/runs/(run-[\\w]+)/logs',
   STOP_RUNNER: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/stop', // Endpoint to stop a runner run
   RUNNER_DEFAULT_SECURITY: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/default',
   RUNNER_SECURITY_ACL: URL_ROOT + '/.*/runners/((r|R)-[\\w]+)/security/access',
@@ -204,6 +205,7 @@ export const API_REGEX = {
   RUNNER_DEFAULT_SECURITY: new RegExp('^' + API_ENDPOINT.RUNNER_DEFAULT_SECURITY + '$'),
   RUNNER_SECURITY_ACL: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_ACL + '$'),
   RUNNER_SECURITY_USER_ACCESS: new RegExp('^' + API_ENDPOINT.RUNNER_SECURITY_USER_ACCESS + '$'),
+  RUNNER_RUN_LOGS: new RegExp('^' + API_ENDPOINT.RUNNER_RUN_LOGS + '$'),
   WORKSPACE: new RegExp('^' + API_ENDPOINT.WORKSPACE + '$'),
   WORKSPACES: new RegExp('^' + API_ENDPOINT.WORKSPACES + '$'),
   SOLUTION: new RegExp('^' + API_ENDPOINT.SOLUTION),

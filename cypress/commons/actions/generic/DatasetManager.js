@@ -332,15 +332,15 @@ export const openUpdateDatasetParametersDialog = () => {
 };
 
 export const getUpdateDatasetParametersDialog = () => {
-  return cy.get(GENERIC_SELECTORS.datasetmanager.list.updateDatasetParametersDialog);
+  return cy.get(SELECTORS.list.updateDatasetParametersDialog);
 };
 
 export const getRunnerRunTemplate = () => {
-  return cy.get(GENERIC_SELECTORS.datasetmanager.update.runnerRunTemplateId);
+  return cy.get(SELECTORS.update.runnerRunTemplateId);
 };
 
 export const getCloseUpdateDatasetParametersDialogButton = () => {
-  return cy.get(GENERIC_SELECTORS.datasetmanager.update.closeUpdateDialogButton);
+  return cy.get(SELECTORS.update.closeUpdateDialogButton);
 };
 
 export const closeUpdateDatasetParametersDialog = () => {
@@ -351,8 +351,9 @@ export const closeUpdateDatasetParametersDialog = () => {
 export const uploadFileInParametersEditionDialog = (filePath) =>
   FileParameters.upload(getUpdateDatasetParametersDialog(), filePath);
 
-export const getUpdateParametersButton = () =>
-  cy.get(GENERIC_SELECTORS.datasetmanager.update.confirmUpdateParametersButton);
+export const getUpdateParametersButton = () => cy.get(SELECTORS.update.confirmUpdateParametersButton);
+
+export const getDownloadETLLogsButton = () => cy.get(SELECTORS.overview.downloadLogsButton);
 
 export const updateDatasetParameters = (datasetId, options) => {
   const aliases = api.interceptDatasetEvents(options?.datasetsEvents);

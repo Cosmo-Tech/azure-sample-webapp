@@ -272,6 +272,7 @@ export const GENERIC_SELECTORS = {
         detailsDialogDatasetName: '[data-cy=category-details-dialog-dataset-name]',
         detailsDialogCategoryName: '[data-cy=category-details-dialog-category-name]',
       },
+      downloadLogsButton: '[data-cy=download-etl-dataset-logs-button]',
     },
     confirmRefreshButton: '[data-cy=refresh-dataset-dialog-confirm-button]',
     update: {
