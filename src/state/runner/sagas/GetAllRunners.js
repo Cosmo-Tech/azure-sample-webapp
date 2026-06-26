@@ -1,16 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { t } from 'i18next';
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
+import { call, put, select, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { RUNNERS_PAGE_COUNT } from '../../../services/config/FunctionalConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../../services/config/accessControl';
 import { ApiUtils, RunnersUtils, SolutionsUtils } from '../../../utils';
-import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, setAllEtlRunners, setAllSimulationRunners, setReducerStatus } from '../reducers';
+import { setAllEtlRunners, setAllSimulationRunners, setReducerStatus } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
@@ -20,21 +18,6 @@ const getSolutionRunTemplates = (state) => state.solution?.current?.data?.runTem
 
 const keepOnlyReadableRunners = (runners) =>
   runners.filter((runner) => runner.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ));
-
-function* getRunnerStatus(organizationId, workspaceId, runnerId, lastRunId) {
-  try {
-    const response = yield call(Api.RunnerRuns.getRunStatus, organizationId, workspaceId, runnerId, lastRunId);
-    yield put(addRun({ data: response.data }));
-  } catch (error) {
-    console.error(error);
-    const errorMessage = t(
-      'views.scenario.scenarioRunStatusQueryError.comment',
-      'Could not get status of scenario run with id "{{id}}".',
-      { id: lastRunId }
-    );
-    yield put(setApplicationErrorMessage({ error, errorMessage }));
-  }
-}
 
 export function* getAllRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
@@ -74,13 +57,6 @@ export function* getAllRunners(organizationId, workspaceId) {
     if (RunnersUtils.getLastRunStatus(runner) == null) RunnersUtils.setLastRunStatus(runner, RUNNER_RUN_STATE.CREATED);
   });
   yield put(setAllSimulationRunners({ list: simulationRunners, status: STATUSES.SUCCESS }));
-  yield all(
-    simulationRunners
-      .filter((runner) => RunnersUtils.getLastRunId(runner) != null)
-      .map((runner) => {
-        return call(getRunnerStatus, organizationId, workspaceId, runner.id, RunnersUtils.getLastRunId(runner));
-      })
-  );
 
   const etlRunners = readableRunners.filter((runner) => eltRunnersRunTemplatesIds?.includes(runner.runTemplateId));
   yield put(setAllEtlRunners({ list: etlRunners }));

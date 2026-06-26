@@ -129,6 +129,15 @@ export const dispatchUpdateEtlRunner = (organizationId, workspaceId, runnerId, d
   runnerPatch,
 });
 
+export const dispatchStartRunnerStatusPolling = (organizationId, workspaceId, runnerId, lastRunId, delayFirstCall) => ({
+  type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
+  organizationId,
+  workspaceId,
+  runnerId,
+  lastRunId,
+  delayFirstCall,
+});
+
 export const dispatchStopAllRunnerStatusPolling = () => ({
   type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING,
 });

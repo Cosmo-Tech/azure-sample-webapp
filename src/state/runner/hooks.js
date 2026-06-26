@@ -20,6 +20,7 @@ import {
   dispatchUpdateEtlRunner,
   dispatchUpdateSimulationRunner,
   dispatchUpdateSimulationRunnerData,
+  dispatchStartRunnerStatusPolling,
   dispatchStopAllRunnerStatusPolling,
 } from './dispatchers';
 import {
@@ -92,17 +93,17 @@ export const useCurrentSimulationRunnerReducerStatus = () => {
   return useSelector((state) => state.runner?.simulationRunners.current?.status);
 };
 
-export const useLastRunsList = () => {
-  return useSelector((state) => state.runner?.runs);
+export const useRunDetails = () => {
+  return useSelector((state) => state.runner?.runDetails);
 };
 
-export const useCurrentSimulationRunnerLastRun = (runnerId) => {
-  const runnerRuns = useLastRunsList().filter((run) => run.runnerId === runnerId);
+export const useCurrentSimulationRunnerLastRunDetails = (runnerId) => {
+  const runDetails = useRunDetails().filter((run) => run.runnerId === runnerId);
   // New runs may have no startTime when added in redux after their creation. If such a run is found, it is the last run
-  const runWithNoStartTime = runnerRuns.find((run) => !run.startTime);
+  const runWithNoStartTime = runDetails.find((run) => !run.startTime);
   if (runWithNoStartTime) return runWithNoStartTime;
   // Otherwise, sort the list to find the most recent startTime
-  return runnerRuns.sort((a, b) => new Date(b.startTime) - new Date(a.startTime))[0];
+  return runDetails.sort((a, b) => new Date(b.startTime) - new Date(a.startTime))[0];
 };
 
 export const useCreateETLRunnerAndDataset = () => {
@@ -298,6 +299,17 @@ export const useUpdateEtlRunner = () => {
   return useCallback(
     (runnerId, dataset, runnerPatch) =>
       dispatch(dispatchUpdateEtlRunner(organizationId, workspaceId, runnerId, dataset, runnerPatch)),
+    [dispatch, organizationId, workspaceId]
+  );
+};
+
+export const useStartRunnerStatusPolling = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (runnerId, lastRunId, delayFirstCall) =>
+      dispatch(dispatchStartRunnerStatusPolling(organizationId, workspaceId, runnerId, lastRunId, delayFirstCall)),
     [dispatch, organizationId, workspaceId]
   );
 };

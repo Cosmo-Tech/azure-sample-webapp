@@ -14,7 +14,7 @@ import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { getDataset } from '../../datasets/sagas/GetDataset';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateRun, updateEtlRunner, updateSimulationRunner } from '../reducers';
+import { addOrUpdateRunStatus, updateEtlRunner, updateSimulationRunner } from '../reducers';
 
 const getETLRunnerFromState = (state, runnerId) => {
   return state.runner.etlRunners.list.data?.find((runner) => runner.id === runnerId);
@@ -27,7 +27,9 @@ export function forgeStopPollingAction(runnerId) {
 }
 
 export function* pollRunnerState(action) {
-  const { organizationId, workspaceId, runnerId, lastRunId, runnerType } = action;
+  const { organizationId, workspaceId, runnerId, lastRunId, runnerType, delayFirstCall = true } = action;
+  const runner = yield select(getETLRunnerFromState, runnerId);
+  const lastRunStatusBeforePolling = RunnersUtils.getLastRunStatus(runner);
 
   let updateRunner = updateSimulationRunner;
   if (runnerType === 'etl') updateRunner = updateEtlRunner;
@@ -36,7 +38,8 @@ export function* pollRunnerState(action) {
   // the AKS container isn't created yet and runner.state passes to Unknown for a few seconds before returning to
   // Running again.
   // For more details, see https://cosmo-tech.atlassian.net/browse/SDCOSMO-1768
-  yield delay(POLLING_START_DELAY);
+  if (delayFirstCall) yield delay(POLLING_START_DELAY);
+
   // Loop until the runner state is FAILED, SUCCESS or UNKNOWN
   let networkErrorsCount = 0;
   while (true) {
@@ -52,7 +55,6 @@ export function* pollRunnerState(action) {
       networkErrorsCount = 0;
       if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(runStatus.state)) {
         if (runnerType === 'etl' && runStatus.state === RUNNER_RUN_STATE.SUCCESSFUL) {
-          const runner = yield select(getETLRunnerFromState, runnerId);
           // Datasets created in the Dataset Manager are the first entry in runners' property "datasets.bases"
           const datasetId = runner?.datasets?.bases?.[0];
           if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId, true);
@@ -60,7 +62,7 @@ export function* pollRunnerState(action) {
 
         const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);
         yield put(updateRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
-        yield put(updateRun({ data: runStatus }));
+        yield put(addOrUpdateRunStatus({ data: runStatus }));
 
         yield put(forgeStopPollingAction(runnerId));
       }
@@ -75,11 +77,16 @@ export function* pollRunnerState(action) {
         yield delay(RUNNER_STATUS_POLLING_DELAY);
       } else {
         console.error(error);
-        const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
-        yield put(setApplicationErrorMessage({ error, errorMessage }));
+        // If the status polling was started because the scenario has been launched, show an error banner, otherwise,
+        // fail silently without changing the runner status
+        if (lastRunStatusBeforePolling === RUNNER_RUN_STATE.RUNNING) {
+          const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
+          yield put(setApplicationErrorMessage({ error, errorMessage }));
 
-        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.FAILED);
-        yield put(updateRunner({ runnerId, status: STATUSES.ERROR, runner: { ...lastRunInfoPatch } }));
+          const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.FAILED);
+          yield put(updateRunner({ runnerId, status: STATUSES.ERROR, runner: { ...lastRunInfoPatch } }));
+        }
+
         yield put(forgeStopPollingAction(runnerId));
       }
     }

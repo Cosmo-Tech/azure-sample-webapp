@@ -15,6 +15,7 @@ const getUserEmail = (state) => state.auth.userEmail;
 const getUserId = (state) => state.auth.userId;
 const getRunnersPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 const getSolutionParameters = (state) => state.solution?.current?.data?.parameters;
+const getRunStatuses = (state) => state.runner.runDetails;
 
 export function* getRunner(action) {
   try {
@@ -22,6 +23,7 @@ export function* getRunner(action) {
     const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnersPermissionsMapping);
     const solutionParameters = yield select(getSolutionParameters);
+    const runDetails = yield select(getRunStatuses) ?? [];
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runnerId = action.runnerId;
@@ -47,19 +49,23 @@ export function* getRunner(action) {
       throw err;
     }
 
-    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: data.id }));
-    yield put(
-      setValidationStatus({ status: STATUSES.SUCCESS, runnerId: data.id, validationStatus: data.validationStatus })
-    );
+    yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId }));
+    yield put(setValidationStatus({ status: STATUSES.SUCCESS, runnerId, validationStatus: data.validationStatus }));
 
-    // Start state polling for running scenarios
-    if (lastRunStatus === RUNNER_RUN_STATE.RUNNING) {
+    // Start state polling for running scenarios, or if the Runner last run status is not already stored in redux (the
+    // last run status is required to have the last "startTime")
+    const mustStartPolling =
+      lastRunStatus === RUNNER_RUN_STATE.RUNNING ||
+      (lastRunId != null && runDetails.find((runStatus) => runStatus?.runnerId === runnerId) == null);
+
+    if (mustStartPolling) {
       yield put({
         type: RUNNER_ACTIONS_KEY.START_RUNNER_STATUS_POLLING,
         organizationId: action.organizationId,
         workspaceId: action.workspaceId,
         runnerId: data.id,
         lastRunId,
+        delayFirstCall: false,
       });
     }
   } catch (error) {

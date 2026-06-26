@@ -8,7 +8,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { addRun, updateEtlRunner } from '../reducers';
+import { addRunStatus, updateEtlRunner } from '../reducers';
 
 const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
 
@@ -48,7 +48,7 @@ export function* startETLRunner(action) {
     const lastRunId = RunnersUtils.getRunIdFromRunnerStart(response.data);
     const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.RUNNING);
     yield put(updateEtlRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
-    yield put(addRun({ data: { id: lastRunId, runnerId } }));
+    yield put(addRunStatus({ data: { id: lastRunId, runnerId } }));
 
     // Start backend polling to update the scenario status
     yield put({

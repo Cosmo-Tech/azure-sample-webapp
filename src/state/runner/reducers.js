@@ -22,7 +22,7 @@ export const runnersInitialState = {
       data: [],
     },
   },
-  runs: [],
+  runDetails: [],
   status: STATUSES.IDLE,
 };
 
@@ -144,21 +144,22 @@ const runnerSlice = createSlice({
         state.simulationRunners.current.data;
       state.simulationRunners.current.status = status ?? state.simulationRunners.current?.status;
     },
-    addRun: (state, action) => {
+    addRunStatus: (state, action) => {
       const { data } = action.payload;
-      state.runs.push(data);
+      state.runDetails.push(data);
     },
-    updateRun: (state, action) => {
+    addOrUpdateRunStatus: (state, action) => {
       const { data } = action.payload;
-      state.runs = state.runs.map((run) => {
+      let found = false;
+      state.runDetails = state.runDetails.map((run) => {
         if (run.id === data.id) {
-          return {
-            ...run,
-            ...data,
-          };
+          found = true;
+          return { ...run, ...data };
         }
         return run;
       });
+
+      if (!found) state.runDetails.push(data);
     },
     setListStatus: (state, action) => {
       const { status } = action.payload;
@@ -262,8 +263,8 @@ export const {
   addSimulationRunner,
   resetCurrentSimulationRunner,
   setCurrentSimulationRunner,
-  addRun,
-  updateRun,
+  addRunStatus,
+  addOrUpdateRunStatus,
   setListStatus,
   setAllEtlRunners,
   updateEtlRunner,
