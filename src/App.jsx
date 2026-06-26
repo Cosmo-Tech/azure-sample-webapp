@@ -78,7 +78,7 @@ const App = () => {
 
   useEffect(() => {
     async function checkLogin() {
-      if (localStorage.getItem('authProvider')) {
+      if (sessionStorage.getItem('authProvider')) {
         try {
           await Auth.isUserSignedIn();
         } catch (error) {

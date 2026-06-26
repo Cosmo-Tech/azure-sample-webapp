@@ -22,7 +22,7 @@ const MSAL_AZURE_CONFIG = {
       knownAuthorities: [`https://login.microsoftonline.com/${AZURE_TENANT_ID}`],
     },
     cache: {
-      cacheLocation: 'localStorage',
+      cacheLocation: 'sessionStorage',
       storeAuthStateInCookie: false,
     },
   },

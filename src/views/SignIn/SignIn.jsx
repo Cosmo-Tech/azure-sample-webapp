@@ -150,8 +150,8 @@ const SignIn = ({ logInAction, auth }) => {
           'contact your administrator.'
       );
 
-    if (localStorage.getItem('logoutByTimeout') === 'true') {
-      localStorage.removeItem('logoutByTimeout');
+    if (sessionStorage.getItem('logoutByTimeout') === 'true') {
+      sessionStorage.removeItem('logoutByTimeout');
       return t('views.signin.info.timeout', 'For security reasons, your session has expired, due to inactivity.');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
