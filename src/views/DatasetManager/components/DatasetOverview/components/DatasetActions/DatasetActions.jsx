@@ -6,6 +6,7 @@ import { DatasetsUtils } from '../../../../../../utils';
 import { CreateSubDatasetButton } from '../../../CreateDatasetButton';
 import { DeleteDatasetButton } from '../../../DeleteDatasetButton';
 import { UpdateDatasetButton } from '../../../UpdateDatasetButton';
+import { DownloadLogsButton } from '../DownloadLogsButton';
 import { RefreshDatasetButton } from '../RefreshDatasetButton';
 
 export default function DatasetActions({ dataset }) {
@@ -17,6 +18,7 @@ export default function DatasetActions({ dataset }) {
       <CreateSubDatasetButton parentDataset={dataset} />
       <ShareDatasetButton dataset={dataset} />
       <DeleteDatasetButton dataset={dataset} location="dataset-actions-" />
+      <DownloadLogsButton dataset={dataset} />
     </ButtonGroup>
   );
 }

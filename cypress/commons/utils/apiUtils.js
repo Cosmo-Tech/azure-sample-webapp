@@ -146,6 +146,16 @@ const interceptUpdateSimulationRunner = (options) => {
   return alias;
 };
 
+const interceptGetETLRunLogs = ({ runnerId, runId, stubbedLogs = '' } = {}) => {
+  const alias = forgeAlias('reqGetETLRunLogs');
+  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_RUN_LOGS, times: 1 }, (req) => {
+    if (runnerId) expect(req.url).to.match(new RegExp(`/runners/${runnerId}/`));
+    if (runId) expect(req.url).to.match(new RegExp(`/runs/${runId}/`));
+    req.reply(stubbedLogs);
+  }).as(alias);
+  return alias;
+};
+
 const interceptGetRunnerRunState = (expectedPollsCount) => {
   const alias = forgeAlias('reqGetRunnerRunState');
   cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times: expectedPollsCount }, (req) => {
@@ -837,6 +847,7 @@ export const apiUtils = {
   interceptStartRunner,
   interceptStopRunner,
   interceptGetRunnerRunState,
+  interceptGetETLRunLogs,
   interceptUpdateSimulationRunnerDefaultSecurity,
   interceptUpdateSimulationRunnerACLSecurity,
   interceptUpdateRunnerDefaultSecurity,
