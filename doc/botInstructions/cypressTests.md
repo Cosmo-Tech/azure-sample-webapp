@@ -20,6 +20,8 @@ cypress/
         ScenarioParameters.js   launch(), save(), expand accordion …
         Scenarios.js            createScenario(), selectRunTemplate …
         ScenarioSelector.js     selectScenario()
+        DatasetManager.js       switchToDatasetManagerView(), selectDatasetById(),
+                                ignoreDatasetTwingraphQueries(), getDownloadETLLogsButton() …
       brewery/
         BreweryParameters.js    domain-specific parameter inputs
       index.js          ← barrel re-export of all actions
@@ -33,7 +35,7 @@ cypress/
   fixtures/stubbing/
     default/            ← shared default fixtures (DO NOT MODIFY)
       index.js          ← exports everything below
-      runners.js        DEFAULT_SIMULATION_RUNNER, DEFAULT_RUNNERS …
+      runners.js        DEFAULT_SIMULATION_RUNNER, DEFAULT_ETL_RUNNER, DEFAULT_RUNNERS …
       solutions.js      DEFAULT_SOLUTION, DEFAULT_SOLUTIONS
       runTemplates.js   RUN_TEMPLATE_EXAMPLE, BREWERY_PARAMETERS_RUN_TEMPLATE …
       runTemplateParameters.js   PARAMETERS dict
@@ -42,6 +44,12 @@ cypress/
       workspaces.js     DEFAULT_WORKSPACE, WORKSPACE_WITH_… variants
       organizations.js  DEFAULT_ORGANIZATION, DEFAULT_ORGANIZATION_PERMISSIONS
       users.js          USER_EXAMPLE
+    DatasetManager/     ← Dataset Manager fixtures
+      index.js
+      datasets.js       DATASETS (includes FILE datasets, ETL_DATASET, SUBDATASET …)
+      runners.js        RUNNERS_FOR_ETL_DATASETS
+      workspaces.js     WORKSPACE, WORKSPACE_WITHOUT_CONFIG
+      organizations.js  ORGANIZATION_WITH_DEFAULT_ROLE_USER
     <TestName>/         ← per-test fixture folder (optional)
       index.js
       scenarios.js
@@ -64,7 +72,10 @@ describe('My feature', () => {
   before(() => stub.start());          // enables ALL stub types
 
   beforeEach(() => {
-    Login.login();                     // authenticates (stubbed)
+    Login.login();                     // authenticates (stubbed), lands on default workspace
+    // OR, to open a specific workspace:
+    Login.login({ url: '/W-myWorkspaceId', workspaceId: 'W-myWorkspaceId' });
+
     stub.setRunners([...]);            // override runner list for this test
     stub.setSolutions([...]);          // override solution (optional)
   });
@@ -94,6 +105,9 @@ subset, e.g. `stub.start({ GET_SCENARIOS: true, LAUNCH_SCENARIO: true })`.
 | `stub.setOrganizations(orgs)` | Replace the organization list |
 | `stub.patchRunner(id, patch)` | Merge patch into one runner |
 | `stub.setRunnerRunOptions(opts)` | Configure fake run duration / final status / poll count |
+| `stub.setRunnerRuns(runs)` | Replace the full runner-run list (used by run-state polling stubs) |
+| `stub.patchRunnerRun(runId, patch)` | Merge patch into one runner run |
+| `stub.getRunnerRunById(runId)` | Look up a runner run by id |
 
 `stub.reset()` restores defaults for all resources without disabling stubs —
 call it in `afterEach`, not `afterAll`.
@@ -135,7 +149,8 @@ apiUtils.waitAliases([saveAlias], { timeout: 10_000 });
 
 Other helpers: `interceptStartRunner`, `interceptGetRunnerRunState`,
 `interceptCreateSimulationRunner`, `interceptDeleteRunner`,
-`interceptCreateDataset`, `interceptUpdateDataset`, `interceptStopRunner`.
+`interceptCreateDataset`, `interceptUpdateDataset`, `interceptStopRunner`,
+`interceptGetETLRunLogs`.
 
 ---
 
@@ -238,10 +253,11 @@ reference).
 
 ## Customising runners
 
-Spread `DEFAULT_SIMULATION_RUNNER` for all required boilerplate fields.
+Use `DEFAULT_SIMULATION_RUNNER` for scenario runners and `DEFAULT_ETL_RUNNER`
+for ETL (dataset import) runners. Both are exported from `default/`.
 
 ```js
-import { DEFAULT_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
+import { DEFAULT_SIMULATION_RUNNER, DEFAULT_ETL_RUNNER } from '../../fixtures/stubbing/default';
 
 const MY_RUNNER = {
   ...DEFAULT_SIMULATION_RUNNER,
@@ -252,6 +268,16 @@ const MY_RUNNER = {
   parametersValues: [{ parameterId: 'my_param', varType: 'int', value: '42', isInherited: false }],
   parentId: null, // set to parent runner id for child scenarios
   rootId: null,
+};
+
+// For an ETL runner (dataset import), spread DEFAULT_ETL_RUNNER instead:
+const MY_ETL_RUNNER = {
+  ...DEFAULT_ETL_RUNNER,
+  id: 'r-myEtlRunner',
+  name: 'Cypress - My ETL runner',
+  runTemplateId: 'my_etl_run_template',
+  lastRunInfo: { lastRunId: 'run-myLastRun', lastRunStatus: 'Successful' },
+  security: { default: 'admin', accessControlList: [] },
 };
 ```
 
@@ -318,6 +344,8 @@ apiUtils.interceptUpdateSimulationRunner({ scenarioId, validateRequest });
 | `DiscardAndContinue.cy.js` | `stub.setRunners` in `before`, reset between tests with `beforeEach` re-set |
 | `ResultsDashboards-DisplayDisabled.cy.js` | `saveAndLaunch: false` (run template with no parameters → no PATCH expected) |
 | `ScenarioParameters_ForcedUpdateOnLaunch.cy.js` | Full inline resource patching; forced-save intercept; no-save spy pattern |
+| `DatasetManager.cy.js` | Dataset Manager view; `stub.setDatasets`; `stub.setRunners` with ETL runners; `DatasetManager` actions |
+| `DatasetManager_ETLLogsDownload.cy.js` | Download logs button enabled/disabled state; `interceptGetETLRunLogs` |
 
 ---
 
