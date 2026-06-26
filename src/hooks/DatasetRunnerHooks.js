@@ -16,7 +16,8 @@ export const useGetDatasetRunner = () => {
       if (!runnerId) return console.warn(`No option "runnerId" defined for dataset "${dataset.id}"`);
 
       const runner = runners != null ? runners.find((runner) => runner.id === runnerId) : null;
-      if (!runner) return console.warn(`No runner found with id "${runnerId}"`);
+      if (!runner)
+        return console.warn(`No runner found with id "${runnerId}". Dataset "${dataset.id}" might be corrupted`);
 
       return runner;
     },
