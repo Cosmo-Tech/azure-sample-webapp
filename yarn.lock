@@ -1452,18 +1452,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/azure@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@cosmotech/azure@npm:4.0.3"
+"@cosmotech/azure@npm:^5.0.0-dev.0":
+  version: 5.0.0-dev.0
+  resolution: "@cosmotech/azure@npm:5.0.0-dev.0"
   dependencies:
     "@azure/msal-browser": "npm:^4.30.0"
-  checksum: 10c0/d9ecaf07b13f79176b0dbe3ba89267521ab7f1a39eb537d2b8795bfd18a39566f7d2509dc6c3ae695945759c3cce5336c7a3d2934857bbc86dc67d5e675ba8c0
+  checksum: 10c0/a473dfd150b0a9134789e7829e66ded91cc9827e83fb708c02dd8aed6b6f54453dfa0559a9e97153fc42bd99b10486b63a17ba5aa67e909a1bf0e9ae93fa29c6
   languageName: node
   linkType: hard
 
-"@cosmotech/core@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "@cosmotech/core@npm:3.0.3"
+"@cosmotech/core@npm:^4.0.0-dev.0":
+  version: 4.0.0-dev.0
+  resolution: "@cosmotech/core@npm:4.0.0-dev.0"
   dependencies:
     "@azure/msal-browser": "npm:^4.30.0"
     csv-string: "npm:^4.1.1"
@@ -1472,7 +1472,7 @@ __metadata:
     rfdc: "npm:^1.4.1"
     validator: "npm:^13.15.35"
     xlsx: "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
-  checksum: 10c0/017abb3a0e5d9e0c962c955afcec00e8f27d22604987cca2d7a9b6731f4e064243fc9c93d798d75c3195f4e2b8c54c02ebfa06400f907d7b0e4679f0afef328f
+  checksum: 10c0/355b3088fbdfd8bfca94dc0e83a94a7a4eb0f9d455b3fc7ee9e0f55f613fa51d2b72380c30e84bb3b72154f0104fc077c080f9181702bf519d511355363e3528
   languageName: node
   linkType: hard
 
@@ -4152,8 +4152,8 @@ __metadata:
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/preset-react": "npm:^7.29.7"
     "@cosmotech/api-ts": "npm:5.0.1"
-    "@cosmotech/azure": "npm:^4.0.3"
-    "@cosmotech/core": "npm:^3.0.3"
+    "@cosmotech/azure": "npm:^5.0.0-dev.0"
+    "@cosmotech/core": "npm:^4.0.0-dev.0"
     "@cosmotech/ui": "npm:^11.0.4"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"

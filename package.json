@@ -16,8 +16,8 @@
   },
   "dependencies": {
     "@cosmotech/api-ts": "5.0.1",
-    "@cosmotech/azure": "^4.0.3",
-    "@cosmotech/core": "^3.0.3",
+    "@cosmotech/azure": "^5.0.0-dev.0",
+    "@cosmotech/core": "^4.0.0-dev.0",
     "@cosmotech/ui": "^11.0.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
