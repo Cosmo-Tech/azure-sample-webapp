@@ -94,7 +94,7 @@ export const useShareCurrentScenarioButton = () => {
         'commoncomponents.dialog.share.dialog.select.disabledUserTooltip',
         'This user does not have access to the scenario dataset "{{restrictedDataset}}". ' +
           'Please share this dataset with them first, or ask the dataset owner to do it.',
-        { restrictedDataset }
+        { restrictedDataset, interpolation: { escapeValue: false } }
       );
     },
     [usersWithRestrictedDatasets, t]
@@ -111,20 +111,22 @@ export const useShareCurrentScenarioButton = () => {
     if (missingDatasetIds.length > 0)
       return t(
         'commoncomponents.dialog.share.button.noAccessToBaseDatasetsTooltip',
-        'Cannot share this scenario because you cannot share its base dataset "{{restrictedDatasetId}}". Please ' +
-          'request the "admin" role on this dataset first, or ask the dataset owner to share this scenario for you.',
+        'Cannot share this scenario because you do not have access to its base dataset "{{restrictedDatasetId}}". ' +
+          'If you do not know the dataset owner, please contact your administrator.',
         { restrictedDatasetId: missingDatasetIds[0] }
       );
 
     const missingWriteSecurityPermissionsDatasets = baseDatasets.filter(
-      (dataset) => !dataset.security.currentUserPermissions.includes(ACL_PERMISSIONS.DATASET.WRITE_SECURITY)
+      (dataset) => !dataset.security.currentUserPermissions.includes(ACL_PERMISSIONS.DATASET.READ_SECURITY)
     );
+
     if (missingWriteSecurityPermissionsDatasets.length > 0)
       return t(
-        'commoncomponents.dialog.share.button.cannotShareBaseDatasetsTooltip',
-        'Cannot share this scenario because you do not have access to its base dataset "{{restrictedDataset}}". ' +
-          'If you do not know the dataset owner, please contact your administrator.',
-        { restrictedDataset: missingWriteSecurityPermissionsDatasets[0].name }
+        'commoncomponents.dialog.share.button.cannotReadBaseDatasetSecurityTooltip',
+        'Cannot share this scenario. Your role "viewer" on its base dataset "{{restrictedDataset}}" prevents you ' +
+          'from knowing who has access to it. Please request the "admin" role on this dataset first, or ask the ' +
+          'dataset owner to share this scenario for you.',
+        { restrictedDataset: missingWriteSecurityPermissionsDatasets[0].name, interpolation: { escapeValue: false } }
       );
 
     return null;

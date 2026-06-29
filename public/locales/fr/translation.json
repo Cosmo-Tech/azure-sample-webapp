@@ -435,7 +435,7 @@
           "editModeTooltip": "Veuillez sauver ou annuler les modifications en cours avant de modifier les permissions d'accès du scénario",
           "noReadSecurityPermissionTooltip": "Vous n'avez pas les permissions pour partager ou voir les informations de sécurité de cette ressource",
           "noAccessToBaseDatasetsTooltip": "Impossible de partager ce scénario, car vous n'avez pas accès au dataset associé \"{{restrictedDatasetId}}\". Si vous ne connaissez pas le propriétaire du dataset, veuillez contacter votre administrateur.",
-          "cannotShareBaseDatasetsTooltip": "Impossible de partager ce scénario, car vous n'avez pas les permissions pour partager le dataset associé \"{{restrictedDataset}}\". Veuillez demander le rôle \"admin\" sur ce dataset, ou demander au propriétaire du dataset de partager le scénario pour vous."
+          "cannotReadBaseDatasetSecurityTooltip": "Impossible de partager ce scénario. Votre rôle \"visiteur\" sur le dataset associé \"{{restrictedDataset}}\" ne vous permet pas de savoir quels utilisateurs ont accès à ce dataset. Veuillez demander le rôle \"admin\" sur ce dataset, ou demander au propriétaire du dataset de partager le scénario pour vous."
         },
         "dialog": {
           "buttons": {

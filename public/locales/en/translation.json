@@ -435,7 +435,7 @@
           "editModeTooltip": "Please save or discard current modifications before changing the scenario access permissions",
           "noReadSecurityPermissionTooltip": "You are not allowed to share or see the security details of this resource",
           "noAccessToBaseDatasetsTooltip": "Cannot share this scenario because you do not have access to its base dataset \"{{restrictedDatasetId}}\". If you do not know the dataset owner, please contact your administrator.",
-          "cannotShareBaseDatasetsTooltip": "Cannot share this scenario because you cannot share its base dataset \"{{restrictedDataset}}\". Please request the \"admin\" role on this dataset first, or ask the dataset owner to share this scenario for you."
+          "cannotReadBaseDatasetSecurityTooltip": "Cannot share this scenario. Your role \"viewer\" on its base dataset \"{{restrictedDataset}}\" prevents you from knowing who has access to it. Please request the \"admin\" role on this dataset first, or ask the dataset owner to share this scenario for you."
         },
         "dialog": {
           "buttons": {
