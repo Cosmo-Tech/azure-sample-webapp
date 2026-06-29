@@ -532,7 +532,6 @@
       "rejectScenario": "Le scénario n'a pas pu être rejeté.",
       "launchCanceled": "Une erreur est survenue pendant la sauvegarde ; les nouveaux paramètres n'ont pas pu être enregistrés et le scénario n'a pas été lancé.",
       "tooLongErrorMessage": "Le message d'erreur détaillé est trop long pour être affiché. Pour le lire, veuiller utiliser le bouton COPIER et le coller dans votre éditeur de texte préféré.",
-      "solutionNotFound": "Un problème est survenu lors de la récupération de la solution \"{{ solutionId }}\". Cette solution n'existe pas, ou vous n'avez pas les permissions nécessaires pour y accéder.",
       "button": {
         "dismiss": "Fermer",
         "copy": {
@@ -695,9 +694,11 @@
         }
       },
       "error": {
+        "comment": "Vous avez été redirigé vers la liste des workspaces disponibles",
+        "failedToFetchRunners": "Erreur lors de la récupération des runners du workspace \"{{workspaceName}}\" (\"{{workspaceId}}\"). Si le problème persiste, veuillez contacter votre administrateur.",
+        "failedToFetchSolution": "Erreur lors de la récupération de la solution \"{{solutionId}}\", dans le workspace \"{{workspaceName}}\" (\"{{workspaceId}}\"). Si le problème persiste, veuillez contacter votre administrateur.",
         "title": "Erreur d'initialisation de la web app",
-        "message": "Le workspace avec l'identifiant {{workspaceId}} n'existe pas dans la liste des workspaces",
-        "comment": "Vous avez été redirigé vers la liste des workspaces disponibles"
+        "workspaceNotFound": "Le workspace avec l'identifiant {{workspaceId}} n'existe pas dans la liste des workspaces"
       }
     },
     "dialog": {

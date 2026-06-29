@@ -55,8 +55,8 @@ export function* selectWorkspace(action) {
           title: t('genericcomponent.workspaceselector.error.title', 'App initialization error'),
           status: null,
           detail: t(
-            'genericcomponent.workspaceselector.error.message',
-            'Could not find workspace with id {{workspaceId}} in workspaces list',
+            'genericcomponent.workspaceselector.error.workspaceNotFound',
+            'Could not find workspace with id "{{workspaceId}}" in workspaces list',
             { workspaceId: selectedWorkspaceId }
           ),
         },
@@ -83,9 +83,63 @@ export function* selectWorkspace(action) {
   yield call(fetchAllDatasetsData, organizationId, selectedWorkspaceId);
 
   const solutionId = yield select(selectSolutionIdFromCurrentWorkspace);
-  yield call(fetchSolutionByIdData, organizationId, solutionId);
 
-  yield call(getAllRunners, organizationId, selectedWorkspaceId);
+  try {
+    yield call(fetchSolutionByIdData, organizationId, solutionId);
+  } catch (error) {
+    console.error(error);
+
+    yield put(
+      setApplicationErrorMessage({
+        error: {
+          title: t('genericcomponent.workspaceselector.error.title', 'App initialization error'),
+          status: null,
+          detail: t(
+            'genericcomponent.workspaceselector.error.failedToFetchSolution',
+            'Could not fetch solution "{{solutionId}}" for workspace "{{workspaceName}}" ("{{workspaceId}}"). ' +
+              'If the problem persists, please contact your administrator.',
+            { solutionId, workspaceId: selectedWorkspaceId, workspaceName: selectedWorkspace.name }
+          ),
+        },
+        errorMessage: t(
+          'genericcomponent.workspaceselector.error.comment',
+          'You have been redirected to the list of available workspaces'
+        ),
+      })
+    );
+    yield put(setCurrentWorkspace({ status: STATUSES.ERROR, workspace: null }));
+    yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
+    return;
+  }
+
+  try {
+    yield call(getAllRunners, organizationId, selectedWorkspaceId);
+  } catch (error) {
+    console.error(error);
+
+    yield put(
+      setApplicationErrorMessage({
+        error: {
+          title: t('genericcomponent.workspaceselector.error.title', 'App initialization error'),
+          status: null,
+          detail: t(
+            'genericcomponent.workspaceselector.error.failedToFetchRunners',
+            'Could not fetch runners in the workspace with id "{{workspaceId}}". If the problem persists, please ' +
+              'constact your administrator.',
+            { workspaceId: selectedWorkspaceId, workspaceName: selectedWorkspace.name }
+          ),
+        },
+        errorMessage: t(
+          'genericcomponent.workspaceselector.error.comment',
+          'You have been redirected to the list of available workspaces'
+        ),
+      })
+    );
+    yield put(setCurrentWorkspace({ status: STATUSES.ERROR, workspace: null }));
+    yield put(setApplicationStatus({ status: STATUSES.SUCCESS }));
+    return;
+  }
+
   const simulationRunners = yield select(selectSimulationRunners);
   yield put(
     setCurrentSimulationRunner({

@@ -1,12 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { t } from 'i18next';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import { SolutionSchema } from '../../../services/config/SolutionSchema';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { ConfigUtils, SolutionsUtils } from '../../../utils';
-import { setApplicationErrorMessage } from '../../app/reducers';
 import { SOLUTION_ACTIONS_KEY } from '../constants';
 import { setCurrentSolution } from '../reducers';
 
@@ -25,19 +23,8 @@ export function* fetchSolutionByIdData(organizationId, solutionId) {
 
     yield put(setCurrentSolution({ status: STATUSES.SUCCESS, solution: data }));
   } catch (error) {
-    console.error(error);
-    yield put(
-      setApplicationErrorMessage({
-        error,
-        errorMessage: t(
-          'commoncomponents.banner.solutionNotFound',
-          'A problem occurred when fetching the solution ' +
-            '"{{ solutionId }}". Either this solution does not exist, or you don\'t have access to it.',
-          { solutionId }
-        ),
-      })
-    );
     yield put(setCurrentSolution({ status: STATUSES.ERROR, solution: null }));
+    throw error;
   }
 }
 
