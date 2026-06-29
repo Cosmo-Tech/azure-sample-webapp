@@ -27,7 +27,17 @@ export function* getAllRunners(organizationId, workspaceId) {
   const solutionParameters = yield select(getSolutionParameters);
 
   yield put(setReducerStatus({ status: STATUSES.LOADING }));
-  const { data } = yield call(Api.Runners.listRunners, organizationId, workspaceId, 0, RUNNERS_PAGE_COUNT);
+
+  let data;
+  try {
+    const response = yield call(Api.Runners.listRunners, organizationId, workspaceId, 0, RUNNERS_PAGE_COUNT);
+    data = response.data;
+  } catch (error) {
+    console.error(error);
+    yield put(setReducerStatus({ status: STATUSES.ERROR }));
+    throw error;
+  }
+
   data.forEach((runner) =>
     RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
   );

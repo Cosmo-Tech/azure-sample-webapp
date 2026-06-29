@@ -33,7 +33,7 @@ describe('Sharing with wrong URL', () => {
       workspaceId: null,
       scenarioId: null,
     });
-    ErrorBanner.getErrorDetailText().contains('Could not find workspace with id invalidworkspaceId');
+    ErrorBanner.getErrorDetailText().contains('Could not find workspace with id "invalidworkspaceId"');
     ErrorBanner.getErrorCommentText().contains('You have been redirected');
     ErrorBanner.checkAnDismissErrorBanner();
     Workspaces.getWorkspaceCardById('W-stbbdbrwry').should('be.visible');
