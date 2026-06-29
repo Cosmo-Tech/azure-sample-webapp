@@ -3,7 +3,6 @@
 import { Login, Workspaces, ErrorBanner } from '../../commons/actions';
 import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
 import { stub } from '../../commons/services/stubbing';
-import { apiUtils } from '../../commons/utils';
 import { EXTENDED_WORKSPACES_LIST } from '../../fixtures/stubbing/default';
 
 describe('User has no access to the solution', () => {
@@ -27,16 +26,10 @@ describe('User has no access to the solution', () => {
   // The solution interception is replaced here by a custom one because in this specific case,
   // we need to return an error instead of the base stubbed solution
   const customSelectWorkspace = (workspaceId) => {
-    const queries = [
-      apiUtils.interceptPowerBIAzureFunction(),
-      apiUtils.interceptGetRunners(),
-      apiUtils.interceptGetDatasets(),
-    ];
     Workspaces.getWorkspaceCardById(workspaceId)
       .should('be.visible')
       .find(GENERIC_SELECTORS.workspace.openButton)
       .click();
-    apiUtils.waitAliases(queries, { timeout: 60 * 1000 });
   };
 
   it('Redirects to workspace selector when there are several workspaces', () => {
@@ -52,12 +45,12 @@ describe('User has no access to the solution', () => {
 
     Workspaces.getWorkspacesView().should('exist');
     ErrorBanner.getErrorBanner().should('exist');
-    ErrorBanner.getErrorCommentText().should(
-      'have.text',
-      `A problem occurred when fetching the solution "sol-stubbedbrwy". ` +
-        `Either this solution does not exist, or you don't have access to it.`
-    );
-    ErrorBanner.getErrorDetailText().should('have.text', 'RBAC sol-stubbedbrwy - User does not have permission read');
+    ErrorBanner.getErrorCommentText().contains('You have been redirected');
+    ErrorBanner.getErrorDetailText()
+      .contains('Could not fetch solution')
+      .contains('sol-stubbedbrwy')
+      .contains('Sample Stubbed Workspace 0')
+      .contains('W-splstbbdws0');
     ErrorBanner.checkAnDismissErrorBanner();
     ErrorBanner.getErrorBanner().should('not.be.visible');
   });
