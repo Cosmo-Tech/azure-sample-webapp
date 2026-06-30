@@ -14,8 +14,8 @@ const queryResponseBasicTypes = 'stock\n10';
 const queryResponseAdditionalParameters = 'restock\n20';
 const queryResponseEvents = 'wrong_column\n30';
 
-// TODO: refactor interceptPostDatasetTwingraphQuery to simplify input parameter
-const interceptDatasetQuery = (responseBody) => apiUtils.interceptPostDatasetTwingraphQuery({ body: responseBody });
+// TODO: refactor interceptPostDatasetQuery to simplify input parameter
+const interceptDatasetQuery = (responseBody) => apiUtils.interceptPostDatasetQuery({ body: responseBody });
 
 describe('dynamic value for number input', () => {
   before(() => {

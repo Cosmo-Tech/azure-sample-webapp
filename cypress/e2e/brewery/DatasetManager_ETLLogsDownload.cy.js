@@ -24,7 +24,7 @@ describe('Dataset manager - download ETL logs button', () => {
   after(() => stub.stop());
 
   it('shows download logs button enabled or disabled based on dataset type', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
 
     DatasetManager.selectDatasetById(DATASET_NO_RUNNER.id);

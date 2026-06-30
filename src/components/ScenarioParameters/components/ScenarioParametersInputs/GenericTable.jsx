@@ -223,7 +223,7 @@ export const GenericTable = ({
 
   const isDataFetchedFromDataset = !!ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
 
-  const _getDataFromTwingraphDataset = async (setClientFileDescriptor) => {
+  const _getDataFromDatasetPart = async (setClientFileDescriptor) => {
     const fileName = `${parameterData.id}.csv`;
     const _setClientFileDescriptorToError = () => {
       setClientFileDescriptor({
@@ -633,7 +633,7 @@ export const GenericTable = ({
       parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
       !alreadyDownloaded
     ) {
-      _getDataFromTwingraphDataset(updateParameterValueWithReset);
+      _getDataFromDatasetPart(updateParameterValueWithReset);
     }
   });
 
@@ -716,7 +716,7 @@ export const GenericTable = ({
       // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
       // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
       // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
-      _getDataFromTwingraphDataset(parameter.serializedData ? updateParameterValue : updateParameterValueWithReset);
+      _getDataFromDatasetPart(parameter.serializedData ? updateParameterValue : updateParameterValueWithReset);
       if (parameter.serializedData) updateOnFirstEdition();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps

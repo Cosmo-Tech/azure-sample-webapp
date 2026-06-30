@@ -23,16 +23,16 @@ describe('Subdatasets creation', () => {
     const validateRequest = (req) => expect(req.url).to.include('selects=id');
     const queryResponse = 'id\nDynamic value 1\nDynamic value 2\nDynamic value 3';
 
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.startSubdatasetCreation();
 
     // The query interception below overrides the previous interception ignoring all queries, but only for the next one
-    const waitForTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse, validateRequest);
+    const waitForDatasetQuery = DatasetManager.expectDatasetQuery(queryResponse, validateRequest);
     DatasetManager.getDatasetCreationNextStep().click();
     DatasetManager.selectNewDatasetSourceType('dynamic_values_enum_filter');
-    waitForTwingraphQuery();
+    waitForDatasetQuery();
 
     cy.get(enumParameterSelector).should('be.visible').click();
     cy.get(selectorForAllEnumOptions).should('have.length', 3);

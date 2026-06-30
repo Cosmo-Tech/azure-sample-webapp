@@ -389,12 +389,12 @@ const interceptGetDatasetStatus = (times = 1) => {
 };
 
 // Parameters:
-//   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
+//   - response (optional): JSON response to the dataset query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
 //   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
-const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = null, times = 1) => {
-  const alias = forgeAlias('reqPostDatasetTwingraphQuery');
+const interceptPostDatasetQuery = (response = {}, validateRequest = null, times = 1) => {
+  const alias = forgeAlias('reqPostDatasetQuery');
   const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
@@ -405,8 +405,8 @@ const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = nul
   return alias;
 };
 
-const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = null, times = 1) => {
-  const alias = forgeAlias('reqPostDatasetTwingraphQueries');
+const interceptPostDatasetQueries = (responses = [], validateRequest = null, times = 1) => {
+  const alias = forgeAlias('reqPostDatasetQueries');
   const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
@@ -530,18 +530,21 @@ const interceptDownloadDatasetPart = (options = {}) => {
   return alias;
 };
 
-const interceptDatasetEvents = (datasetEvents) => {
-  const aliases = [];
-  const events = datasetEvents ?? [];
-  events?.reverse()?.forEach((event) => aliases.push(interceptCreateDataset(event)));
-  return aliases;
-};
-
+// Parameters:
+//  - datasetPartEvents: list of objects describing dataset-related queries to intercept; the objects can have this
+// structure:
+//    - id (optional): id of the dataset part to create or delete
+//    - delete (optional): boolean value defining whether the dataset part event is expecting a DELETE query (to delete
+//      a dataset part)
+//    - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the intercepted query
+//    - customDatasetPartPatch (optional): an object that can be used to patch the default dataset part data that will
+//      be created by the stubbing class
 const interceptDatasetPartEvents = (datasetPartEvents) => {
   const aliases = [];
   const events = datasetPartEvents ?? [];
   events?.reverse()?.forEach((event) => {
-    if (event?.delete) aliases.push(interceptDeleteDatasetPart(event));
+    if (event?.delete) aliases.push(interceptDeleteDatasetPart(event?.id));
     else aliases.push(interceptCreateDatasetPart(event));
   });
   return aliases;
@@ -566,29 +569,6 @@ const interceptUpdateDataset = (options) => {
     if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(datasetPatch);
   }).as(alias);
   return alias;
-};
-
-// Parameters:
-//   - options: dict with properties:
-//     - id (optional): id of the dataset to create
-//     - securityChanges (optional): object containing only the differences of security that are applied to the created
-//      dataset. This object defines how queries must be intercepted when stubbing is enabled. The expected format
-//      is the same as the security objects of API resources, with an additional field "type" with one of the values
-//      "post", "patch", or "delete". Example:
-//      {default: "viewer", accessControlList: [{id: "john.doe@example.com", role: "admin", type: "patch"}]}
-const interceptUpdateDatasetSecurity = ({ datasetId, securityChanges }) => {
-  const aliases = [];
-  if (securityChanges?.default) aliases.push(interceptSetDatasetDefaultSecurity(datasetId, securityChanges?.default));
-  securityChanges?.accessControlList?.forEach((entry) => {
-    const type = entry.type;
-    const aclEntry = { ...entry, type: undefined };
-
-    if (type === 'post') aliases.push(interceptAddDatasetAccessControl(datasetId, aclEntry));
-    else if (type === 'patch') aliases.push(interceptUpdateDatasetAccessControl(datasetId, aclEntry));
-    else if (type === 'delete') aliases.push(interceptRemoveDatasetAccessControl(datasetId, aclEntry));
-    else console.warn(`Unknown ACL entry type "${type}" in interceptUpdateDatasetSecurity`);
-  });
-  return aliases;
 };
 
 const interceptAddDatasetAccessControl = (optionalDatasetId, expectedNewEntry) => {
@@ -716,35 +696,6 @@ const interceptUpdateRunner = (options = {}) => {
   return alias;
 };
 
-const interceptDownloadWorkspaceFile = () => {
-  const alias = forgeAlias('reqDownloadWorkspaceFile');
-  cy.intercept({ method: 'GET', url: API_REGEX.FILE_DOWNLOAD, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('GET_DATASETS')) return;
-    const fileName = decodeURIComponent(req.url.match(API_REGEX.FILE_DOWNLOAD)?.[1]);
-    req.reply(stub.getWorkspaceFile(fileName));
-  }).as(alias);
-  return alias;
-};
-
-// Parameters:
-//   - fileName: name (or path in Storage) of the uploaded file
-//   - fileContent: content of the uploaded file
-const interceptUploadWorkspaceFile = () => {
-  const alias = forgeAlias('reqUploadWorkspaceFile');
-  cy.intercept({ method: 'POST', url: API_REGEX.FILE_UPLOAD, times: 1 }, (req) => {
-    const form = fileUtils.parseMultipartFormData(req.body);
-    const fileName = form.destination;
-    const fileContent = form.file;
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      stub.addWorkspaceFile(fileName, fileContent);
-      req.reply(fileName);
-    } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue(() => stub.addWorkspaceFile(fileName, fileContent));
-    }
-  }).as(alias);
-  return alias;
-};
-
 const interceptGetOrganization = () => {
   const alias = forgeAlias('reqGetOrganization');
   cy.intercept({ method: 'GET', url: API_REGEX.ORGANIZATION, times: 1 }, (req) => {
@@ -810,16 +761,14 @@ export const apiUtils = {
   interceptGetDatasets,
   interceptGetDataset,
   interceptGetDatasetStatus,
-  interceptPostDatasetTwingraphQuery,
-  interceptPostDatasetTwingraphQueries,
+  interceptPostDatasetQuery,
+  interceptPostDatasetQueries,
   interceptCreateDataset,
   parseDatasetMultipartFormDataRequest,
   interceptCreateDatasetPart,
   interceptDownloadDatasetPart,
-  interceptDatasetEvents,
   interceptDatasetPartEvents,
   interceptUpdateDataset,
-  interceptUpdateDatasetSecurity,
   interceptAddDatasetAccessControl,
   interceptUpdateDatasetAccessControl,
   interceptRemoveDatasetAccessControl,
@@ -828,8 +777,6 @@ export const apiUtils = {
   interceptDeleteDatasetPart,
   interceptCreateRunner,
   interceptUpdateRunner,
-  interceptDownloadWorkspaceFile,
-  interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,
   interceptGetSolution,
   interceptGetOrganization,

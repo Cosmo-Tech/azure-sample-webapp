@@ -24,7 +24,7 @@ describe('Dataset manager can be empty on start', () => {
   after(stub.stop);
 
   it('can create a dataset in an empty environment', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetCreationDialog().should('not.exist');
     DatasetManager.getNoDatasetsPlaceholder().should('be.visible');
@@ -63,7 +63,7 @@ describe('Data edition in dataset manager', () => {
     const SUBDATASET = DATASETS[4];
     const DATASET_Z = DATASETS[2]; // Non-main dataset
 
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
 
     DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
@@ -116,7 +116,7 @@ describe('Data edition in dataset manager', () => {
   });
 
   it('correctly handles the form state even after closing and reopening the dataset creation dialog', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
 
     const stepsToCheckTwice = () => {
@@ -144,7 +144,7 @@ describe('Data edition in dataset manager', () => {
   });
 
   it('correctly handles the form state even after closing and reopening the sub-dataset creation dialog', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
 
     const stepsToCheckTwice = () => {
@@ -198,7 +198,7 @@ describe('Dataset creation', () => {
       expect(req.body).to.deep.equal(expectedPayload);
     };
 
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
     DatasetManager.startDatasetCreation();
@@ -239,7 +239,7 @@ describe('Filtering datasets list', () => {
   after(stub.stop);
 
   it('can filter datasets by name and by tag', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', DATASETS_TO_FILTER.length);
     DatasetManager.getDatasetSearchBar().click().type('Amsterdam');
@@ -268,7 +268,7 @@ describe('Dataset delete', () => {
   after(stub.stop);
 
   it('can delete all scenarios from the list and display noDatasets placeholder', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButtons().should('have.length', 4);
     DatasetManager.getDatasetDeleteButton(DATASETS[0].id).click();

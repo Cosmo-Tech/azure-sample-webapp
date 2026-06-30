@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import applicationReducer from './app/reducers';
 import authReducer from './auth/reducers';
 import chartsReducer from './charts/reducers';
-import datasetTwingraphQueriesResultsReducer from './datasetTwingraph/reducers';
+import datasetQueryResultsReducer from './datasetQuery/reducers';
 import datasetsReducer from './datasets/reducers';
 import organizationReducer from './organizations/reducers';
 import runnerReducer from './runner/reducers';
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   application: applicationReducer,
   auth: authReducer,
   dataset: datasetsReducer,
-  datasetTwingraph: datasetTwingraphQueriesResultsReducer,
+  datasetQuery: datasetQueryResultsReducer,
   workspace: workspaceReducer,
   organization: organizationReducer,
   solution: solutionReducer,

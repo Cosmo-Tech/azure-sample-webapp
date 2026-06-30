@@ -9,14 +9,14 @@ import { useFindDatasetById } from '../datasets/hooks';
 import { useWorkspaceData } from '../workspaces/hooks';
 import { initializeQueriesResults, resetQueriesResults } from './reducers';
 
-export const useDatasetTwingraphQueriesResults = () => {
-  return useSelector((state) => state.datasetTwingraph);
+export const useDatasetQueryResults = () => {
+  return useSelector((state) => state.datasetQuery);
 };
 
-export const useInitializeDatasetTwingraphQueriesResults = (dataset) => {
+export const useInitializeDatasetQueryResults = (dataset) => {
   const dispatch = useDispatch();
   const workspace = useWorkspaceData();
-  const queriesResults = useDatasetTwingraphQueriesResults();
+  const queriesResults = useDatasetQueryResults();
   const getDatasetRunnerStatus = useGetDatasetRunnerStatus();
 
   return useCallback(
@@ -31,7 +31,7 @@ export const useInitializeDatasetTwingraphQueriesResults = (dataset) => {
   );
 };
 
-export const useResetDatasetTwingraphQueriesResults = () => {
+export const useResetDatasetQueryResults = () => {
   const dispatch = useDispatch();
   const workspace = useWorkspaceData();
   const findDatasetById = useFindDatasetById();

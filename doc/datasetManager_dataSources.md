@@ -104,7 +104,7 @@ Currently, the only supported `varType`s for the ETL data sources are:
 - `string`
 - `enum`
 - `list`
-- `%DATASETID%`
+- `%DATASET_PART_ID_FILE%`
 
 For these types, the configuration of parameters is mostly identical to the configuration of scenario parameters
 (see [Scenario Parameters configuration](scenarioParametersConfiguration.md)).

@@ -34,8 +34,6 @@ export const VALID_MIME_TYPES = [
   'application/yaml',
 ];
 
-export const TWINGRAPH_SECTION_URL = '/swagger-ui/index.html#/dataset/twingraphQuery';
-
 export const NATIVE_DATASOURCE_TYPES = {
   FILE_UPLOAD: 'FileUploadToDataset',
   NONE: 'None',

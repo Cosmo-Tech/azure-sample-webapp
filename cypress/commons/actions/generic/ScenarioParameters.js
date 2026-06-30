@@ -145,10 +145,8 @@ function cancelDiscardAndContinue() {
 //    saveAndLaunch is true (default: undefined)
 //  - getLaunchButtonTimeout: maximum timeout, in seconds, before raising an error when waiting for the launch button
 //    to be enabled (default: 180)
-//  - datasetPartEvents: list of objects describing dataset part-related queries to intercept; objects have this
-//      structure:
-//    - id (optional): id of the dataset part to create
-//    - validateRequest (optional): validation function to run on the dataset part creation request
+//  - datasetPartEvents: list of objects describing dataset-related queries to intercept; for more details, see
+//    the documentation of the interceptDatasetPartEvents function in apiUtils
 function launch(options) {
   const expectedPollsCount = options?.runOptions?.expectedPollsCount ?? stub.getRunnerRunOptions().expectedPollsCount;
   const aliases = [
@@ -174,26 +172,10 @@ function launch(options) {
 //  - wait: whether the action must wait for the update request interception (true by default). Set this option to false
 //    if you want to handle the request interception in your test or if you want to ignore it.
 //  - updateOptions: options to provide to the interception of the "scenario update" query (default: undefined)
-//  - datasetsEvents: list of objects describing dataset-related queries to intercept; objects have this structure;
-//    - id (optional): id of the dataset to create
-//    - onDatasetCreation (optional): validation function to run on the dataset creation request
-//    - onDatasetUpdate (optional): validation function to run on the dataset update request
-//    - securityChanges (optional): object containing only the differences of security that are applied to the created
-//      dataset. This object defines how queries must be intercepted when stubbing is enabled. The expected format
-//      is the same as the security objects of API resources, with an additional field "type" with one of the values
-//      "post", "patch", or "delete". Example:
-//      {default: "viewer", accessControlList: [{id: "john.doe@example.com", role: "admin", type: "patch"}]}
+//  - datasetPartEvents: list of objects describing dataset-related queries to intercept; for more details, see
+//    the documentation of the interceptDatasetPartEvents function in apiUtils
 function save(options = {}) {
   const aliases = [];
-  // Events array is reversed to make tests easier to write and still match the order of cypress interceptions
-  // (c.f. cy.intercept doc: "cy.intercept() routes are matched in reverse order of definition")
-  options?.datasetsEvents?.reverse()?.forEach((datasetEvent) => {
-    aliases.push(api.interceptCreateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetCreation }));
-    aliases.push(api.interceptUpdateDataset({ id: datasetEvent.id, validateRequest: datasetEvent.onDatasetUpdate }));
-    aliases.push(
-      ...api.interceptUpdateDatasetSecurity({ id: datasetEvent.id, securityChanges: datasetEvent.securityChanges })
-    );
-  });
   aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
   aliases.push(api.interceptUpdateSimulationRunner(options?.updateOptions));
 

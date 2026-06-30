@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
 import { Api } from '../services/config/Api.js';
-import { TWINGRAPH_SECTION_URL } from '../services/config/ApiConstants';
 import { ConfigUtils } from './ConfigUtils';
 import { VAR_TYPES_FROM_STRING_FUNCTIONS } from './scenarioParameters/ConversionFromString.js';
 import { VAR_TYPES_TO_STRING_FUNCTIONS } from './scenarioParameters/ConversionToString';
@@ -59,14 +58,9 @@ const getDatasetApiUrl = (organizationId, workspaceId, datasetId) => {
   return `${Api.defaultBasePath}/organizations/${organizationId}/workspaces/${workspaceId}/datasets/${datasetId}`;
 };
 
-const getDatasetTwingraphSwaggerSection = () => {
-  return Api.defaultBasePath + TWINGRAPH_SECTION_URL;
-};
-
 export const ApiUtils = {
   formatParameterMinMaxDefaultValuesFromString,
   formatParametersForApi,
   formatParametersFromApi,
   getDatasetApiUrl,
-  getDatasetTwingraphSwaggerSection,
 };

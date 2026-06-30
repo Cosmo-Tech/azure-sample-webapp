@@ -20,8 +20,8 @@ const resetDatasetResults = (state, action) => {
   }
 };
 
-const datasetTwingraphQueriesResultsSlice = createSlice({
-  name: 'datasetTwingraph',
+const datasetQueryResultSlice = createSlice({
+  name: 'datasetQuery',
   initialState,
   reducers: {
     initializeQueriesResults: (state, action) => {
@@ -42,7 +42,7 @@ const datasetTwingraphQueriesResultsSlice = createSlice({
       const resultColsAndRows = parseCSVFromAPIResponse(result);
       if (!result || result.length === 0) {
         // FIXME: is it still possible to have result.config.data?
-        if (result.config.data) console.error(`Query to twingraph failed: ${result.config.data}`);
+        if (result.config.data) console.error(`Query to dataset failed: ${result.config.data}`);
         kpiIdsByQueryId?.[queryId].forEach((kpiId) => (state[datasetId][queryId][kpiId].state = KPI_STATE.FAILED));
       }
 
@@ -74,6 +74,6 @@ const datasetTwingraphQueriesResultsSlice = createSlice({
 });
 
 export const { initializeQueriesResults, resetQueriesResults, waitQueryResults, processQueriesResults } =
-  datasetTwingraphQueriesResultsSlice.actions;
+  datasetQueryResultSlice.actions;
 
-export default datasetTwingraphQueriesResultsSlice.reducer;
+export default datasetQueryResultSlice.reducer;

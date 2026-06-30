@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-export const TWINGRAPH_QUERIES_RESPONSES = [
+export const DATASET_QUERY_RESPONSES = [
   [
     {
       count: 1,

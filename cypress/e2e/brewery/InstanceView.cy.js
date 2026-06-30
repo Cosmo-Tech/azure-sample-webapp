@@ -3,8 +3,8 @@
 import { InstanceVisualization, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { setup } from '../../commons/utils';
-import { SCENARIO_WITH_TWINGRAPH_DATASET } from '../../fixtures/stubbing/InstanceVisualization/scenarios';
-import { TWINGRAPH_QUERIES_RESPONSES } from '../../fixtures/stubbing/InstanceVisualization/twingraphQueriesResponses';
+import { SCENARIO_WITH_QUERYABLE_DATASET } from '../../fixtures/stubbing/InstanceVisualization/scenarios';
+import { DATASET_QUERY_RESPONSES } from '../../fixtures/stubbing/InstanceVisualization/twingraphQueriesResponses';
 import { DEFAULT_DATASET, WORKSPACE_WITH_INSTANCE_VIEW } from '../../fixtures/stubbing/default';
 
 describe('Instance view disabled', () => {
@@ -35,7 +35,7 @@ describe.skip('Instance view when enabled', () => {
     stub.start();
     stub.setWorkspaces([WORKSPACE_WITH_INSTANCE_VIEW]);
     stub.setDatasets([DEFAULT_DATASET]);
-    stub.setRunners([SCENARIO_WITH_TWINGRAPH_DATASET]);
+    stub.setRunners([SCENARIO_WITH_QUERYABLE_DATASET]);
   });
   after(() => {
     stub.stop();
@@ -44,7 +44,7 @@ describe.skip('Instance view when enabled', () => {
     Login.login();
   });
   it('can display a scenario with instance visualization', () => {
-    InstanceVisualization.interceptTwingraphQueries(TWINGRAPH_QUERIES_RESPONSES);
+    InstanceVisualization.interceptTwingraphQueries(DATASET_QUERY_RESPONSES);
     InstanceVisualization.switchToInstanceVisualization();
     InstanceVisualization.getLoadingSpinnerContainer().should('be.visible');
     InstanceVisualization.getLoadingSpinnerContainer(30).should('not.exist'); // 30 seconds timeout

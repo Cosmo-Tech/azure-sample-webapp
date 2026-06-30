@@ -100,7 +100,7 @@ function switchToDrawerSettingsTab() {
 }
 function interceptTwingraphQueries(responses) {
   for (const response of responses.reverse()) {
-    apiUtils.interceptPostDatasetTwingraphQuery(response, false);
+    apiUtils.interceptPostDatasetQuery(response, false);
   }
 }
 

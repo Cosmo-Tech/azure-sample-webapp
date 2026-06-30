@@ -43,12 +43,15 @@ export function* getAllRunners(organizationId, workspaceId) {
   );
   const readableRunners = keepOnlyReadableRunners(data);
   readableRunners.forEach((runner) => {
+    // DEPRECATED: check runner parameters using deprecated varType "%DATASETID%". This check can be removed in future
+    // webapp version 8.0
     if (runner.parametersValues) {
       runner.parametersValues.forEach((parameter) => {
         if (parameter.varType === '%DATASETID%')
           console.warn(`Runner parameter ${parameter.parameterId} uses deprecated varType "%DATASETID%"`);
       });
     }
+
     runner.parametersValues = ApiUtils.formatParametersFromApi(runner.parametersValues);
     RunnersUtils.patchRunnerParameterValues(solutionParameters, runner.parametersValues);
   });

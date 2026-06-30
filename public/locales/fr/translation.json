@@ -207,7 +207,7 @@
         "placeholder": {
           "error": "Une erreur est survenue pendant l'import des données",
           "empty": "Votre dataset est vide",
-          "apiLink": "Vous pouvez utiliser l'<1>API Cosmo Tech</1> pour charger des données",
+          "etlNotStarted": "Le script de création du dataset n'a pas été lancé. Vous pouvez le démarrer en cliquant sur le bouton \"rafraîchir\" dans le coin supérieur-droit.",
           "loading": "Données en cours d'importation, veuillez patienter",
           "noDatasetSelected": "Aucun dataset sélectionné. Vous pouvez sélectionner un dataset depuis le panneau latéral gauche.",
           "noKpis": {
@@ -557,8 +557,7 @@
       "runnerUpdateError": "Les paramètres du runner n'ont pas pu être mis à jour",
       "datasetSecurityNotUpdated": "Les permissions du dataset {{datasetId}} n'ont pas pu être modifiées",
       "runnerNotUpdated": "Le runner n'a pas pu être mis à jour",
-      "twingraphNotCreated": "Une erreur est survenue pendant la creation du twingraph",
-      "twingraphStatusPollingFailed": "Une erreur est survenue lors de la mise à jour du statut du dataset {{datasetDetails}}",
+      "datasetPartNotCreated": "Une erreur est survenue pendant la creation ou la mise à jour du fragment de dataset",
       "twingraphDataNotRestored": "Les données du twingraph n'ont pas pu être restaurées",
       "cannotAccessBaseDatasets": "Certaines données du scénario \"{{scenarioName}}\" ({{scenarioId}}) n'ont pas pu être chargées, car le dataset associé \"{{baseDatasetId}}\" n'existe plus, ou vous n'avez pas les permissions suffisantes pour y accéder."
     }
