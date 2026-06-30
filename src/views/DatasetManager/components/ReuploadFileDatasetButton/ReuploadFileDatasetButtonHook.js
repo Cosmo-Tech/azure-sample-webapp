@@ -5,19 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { NATIVE_DATASOURCE_TYPES } from '../../../../services/config/ApiConstants';
 import DatasetService from '../../../../services/dataset/DatasetService.js';
 import { useSetApplicationErrorMessage } from '../../../../state/app/hooks';
-import {
-  useAddOrUpdateDatasetPartInRedux,
-  useDeleteDatasetPartInRedux,
-  usePollTwingraphStatus,
-  useUpdateDatasetInStore,
-} from '../../../../state/datasets/hooks';
+import { useAddOrUpdateDatasetPartInRedux, useDeleteDatasetPartInRedux } from '../../../../state/datasets/hooks';
 
 export const useReuploadFileDatasetButton = () => {
   const { t } = useTranslation();
-  const pollTwingraphStatus = usePollTwingraphStatus();
   const addOrUpdateDatasetPartInRedux = useAddOrUpdateDatasetPartInRedux();
   const deleteDatasetPartFromRedux = useDeleteDatasetPartInRedux();
-  const updateDatasetInStore = useUpdateDatasetInStore();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
 
   const handleFileUpload = useCallback(
@@ -78,5 +71,5 @@ export const useReuploadFileDatasetButton = () => {
     [t, addOrUpdateDatasetPartInRedux, deleteDatasetPartFromRedux, setApplicationErrorMessage]
   );
 
-  return { handleFileUpload, pollTwingraphStatus, setApplicationErrorMessage, updateDatasetInStore };
+  return { handleFileUpload };
 };

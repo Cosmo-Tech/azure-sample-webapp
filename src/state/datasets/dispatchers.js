@@ -38,12 +38,6 @@ export const dispatchUpdateDataset = (organizationId, datasetId, datasetData, da
   datasetIndex,
 });
 
-export const dispatchPollTwingraphStatus = (organizationId, datasetId) => ({
-  type: DATASET_ACTIONS_KEY.START_TWINGRAPH_STATUS_POLLING,
-  organizationId,
-  datasetId,
-});
-
 export const dispatchUpdateDatasetSecurity = (datasetId, datasetSecurity) => ({
   type: DATASET_ACTIONS_KEY.UPDATE_DATASET_SECURITY,
   datasetId,

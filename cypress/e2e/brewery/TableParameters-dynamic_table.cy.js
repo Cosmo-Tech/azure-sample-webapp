@@ -56,7 +56,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can display a table filled with data fetched from dataset', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -69,7 +69,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can export data fetched from dataset and upload a new table', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -83,7 +83,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset, edit it without saving and revert', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToEventsTab();
@@ -97,7 +97,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset, edit it, save and revert without reloading', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -111,7 +111,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table as dataset part, then revert data after reloading scenario', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[1]);
     ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[1].name);
@@ -149,7 +149,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table on first save', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
     ScenarioParameters.expandParametersAccordion();
@@ -167,7 +167,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table on first launch', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse, false);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
     ScenarioParameters.expandParametersAccordion();
@@ -210,7 +210,7 @@ describe('can use options to filter columns when fetching dynamic table data fro
     // The query response only returns the selected column (satisfaction), not the first column (name)
     const filteredQueryResponse = 'satisfaction\n0\n0\n0\n0';
     const validateRequest = (req) => expect(req.url).to.include('selects=satisfaction');
-    apiUtils.interceptPostDatasetTwingraphQuery(filteredQueryResponse, validateRequest);
+    apiUtils.interceptPostDatasetQuery(filteredQueryResponse, validateRequest);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -246,7 +246,7 @@ describe('save table on second launch', () => {
     });
     ScenarioParameters.waitForScenarioRunEnd();
     ScenarioParameters.expandParametersAccordion();
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse);
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     ScenarioParameters.launch({

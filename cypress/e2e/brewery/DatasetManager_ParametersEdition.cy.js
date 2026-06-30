@@ -45,17 +45,17 @@ describe('Dataset Manager - Parameters Edition', () => {
   after(stub.stop);
 
   it('should edit ETL parameters of a dataset', () => {
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(datasetFile.id);
     DatasetManager.getUpdateDatasetParametersButton().should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
     DatasetManager.getUpdateDatasetParametersButton().should('be.visible');
-    const waitForTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse);
+    const waitForDatasetQuery = DatasetManager.expectDatasetQuery(queryResponse);
     DatasetManager.openUpdateDatasetParametersDialog();
     DatasetManager.getUpdateDatasetParametersDialog().should('be.visible');
     DatasetManager.getRunnerRunTemplate().should('exist').contains('ETL with dynamic values');
-    waitForTwingraphQuery();
+    waitForDatasetQuery();
     cy.get(enumParameterSelector).should('be.visible');
     cy.get(enumParameterSelector).find('input').should('have.value', 'Second');
     cy.get(enumParameterSelector).click();
@@ -100,9 +100,9 @@ describe('Dataset Manager - Parameters Edition', () => {
 
     DatasetManager.getRefreshDatasetSpinner(datasetETLLocalFile.id, 20).should('not.exist');
     DatasetManager.selectDatasetById(datasetETLDynamicValues.id);
-    const waitForSecondTwingraphQuery = DatasetManager.expectDatasetTwingraphQuery(queryResponse);
+    const waitForSecondDatasetQuery = DatasetManager.expectDatasetQuery(queryResponse);
     DatasetManager.openUpdateDatasetParametersDialog();
-    waitForSecondTwingraphQuery();
+    waitForSecondDatasetQuery();
     cy.get(enumParameterSelector).find('input').should('have.value', 'First');
     DatasetManager.closeUpdateDatasetParametersDialog();
     DatasetManager.selectDatasetById(datasetETLLocalFile.id);

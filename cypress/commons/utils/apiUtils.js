@@ -389,12 +389,12 @@ const interceptGetDatasetStatus = (times = 1) => {
 };
 
 // Parameters:
-//   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
+//   - response (optional): JSON response to the dataset query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
 //   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
-const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = null, times = 1) => {
-  const alias = forgeAlias('reqPostDatasetTwingraphQuery');
+const interceptPostDatasetQuery = (response = {}, validateRequest = null, times = 1) => {
+  const alias = forgeAlias('reqPostDatasetQuery');
   const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
@@ -405,8 +405,8 @@ const interceptPostDatasetTwingraphQuery = (response = {}, validateRequest = nul
   return alias;
 };
 
-const interceptPostDatasetTwingraphQueries = (responses = [], validateRequest = null, times = 1) => {
-  const alias = forgeAlias('reqPostDatasetTwingraphQueries');
+const interceptPostDatasetQueries = (responses = [], validateRequest = null, times = 1) => {
+  const alias = forgeAlias('reqPostDatasetQueries');
   const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
   if (times > 0) options.times = times;
   cy.intercept(options, (req) => {
@@ -761,8 +761,8 @@ export const apiUtils = {
   interceptGetDatasets,
   interceptGetDataset,
   interceptGetDatasetStatus,
-  interceptPostDatasetTwingraphQuery,
-  interceptPostDatasetTwingraphQueries,
+  interceptPostDatasetQuery,
+  interceptPostDatasetQueries,
   interceptCreateDataset,
   parseDatasetMultipartFormDataRequest,
   interceptCreateDatasetPart,

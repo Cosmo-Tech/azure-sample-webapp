@@ -311,7 +311,7 @@ function getCustomersRevertTableButton() {
 }
 
 function revertCustomersTable(response = {}) {
-  apiUtils.interceptPostDatasetTwingraphQuery(response, false);
+  apiUtils.interceptPostDatasetQuery(response, false);
   TableParameters.revertTableData(getCustomersTable());
 }
 

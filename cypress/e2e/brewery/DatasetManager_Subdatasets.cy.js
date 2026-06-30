@@ -41,7 +41,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
 
   it('shows all subdatasources', () => {
     const DATASET_A = DATASETS[0];
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.startSubdatasetCreation();
@@ -63,7 +63,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is defined
 
   it('shows only subdatasources defined in whitelist', () => {
     const DATASET_A = DATASETS[0];
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.startSubdatasetCreation();
@@ -85,7 +85,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is empty',
 
   it('shows no subdatasources', () => {
     const DATASET_A = DATASETS[0];
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.getCreateSubdatasetButton().should('not.exist');
@@ -150,7 +150,7 @@ describe('Subdatasets creation', () => {
       finalIngestionStatus: 'SUCCESS',
     };
 
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.getDatasetsListItemButton(DATASET_A.id).should('be.visible');
     DatasetManager.selectDatasetById(DATASET_A.id);
@@ -197,7 +197,7 @@ describe('Subdatasets creation', () => {
     const dateParameterSelector = '[data-cy=date-input-etl_date_parameter]';
     const dateValue = '01/01/2023';
 
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASET_A.id);
     DatasetManager.startSubdatasetCreation();

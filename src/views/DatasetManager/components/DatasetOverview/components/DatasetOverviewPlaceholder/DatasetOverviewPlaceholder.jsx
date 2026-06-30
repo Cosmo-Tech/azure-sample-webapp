@@ -1,11 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Button, Grid, Link, Typography } from '@mui/material';
+import { Button, Grid, Typography } from '@mui/material';
 import { NATIVE_DATASOURCE_TYPES, RUNNER_RUN_STATE } from '../../../../../../services/config/ApiConstants';
-import { ApiUtils } from '../../../../../../utils';
 import { ReuploadFileDatasetButton } from '../../../ReuploadFileDatasetButton';
 import { useDatasetOverviewPlaceholder } from './DatasetOverviewPlaceholderHook';
 
@@ -24,7 +23,7 @@ export const DatasetOverviewPlaceholder = () => {
   const placeholderLabels = useMemo(() => {
     let title = null;
     let subtitle = null;
-    let subtitleDataCy = 'dataset-overview-subtitle';
+    const subtitleDataCy = 'dataset-overview-subtitle';
     if (currentDatasetId == null)
       title = t(
         'commoncomponents.datasetmanager.overview.placeholder.noDatasetSelected',
@@ -46,18 +45,11 @@ export const DatasetOverviewPlaceholder = () => {
         );
         break;
       case RUNNER_RUN_STATE.CREATED:
-        subtitleDataCy = 'dataset-overview-api-link';
         title = t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
-        subtitle = (
-          // This component uses node count to implement a link in the translation string,
-          // if the string is modified, need to check that the link is still the node N1
-          <Trans i18nKey="commoncomponents.datasetmanager.overview.placeholder.apiLink">
-            You can use the
-            <Link href={ApiUtils.getDatasetTwingraphSwaggerSection()} target="blank" sx={{ color: 'inherit' }}>
-              Cosmo Tech API
-            </Link>
-            to populate it
-          </Trans>
+        subtitle = t(
+          'commoncomponents.datasetmanager.overview.placeholder.etlNotStarted',
+          'The dataset creation script has not run. You can launch it by clicking on the "refresh" button in the ' +
+            'top-right corner.'
         );
         break;
       case RUNNER_RUN_STATE.FAILED:

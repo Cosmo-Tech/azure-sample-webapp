@@ -56,8 +56,8 @@ const uploadZipWithFetchApi = async (organizationId, workspaceId, datasetId, fil
     setApplicationErrorMessage({
       error,
       errorMessage: t(
-        'commoncomponents.banner.twingraphNotCreated',
-        'A problem occurred during twingraph creation or update'
+        'commoncomponents.banner.datasetPartNotCreated',
+        'A problem occurred during the dataset part creation or update'
       ),
     });
   }

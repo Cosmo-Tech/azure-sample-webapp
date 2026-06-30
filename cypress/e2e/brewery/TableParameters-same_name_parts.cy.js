@@ -56,7 +56,7 @@ describe('dynamic table selects DB part when duplicate names exist', () => {
   };
 
   it('uses the DB dataset part when both File and DB parts share the same name', () => {
-    apiUtils.interceptPostDatasetTwingraphQuery(queryResponse, validateRequest);
+    apiUtils.interceptPostDatasetQuery(queryResponse, validateRequest);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();

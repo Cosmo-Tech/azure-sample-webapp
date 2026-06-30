@@ -8,7 +8,7 @@ import { basicColumnField } from './SolutionSchema';
 z.config({ jitless: true });
 
 const LABELS_DICT = z.array(z.looseObject({}));
-const TWINGRAPH_INDICATOR = z.strictObject({ id: z.string(), name: LABELS_DICT, queryId: z.string() });
+const KPI_CARD = z.strictObject({ id: z.string(), name: LABELS_DICT, queryId: z.string() });
 const WORKSPACE_EDIT_INFO_TYPE = z.strictObject({ timestamp: z.number().optional().nullable(), userId: z.string() });
 
 const powerBIFilters = z
@@ -138,7 +138,7 @@ const basicWebAppOptions = z.strictObject({
         .nullable(),
       datasourceFilter: z.array(z.string().optional()).optional().nullable(),
       subdatasourceFilter: z.array(z.string().optional()).optional().nullable(),
-      kpiCards: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
+      kpiCards: z.array(KPI_CARD).optional().nullable(),
       categories: z
         .array(
           z
@@ -147,7 +147,7 @@ const basicWebAppOptions = z.strictObject({
               name: LABELS_DICT,
               type: z.string().optional().nullable(),
               description: LABELS_DICT,
-              kpis: z.array(TWINGRAPH_INDICATOR).optional().nullable(),
+              kpis: z.array(KPI_CARD).optional().nullable(),
               attributes: z.array(z.string().optional()).optional().nullable(),
               previewTable: z
                 .strictObject({

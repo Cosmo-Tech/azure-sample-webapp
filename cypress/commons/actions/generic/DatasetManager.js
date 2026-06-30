@@ -9,7 +9,7 @@ const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 export const getDatasetManagerTab = (timeout = 5) => cy.get(SELECTORS.tabName, { timeout: timeout * 1000 });
 export const getDatasetManagerView = (timeout = 5) => cy.get(SELECTORS.view, { timeout: timeout * 1000 });
 export const switchToDatasetManagerView = (queries = []) => {
-  const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries?.length ?? 1);
+  const alias = api.interceptPostDatasetQueries(queries, null, queries?.length ?? 1);
   getDatasetManagerTab().click();
   if (Array.isArray(queries) && queries?.length > 0) api.waitAliases(queries.map(() => alias));
 };
@@ -61,7 +61,7 @@ export const getDatasetShareButton = (datasetId) =>
   cy.get(GENERIC_SELECTORS.genericComponents.rolesEdition.shareButton);
 
 export const selectDatasetById = (datasetId, queries = []) => {
-  const alias = api.interceptPostDatasetTwingraphQueries(queries, null, queries.length);
+  const alias = api.interceptPostDatasetQueries(queries, null, queries.length);
   getDatasetsListItemButton(datasetId).click();
   api.waitAliases(queries.map(() => alias));
 };
@@ -96,7 +96,6 @@ export const getDatasetOverviewPlaceholderTitle = (timeout) =>
   cy.get(SELECTORS.overview.placeholder.title, timeout ? { timeout: timeout * 1000 } : undefined);
 export const getDatasetOverviewPlaceholderRetryButton = () => cy.get(SELECTORS.overview.placeholder.retryButton);
 export const getDatasetOverviewPlaceholderRollbackButton = () => cy.get(SELECTORS.overview.placeholder.rollbackButton);
-export const getDatasetOverviewPlaceholderApiLink = () => cy.get(SELECTORS.overview.placeholder.apiLink);
 
 export const getDatasetNameEditableTextField = () => cy.get(SELECTORS.overview.datasetNameTextField);
 export const getRenameDatasetButton = () => cy.get(SELECTORS.overview.renameScenario);
@@ -144,7 +143,7 @@ export const getKpiError = (parent) => parent.find(SELECTORS.overview.indicators
 export const getKpiUnknownState = (parent) => parent.find(SELECTORS.overview.indicators.kpiUnknownState);
 
 export const openCategoryDetailsDialog = (categoryId, queryResults) => {
-  const alias = api.interceptPostDatasetTwingraphQuery(queryResults);
+  const alias = api.interceptPostDatasetQuery(queryResults);
   getCategoryDetailsDialogOpenButton(getCategoryAccordionDetails(categoryId)).should('be.visible').click();
   api.waitAlias(alias);
 };
@@ -301,13 +300,13 @@ export const deleteDataset = (datasetId, datasetName) => {
 };
 
 // Parameters:
-//   - response (optional): JSON response to the twingraph query that is simulated if stubbing is enabled. Example:
+//   - response (optional): JSON response to the dataset query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
 //   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
 // Return value: a callback function to call in your test to wait for the interception
-export const expectDatasetTwingraphQuery = (response = {}, validateRequest) => {
-  const alias = api.interceptPostDatasetTwingraphQuery(response, validateRequest);
+export const expectDatasetQuery = (response = {}, validateRequest) => {
+  const alias = api.interceptPostDatasetQuery(response, validateRequest);
   return () => api.waitAlias(alias);
 };
 
@@ -318,9 +317,9 @@ export const refreshDataset = (datasetId, options) => {
   api.waitAliases(aliases);
 };
 
-export const ignoreDatasetTwingraphQueries = () => {
+export const ignoreDatasetQueries = () => {
   const response = [{ result: -1 }];
-  api.interceptPostDatasetTwingraphQuery(response, null, 0);
+  api.interceptPostDatasetQuery(response, null, 0);
 };
 
 export const getUpdateDatasetParametersButton = () => {

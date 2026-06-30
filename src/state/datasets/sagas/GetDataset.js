@@ -6,7 +6,7 @@ import { Api } from '../../../services/config/Api';
 import { DATASET_PERMISSIONS_MAPPING } from '../../../services/config/ApiConstants';
 import { DatasetsUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { resetQueriesResults } from '../../datasetTwingraph/reducers';
+import { resetQueriesResults } from '../../datasetQuery/reducers';
 import { DATASET_ACTIONS_KEY } from '../constants';
 import { updateDataset } from '../reducers';
 

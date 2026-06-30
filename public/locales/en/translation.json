@@ -207,7 +207,7 @@
         "placeholder": {
           "error": "An error occurred during import of your data",
           "empty": "Your dataset is empty",
-          "apiLink": "You can use the <1>Cosmo Tech API</1> to populate it",
+          "etlNotStarted": "The dataset creation script has not run. You can launch it by clicking on the \"refresh\" button in the top-right corner.",
           "loading": "Importing your data, please wait...",
           "noDatasetSelected": "No dataset selected. You can select a dataset in the left-side panel.",
           "noKpis": {
@@ -557,8 +557,7 @@
       "runnerUpdateError": "Runner hasn't been updated",
       "datasetSecurityNotUpdated": "Dataset {{datasetId}} permissions have not been updated",
       "runnerNotUpdated": "Runner hasn't been updated",
-      "twingraphNotCreated": "A problem occurred during twingraph creation",
-      "twingraphStatusPollingFailed": "A problem occurred when querying the status of dataset {{datasetDetails}}",
+      "datasetPartNotCreated": "A problem occurred during the dataset part creation or update",
       "twingraphDataNotRestored": "Twingraph data hasn't been restored",
       "cannotAccessBaseDatasets": "Some parts of the scenario \"{{scenarioName}}\" ({{scenarioId}}) could not be loaded, because the associated dataset \"{{baseDatasetId}}\" does not exist, or you don't have access to it."
     }

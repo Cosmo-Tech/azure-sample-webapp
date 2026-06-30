@@ -41,7 +41,7 @@ describe('Disable Launch button on invalid dataset', () => {
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioSelector.selectScenario(scenarioWithoutDataset.name, scenarioWithoutDataset.id);
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
-    DatasetManager.ignoreDatasetTwingraphQueries();
+    DatasetManager.ignoreDatasetQueries();
     DatasetManager.switchToDatasetManagerView();
     DatasetManager.selectDatasetById(DATASETS_TO_REFRESH[0].id);
     DatasetManager.refreshDataset(DATASETS_TO_REFRESH[0].id, refreshFailedOptions);

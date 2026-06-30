@@ -22,12 +22,9 @@ export const SUPERSET_TOKEN_MAX_RETRIES = 5;
 // Theme default mode (must be "system", "dark" or "light")
 export const DEFAULT_THEME_MODE = 'system';
 
-// Polling delay to update twingraph status (milliseconds)
-export const TWINGRAPH_STATUS_POLLING_DELAY = 10000;
-
-export const TWINGRAPH_QUERIES_DELAY = 250; // Delay between first queries to prevent API overload (milliseconds)
-export const TWINGRAPH_QUERY_MAX_RETRIES = 5; // Max number of retries when querying a dataset twingraph
-export const TWINGRAPH_QUERY_RETRY_DELAY = 500; // Delay between retrying when a query has failed (milliseconds)
+export const DATASET_QUERY_DELAY = 250; // Delay between first queries to prevent API overload (milliseconds)
+export const DATASET_QUERY_MAX_RETRIES = 5; // Max number of retries when querying a dataset
+export const DATASET_QUERY_RETRY_DELAY = 500; // Delay between retrying when a query has failed (milliseconds)
 
 // Size of a page of runners returned by back-end
 export const RUNNERS_PAGE_COUNT = 5000;

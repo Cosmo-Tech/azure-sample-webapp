@@ -8,7 +8,6 @@ import {
   dispatchCreateDataset,
   dispatchDeleteDataset,
   dispatchGetDataset,
-  dispatchPollTwingraphStatus,
   dispatchRefreshDataset,
   dispatchUpdateDataset,
   dispatchUpdateDatasetSecurity,
@@ -124,15 +123,6 @@ export const useCreateDataset = () => {
   return useCallback(
     (dataset, files, shouldSelectDataset) => dispatch(dispatchCreateDataset(dataset, files, shouldSelectDataset)),
     [dispatch]
-  );
-};
-
-export const usePollTwingraphStatus = () => {
-  const dispatch = useDispatch();
-  const organizationId = useOrganizationId();
-  return useCallback(
-    (datasetId) => dispatch(dispatchPollTwingraphStatus(organizationId, datasetId)),
-    [dispatch, organizationId]
   );
 };
 
