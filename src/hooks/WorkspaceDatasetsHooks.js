@@ -2,28 +2,13 @@
 // Licensed under the MIT license.
 import { useMemo } from 'react';
 import { useDatasets } from '../state/datasets/hooks';
-import { useWorkspaceDatasetsFilter } from '../state/workspaces/hooks';
 import { DatasetsUtils } from '../utils';
 
 export const useWorkspaceDatasets = () => {
+  // This wrapper for datasets is no longer really useful since webapp v7 + API v5, because datasets are now child
+  // resources of the workspaces. This hook is kept for retro-compatibility and to keep supporting customized webapps
   const datasets = useDatasets();
-  const workspaceDatasetsFilter = useWorkspaceDatasetsFilter();
-
-  return useMemo(() => {
-    if (!workspaceDatasetsFilter) return datasets;
-
-    const workspaceDatasets = [];
-    workspaceDatasetsFilter.forEach((filterItem) => {
-      if (typeof filterItem !== 'string')
-        console.warn(`Ignoring dataset filter entry ${filterItem} because it is not a string`);
-      else {
-        const readableDataset = datasets.find((dset) => dset.id === filterItem);
-        if (readableDataset) workspaceDatasets.push(readableDataset);
-      }
-    });
-
-    return workspaceDatasets;
-  }, [datasets, workspaceDatasetsFilter]);
+  return datasets;
 };
 
 export const useWorkspaceMainDatasets = () => {

@@ -75,7 +75,6 @@ export function* selectWorkspace(action) {
 
   ConfigUtils.checkUnknownKeysInConfig(WorkspaceSchema, selectedWorkspace);
   WorkspacesUtils.checkDatasetManagerConfiguration(selectedWorkspace);
-  WorkspacesUtils.checkConfigurationPitfalls(selectedWorkspace);
 
   yield put({ type: RUNNER_ACTIONS_KEY.STOP_ALL_RUNNERS_STATUS_POLLING });
   yield put({ type: CHART_ACTIONS_KEY.STOP_CHARTS_TOKEN_POLLING });

@@ -7,10 +7,9 @@ import { EDITABLE_DATASET, NON_EDITABLE_DATASET } from '../../fixtures/stubbing/
 
 describe('rename datasets in Dataset Manager view', () => {
   before(() => {
-    const linkedWorkspace = { ...WORKSPACE, linkedDatasetIdList: [EDITABLE_DATASET.id, NON_EDITABLE_DATASET.id] };
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
-    stub.setWorkspaces([linkedWorkspace]);
+    stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([EDITABLE_DATASET, NON_EDITABLE_DATASET]);
   });
 

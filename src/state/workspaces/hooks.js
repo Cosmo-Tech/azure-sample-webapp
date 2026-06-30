@@ -13,40 +13,6 @@ export const useWorkspaceData = () => {
   return useSelector((state) => state.workspace.current?.data);
 };
 
-export const useWorkspaceDatasetsFilter = () => {
-  const workspaceData = useWorkspaceData();
-
-  return useMemo(() => {
-    let filter = workspaceData?.linkedDatasetIdList;
-    if (filter != null && !Array.isArray(filter)) {
-      console.warn('Ignoring datasets filter "linkedDatasetIdList" because it is not an array');
-      filter = undefined;
-    }
-
-    let deprecatedFilter = workspaceData?.additionalData?.webapp?.datasetFilter;
-    if (deprecatedFilter != null) {
-      console.warn(
-        `Deprecated option used in configuration of workspace ${workspaceData?.id}` +
-          (workspaceData?.name ? ` (${workspaceData?.name})` : '') +
-          '.\nWorkspace key "additionalData.webapp.datasetFilter" is deprecated. Please use the Cosmo Tech API to ' +
-          'link these datasets to your workspace instead.'
-      );
-      if (!Array.isArray(deprecatedFilter)) {
-        console.warn('Ignoring deprecated option "datasetFilter" because it is not an array');
-        deprecatedFilter = undefined;
-      }
-    }
-
-    if (filter == null && deprecatedFilter == null) return undefined;
-    return (filter ?? []).concat(deprecatedFilter ?? []);
-  }, [
-    workspaceData?.id,
-    workspaceData?.name,
-    workspaceData?.linkedDatasetIdList,
-    workspaceData?.additionalData?.webapp?.datasetFilter,
-  ]);
-};
-
 export const useWorkspaceId = () => {
   return useSelector((state) => state.workspace.current?.data?.id);
 };

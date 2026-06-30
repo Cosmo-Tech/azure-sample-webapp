@@ -54,16 +54,6 @@ const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
   }
 };
 
-const checkConfigurationPitfalls = (workspace) => {
-  if (workspace?.linkedDatasetIdList === null) {
-    console.warn(
-      `The option "linkedDatasetIdList" is "null" in workspace "${workspace?.name}" (id: "${workspace?.id}"). ` +
-        'This value may lead to too many datasets being visible in the scenario creation dialog. If you want to hide ' +
-        'them, please replace its value by an empty array: "linkedDatasetIdList: []".'
-    );
-  }
-};
-
 const checkDatasetManagerConfiguration = (workspace) => {
   const logWarning = (warning) => console.warn(`Dataset manager configuration: ${warning}`);
   const config = workspace?.additionalData?.webapp?.datasetManager;
@@ -145,7 +135,6 @@ const addTranslationLabels = (workspace) => {
 
 export const WorkspacesUtils = {
   addTranslationLabels,
-  checkConfigurationPitfalls,
   checkDatasetManagerConfiguration,
   forgeDatasetManagerConfiguration,
   patchWorkspacesIfLocalConfigExists,

@@ -3,10 +3,7 @@
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 import { DEFAULT_WORKSPACE, USERS_LIST } from '../default';
 
-export const WORKSPACE_WITH_DATASET_MANAGER = {
-  ...DEFAULT_WORKSPACE,
-  linkedDatasetIdList: ['d-privateDts_1'],
-};
+export const WORKSPACE_WITH_DATASET_MANAGER = { ...DEFAULT_WORKSPACE };
 
 WORKSPACE_WITH_DATASET_MANAGER.additionalData.webapp.datasetManager = {
   queries: [],

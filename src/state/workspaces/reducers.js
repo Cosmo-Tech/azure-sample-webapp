@@ -18,14 +18,6 @@ const workspaceSlice = createSlice({
   name: 'workspace',
   initialState: workspaceInitialState,
   reducers: {
-    linkToDataset: (state, action) => {
-      const { datasetId, workspaceId } = action.payload;
-      const targetWorkspace = state.list.data.find((workspace) => workspace.id === workspaceId);
-      const linkedDatasets = targetWorkspace?.linkedDatasetIdList;
-      if (linkedDatasets != null && datasetId != null) linkedDatasets.push(datasetId);
-      const currentWorkspaceLinkedDatasets = state.current?.data?.linkedDatasetIdList;
-      if (currentWorkspaceLinkedDatasets != null && datasetId != null) currentWorkspaceLinkedDatasets.push(datasetId);
-    },
     setCurrentWorkspace: (state, action) => {
       const { workspace, status } = action.payload;
       state.current.data = workspace;
@@ -43,5 +35,5 @@ const workspaceSlice = createSlice({
   },
 });
 
-export const { linkToDataset, setCurrentWorkspace, resetCurrentWorkspace, setAllWorkspaces } = workspaceSlice.actions;
+export const { setCurrentWorkspace, resetCurrentWorkspace, setAllWorkspaces } = workspaceSlice.actions;
 export default workspaceSlice.reducer;
