@@ -94,8 +94,9 @@ will automatically generate the associated components.
 ### Extended `varType`
 
 In some cases you may want to define a `subType` to have a distinction between several parameters with the same
-`varType`. For instance, the specific `varType` `%DATASETID%` is used for all dataset parts, but you may need to display
-different component in the webapp for some file parameters (e.g; a file upload vs. a table that users can edit).
+`varType`. For instance, the specific `varType` `%DATASET_PART_ID_FILE%` is used for all dataset parts, but you may
+need to display different component in the webapp for some file parameters (e.g; a file upload vs. a table that users
+can edit).
 
 To define an extended var type, you must set the `additionalData.subType` property in your parameter configuration.
 
@@ -121,7 +122,8 @@ parameters:
 ```
 
 This `subType` will be concatenated after the `varType` value. For instance, if the `varType` of a parameter is
-`%DATASETID%` and its `subType` is `TABLE`, then the extended `varType` for this parameter will be `%DATASETID%-TABLE`.
+`%DATASET_PART_ID_FILE%` and its `subType` is `TABLE`, then the extended `varType` for this parameter will be
+`%DATASET_PART_ID_FILE%-TABLE`.
 
 You will then be able to use this extended `varType` in the four mapping files (see section "Define a custom
 `varType`"). For any of those files, if the extended `varType` of a parameter is not found in the mapping dict, the
