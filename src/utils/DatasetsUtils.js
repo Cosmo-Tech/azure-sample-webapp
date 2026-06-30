@@ -18,29 +18,6 @@ const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsM
   dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };
 
-// Build dataset file location for workspace files
-function buildDatasetLocation(datasetId, fileName) {
-  return 'datasets/' + datasetId + '/' + fileName;
-}
-
-// Build dataset file location for workspace files
-function getFileNameFromDatasetLocation(dataset) {
-  // FIXME: remove function when it's no longer used
-  console.log('Warning: this function is deprecated');
-  const location = dataset.source?.location;
-  const locationMatchPattern = String.raw`datasets/${dataset?.id}/(.*)`;
-  const match = new RegExp(locationMatchPattern, 'g').exec(location);
-  const fileName = match?.[1];
-  return fileName ?? location;
-}
-
-// Retrieve dataset file location for workspace files
-function getDatasetLocation(dataset) {
-  // FIXME: remove function when it's no longer used
-  console.log('Warning: this function is deprecated');
-  return dataset?.source?.location;
-}
-
 const getAllChildrenDatasetsNames = (initialDatasetId, datasets) => {
   if (
     !Array.isArray(datasets) ||
@@ -110,9 +87,6 @@ const hasDBDatasetParts = (dataset) => {
 
 export const DatasetsUtils = {
   patchDatasetWithCurrentUserPermissions,
-  buildDatasetLocation,
-  getDatasetLocation,
-  getFileNameFromDatasetLocation,
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,
   getDatasetOptions,

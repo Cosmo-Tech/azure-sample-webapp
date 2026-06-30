@@ -696,35 +696,6 @@ const interceptUpdateRunner = (options = {}) => {
   return alias;
 };
 
-const interceptDownloadWorkspaceFile = () => {
-  const alias = forgeAlias('reqDownloadWorkspaceFile');
-  cy.intercept({ method: 'GET', url: API_REGEX.FILE_DOWNLOAD, times: 1 }, (req) => {
-    if (!stub.isEnabledFor('GET_DATASETS')) return;
-    const fileName = decodeURIComponent(req.url.match(API_REGEX.FILE_DOWNLOAD)?.[1]);
-    req.reply(stub.getWorkspaceFile(fileName));
-  }).as(alias);
-  return alias;
-};
-
-// Parameters:
-//   - fileName: name (or path in Storage) of the uploaded file
-//   - fileContent: content of the uploaded file
-const interceptUploadWorkspaceFile = () => {
-  const alias = forgeAlias('reqUploadWorkspaceFile');
-  cy.intercept({ method: 'POST', url: API_REGEX.FILE_UPLOAD, times: 1 }, (req) => {
-    const form = fileUtils.parseMultipartFormData(req.body);
-    const fileName = form.destination;
-    const fileContent = form.file;
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      stub.addWorkspaceFile(fileName, fileContent);
-      req.reply(fileName);
-    } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue(() => stub.addWorkspaceFile(fileName, fileContent));
-    }
-  }).as(alias);
-  return alias;
-};
-
 const interceptGetOrganization = () => {
   const alias = forgeAlias('reqGetOrganization');
   cy.intercept({ method: 'GET', url: API_REGEX.ORGANIZATION, times: 1 }, (req) => {
@@ -806,8 +777,6 @@ export const apiUtils = {
   interceptDeleteDatasetPart,
   interceptCreateRunner,
   interceptUpdateRunner,
-  interceptDownloadWorkspaceFile,
-  interceptUploadWorkspaceFile,
   interceptGetOrganizationPermissions,
   interceptGetSolution,
   interceptGetOrganization,

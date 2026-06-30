@@ -123,7 +123,6 @@ const forgeRunnerRunStatus = (runnerRun) => ({
 class Stubbing {
   constructor() {
     this.reset();
-    this.workspaceFiles = {}; // TODO: isolate each workspace instead of using only one Object
     this.datasetPartFiles = {}; // Storage for dataset part files
 
     this.enabledStubs = {};
@@ -334,11 +333,6 @@ class Stubbing {
 
   setDatasetImportOptions = (options) => (this.datasetImportOptions = { ...this.datasetImportOptions, ...options });
   getDatasetImportOptions = () => this.datasetImportOptions;
-
-  getWorkspaceFiles = () => this.workspaceFiles;
-  setWorkspaceFiles = (newWorkspaceFiles) => (this.workspaceFiles = newWorkspaceFiles);
-  addWorkspaceFile = (fileName, fileContent) => (this.workspaceFiles[fileName] = fileContent);
-  getWorkspaceFile = (fileName) => this.workspaceFiles[fileName];
 
   getDatasetPartFiles = () => this.datasetPartFiles;
   setDatasetPartFiles = (newDatasetPartFiles) => (this.datasetPartFiles = newDatasetPartFiles);
