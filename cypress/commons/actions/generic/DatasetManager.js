@@ -210,7 +210,8 @@ export const getConfirmDatasetCreation = () => cy.get(SELECTORS.wizard.confirmDa
 //  - options is an optional parameter, it must be an object with the following properties:
 //    - id (optional): id of the created dataset (only used when stubbing is enabled; if undefined, a random id is used)
 //    - validateRequest (optional): validation function to run on the dataset update request
-//    - datasetPartEvents: options for interceptions of dataset part related queries (default: undefined)
+//    - datasetPartEvents: list of objects describing dataset-related queries to intercept; for more details, see
+//      the documentation of the interceptDatasetPartEvents function in apiUtils
 //    - importJobOptions: options to provide to the interception of the "create dataset" query (default: undefined)
 //    - runnerCreationOptions: options to provide to the interception of the "create runner" query (default: undefined)
 //    - runnerUpdateOptions: options to provide to the interception of the "update runner" query (default: undefined)
@@ -223,8 +224,7 @@ export const confirmDatasetCreation = (options = {}) => {
     additionalData: { webapp: { visible: { datasetManager: true, scenarioCreation: true } } },
     ...options.customDatasetPatch,
   };
-  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
-  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
+  const aliases = api.interceptDatasetPartEvents(options?.datasetPartEvents);
   if (options.isETL) aliases.push(api.interceptCreateRunner(options.runnerCreationOptions));
 
   aliases.push(api.interceptCreateDataset(options, options.importJobOptions));
@@ -356,8 +356,7 @@ export const getUpdateParametersButton = () => cy.get(SELECTORS.update.confirmUp
 export const getDownloadETLLogsButton = () => cy.get(SELECTORS.overview.downloadLogsButton);
 
 export const updateDatasetParameters = (datasetId, options) => {
-  const aliases = api.interceptDatasetEvents(options?.datasetsEvents);
-  aliases.push(...api.interceptDatasetPartEvents(options?.datasetPartEvents));
+  const aliases = api.interceptDatasetPartEvents(options?.datasetPartEvents);
   aliases.push(api.interceptUpdateRunner(options));
   aliases.push(api.interceptStartRunner());
   aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));

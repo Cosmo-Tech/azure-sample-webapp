@@ -530,18 +530,21 @@ const interceptDownloadDatasetPart = (options = {}) => {
   return alias;
 };
 
-const interceptDatasetEvents = (datasetEvents) => {
-  const aliases = [];
-  const events = datasetEvents ?? [];
-  events?.reverse()?.forEach((event) => aliases.push(interceptCreateDataset(event)));
-  return aliases;
-};
-
+// Parameters:
+//  - datasetPartEvents: list of objects describing dataset-related queries to intercept; the objects can have this
+// structure:
+//    - id (optional): id of the dataset part to create or delete
+//    - delete (optional): boolean value defining whether the dataset part event is expecting a DELETE query (to delete
+//      a dataset part)
+//    - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//       cypress checks on the intercepted query
+//    - customDatasetPartPatch (optional): an object that can be used to patch the default dataset part data that will
+//      be created by the stubbing class
 const interceptDatasetPartEvents = (datasetPartEvents) => {
   const aliases = [];
   const events = datasetPartEvents ?? [];
   events?.reverse()?.forEach((event) => {
-    if (event?.delete) aliases.push(interceptDeleteDatasetPart(event));
+    if (event?.delete) aliases.push(interceptDeleteDatasetPart(event?.id));
     else aliases.push(interceptCreateDatasetPart(event));
   });
   return aliases;
@@ -566,29 +569,6 @@ const interceptUpdateDataset = (options) => {
     if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(datasetPatch);
   }).as(alias);
   return alias;
-};
-
-// Parameters:
-//   - options: dict with properties:
-//     - id (optional): id of the dataset to create
-//     - securityChanges (optional): object containing only the differences of security that are applied to the created
-//      dataset. This object defines how queries must be intercepted when stubbing is enabled. The expected format
-//      is the same as the security objects of API resources, with an additional field "type" with one of the values
-//      "post", "patch", or "delete". Example:
-//      {default: "viewer", accessControlList: [{id: "john.doe@example.com", role: "admin", type: "patch"}]}
-const interceptUpdateDatasetSecurity = ({ datasetId, securityChanges }) => {
-  const aliases = [];
-  if (securityChanges?.default) aliases.push(interceptSetDatasetDefaultSecurity(datasetId, securityChanges?.default));
-  securityChanges?.accessControlList?.forEach((entry) => {
-    const type = entry.type;
-    const aclEntry = { ...entry, type: undefined };
-
-    if (type === 'post') aliases.push(interceptAddDatasetAccessControl(datasetId, aclEntry));
-    else if (type === 'patch') aliases.push(interceptUpdateDatasetAccessControl(datasetId, aclEntry));
-    else if (type === 'delete') aliases.push(interceptRemoveDatasetAccessControl(datasetId, aclEntry));
-    else console.warn(`Unknown ACL entry type "${type}" in interceptUpdateDatasetSecurity`);
-  });
-  return aliases;
 };
 
 const interceptAddDatasetAccessControl = (optionalDatasetId, expectedNewEntry) => {
@@ -816,10 +796,8 @@ export const apiUtils = {
   parseDatasetMultipartFormDataRequest,
   interceptCreateDatasetPart,
   interceptDownloadDatasetPart,
-  interceptDatasetEvents,
   interceptDatasetPartEvents,
   interceptUpdateDataset,
-  interceptUpdateDatasetSecurity,
   interceptAddDatasetAccessControl,
   interceptUpdateDatasetAccessControl,
   interceptRemoveDatasetAccessControl,
