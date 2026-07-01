@@ -78,6 +78,9 @@ const returnBoolValueOrDefault = (value, defaultValue) => {
 const forgeUiConfig = (dashboardConfig, visibleScenarios, currentScenarioData) => {
   const nativeFiltersParam = forgeNativeFilters(dashboardConfig?.filters, visibleScenarios, currentScenarioData);
 
+  let urlParams = nativeFiltersParam ? { native_filters: nativeFiltersParam } : {};
+  // urlParams = {...urlParams, themeMode: 'dark'};
+
   return {
     hideTitle: returnBoolValueOrDefault(dashboardConfig?.hideTitle, DEFAULT_HIDE_TITLE),
     hideChartControls: returnBoolValueOrDefault(dashboardConfig?.hideChartControls, DEFAULT_HIDE_CHART_CONTROLS),
@@ -85,7 +88,7 @@ const forgeUiConfig = (dashboardConfig, visibleScenarios, currentScenarioData) =
       expanded: returnBoolValueOrDefault(dashboardConfig?.expandFilters, DEFAULT_EXPAND_FILTERS),
       visible: !returnBoolValueOrDefault(dashboardConfig?.hideFilters, DEFAULT_HIDE_FILTERS),
     },
-    urlParams: nativeFiltersParam ? { native_filters: nativeFiltersParam } : {},
+    urlParams,
   };
 };
 
