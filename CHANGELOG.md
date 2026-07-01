@@ -1,3 +1,28 @@
+## **7.1.0** <sub><sup>2026-07-01 ([4e255f2...54f6e82](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/4e255f22...54f6e82f?diff=split))</sup></sub>
+
+### Features
+
+- \[PROD\-14198\] add button in Dataset Manager to let users download the ETL logs ([4ac7369](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4ac73694))
+
+### Performance Improvements
+
+- \[PROD\-15836\] decrease number of API calls when opening a workspace ([2369e4b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2369e4be))
+
+### Bug Fixes
+
+- \[PROD\-16316\] fix unexpected logout issues when browsing same-domain webapps in multiple tabs ([dec4a6a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/dec4a6ac))
+- \[PROD\-16291\] fix double scrollbar in embedded Superset dashboard ([bd4b58b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bd4b58bb))
+- \[PROD\-16249\] fix tooltips shown when users cannot share a scenario ([61a19da](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/61a19da6))
+- \[PROD\-12856\] fix handling of API call errors when opening a workspace ([355dafe](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/355dafe2))
+
+### Documentation
+
+- document how to toggle Dataset Manager view in a workspace ([bc4a09b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bc4a09b2))
+- add context in dataset docs and explain dataset visibility rules in the webapp ([9421f56](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9421f562))
+- add note about deprecation of the `shouldRenameFileOnUpload` option ([eed73ea](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/eed73ea1))
+- remove remaining mentions of deprecated varType `%DATASETID%` in docs ([c208956](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c2089565))
+- update bot instructions for cypress tests ([4b738f2](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4b738f27))
+
 ## **7.0.5** <sub><sup>2026-06-19 ([8407015...fa069a4](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/84070155...fa069a4e?diff=split))</sup></sub>
 
 ### Bug Fixes
