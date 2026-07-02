@@ -1,5 +1,4 @@
-# To enable ssh & remote debugging on app service change the base image to the one below
-FROM cgr.dev/cosmotech/azure-functions-node-corepack:4-node22
+FROM cgr.dev/cosmotech/azure-functions-node-corepack:4-node24
 
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
