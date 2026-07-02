@@ -27,7 +27,7 @@ export const KPIValue = (props) => {
     if (kpi.state === KPI_STATE.READY)
       return (
         <Typography data-cy="kpi-value" variant="body1" {...valueTypographyProps}>
-          {kpi.value}
+          {kpi.value || 'N/A'}
         </Typography>
       );
 
