@@ -11,6 +11,9 @@ import {
   ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
 
+const DATASET_A = DATASETS[0];
+const DATASET_B = DATASETS[1];
+
 const getTransportAccordionSummary = () => DatasetManager.getCategoryAccordionSummary('transport');
 const getTransportAccordionDetails = () => DatasetManager.getCategoryAccordionDetails('transport');
 const getTransportKpi = (kpi) => DatasetManager.getCategoryKpi(getTransportAccordionDetails(), kpi);
@@ -18,19 +21,17 @@ const getTransportKpi = (kpi) => DatasetManager.getCategoryKpi(getTransportAccor
 const getTableTransport = () => cy.get(`[data-cy=table-transport]`);
 
 describe('Dataset manager overview works correctly', () => {
-  before(() => {
-    stub.start();
+  before(() => stub.start());
+  beforeEach(() => {
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
+    Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
   });
-  beforeEach(() => Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' }));
+  afterEach(() => stub.reset());
   after(stub.stop);
 
   it('Dataset overview launches Cypher queries and has results', () => {
-    const DATASET_A = DATASETS[0];
-    const DATASET_B = DATASETS[1];
-
     DatasetManager.switchToDatasetManagerView(DATASET_A_KPI_QUERIES);
     DatasetManager.getDatasetNameInOverview().should('have.text', DATASET_A.name);
     DatasetManager.selectDatasetById(DATASET_B.id, DATASET_B_KPI_QUERIES);
@@ -78,5 +79,46 @@ describe('Dataset manager overview works correctly', () => {
 
     DatasetManager.closeCategoryDetailsDialog();
     DatasetManager.getCategoryDetailsDialog().should('not.exist');
+  });
+
+  it('KPIs show error icon when dataset queries fail', () => {
+    const failedKpiQueries = [
+      { datasetPartId: 'dp-entities', decodedResponse: { statusCode: 500 } },
+      { datasetPartId: 'dp-relationships', decodedResponse: { statusCode: 500 } },
+      { datasetPartId: 'dp-productionOperation_KPI', decodedResponse: { statusCode: 500 } },
+      { datasetPartId: 'dp-transport_KPI', decodedResponse: { statusCode: 500 } },
+    ];
+
+    DatasetManager.switchToDatasetManagerView(failedKpiQueries);
+    DatasetManager.getDatasetNameInOverview().should('have.text', DATASET_A.name);
+
+    DatasetManager.getKpiError(DatasetManager.getIndicatorCard('entities')).should('be.visible');
+    DatasetManager.getKpiError(DatasetManager.getIndicatorCard('relationships')).should('be.visible');
+
+    getTransportAccordionSummary().click();
+    DatasetManager.getKpiError(getTransportKpi('transport_kpi1')).should('be.visible');
+    DatasetManager.getKpiError(getTransportKpi('transport_kpi2')).should('be.visible');
+  });
+
+  it('KPIs show N/A when dataset query returns an empty result', () => {
+    const emptyKpiQueries = [
+      { datasetPartId: 'dp-entities', decodedResponse: 'entities\n' },
+      { datasetPartId: 'dp-relationships', decodedResponse: 'relationships\n' },
+      {
+        datasetPartId: 'dp-productionOperation_KPI',
+        decodedResponse: 'productionOperation_kpi1,productionOperation_kpi2\n',
+      },
+      { datasetPartId: 'dp-transport_KPI', decodedResponse: 'transport_kpi1,transport_kpi2\n' },
+    ];
+
+    DatasetManager.switchToDatasetManagerView(emptyKpiQueries);
+    DatasetManager.getDatasetNameInOverview().should('have.text', DATASET_A.name);
+
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('entities')).should('have.text', 'N/A');
+    DatasetManager.getKpiValue(DatasetManager.getIndicatorCard('relationships')).should('have.text', 'N/A');
+
+    getTransportAccordionSummary().click();
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi1')).should('have.text', 'N/A');
+    DatasetManager.getKpiValue(getTransportKpi('transport_kpi2')).should('have.text', 'N/A');
   });
 });
