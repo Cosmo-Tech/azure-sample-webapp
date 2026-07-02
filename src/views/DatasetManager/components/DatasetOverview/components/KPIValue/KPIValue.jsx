@@ -34,10 +34,13 @@ export const KPIValue = (props) => {
     if (kpi.state === KPI_STATE.FAILED)
       return (
         <FadingTooltip
-          title={t(
-            'commoncomponents.datasetmanager.overview.kpiState.failed',
-            'The query to fetch this indicator has failed'
-          )}
+          title={
+            kpi.message ??
+            t(
+              'commoncomponents.datasetmanager.overview.kpiState.failed',
+              'The query to fetch this indicator has failed'
+            )
+          }
           disableInteractive
         >
           <ErrorIcon data-cy="kpi-error" sx={{ height: size, width: size }} />
@@ -52,7 +55,7 @@ export const KPIValue = (props) => {
         <HelpIcon data-cy="kpi-unknown-state" sx={{ height: size, width: size }} />
       </FadingTooltip>
     );
-  }, [t, kpi.state, kpi.value, size, valueTypographyProps]);
+  }, [t, kpi.message, kpi.state, kpi.value, size, valueTypographyProps]);
 };
 
 KPIValue.propTypes = {

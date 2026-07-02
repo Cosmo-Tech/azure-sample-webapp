@@ -1,5 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { t } from 'i18next';
 import { all, call, delay, put, spawn, takeEvery } from 'redux-saga/effects';
 import {
   DATASET_QUERY_DELAY,
@@ -8,6 +9,7 @@ import {
 } from '../../../services/config/FunctionalConstants';
 import DatasetService from '../../../services/dataset/DatasetService';
 import {
+  cancelQuery,
   initializeQueriesResults,
   processQueriesResults,
   resetQueriesResults,
@@ -25,10 +27,15 @@ function* runDatasetQuery(action, query, attemptsNumber = 0) {
   const datasetPartId = (dataset?.parts ?? []).find(
     (part) => part.name === queryDatasetPartName && part.type === 'DB'
   )?.id;
-  if (datasetPartId == null)
-    throw Error(
-      `No dataset part with name "${queryDatasetPartName}" found in dataset "${dataset.name}" (${dataset.id})`
+  if (datasetPartId == null) {
+    const message = t(
+      'genericcomponent.table.labels.dbPartNotFoundErrorMessage',
+      'No dataset part with name "{{datasetPartName}}" found in dataset "{{datasetName}}"',
+      { datasetName: dataset.name, datasetPartName: queryDatasetPartName }
     );
+    yield put(cancelQuery({ datasetId, kpiIdsByQueryId, queryId: query.id, message }));
+    return;
+  }
 
   const datasetPart = { organizationId, workspaceId, datasetId, id: datasetPartId };
   let result;

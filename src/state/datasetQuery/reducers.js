@@ -37,14 +37,19 @@ const datasetQueryResultSlice = createSlice({
       const kpis = kpiIdsByQueryId[queryId] ?? [];
       kpis.forEach((kpiId) => (state[datasetId][queryId][kpiId] = { state: KPI_STATE.LOADING }));
     },
+    cancelQuery: (state, action) => {
+      const { datasetId, kpiIdsByQueryId, queryId, message } = action.payload;
+      const kpis = kpiIdsByQueryId[queryId] ?? [];
+      kpis.forEach((kpiId) => (state[datasetId][queryId][kpiId] = { message, state: KPI_STATE.FAILED }));
+    },
     processQueriesResults: (state, action) => {
       const { datasetId, kpiIdsByQueryId, queryId, result } = action.payload;
-      const resultColsAndRows = parseCSVFromAPIResponse(result);
-      if (!result || result.length === 0) {
-        // FIXME: is it still possible to have result.config.data?
-        if (result.config.data) console.error(`Query to dataset failed: ${result.config.data}`);
+      if (typeof result !== 'string' || result.length === 0) {
+        if (result instanceof Error) console.error(`Query to dataset failed: ${result.message}`);
         kpiIdsByQueryId?.[queryId].forEach((kpiId) => (state[datasetId][queryId][kpiId].state = KPI_STATE.FAILED));
+        return;
       }
+      const resultColsAndRows = parseCSVFromAPIResponse(result);
 
       const expectedKpis = [...kpiIdsByQueryId[queryId]];
       const cols = resultColsAndRows.cols.map((col) => col.field);
@@ -73,7 +78,7 @@ const datasetQueryResultSlice = createSlice({
   },
 });
 
-export const { initializeQueriesResults, resetQueriesResults, waitQueryResults, processQueriesResults } =
+export const { cancelQuery, initializeQueriesResults, resetQueriesResults, waitQueryResults, processQueriesResults } =
   datasetQueryResultSlice.actions;
 
 export default datasetQueryResultSlice.reducer;
