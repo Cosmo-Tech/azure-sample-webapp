@@ -43,7 +43,14 @@ export const CategoryDetailsDialog = (props) => {
 
   const detailsTable = useMemo(() => {
     const query = getQuery(category?.previewTable?.queryId);
-    if (query == null) return null;
+    if (query == null) {
+      if (category?.previewTable?.queryId)
+        console.warn(
+          `Cannot build preview table for category "${category?.id}": no query defined with id ` +
+            `"${category?.previewTable?.queryId}"`
+        );
+      return null;
+    }
     const { datasetPartName, options } = query;
 
     const parameterData = {
