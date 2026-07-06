@@ -13,7 +13,7 @@ export const RunningStateSpinner = () => {
   const isCurrentScenarioRunning = currentScenarioLastRunStatus === RUNNER_RUN_STATE.RUNNING;
   return isCurrentScenarioRunning ? (
     <Grid>
-      <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
+      <Stack direction="row" spacing={1} sx={{ mr: 2, alignItems: 'center' }}>
         <CircularProgress color="inherit" size={16} data-cy="running-state-spinner" />
         <Typography variant="body1" data-cy="running-state-label">
           {t('commoncomponents.scenariomanager.treelist.node.status.running', 'Running')}
