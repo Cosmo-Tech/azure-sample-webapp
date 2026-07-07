@@ -16,8 +16,12 @@ const getRunnersPermissionsMapping = (state) => state.application.permissionsMap
 const getSolutionParameters = (state) => state.solution?.current?.data?.parameters;
 const getSolutionRunTemplates = (state) => state.solution?.current?.data?.runTemplates;
 
-const keepOnlyReadableRunners = (runners) =>
-  runners.filter((runner) => runner.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ));
+const filterVisibleRunners = (runners) =>
+  runners.filter(
+    (runner) =>
+      runner.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ) &&
+      !RunnersUtils.isRunnerArchived(runner)
+  );
 
 export function* getAllRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
@@ -41,8 +45,9 @@ export function* getAllRunners(organizationId, workspaceId) {
   data.forEach((runner) =>
     RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
   );
-  const readableRunners = keepOnlyReadableRunners(data);
-  readableRunners.forEach((runner) => {
+
+  const filteredRunners = filterVisibleRunners(data);
+  filteredRunners.forEach((runner) => {
     // DEPRECATED: check runner parameters using deprecated varType "%DATASETID%". This check can be removed in future
     // webapp version 8.0
     if (runner.parametersValues) {
@@ -63,7 +68,7 @@ export function* getAllRunners(organizationId, workspaceId) {
       simulationRunnersRunTemplatesIds.push(rt.id);
     else eltRunnersRunTemplatesIds.push(rt.id);
   });
-  const simulationRunners = readableRunners.filter((runner) =>
+  const simulationRunners = filteredRunners.filter((runner) =>
     simulationRunnersRunTemplatesIds?.includes(runner.runTemplateId)
   );
   simulationRunners.forEach((runner) => {
@@ -71,7 +76,7 @@ export function* getAllRunners(organizationId, workspaceId) {
   });
   yield put(setAllSimulationRunners({ list: simulationRunners, status: STATUSES.SUCCESS }));
 
-  const etlRunners = readableRunners.filter((runner) => eltRunnersRunTemplatesIds?.includes(runner.runTemplateId));
+  const etlRunners = filteredRunners.filter((runner) => eltRunnersRunTemplatesIds?.includes(runner.runTemplateId));
   yield put(setAllEtlRunners({ list: etlRunners }));
 }
 

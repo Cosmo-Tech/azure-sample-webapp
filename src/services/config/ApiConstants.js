@@ -4,6 +4,8 @@
 export const DB_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_DB%';
 export const FILE_DATASET_PART_ID_VARTYPE = '%DATASET_PART_ID_FILE%';
 
+export const ARCHIVED_RUNNER_STATUS = 'Archived';
+
 export const RUNNER_RUN_STATE = {
   CREATED: 'NotStarted',
   RUNNING: 'Running',
