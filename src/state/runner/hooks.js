@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { t } from 'i18next';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
+import { useSetApplicationErrorMessage } from '../app/hooks';
 import { useOrganizationId } from '../organizations/hooks';
 import { useWorkspaceId } from '../workspaces/hooks';
 import {
@@ -29,7 +31,7 @@ import {
   setValidationStatus,
   updateSimulationRunner,
 } from './reducers';
-import { asyncUpdateRunner } from './sagas/UpdateSimulationRunner.js';
+import { asyncUpdateRunner } from './sagas/UpdateSimulationRunner';
 
 export const useRunnersReducerStatus = () => {
   return useSelector((state) => state.runner?.status);
@@ -174,10 +176,12 @@ export const useUpdateSimulationRunner = () => {
 // going through redux dispatchers. It can thus be used in component hooks with "await" to chain multiple calls to the
 // API (e.g. "save & launch" button)
 export const useAsyncUpdateSimulationRunner = () => {
+  const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const dispatch = useDispatch();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
   const runTemplateId = useCurrentSimulationRunnerRunTemplateId();
+
   return useCallback(
     async (runnerId, runnerParameters, runnerStatusOnSuccess = STATUSES.SUCCESS) => {
       dispatch(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
@@ -191,10 +195,18 @@ export const useAsyncUpdateSimulationRunner = () => {
         );
         dispatch(updateSimulationRunner({ status: runnerStatusOnSuccess, runnerId, runner: updatedRunner }));
       } catch (error) {
+        console.error(error);
+        setApplicationErrorMessage(
+          error,
+          t(
+            'commoncomponents.banner.update',
+            "A problem occurred during scenario update; your new parameters haven't been saved."
+          )
+        );
         dispatch(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
       }
     },
-    [dispatch, organizationId, workspaceId, runTemplateId]
+    [setApplicationErrorMessage, dispatch, organizationId, workspaceId, runTemplateId]
   );
 };
 

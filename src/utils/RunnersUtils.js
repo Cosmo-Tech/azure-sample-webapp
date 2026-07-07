@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { RUNNER_RUN_STATE } from '../services/config/ApiConstants';
+import { ARCHIVED_RUNNER_STATUS, RUNNER_RUN_STATE } from '../services/config/ApiConstants';
 import { SecurityUtils } from './SecurityUtils';
 
 const getLastRunId = (runner) => runner?.lastRunInfo?.lastRunId;
@@ -70,6 +70,8 @@ const setRunnerOptions = (runner, options) => {
   else runner.additionalData.webapp = { ...runner.additionalData.webapp, ...options };
 };
 
+const isRunnerArchived = (runner) => runner?.status === ARCHIVED_RUNNER_STATUS;
+
 export const RunnersUtils = {
   forgeRunnerLastRunInfoPatch,
   getLastRunId,
@@ -84,4 +86,5 @@ export const RunnersUtils = {
   getRunnerOptions,
   getRunnerOption,
   setRunnerOptions,
+  isRunnerArchived,
 };
