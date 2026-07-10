@@ -1,3 +1,14 @@
+## **7.1.1** <sub><sup>2026-07-10 ([2c2891c...a21c4ba](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/2c2891cb...a21c4bae?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- do not show runners with the new 'Archived' status (added in API v5.1) ([3794d14](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3794d14b))
+- fix missing error banner when scenario saving has failed ([b0de18c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b0de18c5))
+- \[PROD\-16315\] fix KPIs in dataset manager when dataset query has failed ([3a06c14](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3a06c14e))
+- \[PROD\-16315\] fix parsing of dataset query results to support empty fields in CSV ([d479963](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d479963a))
+- \[PROD\-16315\] fix KPIs in dataset manager when dataset query returns empty results ([634b691](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/634b6919))
+- fix alignment of loading spinner when scenario is running ([8fac482](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8fac4823))
+
 ## **7.1.0** <sub><sup>2026-07-01 ([4e255f2...54f6e82](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/4e255f22...54f6e82f?diff=split))</sup></sub>
 
 ### Features
