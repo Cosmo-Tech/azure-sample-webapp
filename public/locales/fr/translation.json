@@ -912,6 +912,15 @@
         "equalDate": "Le champ {{field}} doit être égal au champ {{constraint}}",
         "differentDate": "Le champ {{field}} doit être différent du champ {{constraint}}",
         "fileFormat": "Format de fichier non supporté"
+      },
+      "dialogs": {
+        "delete": {
+          "buttonTooltip": "Supprimer",
+          "title": "Supprimer le scénario ?",
+          "body": "Voulez-vous vraiment supprimer <i>{{scenarioName}}</i> ? Cette action est irréversible.",
+          "cancelButton": "Annuler",
+          "confirmButton": "Supprimer"
+        }
       }
     }
   },

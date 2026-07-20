@@ -910,6 +910,15 @@
         "equalDate": "The field {{field}} must be equal to the field {{constraint}}",
         "differentDate": "The field {{field}} must be different from the field {{constraint}}",
         "fileFormat": "File format not supported"
+      },
+      "dialogs": {
+        "delete": {
+          "buttonTooltip": "Delete",
+          "title": "Delete scenario?",
+          "body": "Do you really want to delete <i>{{scenarioName}}</i>? This action is irreversible.",
+          "cancelButton": "Cancel",
+          "confirmButton": "Delete"
+        }
       }
     }
   },
