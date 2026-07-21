@@ -118,12 +118,15 @@ const interceptUpdateDatasetACLSecurity = (expectedACLSecurity) => {
 
 // Parameters
 //  - runner (object): object representing the runner to delete, defining either its "id" or its "name" field
-const interceptDeleteRunner = (runner) => {
+//  - options (object) is an optional parameter. If provided, it can have the following properties:
+//    - validateRequest (optional): validation function to run on the runner deletion request
+const interceptDeleteRunner = (runner, options) => {
   const alias = forgeAlias('reqDeleteRunner');
   cy.intercept({ method: 'DELETE', url: API_REGEX.RUNNER, times: 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
     if (stub.isEnabledFor('GET_SCENARIOS')) {
-      if(runner?.id) stub.deleteRunnerById(runner.id);
-      else if(runner?.name) stub.deleteRunnerByName(runner.name);
+      if (runner?.id) stub.deleteRunnerById(runner.id);
+      else if (runner?.name) stub.deleteRunnerByName(runner.name);
       else console.warn('Missing runner data in interceptDeleteRunner: fields "id" and "name" are both undefined');
     }
     if (stub.isEnabledFor('CREATE_AND_DELETE_SCENARIO')) req.reply(req);
