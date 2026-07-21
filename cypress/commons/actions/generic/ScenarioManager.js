@@ -15,7 +15,7 @@ function getDeleteScenarioButton() {
 }
 function deleteScenario(scenarioName, isRunning = false) {
   const getScenarioToDeleteAlias = api.interceptGetRunner();
-  const deleteScenarioAlias = api.interceptDeleteRunner(scenarioName);
+  const deleteScenarioAlias = api.interceptDeleteRunner({name: scenarioName});
   const reqStopScenarioRunAlias = isRunning && api.interceptStopRunner();
 
   writeInFilter(scenarioName);
