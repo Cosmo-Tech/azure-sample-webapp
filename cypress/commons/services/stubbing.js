@@ -182,6 +182,10 @@ class Stubbing {
   _getResourceIndexByName = (resourceType, resourceName) => {
     return this.resources[resourceType].findIndex((resource) => resource.name === resourceName);
   };
+  _deleteResourceById = (resourceType, resourceId) => {
+    const resourceToDeleteIndex = this._getResourceIndexById(resourceType, resourceId);
+    if (resourceToDeleteIndex !== -1) this.resources[resourceType].splice(resourceToDeleteIndex, 1);
+  };
   _deleteResourceByName = (resourceType, resourceName) => {
     const resourceToDeleteIndex = this._getResourceIndexByName(resourceType, resourceName);
     if (resourceToDeleteIndex !== -1) this.resources[resourceType].splice(resourceToDeleteIndex, 1);
@@ -219,6 +223,7 @@ class Stubbing {
   addRunner = (newRunner) => this._addResource('runners', newRunner);
   patchRunner = (runnerId, runnerPatch) => this._patchResourceById('runners', runnerId, runnerPatch);
   getRunnerById = (runnerId) => this._getResourceById('runners', runnerId);
+  deleteRunnerById = (runnerId) => this._deleteResourceById('runners', runnerId);
   deleteRunnerByName = (runnerName) => this._deleteResourceByName('runners', runnerName);
 
   patchRunnerDefaultSecurity = (runnerId, newDefaultSecurity) => {

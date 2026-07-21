@@ -42,6 +42,7 @@ describe('Check workspace permissions for admin', () => {
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
+    Scenarios.getDeleteCurrentScenarioButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
     RolesEdition.getShareButton().should('be.visible').should('not.be.disabled').click();
     RolesEdition.addAgent(USERS_LIST[2].email);
@@ -156,6 +157,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
+    Scenarios.getDeleteCurrentScenarioButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('not.exist');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.getCurrencyNameInput().should('not.exist');
@@ -190,6 +192,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('not.exist');
     Scenarios.getScenarioRejectButton().should('not.exist');
+    Scenarios.getDeleteCurrentScenarioButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager({ force: true });
@@ -206,6 +209,7 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
 
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
+    Scenarios.getDeleteCurrentScenarioButton().should('not.exist');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager({ force: true });

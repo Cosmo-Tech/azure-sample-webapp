@@ -105,6 +105,11 @@ export const GENERIC_SELECTORS = {
     rejectButton: '[data-cy=reject-scenario-button]',
     runTemplateName: '[data-cy=run-template-name]',
     createButton: '[data-cy=create-scenario-button]',
+    deleteCurrentScenarioButton: '[data-cy=scenario-delete-button]',
+    deleteCurrentScenarioDialog: {
+      confirmButton: '[data-cy=delete-scenario-button2]',
+      cancelButton: '[data-cy=delete-scenario-button1]',
+    },
     createDialog: {
       dialog: '[data-cy=create-scenario-dialog]',
       masterCheckbox: 'input[id=isScenarioMaster]',

@@ -24,6 +24,7 @@ describe('check accessible features for Organization.Modeler application role as
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
+    Scenarios.getDeleteCurrentScenarioButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
   });
 });
@@ -48,6 +49,7 @@ describe('check accessible features for Organization.Viewer application role as 
     Scenarios.getScenarioValidateButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioRejectButton().should('be.visible').should('not.be.disabled');
     Scenarios.getScenarioCreationButton().should('be.visible').should('not.be.disabled');
+    Scenarios.getDeleteCurrentScenarioButton().should('be.visible').should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
   });
 });

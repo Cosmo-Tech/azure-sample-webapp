@@ -8,7 +8,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { deleteRunner, setListStatus } from '../reducers';
+import { deleteRunner, setCurrentSimulationRunnerStatus, setListStatus } from '../reducers';
 import { stopETLRunner } from './StopRunner';
 import { stopSimulationRunner } from './StopSimulationRunner';
 
@@ -20,6 +20,7 @@ export function* callDeleteRunner(action) {
 
   try {
     yield put(setListStatus({ status: STATUSES.LOADING }));
+    yield put(setCurrentSimulationRunnerStatus({ status: STATUSES.LOADING }));
 
     const { data } = yield call(Api.Runners.getRunner, organizationId, workspaceId, runnerId);
     const lastRunStatus = RunnersUtils.getLastRunStatus(data);
@@ -32,9 +33,11 @@ export function* callDeleteRunner(action) {
 
     yield call(Api.Runners.deleteRunner, organizationId, workspaceId, runnerId);
     yield put(setListStatus({ status: STATUSES.IDLE }));
+    yield put(setCurrentSimulationRunnerStatus({ status: STATUSES.IDLE }));
     yield put(deleteRunner({ runnerId }));
   } catch (error) {
     yield put(setListStatus({ status: STATUSES.IDLE }));
+    yield put(setCurrentSimulationRunnerStatus({ status: STATUSES.IDLE }));
 
     let errorMessage = t('commoncomponents.banner.delete', "Scenario hasn't been deleted.");
     if (isETLRunner) errorMessage = t('commoncomponents.banner.etlDeleteFailed', "Dataset runner hasn't been deleted.");

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 // Current Simulation Runner
 import { createSlice } from '@reduxjs/toolkit';
+import { ResourceUtils } from '@cosmotech/core';
 import { STATUSES } from '../../services/config/StatusConstants';
 import { RunnersUtils } from '../../utils';
 import { addOrUpdateDatasetPart, deleteDatasetPart } from '../datasets/reducers';
@@ -127,7 +128,11 @@ const runnerSlice = createSlice({
       RunnersUtils.updateParentIdOnDelete(runners, runnerId);
       runners.splice(index, 1);
 
-      if (state.simulationRunners.current.data?.id === runnerId) state.simulationRunners.current.data = null;
+      if (state.simulationRunners.current.data?.id === runnerId) {
+        const runnerToSelect = ResourceUtils.getFirstRootResource(runners);
+        state.simulationRunners.current.data = runnerToSelect;
+        state.simulationRunners.current.status = runnerToSelect == null ? STATUSES.IDLE : STATUSES.SUCCESS;
+      }
     },
     addSimulationRunner: (state, action) => {
       const { data } = action.payload;
@@ -143,6 +148,10 @@ const runnerSlice = createSlice({
         state.simulationRunners.list.data.find((runner) => runner.id === runnerId) ??
         state.simulationRunners.current.data;
       state.simulationRunners.current.status = status ?? state.simulationRunners.current?.status;
+    },
+    setCurrentSimulationRunnerStatus: (state, action) => {
+      const { status } = action.payload;
+      state.simulationRunners.current.status = status;
     },
     addRunStatus: (state, action) => {
       const { data } = action.payload;
@@ -263,6 +272,7 @@ export const {
   addSimulationRunner,
   resetCurrentSimulationRunner,
   setCurrentSimulationRunner,
+  setCurrentSimulationRunnerStatus,
   addRunStatus,
   addOrUpdateRunStatus,
   setListStatus,

@@ -79,6 +79,15 @@ function getScenarioCreationDialogSubmitButton() {
 function getScenarioCreationDialogCancelButton() {
   return cy.get(GENERIC_SELECTORS.scenario.createDialog.cancelButton);
 }
+function getDeleteCurrentScenarioButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.deleteCurrentScenarioButton);
+}
+function getDeleteCurrentScenarioDialogConfirmButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.deleteCurrentScenarioDialog.confirmButton);
+}
+function getDeleteCurrentScenarioDialogCancelButton() {
+  return cy.get(GENERIC_SELECTORS.scenario.deleteCurrentScenarioDialog.cancelButton);
+}
 function getDashboardPlaceholder() {
   return cy.get(GENERIC_SELECTORS.scenario.dashboard.placeholder);
 }
@@ -220,6 +229,31 @@ function resetScenarioValidationStatus(scenarioId) {
   api.waitAlias(resetScenarioAlias);
 }
 
+// Parameters
+//  - runner (object): object representing the runner to delete, defining its "id" and "name" fields
+//  - options (object) is an optional parameter. If provided, it can have the following properties:
+//    - validateRequest (optional): validation function to run on the runner deletion request
+//    - waitSpinner (optional, true by default): if true, then the function will wait for the loading spinner to
+//      disappear
+//    - isRunning (optional, false by default): if true, then the function will add an interception for the "stop
+//      runner" query
+function deleteCurrentScenario(runner, options) {
+  const getRunnerAlias = api.interceptGetRunner(runner.id);
+  const deleteAlias = api.interceptDeleteRunner(runner, { validateRequest: options?.validateRequest });
+
+  // TODO handle isRunning & intercept
+
+  Scenarios.getDeleteCurrentScenarioButton().should('be.visible').click();
+  Scenarios.getDeleteCurrentScenarioDialogConfirmButton().click();
+
+  // Wait for deletion to be effective
+  if (options?.waitSpinner) {
+    getScenarioLoadingSpinner().should('be.visible');
+    getScenarioLoadingSpinner().should('not.be.visible');
+  }
+  api.waitAliases([getRunnerAlias, deleteAlias]);
+}
+
 export const Scenarios = {
   getScenarioView,
   getScenarioViewTab,
@@ -245,6 +279,9 @@ export const Scenarios = {
   getScenarioCreationDialogRunTypeSelectorOptions,
   getScenarioCreationDialogSubmitButton,
   getScenarioCreationDialogCancelButton,
+  getDeleteCurrentScenarioButton,
+  getDeleteCurrentScenarioDialogConfirmButton,
+  getDeleteCurrentScenarioDialogCancelButton,
   getDashboardPlaceholder,
   getDashboardAccordion,
   getDashboardAccordionSummary,
@@ -260,4 +297,5 @@ export const Scenarios = {
   validateScenario,
   rejectScenario,
   resetScenarioValidationStatus,
+  deleteCurrentScenario,
 };

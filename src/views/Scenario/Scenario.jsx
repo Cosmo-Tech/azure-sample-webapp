@@ -19,7 +19,7 @@ import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import RunnerService from '../../services/runner/RunnerService';
 import { TranslationUtils } from '../../utils';
 import { useScenario } from './ScenarioHook';
-import { ScenarioDashboardCard, BackdropLoadingScenario } from './components';
+import { BackdropLoadingScenario, DeleteCurrentScenarioButton, ScenarioDashboardCard } from './components';
 
 const STORAGE_SCENARIO_PARAMETERS_ACCORDION_EXPANDED_KEY = 'scenarioParametersAccordionExpanded';
 
@@ -299,6 +299,7 @@ const Scenario = () => {
             >
               {currentScenarioData && scenarioValidationArea}
             </Grid>
+            <DeleteCurrentScenarioButton />
           </Grid>
           <Grid size={12}>
             <Card component={Paper}>
