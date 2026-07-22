@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { RolesEditionButton } from '@cosmotech/ui';
 import { useShareScenarioButton } from './ShareScenarioButtonHook';
 
-const ShareScenarioButton = ({ scenarioId }) => {
+const ShareScenarioButton = ({ scenarioId, RolesEditionButtonProps }) => {
   const {
     disabled,
     hasWriteSecurityPermission,
@@ -38,13 +38,15 @@ const ShareScenarioButton = ({ scenarioId }) => {
       preventNoneRoleForAgents
       allRoles={rolesLabels}
       allPermissions={permissionsLabels}
-      isIconButton
+      variant="icon"
+      {...RolesEditionButtonProps}
     />
   );
 };
 
 ShareScenarioButton.propTypes = {
   scenarioId: PropTypes.string,
+  RolesEditionButtonProps: PropTypes.object,
 };
 
 export default ShareScenarioButton;

@@ -29,7 +29,7 @@ const ShareDatasetButton = ({ dataset }) => {
   return (
     <RolesEditionButton
       disabled={isDisabled}
-      isIconButton
+      variant="icon"
       labels={labels}
       hasWriteSecurityPermission={hasWriteSecurityPermission}
       onConfirmChanges={(security) => updateDatasetSecurity(datasetId, security)}

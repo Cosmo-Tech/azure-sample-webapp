@@ -11,7 +11,7 @@ export { TechnicalInfoContent } from './TechnicalInfoContent';
 export { default as ShareScenarioButton } from './ShareScenarioButton';
 export { default as CurrentScenarioPowerBiReport } from './CurrentScenarioPowerBIReport';
 export { default as CurrentScenarioSupersetReport } from './CurrentScenarioSupersetReport';
-export { default as CreateScenarioButton } from './CreateScenarioButton';
+export { CreateScenarioButton, EditScenarioButton } from './CreateScenarioButton';
 export { default as CurrentScenarioSelector } from './CurrentScenarioSelector';
 export {
   GenericDateInput,

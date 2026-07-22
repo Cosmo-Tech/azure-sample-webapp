@@ -7,7 +7,7 @@ import { STATUSES } from '../../../services/config/StatusConstants';
 import { ApiUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
-import { updateSimulationRunner } from '../reducers';
+import { setListStatus, updateSimulationRunner } from '../reducers';
 
 export const asyncUpdateRunner = async (
   organizationId,
@@ -38,7 +38,9 @@ export const asyncUpdateRunner = async (
 export function* callUpdateRunner(action, throwOnError = false) {
   const { organizationId, workspaceId, runnerId, runTemplateId, runnerParameters, runnerDataPatch } = action;
   try {
+    yield put(setListStatus({ status: STATUSES.SAVING }));
     yield put(updateSimulationRunner({ runnerId, status: STATUSES.SAVING }));
+
     const updatedRunner = yield call(
       asyncUpdateRunner,
       organizationId,
@@ -48,8 +50,11 @@ export function* callUpdateRunner(action, throwOnError = false) {
       runnerParameters,
       runnerDataPatch
     );
+
+    yield put(setListStatus({ status: STATUSES.SUCCESS }));
     yield put(updateSimulationRunner({ status: STATUSES.SUCCESS, runnerId, runner: updatedRunner }));
   } catch (error) {
+    yield put(setListStatus({ status: STATUSES.IDLE })); // List can still be used, no need to set an ERROR status
     yield put(updateSimulationRunner({ runnerId, status: STATUSES.ERROR }));
 
     if (throwOnError) throw error;

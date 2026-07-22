@@ -4,7 +4,6 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import rfdc from 'rfdc';
-import CreateScenarioButton from '.';
 import { ROLES } from '../../../tests/constants';
 import { createMockStore } from '../../../tests/mocks';
 import {
@@ -18,6 +17,7 @@ import {
 import { applyWorkspaceRoleToState } from '../../../tests/utils/security';
 import { RUNNER_RUN_STATE } from '../../services/config/ApiConstants.js';
 import { dispatchCreateSimulationRunner } from '../../state/runner/dispatchers';
+import CreateScenarioButton from './CreateScenarioButton';
 
 const clone = rfdc();
 const SORTED_SCENARIOS_WITH_DEPTH = DEFAULT_SCENARIOS_LIST_DATA.map((scenario) => ({ ...scenario, depth: 0 })).sort(
