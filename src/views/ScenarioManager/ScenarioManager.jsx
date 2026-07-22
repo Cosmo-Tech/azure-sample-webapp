@@ -39,17 +39,21 @@ const ScenarioManager = () => {
 
   const getScenarioListAfterDelete = useCallback(
     (idOfScenarioToDelete) => {
-      return scenarios
-        .map((scenario) => {
-          const newScenario = { ...scenario };
-          if (newScenario.parentId === idOfScenarioToDelete) {
-            newScenario.parentId = currentScenarioData.parentId;
-          }
-          return newScenario;
-        })
-        .filter((scenario) => scenario.id !== idOfScenarioToDelete);
+      let scenarioToDelete;
+      const filteredScenarios = scenarios.filter((scenario) => {
+        if (scenario.id !== idOfScenarioToDelete) return true;
+        scenarioToDelete = scenario;
+        return false;
+      });
+      return filteredScenarios.map((scenario) => {
+        const newScenario = { ...scenario };
+        if (newScenario.parentId === idOfScenarioToDelete) {
+          newScenario.parentId = scenarioToDelete?.parentId;
+        }
+        return newScenario;
+      });
     },
-    [currentScenarioData?.parentId, scenarios]
+    [scenarios]
   );
 
   const onScenarioDelete = useCallback(
