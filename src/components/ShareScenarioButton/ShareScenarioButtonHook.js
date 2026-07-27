@@ -3,31 +3,41 @@
 import { useCallback, useMemo } from 'react';
 import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useUserPermissionsOnCurrentScenario } from '../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import {
   useApplicationPermissionsMapping,
   useApplicationRoles,
   useApplicationPermissions,
 } from '../../state/app/hooks';
-import { useApplyRunnerSharingSecurity, useCurrentSimulationRunnerData } from '../../state/runner/hooks';
+import { useDatasets } from '../../state/datasets/hooks';
+import { useApplyRunnerSharingSecurity, useGetRunnerById } from '../../state/runner/hooks';
 import { useWorkspaceData } from '../../state/workspaces/hooks';
 import { SecurityUtils } from '../../utils';
-import { useScenario } from '../../views/Scenario/ScenarioHook';
 import { getShareScenarioDialogLabels } from './labels';
 
-export const useShareCurrentScenarioButton = () => {
+export const useShareScenarioButton = (scenarioId) => {
   const { t } = useTranslation();
   const { isDirty } = useFormState();
 
-  const currentScenarioData = useCurrentSimulationRunnerData();
+  const getRunnerById = useGetRunnerById();
+  const currentScenarioData = useMemo(() => getRunnerById(scenarioId), [getRunnerById, scenarioId]);
   const workspaceData = useWorkspaceData();
   const roles = useApplicationRoles();
   const permissions = useApplicationPermissions();
-  const userPermissionsOnCurrentScenario = useUserPermissionsOnCurrentScenario();
+  const userPermissionsOnCurrentScenario = useMemo(
+    () => currentScenarioData?.security?.currentUserPermissions ?? [],
+    [currentScenarioData]
+  );
   const permissionsMapping = useApplicationPermissionsMapping();
   const applyScenarioSharingSecurity = useApplyRunnerSharingSecurity();
-  const { missingDatasetIds, baseDatasets } = useScenario();
+  const datasets = useDatasets();
+
+  const { baseDatasets, missingDatasetIds } = useMemo(() => {
+    const baseDatasetIds = currentScenarioData?.datasets?.bases;
+    const baseDatasets = datasets?.filter((dataset) => baseDatasetIds?.includes(dataset.id)) ?? [];
+    const missingDatasetIds = baseDatasetIds?.filter((id) => !baseDatasets.some((d) => d.id === id)) ?? [];
+    return { baseDatasets, missingDatasetIds };
+  }, [currentScenarioData, datasets]);
 
   const rolesLabels = useMemo(() => {
     const rolesNames = Object.values(roles.runner);

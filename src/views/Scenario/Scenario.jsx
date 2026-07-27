@@ -9,7 +9,7 @@ import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
   ScenarioParameters,
-  ShareCurrentScenarioButton,
+  ShareScenarioButton,
   CreateScenarioButton,
   CurrentScenarioSelector,
 } from '../../components';
@@ -285,7 +285,7 @@ const Scenario = () => {
           <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
             <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} isIconButton />
-              <ShareCurrentScenarioButton />
+              <ShareScenarioButton scenarioId={currentScenarioData?.id} />
             </Grid>
             {validationAreaDivider}
             <Grid

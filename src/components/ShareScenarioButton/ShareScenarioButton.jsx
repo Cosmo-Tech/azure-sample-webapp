@@ -1,10 +1,11 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import React from 'react';
+import PropTypes from 'prop-types';
 import { RolesEditionButton } from '@cosmotech/ui';
-import { useShareCurrentScenarioButton } from './ShareCurrentScenarioButtonHook';
+import { useShareScenarioButton } from './ShareScenarioButtonHook';
 
-const ShareCurrentScenarioButton = () => {
+const ShareScenarioButton = ({ scenarioId }) => {
   const {
     disabled,
     hasWriteSecurityPermission,
@@ -18,7 +19,7 @@ const ShareCurrentScenarioButton = () => {
     shareScenarioDialogLabels,
     workspaceUsers,
     canBeSharedWithAgent,
-  } = useShareCurrentScenarioButton();
+  } = useShareScenarioButton(scenarioId);
 
   return (
     <RolesEditionButton
@@ -42,4 +43,8 @@ const ShareCurrentScenarioButton = () => {
   );
 };
 
-export default ShareCurrentScenarioButton;
+ShareScenarioButton.propTypes = {
+  scenarioId: PropTypes.string,
+};
+
+export default ShareScenarioButton;
