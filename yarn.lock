@@ -1476,9 +1476,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^12.0.0":
-  version: 12.0.0
-  resolution: "@cosmotech/ui@npm:12.0.0"
+"@cosmotech/ui@npm:^12.1.0":
+  version: 12.1.0
+  resolution: "@cosmotech/ui@npm:12.1.0"
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
@@ -1505,7 +1505,7 @@ __metadata:
     react: ^19.1.1
     react-dom: ^19.1.1
     react-i18next: ^15.7.3
-  checksum: 10c0/7c5db48ce29aa7aa64b9f15554b922052a5c01854970cdea5fe84e4f5597c5a87a0c4bc23aea74015307ce26ff7f733eb1113166bd64fc8676c4b5fb6eb2302c
+  checksum: 10c0/9b029ef601dae56c84074e1dfac004ffaac7162fe075a6c479e71ea07e3478ac7328d7af76cbb44ffd4a317109a8db4d710f7e574d094615dd6418829937cb9a
   languageName: node
   linkType: hard
 
@@ -4150,7 +4150,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:5.1.0-rc2"
     "@cosmotech/azure": "npm:^5.0.0"
     "@cosmotech/core": "npm:^4.0.0"
-    "@cosmotech/ui": "npm:^12.0.0"
+    "@cosmotech/ui": "npm:^12.1.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/compat": "npm:^2.1.0"
