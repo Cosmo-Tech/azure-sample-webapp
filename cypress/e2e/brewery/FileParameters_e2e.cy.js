@@ -28,16 +28,16 @@ describe('File parameters (end-to-end test)', { keystrokeDelay: 1 }, () => {
     Login.login();
   });
 
-  const scenarioNamesToDelete = [];
+  const scenarioIdsToDelete = [];
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    ScenarioManager.deleteScenarioList(scenarioIdsToDelete);
   });
 
   it('can upload multiple files at once, even in different parameter tabs', () => {
     // Create scenario & wait for scenario creation
     Scenarios.createScenario(SCENARIO_NAME_S1, true, SCENARIO_DATASET, BASIC_TYPES_RUN_TEMPLATE).then((value) => {
       idOfScenarioS1 = value.scenarioCreatedId;
-      scenarioNamesToDelete.push(SCENARIO_NAME_S1);
+      scenarioIdsToDelete.push(idOfScenarioS1);
       ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO_NAME_S1);
 
       // Upload files & save
@@ -62,7 +62,7 @@ describe('File parameters (end-to-end test)', { keystrokeDelay: 1 }, () => {
   it('can inherit a file in a child scenario, and delete this file without impacting the parent scenario', () => {
     // Create scenario & wait for scenario creation
     Scenarios.createScenario(SCENARIO_NAME_S2, false, SCENARIO_NAME_S1, BASIC_TYPES_RUN_TEMPLATE).then((value) => {
-      scenarioNamesToDelete.push(SCENARIO_NAME_S2);
+      scenarioIdsToDelete.push(value.scenarioCreatedId);
       ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO_NAME_S2);
 
       // Check that files have been inhertied from the parent scenrtio
@@ -91,7 +91,7 @@ describe('File parameters (end-to-end test)', { keystrokeDelay: 1 }, () => {
   it('does not inherit from a file that has been deleted in the parent scenario', () => {
     // Create scenario & wait for scenario creation
     Scenarios.createScenario(SCENARIO_NAME_S3, false, SCENARIO_NAME_S2, BASIC_TYPES_RUN_TEMPLATE).then((value) => {
-      scenarioNamesToDelete.push(SCENARIO_NAME_S3);
+      scenarioIdsToDelete.push(value.scenarioCreatedId);
       ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO_NAME_S3);
 
       // Check that deleted file has not been inherited

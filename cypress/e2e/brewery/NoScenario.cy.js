@@ -27,7 +27,7 @@ describe('If there are no scenarios created yet', () => {
     ScenarioSelector.getScenarioSelectorInput().should('be.disabled');
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordions().should('have.length', 0);
+    ScenarioManager.getScenarioRows().should('have.length', 0);
 
     Scenarios.switchToScenarioView();
     const scenarioName = 'Test Cypress no scenario  - ' + utils.randomStr(7);
@@ -36,18 +36,18 @@ describe('If there are no scenarios created yet', () => {
       (value) => {
         const scenarioId = value.scenarioCreatedId;
         ScenarioManager.switchToScenarioManager();
-        ScenarioManager.getScenarioAccordion(scenarioId).click();
+        ScenarioManager.getScenarioRows().should('have.length', 1);
+
+        ScenarioManager.deleteScenario(scenarioId);
+        ScenarioManager.getScenarioRows().should('have.length', 0);
+
+        Scenarios.switchToScenarioView();
+        ScenarioSelector.getScenarioSelectorInput().should('be.disabled');
+        Scenarios.getDashboardPlaceholder().should(
+          'have.text',
+          'You can create a scenario by clicking on the "CREATE" button'
+        );
       }
-    );
-
-    ScenarioManager.deleteScenario(scenarioName);
-    ScenarioManager.getScenarioAccordions().should('have.length', 0);
-
-    Scenarios.switchToScenarioView();
-    ScenarioSelector.getScenarioSelectorInput().should('be.disabled');
-    Scenarios.getDashboardPlaceholder().should(
-      'have.text',
-      'You can create a scenario by clicking on the "CREATE" button'
     );
   });
 });

@@ -130,12 +130,12 @@ describe('Back and forward navigation between tabs, scenarios and workspaces', (
     ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
 
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.openScenarioFromScenarioManager(SCENARIO4.id);
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    Scenarios.switchToScenarioView();
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
     route.goBack();
     ScenarioManager.getScenarioManagerView().should('be.visible');
-    route.goForward({ expectedURL: `scenario/${SCENARIO4.id}` });
-    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO4.name);
+    route.goForward({ expectedURL: `scenario/${SCENARIO3.id}` });
+    ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIO3.name);
   });
 
   it('can browse back and forward to the dataset manager', () => {

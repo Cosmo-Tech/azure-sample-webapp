@@ -16,19 +16,19 @@ function forgeScenarioName() {
 
 const scenarioName = forgeScenarioName();
 let scenarioId;
-const scenarioNamesToDelete = [];
-scenarioNamesToDelete.push(scenarioName);
+const scenarioIdsToDelete = [];
 
 describe('Table edit delete row button behavior', () => {
   before(() => {
     Login.login();
     Scenarios.createScenario(scenarioName, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
       scenarioId = data.scenarioCreatedId;
+      scenarioIdsToDelete.push(scenarioId);
     });
   });
 
   after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    ScenarioManager.deleteScenarioList(scenarioIdsToDelete);
   });
 
   it('Can edit/load/discard/save table parameter and check that delete row button has correct behavior', () => {
