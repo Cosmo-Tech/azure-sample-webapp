@@ -469,8 +469,8 @@
             "datasetNoAdmin": "Le dataset doit avoir au moins un admin"
           },
           "add": {
-            "deniedPermissions": "Permissions accordées",
-            "grantedPermissions": "Permissions non accordées",
+            "deniedPermissions": "Permissions non accordées",
+            "grantedPermissions": "Permissions accordées",
             "rolesTitle": "Rôles",
             "rolesHelperText": "Sélectionnez un rôle"
           }
