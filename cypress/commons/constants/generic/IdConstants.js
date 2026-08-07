@@ -254,6 +254,7 @@ export const GENERIC_SELECTORS = {
         runnerRunLogsDownloadButton: '[data-cy=runner-run-logs-download-button]',
       },
       indicators: {
+        cards: '[data-cy^=indicator-card-]',
         cardByKpiId: '[data-cy=indicator-card-$KPI_ID]',
         kpiLoading: '[data-cy=kpi-loading]',
         kpiValue: '[data-cy=kpi-value]',
