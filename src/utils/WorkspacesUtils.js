@@ -47,7 +47,7 @@ const forgeDatasetManagerConfiguration = (config) => {
 const patchWorkspaceWithDatasetManagerConfiguration = (workspace) => {
   try {
     const config = forgeDatasetManagerConfiguration(workspace?.additionalData?.webapp?.datasetManager);
-    workspace.kpiIdsByQueryId = config?.kpiIdsByQueryId;
+    workspace.kpiIdsByQueryId = config?.kpiIdsByQueryId ?? {};
   } catch (error) {
     console.warn('An error occurred while parsing the dataset manager queries. Data may be missing.');
     console.error(error);
