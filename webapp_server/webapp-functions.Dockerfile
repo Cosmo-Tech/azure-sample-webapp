@@ -1,9 +1,6 @@
 # To enable ssh & remote debugging on app service change the base image to the one below
 FROM mcr.microsoft.com/azure-functions/node:4-node24
 
-# Manually remove dotnet because we don't use dotnet runtime in our Functions
-RUN rm -rf /usr/share/dotnet/
-
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot
 ENV AzureFunctionsJobHost__Logging__Console__IsEnabled=true
 ENV FUNCTIONS_WORKER_RUNTIME="node"
