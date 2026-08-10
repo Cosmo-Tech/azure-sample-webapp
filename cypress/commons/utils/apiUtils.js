@@ -331,9 +331,14 @@ const interceptStartRunner = (stubbingOptions) => {
   return alias;
 };
 
-const interceptStopRunner = () => {
+// Parameters:
+// - options (optional): object that can contain the fields below:
+//   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
+//     cypress checks on the content of the intercepted query
+const interceptStopRunner = (options = {}) => {
   const alias = forgeAlias('reqStopRunnerRun');
   cy.intercept({ method: 'POST', url: API_REGEX.STOP_RUNNER, times: 1 }, (req) => {
+    if (options.validateRequest) options.validateRequest(req);
     if (stub.isEnabledFor('LAUNCH_SCENARIO')) req.reply({});
   }).as(alias);
   return alias;

@@ -233,15 +233,16 @@ function resetScenarioValidationStatus(scenarioId) {
 //  - runner (object): object representing the runner to delete, defining its "id" and "name" fields
 //  - options (object) is an optional parameter. If provided, it can have the following properties:
 //    - validateRequest (optional): validation function to run on the runner deletion request
+//    - validateStopRequest (optional): validation function to run on the runner stop request
 //    - waitSpinner (optional, true by default): if true, then the function will wait for the loading spinner to
 //      disappear
 //    - isRunning (optional, false by default): if true, then the function will add an interception for the "stop
 //      runner" query
 function deleteCurrentScenario(runner, options) {
-  const getRunnerAlias = api.interceptGetRunner(runner.id);
-  const deleteAlias = api.interceptDeleteRunner(runner, { validateRequest: options?.validateRequest });
-
-  // TODO handle isRunning & intercept
+  const aliases = [];
+  aliases.push(api.interceptGetRunner(runner.id));
+  aliases.push(api.interceptDeleteRunner(runner, { validateRequest: options?.validateRequest }));
+  if (options?.isRunning) aliases.push(api.interceptStopRunner({ validateRequest: options?.validateStopRequest }));
 
   Scenarios.getDeleteCurrentScenarioButton().should('be.visible').click();
   Scenarios.getDeleteCurrentScenarioDialogConfirmButton().click();
@@ -251,7 +252,7 @@ function deleteCurrentScenario(runner, options) {
     getScenarioLoadingSpinner().should('be.visible');
     getScenarioLoadingSpinner().should('not.be.visible');
   }
-  api.waitAliases([getRunnerAlias, deleteAlias]);
+  api.waitAliases(aliases);
 }
 
 export const Scenarios = {
