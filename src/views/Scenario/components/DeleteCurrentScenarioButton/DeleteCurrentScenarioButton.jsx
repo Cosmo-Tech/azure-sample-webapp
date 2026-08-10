@@ -64,7 +64,7 @@ const DeleteCurrentScenarioButton = () => {
           data-cy="scenario-delete-button"
           disabled={isDisabled}
         >
-          <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />
+          <DeleteForeverIcon color={isDisabled ? 'disabled' : 'error'} />
         </IconButton>
       </FadingTooltip>
     </PermissionsGate>

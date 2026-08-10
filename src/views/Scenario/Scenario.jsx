@@ -286,6 +286,7 @@ const Scenario = () => {
             <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
               <ShareScenarioButton scenarioId={currentScenarioData?.id} />
+              <DeleteCurrentScenarioButton />
             </Grid>
             {validationAreaDivider}
             <Grid
@@ -299,7 +300,6 @@ const Scenario = () => {
             >
               {currentScenarioData && scenarioValidationArea}
             </Grid>
-            <DeleteCurrentScenarioButton />
           </Grid>
           <Grid size={12}>
             <Card component={Paper}>
