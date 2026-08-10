@@ -125,6 +125,7 @@
     "nth-check": "^2.1.1",
     "postcss": "^8.5.10",
     "serialize-javascript": "^7.0.3",
+    "svgo": "^2.8.3",
     "underscore": "^1.13.8",
     "uuid": "^14.0.0"
   },
