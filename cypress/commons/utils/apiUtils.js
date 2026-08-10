@@ -165,9 +165,11 @@ const interceptGetETLRunLogs = ({ runnerId, runId, stubbedLogs = '' } = {}) => {
   return alias;
 };
 
-const interceptGetRunnerRunState = (expectedPollsCount) => {
+const interceptGetRunnerRunState = (expectedPollsCount = 1) => {
   const alias = forgeAlias('reqGetRunnerRunState');
-  cy.intercept({ method: 'GET', url: API_REGEX.RUNNER_STATE, times: expectedPollsCount }, (req) => {
+  const options = { method: 'GET', url: API_REGEX.RUNNER_STATE };
+  if (expectedPollsCount > 0) options.times = expectedPollsCount;
+  cy.intercept(options, (req) => {
     if (!stub.isEnabledFor('LAUNCH_SCENARIO')) return;
     const scenarioRunId = req.url.match(API_REGEX.RUNNER_STATE)[1];
     const lastRun = stub.getRunnerRunById(scenarioRunId);

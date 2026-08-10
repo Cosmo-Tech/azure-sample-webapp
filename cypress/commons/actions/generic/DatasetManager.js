@@ -121,8 +121,10 @@ export const getCategoryAccordionSummary = (categoryId) =>
   cy.get(SELECTORS.overview.categories.accordionSummary.replace('$CATEGORY_ID', categoryId));
 export const getCategoryAccordionDetails = (categoryId) =>
   cy.get(SELECTORS.overview.categories.accordionDetails.replace('$CATEGORY_ID', categoryId));
+export const getIndicatorCards = () => cy.get(SELECTORS.overview.indicators.cards);
 export const getIndicatorCard = (kpiId) => cy.get(SELECTORS.overview.indicators.cardByKpiId.replace('$KPI_ID', kpiId));
 export const getKpiLoading = (parent) => parent.find(SELECTORS.overview.indicators.kpiLoading);
+export const getCategoryNames = () => cy.get(SELECTORS.overview.categories.name);
 export const getCategoryName = (parent) => parent.find(SELECTORS.overview.categories.name);
 export const getCategoryType = (parent) => parent.find(SELECTORS.overview.categories.type);
 export const getCategoryDescription = (parent) => parent.find(SELECTORS.overview.categories.description);
