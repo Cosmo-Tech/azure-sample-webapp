@@ -10,8 +10,8 @@
   "dependencies": {
     "@azure/msal-node": "^3.8.10",
     "jsonwebtoken": "^9.0.3",
-    "jwks-rsa": "^4.0.1",
-    "uuid": "^13.0.0"
+    "jwks-rsa": "^4.1.0",
+    "uuid": "^13.0.2"
   },
   "engines": {
     "node": "^24"
