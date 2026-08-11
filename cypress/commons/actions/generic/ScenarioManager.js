@@ -3,195 +3,269 @@
 import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
 
-function getScenarioManagerView() {
+const getScenarioManagerView = () => {
   return cy.get(GENERIC_SELECTORS.scenario.manager.view);
-}
-function switchToScenarioManager(options) {
+};
+
+const switchToScenarioManager = (options) => {
   // eslint-disable-next-line cypress/no-force -- Workaround for MUI hidden elements not correctly ignored by cypress
   cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click({ force: true, ...options });
-}
-function getDeleteScenarioButton() {
-  return cy.get(GENERIC_SELECTORS.scenario.manager.button.delete);
-}
-function deleteScenario(scenarioName, isRunning = false) {
-  const getScenarioToDeleteAlias = api.interceptGetRunner();
-  const deleteScenarioAlias = api.interceptDeleteRunner({ name: scenarioName });
-  const reqStopScenarioRunAlias = isRunning && api.interceptStopRunner();
+};
 
-  writeInFilter(scenarioName);
-  getDeleteScenarioButton().should('have.length', 1);
+const interceptScenarioDeletions = (scenarioIds, runningIds = []) => {
+  const getAliases = scenarioIds.map((id) => api.interceptGetRunner(id));
+  const deleteAliases = scenarioIds.map((id) => api.interceptDeleteRunner({ id }));
+  const stopAliases = runningIds.map(() => api.interceptStopRunner());
+  return { getAliases, deleteAliases, stopAliases };
+};
+
+const waitForScenarioDeletions = ({ getAliases, deleteAliases, stopAliases }) => {
+  getAliases.forEach((alias) => api.waitAlias(alias));
+  deleteAliases.forEach((alias) => api.waitAlias(alias));
+  stopAliases.forEach((alias) => api.waitAlias(alias));
+};
+
+const openScenarioEditDialog = (scenarioId) => {
+  openScenarioActionMenu(scenarioId);
+  getEditScenarioButton().click();
+};
+
+const getScenarioDeleteDialogBody = () => cy.get(GENERIC_SELECTORS.scenario.manager.scenarioDeleteDialog.body);
+const getScenarioDeleteDialogItems = () => cy.get(GENERIC_SELECTORS.scenario.manager.scenarioDeleteDialog.items);
+const getDeleteCancelButton = () => cy.get(GENERIC_SELECTORS.scenario.manager.rowActionMenu.deleteCancelButton);
+const clickDeleteCancelButton = () => getDeleteCancelButton().click();
+const getDeleteConfirmButton = () => cy.get(GENERIC_SELECTORS.scenario.manager.rowActionMenu.deleteConfirmButton);
+const clickDeleteConfirmButton = () => getDeleteConfirmButton().click();
+
+const deleteScenario = (scenarioId, isRunning = false) => {
+  const aliases = interceptScenarioDeletions([scenarioId], isRunning ? [scenarioId] : []);
+
+  writeInFilter(scenarioId);
+  openScenarioActionMenu(scenarioId);
   getDeleteScenarioButton().click();
-  cy.get(GENERIC_SELECTORS.scenario.manager.confirmDeleteDialog).contains('button', 'Confirm').click();
+  clickDeleteConfirmButton();
+  writeInFilter('');
 
-  api.waitAlias(getScenarioToDeleteAlias);
-  api.waitAlias(deleteScenarioAlias);
-  if (isRunning) {
-    api.waitAlias(reqStopScenarioRunAlias);
-  }
-}
+  waitForScenarioDeletions(aliases);
+};
 
-function deleteScenarioList(scenarioNamesToDelete) {
+const deleteScenarioList = (scenarioIds, runningIds = []) => {
   switchToScenarioManager();
-  scenarioNamesToDelete.forEach((scenarioName) => {
-    deleteScenario(scenarioName);
-  });
-}
+  const aliases = interceptScenarioDeletions(scenarioIds, runningIds);
 
-function writeInFilter(searchStr) {
+  scenarioIds.forEach((scenarioId) => {
+    writeInFilter(scenarioId);
+    toggleScenarioCheckbox(scenarioId);
+  });
+  writeInFilter('');
+
+  clickBatchDeleteButton();
+  clickDeleteConfirmButton();
+  waitForScenarioDeletions(aliases);
+};
+
+const writeInFilter = (searchStr) => {
   cy.get(GENERIC_SELECTORS.scenario.manager.search)
     .find('input')
     .type('{selectAll}{backspace}' + searchStr + '{enter}');
-}
+};
 
-function getScenarioAccordions() {
-  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordions, { timeout: 10000 });
-}
+const getScenarioRow = (scenarioId) => {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioRow.replace('$SCENARIOID', scenarioId));
+};
 
-function getScenarioAccordion(scenarioId) {
-  return cy.get(GENERIC_SELECTORS.scenario.manager.scenarioAccordion.replace('$SCENARIOID', scenarioId));
-}
+const getScenarioRows = () => {
+  return getScenarioManagerView().find(GENERIC_SELECTORS.scenario.manager.scenarioRows, { timeout: 10000 });
+};
 
-function getScenarioOwnerName(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.ownerName);
-}
+const getScenarioName = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.name);
+};
 
-function getScenarioCreationDate(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.creationDate);
-}
+const getScenarioOwnerName = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.owner);
+};
 
-function getRenameScenarioButton(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.button.renameScenario);
-}
-function getScenarioEditableLink(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLink, {
-    timeout: timeout * 1000,
-  });
-}
-function getScenarioEditableLinkInEditMode(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.editableLinkInEditMode, {
-    timeout: timeout * 1000,
-  });
-}
-function renameScenario(scenarioId, newScenarioName) {
-  const renameScenarioAlias = api.interceptUpdateRunner(scenarioId);
+const getScenarioCreationDate = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.created);
+};
 
-  getRenameScenarioButton(scenarioId).click();
-  getScenarioEditableLinkInEditMode(scenarioId).type('{selectAll}{backspace}' + newScenarioName + '{enter}');
+// Actions for scenario edition dialog
+const getScenarioEditionDialog = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.dialog);
+const getScenarioEditionDialogNameField = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.nameTextField);
+const setEditedScenarioName = (newScenarioName) =>
+  getScenarioEditionDialogNameField().type('{selectAll}{backspace}' + newScenarioName);
+const getScenarioEditionDialogNameInputErrorLabel = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.errorLabel);
+const getScenarioEditionDialogSubmitButton = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.submitButton);
+const getScenarioEditionDialogCancelButton = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.cancelButton);
+const getEditedScenarioDescription = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.description);
+const setEditedScenarioDescription = (description) =>
+  getEditedScenarioDescription().type('{selectAll}{backspace}' + description);
+const getEditedScenarioNewTagTextField = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.newTagTextField);
+const getEditedScenarioTagChips = () => cy.get(GENERIC_SELECTORS.scenario.editDialog.tags);
+const addEditedScenarioTag = (newTag) => getEditedScenarioNewTagTextField().type(newTag + '{enter}');
+const deleteEditedScenarioTag = (index) =>
+  getEditedScenarioTagChips().find(GENERIC_SELECTORS.scenario.tags.cancelIcon).eq(index).click();
 
-  api.waitAlias(renameScenarioAlias);
-}
+const cancelScenarioEdition = () => getScenarioEditionDialogCancelButton().click();
 
-function getScenarioValidationStatusChip(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
-}
+const confirmScenarioEdition = ({ validateRequest }) => {
+  const alias = api.interceptUpdateRunner({ validateRequest });
+  getScenarioEditionDialogSubmitButton().click();
+  api.waitAlias(alias);
+};
 
-function getScenarioValidationStatusLoadingSpinner(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
-}
+const getScenarioValidationStatusChip = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusChip);
+};
 
-function getScenarioRunStatus(scenarioId, scenarioStatus, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.scenarioStatus[scenarioStatus], {
-    timeout: timeout * 1000,
-  });
-}
+const getScenarioValidationStatusLoadingSpinner = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner);
+};
 
-function getScenarioDescriptionInput(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.description.input);
-}
-
-function getScenarioDisabledDescription(scenarioId, timeout = 5) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.description.disabled, {
-    timeout: timeout * 1000,
-  });
-}
-
-function editScenarioDescription(scenarioId, newDescription) {
-  getScenarioDisabledDescription(scenarioId).click();
-  getScenarioDescriptionInput(scenarioId).type('{selectAll}{backspace}' + newDescription);
-}
-
-function cancelMetadataEdition() {
+const cancelMetadataEdition = () => {
   cy.get('body').type('{esc}');
-}
+};
 
-function saveScenarioDescription(scenarioId, newDescription, validateRequest) {
-  const options = { validateRequest };
-  const alias = api.interceptUpdateRunner(options);
-  editScenarioDescription(scenarioId, newDescription);
-  getScenarioManagerView().click();
-  getScenarioDisabledDescription(scenarioId).should('have.text', newDescription);
-  api.waitAlias(alias);
-}
+const getScenarioTags = () => {
+  return getScenarioInfoTooltip().find(GENERIC_SELECTORS.scenario.manager.infoTags);
+};
 
-function getScenarioTags(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.container);
-}
+const getScenarioTag = (index) => {
+  return getScenarioInfoTooltip().find(GENERIC_SELECTORS.scenario.manager.infoTagByIndex.replace('$TAGINDEX', index));
+};
 
-function getScenarioTag(scenarioId, index) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.tag.replace('$TAGINDEX', index));
-}
+const checkScenarioTagsChips = (scenarioId, scenarioTags) => {
+  hoverScenarioInfoIcon(scenarioId);
+  scenarioTags.forEach((tag, index) => getScenarioTag(index).should('have.text', tag));
+  closeScenarioInfoTooltip(scenarioId);
+};
 
-function checkScenarioTagsChips(scenarioTags, scenarioId) {
-  scenarioTags.forEach((tag, index) => {
-    getScenarioTag(scenarioId, index).should('have.text', tag);
+const checkScenarioDescription = (scenarioId, description) => {
+  hoverScenarioInfoIcon(scenarioId);
+  getScenarioDescription().should('have.text', description);
+  closeScenarioInfoTooltip(scenarioId);
+};
+
+const renameScenario = (scenarioId, newScenarioName, validateRequest) => {
+  openScenarioEditDialog(scenarioId);
+  setEditedScenarioName(newScenarioName);
+  confirmScenarioEdition({ validateRequest });
+};
+
+const editScenarioDescription = (scenarioId, newDescription, validateRequest) => {
+  openScenarioEditDialog(scenarioId);
+  setEditedScenarioDescription(newDescription);
+  confirmScenarioEdition({ validateRequest });
+};
+
+const addScenarioTag = (scenarioId, newTag, validateRequest) => {
+  openScenarioEditDialog(scenarioId);
+  addEditedScenarioTag(newTag);
+  confirmScenarioEdition({ validateRequest });
+};
+
+const deleteScenarioTag = (scenarioId, index, validateRequest) => {
+  openScenarioEditDialog(scenarioId);
+  deleteEditedScenarioTag(index);
+  confirmScenarioEdition({ validateRequest });
+};
+
+const getScenarioRunTemplate = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.runType);
+};
+const getScenarioRunStatus = (scenarioId, timeout = 5) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.runStatus, {
+    timeout: timeout * 1000,
   });
-}
+};
 
-function getAddScenarioTagButton(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.add);
-}
+const getScenarioDataset = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.dataset);
+};
 
-function getAddScenarioTagTextfield(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.tags.textfield);
-}
+const getScenarioActionMenuButton = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.columns.actionMenu).find('button');
+};
 
-function addScenarioTag(scenarioId, tag) {
-  getScenarioTags(scenarioId).trigger('mouseover');
-  getAddScenarioTagButton(scenarioId).should('exist').click();
-  getAddScenarioTagTextfield(scenarioId).should('exist').type(tag);
-}
+const getScenarioCheckbox = (scenarioId) => {
+  return getScenarioRow(scenarioId).find(GENERIC_SELECTORS.scenario.manager.rowActionMenu.checkboxCell).find('input');
+};
 
-function saveScenarioTag(scenarioId, newTag, validateRequest) {
-  const options = { validateRequest };
-  const alias = api.interceptUpdateRunner(options);
-  addScenarioTag(scenarioId, newTag);
-  getScenarioManagerView().click();
-  api.waitAlias(alias);
-}
+const toggleScenarioCheckbox = (scenarioId) => {
+  getScenarioCheckbox(scenarioId).click();
+};
 
-function deleteScenarioTag(scenarioId, index, validateRequest) {
-  const options = { validateRequest };
-  const alias = api.interceptUpdateRunner(options);
-  getScenarioTag(scenarioId, index).find(GENERIC_SELECTORS.scenario.tags.cancelIcon).should('exist').click();
-  api.waitAlias(alias);
-}
+const toggleScenarioCheckboxes = (scenarioIds) => {
+  scenarioIds.forEach((id) => toggleScenarioCheckbox(id));
+};
 
-function getScenarioRunTemplate(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioRunTemplate);
-}
+const getBatchDeleteButton = () => {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.batchDeleteButton);
+};
 
-function getScenarioDataset(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioDataset);
-}
+const clickBatchDeleteButton = () => {
+  getBatchDeleteButton().click();
+};
 
-function getScenarioViewRedirect(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.scenarioViewRedirect);
-}
+const openScenarioActionMenu = (scenarioId) => {
+  getScenarioActionMenuButton(scenarioId).click();
+};
 
-function openScenarioFromScenarioManager(scenarioId) {
-  getScenarioViewRedirect(scenarioId).should('exist');
-  api.interceptGetRunner(scenarioId);
-  getScenarioViewRedirect(scenarioId).click();
+const closeScenarioInfoTooltip = (scenarioId) => {
+  cy.get(GENERIC_SELECTORS.scenario.manager.scenarioInfoIcon.replace('$SCENARIOID', scenarioId)).trigger('mouseout');
+};
+
+const hoverScenarioInfoIcon = (scenarioId) => {
+  cy.get(GENERIC_SELECTORS.scenario.manager.scenarioInfoIcon.replace('$SCENARIOID', scenarioId)).trigger('mouseover');
+};
+
+const getScenarioInfoTooltip = () => {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.infoTooltip);
+};
+
+const getScenarioDescription = () => {
+  return getScenarioInfoTooltip().find(GENERIC_SELECTORS.scenario.manager.infoDescription);
+};
+
+const getRowActionMenu = () => {
+  return cy.get(GENERIC_SELECTORS.scenario.manager.rowActionMenu.menu);
+};
+
+const getEditScenarioButton = () => {
+  return getRowActionMenu().find(GENERIC_SELECTORS.scenario.manager.rowActionMenu.editButton);
+};
+
+const getScenarioViewRedirect = () => {
+  return getRowActionMenu().find(GENERIC_SELECTORS.scenario.manager.rowActionMenu.openButton);
+};
+const openScenarioFromScenarioManager = (scenarioId) => {
+  openScenarioActionMenu(scenarioId);
+  getScenarioViewRedirect().click();
   cy.url({ timeout: 5000 }).should('include', `/scenario/${scenarioId}`);
-}
+};
 
-// This function expects the scenario card to be visible, and does not trigger the expanded / collapsed state of the
-// scenario card. To check both validation status in a single function call, use checkValidationStatus
-function _checkValidationStatusOnceUnsafe(scenarioId, expectedStatus) {
+const getShareScenarioButton = () => {
+  return getRowActionMenu().find(GENERIC_SELECTORS.scenario.manager.rowActionMenu.shareButton);
+};
+const openScenarioSharingDialog = (scenarioId) => {
+  openScenarioActionMenu(scenarioId);
+  return getShareScenarioButton().click();
+};
+
+const getDeleteScenarioButton = () => {
+  return getRowActionMenu().find(GENERIC_SELECTORS.scenario.manager.rowActionMenu.deleteButton);
+};
+
+const checkScenarioValidationStatus = (scenarioId, expectedStatus) => {
   switch (expectedStatus) {
-    case 'Draft':
     case 'Unknown':
       getScenarioValidationStatusChip(scenarioId).should('not.exist');
+      getScenarioValidationStatusLoadingSpinner(scenarioId).should('not.exist');
+      break;
+    case 'Draft':
+      getScenarioValidationStatusChip(scenarioId).should('be.visible');
+      getScenarioValidationStatusChip(scenarioId).should('have.text', 'Draft');
       getScenarioValidationStatusLoadingSpinner(scenarioId).should('not.exist');
       break;
     case 'Validated':
@@ -214,55 +288,69 @@ function _checkValidationStatusOnceUnsafe(scenarioId, expectedStatus) {
           'Draft, Unknown, Loading, Validated, Rejected.'
       );
   }
-}
-
-function checkValidationStatus(searchStr, scenarioId, expectedStatus) {
-  writeInFilter(searchStr);
-  _checkValidationStatusOnceUnsafe(scenarioId, expectedStatus);
-  triggerScenarioAccordionExpandOrCollapse(scenarioId);
-  _checkValidationStatusOnceUnsafe(scenarioId, expectedStatus);
-  writeInFilter('{esc}');
-}
-
-function getScenarioAccordionExpandButton(scenarioId) {
-  return getScenarioAccordion(scenarioId).find(GENERIC_SELECTORS.scenario.manager.scenarioAccordionExpandButton);
-}
-
-function triggerScenarioAccordionExpandOrCollapse(scenarioId) {
-  return getScenarioAccordionExpandButton(scenarioId).click();
-}
+};
 
 export const ScenarioManager = {
   getScenarioManagerView,
   switchToScenarioManager,
   getDeleteScenarioButton,
+  openScenarioEditDialog,
+  getScenarioDeleteDialogBody,
+  getScenarioDeleteDialogItems,
+  getDeleteCancelButton,
+  clickDeleteCancelButton,
+  getDeleteConfirmButton,
+  clickDeleteConfirmButton,
   deleteScenario,
   deleteScenarioList,
   writeInFilter,
-  getScenarioAccordions,
-  getScenarioAccordion,
+  getScenarioRow,
+  getScenarioRows,
+  getScenarioName,
   getScenarioOwnerName,
   getScenarioCreationDate,
-  getRenameScenarioButton,
-  getScenarioEditableLink,
-  getScenarioEditableLinkInEditMode,
+  getScenarioEditionDialog,
+  getScenarioEditionDialogNameField,
+  setEditedScenarioName,
+  getScenarioEditionDialogNameInputErrorLabel,
+  getScenarioEditionDialogSubmitButton,
+  confirmScenarioEdition,
+  getScenarioEditionDialogCancelButton,
+  cancelScenarioEdition,
+  getEditedScenarioDescription,
+  setEditedScenarioDescription,
+  getEditedScenarioNewTagTextField,
+  addEditedScenarioTag,
+  deleteEditedScenarioTag,
   renameScenario,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusLoadingSpinner,
-  getScenarioRunStatus,
+  checkScenarioValidationStatus,
   getScenarioRunTemplate,
+  getScenarioRunStatus,
   getScenarioDataset,
+  getScenarioCheckbox,
+  toggleScenarioCheckbox,
+  toggleScenarioCheckboxes,
+  getBatchDeleteButton,
+  clickBatchDeleteButton,
+  getScenarioActionMenuButton,
+  openScenarioActionMenu,
+  closeScenarioInfoTooltip,
+  hoverScenarioInfoIcon,
+  getScenarioInfoTooltip,
+  getScenarioDescription,
+  getRowActionMenu,
+  getEditScenarioButton,
   getScenarioViewRedirect,
-  checkValidationStatus,
-  getScenarioAccordionExpandButton,
-  triggerScenarioAccordionExpandOrCollapse,
   openScenarioFromScenarioManager,
-  getScenarioDisabledDescription,
+  getShareScenarioButton,
+  openScenarioSharingDialog,
   checkScenarioTagsChips,
+  checkScenarioDescription,
   editScenarioDescription,
   cancelMetadataEdition,
-  saveScenarioDescription,
-  saveScenarioTag,
+  addScenarioTag,
   deleteScenarioTag,
   getScenarioTags,
 };

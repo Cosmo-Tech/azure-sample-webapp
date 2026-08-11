@@ -16,50 +16,45 @@ describe('Search bar in scenario manager view', () => {
     stub.setRunnerRuns(SCENARIO_RUNS);
   });
 
-  beforeEach(() => {
-    Login.login();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
-  after(() => {
-    stub.stop();
-  });
-
-  it('can search scenarios by run status and ownerName', () => {
+  it('can search scenarios by name, id, owner name, validation status, tags and description', () => {
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordions().should('have.length', 6);
-    ScenarioManager.writeInFilter('Successful');
-    ScenarioManager.getScenarioAccordions().should('have.length', 3);
-    ScenarioManager.writeInFilter(getFirstCharacters('Failed'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 1);
-    ScenarioManager.writeInFilter(getFirstCharacters(USERS_LIST[1].name));
-    ScenarioManager.getScenarioAccordions().should('have.length', 4);
+    ScenarioManager.getScenarioRows().should('have.length', 6);
+    // Try a filter without any match
     ScenarioManager.writeInFilter('zero filter results');
-    ScenarioManager.getScenarioAccordions().should('have.length', 0);
-  });
-
-  it('can search scenarios by validation status', () => {
+    ScenarioManager.getScenarioRows().should('have.length', 0);
+    // Search by scenario name (with wrong case)
+    ScenarioManager.writeInFilter(getFirstCharacters('simple'));
+    ScenarioManager.getScenarioRows().should('have.length', 3);
+    // Search by run status
+    ScenarioManager.writeInFilter('Successful');
+    ScenarioManager.getScenarioRows().should('have.length', 3);
+    ScenarioManager.writeInFilter(getFirstCharacters('Failed'));
+    ScenarioManager.getScenarioRows().should('have.length', 1);
+    // Search by scenario id
+    ScenarioManager.writeInFilter(SCENARIOS[0].id);
+    ScenarioManager.getScenarioRows().should('have.length', 1);
+    // Search by user name
+    ScenarioManager.writeInFilter(getFirstCharacters(USERS_LIST[1].name));
+    ScenarioManager.getScenarioRows().should('have.length', 4);
+    // Search by validation status
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.writeInFilter(getFirstCharacters('Validated'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 2);
+    ScenarioManager.getScenarioRows().should('have.length', 2);
     ScenarioManager.writeInFilter(getFirstCharacters('Rejected'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 4);
-  });
-
-  it('can search scenarios by tags and description', () => {
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.getScenarioRows().should('have.length', 4);
+    // Search by tags & description
     ScenarioManager.writeInFilter(getFirstCharacters('supply'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 4);
+    ScenarioManager.getScenarioRows().should('have.length', 4);
     ScenarioManager.writeInFilter(getFirstCharacters('global'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 3);
-  });
-
-  it('can search scenarios by name, tags and description', () => {
-    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.getScenarioRows().should('have.length', 3);
     ScenarioManager.writeInFilter(getFirstCharacters('unique'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 1);
+    ScenarioManager.getScenarioRows().should('have.length', 1);
     ScenarioManager.writeInFilter('supply chain');
-    ScenarioManager.getScenarioAccordions().should('have.length', 2);
+    ScenarioManager.getScenarioRows().should('have.length', 2);
     ScenarioManager.writeInFilter(getFirstCharacters('Simple'));
-    ScenarioManager.getScenarioAccordions().should('have.length', 3);
+    ScenarioManager.getScenarioRows().should('have.length', 3);
   });
 });

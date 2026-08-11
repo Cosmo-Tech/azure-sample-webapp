@@ -11,14 +11,8 @@ describe('check scenario sorted list after reload', () => {
     stub.start();
     stub.setRunners(ALL_ROOT_SCENARIOS);
   });
-
-  beforeEach(() => {
-    Login.login();
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
   it('checks first scenario in the list after reload', () => {
     ScenarioSelector.selectScenario(ALL_ROOT_SCENARIOS[1].name, ALL_ROOT_SCENARIOS[1].id);
@@ -34,26 +28,20 @@ describe('check the list of sorted scenarios after deleting the current scenario
     stub.setFakeRoles(['Organization.Collaborator']);
     stub.setRunners(PARENT_AND_CHILD_SCENARIOS);
   });
-
-  beforeEach(() => {
-    Login.login();
-  });
-
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
   it('deletes current scenario and checks sorted list', () => {
     ScenarioSelector.getScenarioSelectorInput().should('have.value', PARENT_AND_CHILD_SCENARIOS[0].name);
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[0].name);
+    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[0].id);
     Scenarios.switchToScenarioView();
     ScenarioSelector.getScenarioSelectorInput().should('have.value', PARENT_AND_CHILD_SCENARIOS[1].name);
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[1].name);
+    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[1].id);
     Scenarios.switchToScenarioView();
     ScenarioSelector.getScenarioSelectorInput().should('have.value', PARENT_AND_CHILD_SCENARIOS[2].name);
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[2].name);
+    ScenarioManager.deleteScenario(PARENT_AND_CHILD_SCENARIOS[2].id);
   });
 });

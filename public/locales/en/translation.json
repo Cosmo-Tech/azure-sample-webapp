@@ -32,6 +32,12 @@
         }
       },
       "scenario": {
+        "edit": {
+          "confirm": "Edit",
+          "dialogTitle": "Edit scenario \"{{scenarioName}}\"",
+          "label": "Edit",
+          "tooltipIfDisabled": "You do not have the required permissions to edit this scenario"
+        },
         "parameters": {
           "disabledEditTooltip": {
             "running": "Parameters cannot be edited while the scenario is running",
@@ -325,6 +331,37 @@
       }
     },
     "scenariomanager": {
+      "dialog": {
+        "delete": {
+          "button": "Delete",
+          "buttonTooltip": "Delete scenarios",
+          "cancelButton": "Cancel",
+          "confirmButton": "Delete",
+          "title_one": "Delete scenario?",
+          "title_other": "Delete scenarios?",
+          "body": "Do you really want to delete the scenarios listed below? This action is irreversible."
+        }
+      },
+      "table": {
+        "rowAction": {
+          "delete": "Delete",
+          "cannotDeleteTooltip": "You do not have the required permissions to delete this scenario",
+          "open": "Open"
+        },
+        "column": {
+          "scenario": "Scenario",
+          "runType": "Run Type",
+          "runStatus": "Run Status",
+          "dataset": "Dataset",
+          "owner": "Owner",
+          "created": "Created",
+          "status": "Status"
+        },
+        "scenarioTooltip": {
+          "noDescription": "Empty",
+          "noTags": "None"
+        }
+      },
       "treelist": {
         "node": {
           "dataset_one": "Dataset:",
@@ -334,6 +371,7 @@
             "label": "Run status:",
             "successful": "Successful",
             "running": "Running",
+            "unknown": "Unknown",
             "dataingestioninprogress": "Transferring results",
             "failed": "Failed",
             "created": "Created"
@@ -516,6 +554,7 @@
       "logs": "Log file hasn't been downloaded.",
       "create": "Scenario hasn't been created.",
       "delete": "Scenario hasn't been deleted.",
+      "deleteBatch": "Some scenarios haven't been deleted.",
       "rename": "Scenario hasn't been renamed.",
       "updateData": "Scenario hasn't been updated.",
       "updatePermissions": "Some scenario permissions have not been updated correctly.",
@@ -866,6 +905,7 @@
         "datasetNotFound": "Not found"
       },
       "validation": {
+        "draft": "Draft",
         "reject": "Reject",
         "rejected": "Rejected",
         "validate": "Validate",

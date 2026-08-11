@@ -24,17 +24,18 @@ describe('Table parameters inheritance between parent and child scenarios', () =
   beforeEach(() => {
     Login.login();
   });
-  const scenarioNamesToDelete = [];
+
+  const scenarioIdsToDelete = [];
   after(() => {
     Downloads.clearDownloadsFolder();
-
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    ScenarioManager.deleteScenarioList(scenarioIdsToDelete);
   });
+
   it('checks that child scenario inherits from its parent table parameters with inline editing', () => {
     const masterScenario = 'Cypress MasterScenario - ' + utils.randomStr(7);
-    scenarioNamesToDelete.push(masterScenario);
     Scenarios.createScenario(masterScenario, true, SCENARIO_DATASET, SCENARIO_RUN_TEMPLATE).then((data) => {
       masterScenarioId = data.scenarioCreatedId;
+      scenarioIdsToDelete.push(masterScenarioId);
       ScenarioParameters.expandParametersAccordion();
       BreweryParameters.switchToCustomersTab();
       ScenarioParameters.expandParametersAccordion();
@@ -44,10 +45,11 @@ describe('Table parameters inheritance between parent and child scenarios', () =
       BreweryParameters.editCustomersTableStringCell('canDrinkAlcohol', 1, 'true').should('have.text', 'true');
       BreweryParameters.editCustomersTableStringCell('height', 0, '2.01').should('have.text', '2.01');
       ScenarioParameters.save();
+
       const firstChildScenario = forgeScenarioName();
       Scenarios.createScenario(firstChildScenario, false, masterScenario, SCENARIO_RUN_TEMPLATE).then((data) => {
         firstChildScenarioId = data.scenarioCreatedId;
-        scenarioNamesToDelete.push(firstChildScenario);
+        scenarioIdsToDelete.push(firstChildScenarioId);
         BreweryParameters.switchToCustomersTab();
         BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
         BreweryParameters.getCustomersTableCell('canDrinkAlcohol', 1).should('have.text', 'true');
@@ -59,33 +61,35 @@ describe('Table parameters inheritance between parent and child scenarios', () =
         BreweryParameters.editCustomersTableStringCell('height', 0, '1.7').should('have.text', '1.7');
         BreweryParameters.editCustomersTableStringCell('favoriteDrink', 0, 'Wine').should('have.text', 'Wine');
         ScenarioParameters.save();
+
         const secondChildScenario = forgeScenarioName();
-        scenarioNamesToDelete.push(secondChildScenario);
-        Scenarios.createScenario(secondChildScenario, false, masterScenario, SCENARIO_RUN_TEMPLATE);
-        BreweryParameters.switchToCustomersTab();
-        BreweryParameters.getCustomersTableCell('age', 0).should('not.have.text', '56');
-        BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
-        BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('not.have.text', 'Wine');
-        BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
-        BreweryParameters.getCustomersTableCell('height', 0).should('not.have.text', '1.7');
-        BreweryParameters.getCustomersTableCell('height', 0).should('have.text', '2.01');
-        ScenarioParameters.expandParametersAccordion();
-        BreweryParameters.importCustomersTableData(CHILD_CSV_FILE_PATH);
-        BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Emmett');
-        BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
-        BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
-        ScenarioParameters.save();
-        ScenarioSelector.selectScenario(masterScenario, masterScenarioId);
-        BreweryParameters.switchToCustomersTab();
-        BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
-        BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
-        BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
-        BreweryParameters.exportCustomersTableDataToCSV();
-        ScenarioSelector.selectScenario(firstChildScenario, firstChildScenarioId);
-        BreweryParameters.switchToCustomersTab();
-        BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
-        BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '56');
-        BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'Wine');
+        Scenarios.createScenario(secondChildScenario, false, masterScenario, SCENARIO_RUN_TEMPLATE).then((data) => {
+          scenarioIdsToDelete.push(data.scenarioCreatedId);
+          BreweryParameters.switchToCustomersTab();
+          BreweryParameters.getCustomersTableCell('age', 0).should('not.have.text', '56');
+          BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
+          BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('not.have.text', 'Wine');
+          BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
+          BreweryParameters.getCustomersTableCell('height', 0).should('not.have.text', '1.7');
+          BreweryParameters.getCustomersTableCell('height', 0).should('have.text', '2.01');
+          ScenarioParameters.expandParametersAccordion();
+          BreweryParameters.importCustomersTableData(CHILD_CSV_FILE_PATH);
+          BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Emmett');
+          BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '69');
+          BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'OrangeJuice');
+          ScenarioParameters.save();
+          ScenarioSelector.selectScenario(masterScenario, masterScenarioId);
+          BreweryParameters.switchToCustomersTab();
+          BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+          BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '78');
+          BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'AppleJuice');
+          BreweryParameters.exportCustomersTableDataToCSV();
+          ScenarioSelector.selectScenario(firstChildScenario, firstChildScenarioId);
+          BreweryParameters.switchToCustomersTab();
+          BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Bob');
+          BreweryParameters.getCustomersTableCell('age', 0).should('have.text', '56');
+          BreweryParameters.getCustomersTableCell('favoriteDrink', 0).should('have.text', 'Wine');
+        });
       });
     });
   });

@@ -10,13 +10,8 @@ const SCENARIO_DATASET = DEFAULT_DATASETS[0].name;
 const SCENARIO_RUN_TEMPLATE = BASIC_TYPES_PARAMETERS_RUN_TEMPLATE.name;
 
 describe('Scenario validation', () => {
-  before(() => {
-    stub.start();
-  });
-
-  beforeEach(() => {
-    Login.login();
-  });
+  before(() => stub.start());
+  beforeEach(() => Login.login());
 
   it('can validate & reject scenarios', () => {
     let scenarioId;
@@ -34,7 +29,7 @@ describe('Scenario validation', () => {
       BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
+      ScenarioManager.checkScenarioValidationStatus(scenarioId, 'Draft');
       Scenarios.switchToScenarioView();
 
       // Validate scenario
@@ -47,7 +42,7 @@ describe('Scenario validation', () => {
       BreweryParameters.getCurrencyNameInput().should('not.exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Validated');
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Validated');
+      ScenarioManager.checkScenarioValidationStatus(scenarioId, 'Validated');
       Scenarios.switchToScenarioView();
 
       // Reset status to Draft
@@ -59,7 +54,7 @@ describe('Scenario validation', () => {
       BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
+      ScenarioManager.checkScenarioValidationStatus(scenarioId, 'Draft');
       Scenarios.switchToScenarioView();
 
       // Reject scenario
@@ -72,7 +67,7 @@ describe('Scenario validation', () => {
       BreweryParameters.getCurrencyNameInput().should('not.exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Rejected');
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Rejected');
+      ScenarioManager.checkScenarioValidationStatus(scenarioId, 'Rejected');
       Scenarios.switchToScenarioView();
 
       // Reset status to Draft
@@ -84,7 +79,7 @@ describe('Scenario validation', () => {
       BreweryParameters.getCurrencyNameInput().should('exist');
       ScenarioSelector.checkValidationStatusInScenarioSelector(scenarioName, scenarioId, 'Draft');
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.checkValidationStatus(scenarioName, scenarioId, 'Draft');
+      ScenarioManager.checkScenarioValidationStatus(scenarioId, 'Draft');
       Scenarios.switchToScenarioView();
     });
   });

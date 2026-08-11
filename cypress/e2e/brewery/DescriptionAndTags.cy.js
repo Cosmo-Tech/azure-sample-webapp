@@ -3,71 +3,73 @@
 import utils from '../../commons/TestUtils';
 import { Login, ScenarioManager, Scenarios } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { setup } from '../../commons/utils';
-import { SCENARIO_WITH_DESCRIPTION_AND_TAGS } from '../../fixtures/stubbing/DescriptionAndTags/scenarios';
-import { DEFAULT_DATASETS, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
+import { DEFAULT_DATASETS, DEFAULT_SIMULATION_RUNNER, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
+
+const SCENARIO_WITH_DESCRIPTION_AND_TAGS = {
+  ...DEFAULT_SIMULATION_RUNNER,
+  id: 'r-stubbedrnnr01',
+  name: '1 - Scenario with tags',
+  runTemplateId: 'sim_brewery_parameters',
+  tags: ['brewery', 'tag', 'cypress'],
+  description: 'A short description of a scenario to easily keep track of its purpose',
+};
+const expectedPayload = {
+  name: SCENARIO_WITH_DESCRIPTION_AND_TAGS.name,
+  description: SCENARIO_WITH_DESCRIPTION_AND_TAGS.description,
+  tags: SCENARIO_WITH_DESCRIPTION_AND_TAGS.tags,
+};
+
+const forgeValidationRequest = (changesToExpectedPayload) => (req) =>
+  expect(req.body).to.deep.equal({ ...expectedPayload, ...changesToExpectedPayload });
 
 describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
   before(() => {
-    setup.initCypressAndStubbing();
     stub.start();
     stub.setDatasets(DEFAULT_DATASETS);
     stub.setRunners([SCENARIO_WITH_DESCRIPTION_AND_TAGS]);
   });
-  beforeEach(() => {
-    Login.login();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
-  after(() => {
-    stub.stop();
-  });
-  const scenarioId = SCENARIO_WITH_DESCRIPTION_AND_TAGS.id;
-  const description = SCENARIO_WITH_DESCRIPTION_AND_TAGS.description;
-  const tags = SCENARIO_WITH_DESCRIPTION_AND_TAGS.tags;
+  it('can display and edit the tags & description of an existing scenario', () => {
+    const scenarioId = SCENARIO_WITH_DESCRIPTION_AND_TAGS.id;
+    const tags = SCENARIO_WITH_DESCRIPTION_AND_TAGS.tags; // Initial tags: ['brewery', 'tag', 'cypress']
+    ScenarioManager.switchToScenarioManager();
+    ScenarioManager.checkScenarioTagsChips(scenarioId, tags);
 
-  it('can display and edit existing tags and description', () => {
-    const newScenarioDescription = 'Edited scenario description';
-    const validateDescriptionRequest = (req) =>
-      expect(req.body).to.deep.equal({ description: newScenarioDescription, runTemplateId: 'sim_brewery_parameters' });
-    const validateDeleteDescriptionRequest = (req) =>
-      expect(req.body).to.deep.equal({ description: '', runTemplateId: 'sim_brewery_parameters' });
-
+    // Set tags to ['brewery', 'tag', 'cypress', 'newTag']
     const newScenarioTag = 'newTag';
     const newTagsList = [...tags, newScenarioTag];
-    const validateTagsRequest = (req) =>
-      expect(req.body).to.deep.equal({ tags: newTagsList, runTemplateId: 'sim_brewery_parameters' });
+    ScenarioManager.addScenarioTag(scenarioId, newScenarioTag, forgeValidationRequest({ tags: newTagsList }));
+    // Set tags to ['brewery', 'tag', 'newTag']
+    ScenarioManager.deleteScenarioTag(scenarioId, 2, forgeValidationRequest({ tags: ['brewery', 'tag', 'newTag'] }));
+    // Clear all three remaining tags & confirm changes
+    ScenarioManager.openScenarioEditDialog(scenarioId);
+    ScenarioManager.deleteEditedScenarioTag(0);
+    ScenarioManager.deleteEditedScenarioTag(0);
+    ScenarioManager.deleteEditedScenarioTag(0);
+    ScenarioManager.confirmScenarioEdition({ validateRequest: forgeValidationRequest({ tags: [] }) });
+    ScenarioManager.checkScenarioTagsChips(scenarioId, []);
 
-    ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordion(scenarioId).click();
-    ScenarioManager.checkScenarioTagsChips(tags, scenarioId);
-    ScenarioManager.saveScenarioTag(scenarioId, newScenarioTag, validateTagsRequest);
+    const description = SCENARIO_WITH_DESCRIPTION_AND_TAGS.description;
+    ScenarioManager.checkScenarioDescription(scenarioId, description);
 
-    let remainingTagCount = newTagsList.length;
-    newTagsList.forEach((tagToDelete, index) => {
-      const tagsToDelete = newTagsList.slice(index + 1);
-      const validateDeleteTagRequest = (req) =>
-        expect(req.body).to.deep.equal({ tags: tagsToDelete, runTemplateId: 'sim_brewery_parameters' });
-      ScenarioManager.deleteScenarioTag(scenarioId, 0, validateDeleteTagRequest);
-      // Wait for the change to be effective
-      remainingTagCount--;
-      ScenarioManager.getScenarioTags(scenarioId).find('div').should('have.length', remainingTagCount);
-    });
-    ScenarioManager.checkScenarioTagsChips([], scenarioId);
+    // Edit description & cancel changes
+    const newScenarioDescription = 'Edited scenario description';
+    ScenarioManager.openScenarioEditDialog(scenarioId);
+    ScenarioManager.setEditedScenarioDescription(newScenarioDescription);
+    ScenarioManager.cancelScenarioEdition();
+    ScenarioManager.checkScenarioDescription(scenarioId, description);
 
-    ScenarioManager.getScenarioAccordion(scenarioId).click();
-    ScenarioManager.getScenarioDisabledDescription(scenarioId).should('be.visible');
-    ScenarioManager.getScenarioDisabledDescription(scenarioId).should('have.text', description);
-    // can edit the description but not save it if Esc button is pushed
-    ScenarioManager.editScenarioDescription(scenarioId, newScenarioDescription);
-    ScenarioManager.cancelMetadataEdition();
-    ScenarioManager.getScenarioDisabledDescription(scenarioId).should('have.text', description);
-    // save edition
-    ScenarioManager.saveScenarioDescription(scenarioId, newScenarioDescription, validateDescriptionRequest);
-    // delete description
-    ScenarioManager.saveScenarioDescription(scenarioId, '', validateDeleteDescriptionRequest);
+    // Save new description
+    const validateNewDescriptionRequest = forgeValidationRequest({ description: newScenarioDescription, tags: [] });
+    ScenarioManager.editScenarioDescription(scenarioId, newScenarioDescription, validateNewDescriptionRequest);
+    // Delete description and check it's empty
+    const validateDeleteDescriptionRequest = forgeValidationRequest({ description: '', tags: [] });
+    ScenarioManager.editScenarioDescription(scenarioId, '', validateDeleteDescriptionRequest);
   });
 
-  it('can create a scenario with tags and description', () => {
+  it('correctly shows the tags & description of a newly created scenario', () => {
     const randomString = utils.randomStr(7);
     const scenarioName = 'Cypress tags and description - ' + randomString;
     const scenarioDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ';
@@ -82,9 +84,10 @@ describe('Scenario tags and description', { keystrokeDelay: 1 }, () => {
     ).then((response) => {
       const scenarioId = response.scenarioCreatedId;
       ScenarioManager.switchToScenarioManager();
-      ScenarioManager.getScenarioAccordion(scenarioId).click();
-      ScenarioManager.checkScenarioTagsChips(scenarioTags, scenarioId);
-      ScenarioManager.getScenarioDisabledDescription(scenarioId).should('have.text', scenarioDescription);
+      ScenarioManager.checkScenarioTagsChips(scenarioId, scenarioTags);
+      ScenarioManager.hoverScenarioInfoIcon(scenarioId);
+      ScenarioManager.getScenarioDescription().should('have.text', scenarioDescription);
+      ScenarioManager.closeScenarioInfoTooltip(scenarioId);
     });
   });
 });

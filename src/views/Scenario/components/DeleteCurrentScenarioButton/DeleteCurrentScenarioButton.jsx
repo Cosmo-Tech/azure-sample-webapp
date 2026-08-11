@@ -5,16 +5,13 @@ import { Trans, useTranslation } from 'react-i18next';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from '@mui/material';
 import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
-import { RUNNER_RUN_STATE } from '../../../../services/config/ApiConstants';
 import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { TwoActionsDialogService } from '../../../../services/twoActionsDialog/twoActionsDialogService';
 import { useDeleteCurrentScenarioButton } from './DeleteCurrentScenarioButtonHooks';
 
 const DeleteCurrentScenarioButton = () => {
   const { t } = useTranslation();
-  const { deleteScenario, currentScenario, currentScenarioLastRunStatus } = useDeleteCurrentScenarioButton();
-
-  const isDisabled = currentScenarioLastRunStatus === RUNNER_RUN_STATE.RUNNING;
+  const { deleteScenario, currentScenario } = useDeleteCurrentScenarioButton();
 
   const askConfirmationToDeleteDialog = useCallback(
     async (event) => {
@@ -62,9 +59,8 @@ const DeleteCurrentScenarioButton = () => {
           sx={{ color: (theme) => theme.palette.error.main }}
           onClick={askConfirmationToDeleteDialog}
           data-cy="scenario-delete-button"
-          disabled={isDisabled}
         >
-          <DeleteForeverIcon color={isDisabled ? 'disabled' : 'primary'} />
+          <DeleteForeverIcon color={'error'} />
         </IconButton>
       </FadingTooltip>
     </PermissionsGate>

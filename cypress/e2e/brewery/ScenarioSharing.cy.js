@@ -50,11 +50,10 @@ describe('Check workspace permissions for admin', () => {
     RolesEdition.getShareDialogConfirmAddAccessButton().should('not.be.disabled').click();
     RolesEdition.getShareDialogFirstCancelButton().click();
     ScenarioManager.switchToScenarioManager({ force: true });
-    ScenarioManager.getScenarioAccordion(PRIVATE_SCENARIOS_LIST[0].id);
+    ScenarioManager.openScenarioActionMenu(PRIVATE_SCENARIOS_LIST[0].id);
     ScenarioManager.getDeleteScenarioButton().should('be.visible').should('not.be.disabled');
-    ScenarioManager.getScenarioEditableLink(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
-    ScenarioManager.getRenameScenarioButton(PRIVATE_SCENARIOS_LIST[0].id).should('exist').click();
-    ScenarioManager.getScenarioEditableLinkInEditMode(PRIVATE_SCENARIOS_LIST[0].id).should('exist');
+    ScenarioManager.getEditScenarioButton().should('be.visible').should('not.be.disabled');
+    ScenarioManager.getShareScenarioButton().should('be.visible').should('not.be.disabled');
   });
 
   it('Is shown a message error when last admin is removed', () => {
@@ -166,9 +165,10 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     FileParameters.getBrowseButton(BreweryParameters.getExampleDatasetPart1()).should('not.exist');
 
     ScenarioManager.switchToScenarioManager({ force: true });
-    ScenarioManager.getScenarioAccordion(scenario.id);
-    ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getRenameScenarioButton(scenario.id).should('not.exist');
+    ScenarioManager.openScenarioActionMenu(scenario.id);
+    ScenarioManager.getDeleteScenarioButton().should('be.visible').should('have.class', 'Mui-disabled');
+    ScenarioManager.getEditScenarioButton().should('be.visible').should('have.class', 'Mui-disabled');
+    ScenarioManager.getShareScenarioButton().should('be.visible').should('have.class', 'Mui-disabled');
   });
 
   it('Check Editor permissions', () => {
@@ -196,11 +196,10 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager({ force: true });
-    ScenarioManager.getScenarioAccordion(scenario.id);
-    ScenarioManager.getDeleteScenarioButton().should('not.exist');
-    ScenarioManager.getScenarioEditableLinkInEditMode(scenario.id).should('not.exist');
-    ScenarioManager.getRenameScenarioButton(scenario.id).click();
-    ScenarioManager.getScenarioEditableLinkInEditMode(scenario.id).should('exist');
+    ScenarioManager.openScenarioActionMenu(scenario.id);
+    ScenarioManager.getDeleteScenarioButton().should('be.visible').should('have.class', 'Mui-disabled');
+    ScenarioManager.getEditScenarioButton().should('be.visible').should('not.be.disabled');
+    ScenarioManager.getShareScenarioButton().should('be.visible').should('not.be.disabled');
   });
 
   it('Check Validator permissions', () => {
@@ -213,8 +212,10 @@ describe('Check workspace permissions for Viewer, Editor & Validator', () => {
     ScenarioParameters.getLaunchButton().should('be.visible').should('not.be.disabled');
 
     ScenarioManager.switchToScenarioManager({ force: true });
-    ScenarioManager.getScenarioAccordion(scenario.id);
-    ScenarioManager.getDeleteScenarioButton().should('not.exist');
+    ScenarioManager.openScenarioActionMenu(scenario.id);
+    ScenarioManager.getDeleteScenarioButton().should('be.visible').should('have.class', 'Mui-disabled');
+    ScenarioManager.getEditScenarioButton().should('be.visible').should('not.be.disabled');
+    ScenarioManager.getShareScenarioButton().should('be.visible').should('not.be.disabled');
   });
 });
 

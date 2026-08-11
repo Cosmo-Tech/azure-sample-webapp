@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { t } from 'i18next';
 import { STATUSES } from '../../services/config/StatusConstants';
@@ -13,6 +14,7 @@ import {
   dispatchCreateETLRunnerAndDataset,
   dispatchCreateSimulationRunner,
   dispatchDeleteRunner,
+  dispatchDeleteRunnerBatch,
   dispatchGetRunner,
   dispatchRenameRunner,
   dispatchStartRunner,
@@ -53,6 +55,39 @@ export const useGetRunnerById = () => {
 export const useGetETLRunnerById = () => {
   const runners = useGetETLRunners();
   return useCallback((runnerId) => runners && runners.find((runner) => runner.id === runnerId), [runners]);
+};
+
+export const useGetRunStatusLabel = () => {
+  const { t } = useTranslation();
+
+  return useCallback(
+    (status = '') => {
+      const labels = {
+        notstarted: t('commoncomponents.scenariomanager.treelist.node.status.created', 'Created'),
+        running: t('commoncomponents.scenariomanager.treelist.node.status.running', 'Running'),
+        successful: t('commoncomponents.scenariomanager.treelist.node.status.successful', 'Successful'),
+        failed: t('commoncomponents.scenariomanager.treelist.node.status.failed', 'Failed'),
+        unknown: t('commoncomponents.scenariomanager.treelist.node.status.unknown', 'Unknown'),
+      };
+      const statusKey = status.toLowerCase();
+      return labels?.[statusKey] ?? labels.unknown;
+    },
+    [t]
+  );
+};
+
+export const useGetTranslatedRunnerLastRunStatus = () => {
+  const getRunnerById = useGetRunnerById();
+  const getETLRunnerById = useGetETLRunnerById();
+  const getRunStatusLabel = useGetRunStatusLabel();
+  return useCallback(
+    (runnerId, isETLRunner = false) => {
+      const runner = isETLRunner ? getETLRunnerById(runnerId) : getRunnerById(runnerId);
+      const lastRunStatus = RunnersUtils.getLastRunStatus(runner);
+      return getRunStatusLabel(lastRunStatus);
+    },
+    [getRunnerById, getETLRunnerById, getRunStatusLabel]
+  );
 };
 
 export const useCurrentSimulationRunner = () => {
@@ -273,6 +308,16 @@ export const useDeleteRunner = () => {
   const workspaceId = useWorkspaceId();
   return useCallback(
     (runnerId) => dispatch(dispatchDeleteRunner(organizationId, workspaceId, runnerId)),
+    [dispatch, organizationId, workspaceId]
+  );
+};
+
+export const useDeleteRunnerBatch = () => {
+  const dispatch = useDispatch();
+  const organizationId = useOrganizationId();
+  const workspaceId = useWorkspaceId();
+  return useCallback(
+    (runnerIds) => dispatch(dispatchDeleteRunnerBatch(organizationId, workspaceId, runnerIds)),
     [dispatch, organizationId, workspaceId]
   );
 };

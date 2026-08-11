@@ -16,7 +16,7 @@ export const getCreateScenarioDialogLabels = (t, disabled) => {
     },
     dialog: {
       title: t('commoncomponents.dialog.create.scenario.text.title', 'Create new Scenario'),
-      scenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.label'),
+      scenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.label', 'Scenario name'),
       scenarioMaster: t('commoncomponents.dialog.create.scenario.checkbox.scenarioMaster.label', 'Master'),
       scenarioDescription: t('commoncomponents.dialog.create.scenario.input.description', 'Description'),
       scenarioTags: t('commoncomponents.dialog.create.scenario.input.tags', 'Tags'),
@@ -32,11 +32,39 @@ export const getCreateScenarioDialogLabels = (t, disabled) => {
       create: t('commoncomponents.dialog.create.scenario.button.create', 'Create'),
     },
     errors: {
-      emptyScenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.error.empty'),
-      existingScenarioName: t('commoncomponents.dialog.create.scenario.input.scenarioname.error.existing'),
+      emptyScenarioName: t(
+        'commoncomponents.dialog.create.scenario.input.scenarioname.error.empty',
+        'Scenario name cannot be empty'
+      ),
+      existingScenarioName: t(
+        'commoncomponents.dialog.create.scenario.input.scenarioname.error.existing',
+        'Scenario name already exists'
+      ),
       forbiddenCharsInScenarioName: t(
-        'commoncomponents.dialog.create.scenario.input.scenarioname.error.forbiddenchars'
+        'commoncomponents.dialog.create.scenario.input.scenarioname.error.forbiddenchars',
+        'Scenario name has to start with a letter or a digit, and can only contain letters, digits, spaces, ' +
+          'underscores, hyphens and dots.'
       ),
     },
   };
+};
+
+export const getScenarioEditionLabels = (t, scenario, disabled = false) => {
+  // The 'disabled' argument can be omitted here because we'll override the associated label
+  const labels = getCreateScenarioDialogLabels(t);
+  if (disabled)
+    labels.button.tooltip = t(
+      'commoncomponents.button.scenario.edit.tooltipIfDisabled',
+      'You do not have the required permissions to edit this scenario'
+    );
+  else labels.button.tooltip = t('commoncomponents.button.scenario.edit.label', 'Edit');
+
+  labels.button.title = t('commoncomponents.button.scenario.edit.label', 'Edit');
+  labels.dialog.title = t(
+    'commoncomponents.button.scenario.edit.dialogTitle',
+    { scenarioName: scenario?.name },
+    'Edit scenario "{{scenarioName}}"'
+  );
+  labels.dialog.create = t('commoncomponents.button.scenario.edit.confirm', 'Edit');
+  return labels;
 };

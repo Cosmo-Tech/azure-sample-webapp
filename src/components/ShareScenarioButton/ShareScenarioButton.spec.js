@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Provider } from 'react-redux';
 import rfdc from 'rfdc';
-import ShareCurrentScenarioButton from '.';
+import ShareScenarioButton from '.';
 import { ROLES } from '../../../tests/constants';
 import { createMockStore, MockFormProvider } from '../../../tests/mocks';
 import { DEFAULT_REDUX_STATE, USERS_LIST } from '../../../tests/samples';
@@ -42,17 +42,18 @@ let mockStore;
 
 const setUp = (role) => {
   mockStore = createMockStore(getStateWithScenarioRole(role));
+  const scenarioId = mockStore.getState().runner.simulationRunners.current.data.id;
 
   render(
     <Provider store={mockStore}>
       <MockFormProvider>
-        <ShareCurrentScenarioButton />
+        <ShareScenarioButton scenarioId={scenarioId} />
       </MockFormProvider>
     </Provider>
   );
 };
 
-describe('ShareCurrentScenarioButton', () => {
+describe('ShareScenarioButton', () => {
   describe('Scenario Roles', () => {
     beforeEach(() => {
       mockRoleEditionButtonProps = undefined;

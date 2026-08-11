@@ -97,6 +97,13 @@ export const dispatchDeleteRunner = (organizationId, workspaceId, runnerId) => (
   runnerId,
 });
 
+export const dispatchDeleteRunnerBatch = (organizationId, workspaceId, runnerIds) => ({
+  type: RUNNER_ACTIONS_KEY.DELETE_RUNNER_BATCH,
+  organizationId,
+  workspaceId,
+  runnerIds,
+});
+
 export const dispatchResetCurrentSimulationRunner = () => ({
   type: RUNNER_ACTIONS_KEY.RESET_CURRENT_SIMULATION_RUNNER,
 });

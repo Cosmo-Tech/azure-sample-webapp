@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
-import { Scenarios, ScenarioSelector, ScenarioManager, ScenarioParameters, Login } from '../../commons/actions';
+import { Scenarios, ScenarioSelector, ScenarioParameters, Login } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
@@ -54,18 +54,11 @@ const runOptions = {
 };
 
 describe('Additional advanced scenario parameters tests', () => {
-  before(() => {
-    stub.start();
-  });
+  before(() => stub.start());
 
   beforeEach(() => {
     Login.login();
     stub.setRunners([SCENARIO1, SCENARIO2]);
-  });
-
-  const scenarioNamesToDelete = [];
-  after(() => {
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
   });
 
   it('additional advanced scenario parameters tests', () => {
@@ -159,7 +152,12 @@ describe('Additional advanced scenario parameters tests', () => {
     BreweryParameters.selectScenarioToCompareOption(SCENARIO1.id);
     BreweryParameters.getScenarioToCompareSelectInput().should('value', VALUES_TO_UPDATE.scenarioToCompare);
 
-    ScenarioParameters.launch({ scenarioId: SCENARIO2.id, runOptions, saveAndLaunch: true });
+    ScenarioParameters.launch({
+      scenarioId: SCENARIO2.id,
+      runOptions,
+      saveAndLaunch: true,
+      datasetPartEvents: [{ id: 'dp-datasetPart1' }],
+    });
 
     // Test input in read only mode
     BreweryParameters.switchToEventsTab();

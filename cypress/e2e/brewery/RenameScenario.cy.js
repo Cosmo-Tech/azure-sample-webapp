@@ -22,55 +22,56 @@ const SCENARIO_NAME_A2 = SCENARIO_A.name + '_renamed';
 const SCENARIO_NAME_A3 = SCENARIO_A.name + '_renamed_again';
 const SCENARIO_NAME_B1 = SCENARIO_B.name;
 
-describe('Create scenario and rename it', () => {
-  before(() => {
-    stub.start();
-  });
-
+describe('Scenario renaming in the ScenarioManager view', () => {
+  before(() => stub.start());
   beforeEach(() => {
     stub.setRunners([SCENARIO_A, SCENARIO_B]);
     Login.login();
   });
+  after(() => stub.stop());
 
-  after(() => {
-    stub.stop();
-  });
-
-  it('Rename scenario several times and launch', () => {
+  it('can rename a scenario several times and launch it', () => {
     ScenarioManager.switchToScenarioManager();
 
     // Start editing name and cancel edition
-    ScenarioManager.getRenameScenarioButton(SCENARIO_A_ID).click();
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).type('{selectAll}{backspace}' + SCENARIO_NAME_A2 + '{esc}');
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
+    ScenarioManager.openScenarioEditDialog(SCENARIO_A_ID);
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.setEditedScenarioName(SCENARIO_NAME_B1);
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().contains('already exists');
+    ScenarioManager.setEditedScenarioName(SCENARIO_NAME_A1);
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.setEditedScenarioName(SCENARIO_NAME_A2);
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.cancelScenarioEdition();
+    ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
 
     // Actually rename the scenario
     ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A2);
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
+    ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
     Scenarios.switchToScenarioView();
     ScenarioSelector.selectScenario(SCENARIO_NAME_B1, SCENARIO_B_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_A2, SCENARIO_A_ID); // Click on renamed scenario in selector
 
     // Rename scenario again
     ScenarioManager.switchToScenarioManager();
-    ScenarioManager.getScenarioAccordion(SCENARIO_A_ID).click();
     ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A3);
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A3);
+    ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A3);
     ScenarioManager.getScenarioViewRedirect(SCENARIO_A_ID).click();
     ScenarioSelector.selectScenario(SCENARIO_NAME_B1, SCENARIO_B_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_A3, SCENARIO_A_ID);
 
-    ScenarioParameters.launch();
+    const runOptions = { runDuration: 0, finalStatus: 'Successful', expectedPollsCount: 1 };
+    ScenarioParameters.launch({ runOptions, saveAndLaunch: true });
   });
 
-  it('Rename two scenarios, setting the second with the former name of the first one', () => {
+  it('can rename two scenarios, setting the second with the former name of the first one', () => {
     ScenarioManager.switchToScenarioManager();
 
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
+    ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
     ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A2);
-    ScenarioManager.getScenarioEditableLink(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
+    ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A2);
     ScenarioManager.renameScenario(SCENARIO_B_ID, SCENARIO_NAME_A1);
-    ScenarioManager.getScenarioEditableLink(SCENARIO_B_ID).should('have.text', SCENARIO_NAME_A1);
+    ScenarioManager.getScenarioName(SCENARIO_B_ID).should('have.text', SCENARIO_NAME_A1);
 
     ScenarioManager.getScenarioViewRedirect(SCENARIO_B_ID).click();
     ScenarioSelector.selectScenario(SCENARIO_NAME_A2, SCENARIO_A_ID);

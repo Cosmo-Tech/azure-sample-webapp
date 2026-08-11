@@ -47,13 +47,8 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   });
 
   after(() => {
-    const scenarioNamesToDelete = [
-      scenarioMasterName,
-      scenarioChildName,
-      otherScenarioName,
-      scenarioWithBasicTypesName,
-    ];
-    ScenarioManager.deleteScenarioList(scenarioNamesToDelete);
+    const scenarioIdsToDelete = [scenarioMasterId, scenarioChildId, otherScenarioId, scenarioWithBasicTypesId];
+    ScenarioManager.deleteScenarioList(scenarioIdsToDelete);
   });
 
   it('can create and launch scenario master', () => {

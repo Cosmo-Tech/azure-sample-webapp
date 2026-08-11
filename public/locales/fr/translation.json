@@ -32,6 +32,12 @@
         }
       },
       "scenario": {
+        "edit": {
+          "confirm": "Éditer",
+          "dialogTitle": "Édition du scénario \"{{scenarioName}}\"",
+          "label": "Éditer",
+          "tooltipIfDisabled": "Vous n'avez pas les permissions nécessaires pour éditer ce scénario"
+        },
         "parameters": {
           "disabledEditTooltip": {
             "running": "Les paramètres ne peuvent pas être édités pendant que la simulation tourne",
@@ -325,6 +331,37 @@
       }
     },
     "scenariomanager": {
+      "dialog": {
+        "delete": {
+          "button": "Supprimer",
+          "buttonTooltip": "Supprimer les scénarios",
+          "cancelButton": "Annuler",
+          "confirmButton": "Supprimer",
+          "title_one": "Supprimer le scénario ?",
+          "title_other": "Supprimer les scénarios ?",
+          "body": "Voulez-vous supprimer les scénarios ci-dessous ? Cette action est irréversible."
+        }
+      },
+      "table": {
+        "rowAction": {
+          "delete": "Supprimer",
+          "cannotDeleteTooltip": "Vous n'avez pas les permissions nécessaires pour pouvoir supprimer ce scénario",
+          "open": "Ouvrir"
+        },
+        "column": {
+          "scenario": "Scénario",
+          "runType": "Type de run",
+          "runStatus": "Statut",
+          "dataset": "Dataset",
+          "owner": "Auteur",
+          "created": "Créé le",
+          "status": "Statut"
+        },
+        "scenarioTooltip": {
+          "noDescription": "Aucune",
+          "noTags": "Aucun"
+        }
+      },
       "treelist": {
         "node": {
           "dataset_one": "Dataset :",
@@ -334,6 +371,7 @@
             "label": "Statut :",
             "successful": "Succès",
             "running": "En cours",
+            "unknown": "Inconnu",
             "dataingestioninprogress": "Transfert des résultats",
             "failed": "Erreur",
             "created": "Créé"
@@ -516,6 +554,7 @@
       "logs": "Le fichier des logs n'a pas pu être téléchargé.",
       "create": "Le scénario n'a pas pu être créé.",
       "delete": "Le scénario n'a pas pu être supprimé.",
+      "deleteBatch": "Certains scénarios n'ont pas été supprimés.",
       "rename": "Le scénario n'a pas pu être renommé.",
       "updateData": "Le scénario n'a pas pu être mis à jour.",
       "updatePermissions": "Certaines permissions du scénario n'ont pas pu être modifiées.",
@@ -868,6 +907,7 @@
         "datasetNotFound": "Non trouvé"
       },
       "validation": {
+        "draft": "Brouillon",
         "reject": "Rejeter",
         "rejected": "Rejeté",
         "validate": "Valider",

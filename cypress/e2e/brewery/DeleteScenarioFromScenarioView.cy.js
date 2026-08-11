@@ -80,9 +80,15 @@ describe('Delete scenario from Scenario view', () => {
       Login.login();
     });
 
-    it('should disable the delete button when the selected scenario is running', () => {
+    it('can delete a running scenario', () => {
+      const validateRequest = (req) => expect(req.url).to.contain(SCENARIO_A.id);
       ScenarioSelector.selectScenario(SCENARIO_A_RUNNING.name, SCENARIO_A_RUNNING.id);
-      Scenarios.getDeleteCurrentScenarioButton().should('be.disabled');
+      Scenarios.getDeleteCurrentScenarioButton().should('not.be.disabled');
+      Scenarios.deleteCurrentScenario(SCENARIO_A_RUNNING, {
+        validateRequest,
+        validateStopRequest: validateRequest,
+        isRunning: true,
+      });
     });
   });
 
