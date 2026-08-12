@@ -23,23 +23,6 @@ const NBSP = '\xa0'; // Non-breaking space
 
 const forgeColumns = (t, validationStatusLabels) => [
   {
-    ...GRID_CHECKBOX_SELECTION_COL_DEF,
-    renderCell: (params) => {
-      if (params.row.canBeDeleted) return <GridCellCheckboxRenderer {...params} />;
-      return (
-        <FadingTooltip
-          title={t(
-            'commoncomponents.scenariomanager.table.rowAction.cannotDeleteTooltip',
-            'You do not have the required permissions to delete this scenario'
-          )}
-          disableInteractive
-        >
-          <GridCellCheckboxRenderer {...params} />
-        </FadingTooltip>
-      );
-    },
-  },
-  {
     field: 'name',
     headerName: t('commoncomponents.scenariomanager.table.column.scenario', 'Scenario'),
     valueGetter: (_, row) => row.name ?? 'N/A',
@@ -118,6 +101,23 @@ const forgeColumns = (t, validationStatusLabels) => [
     flex: 1,
     align: 'center',
     disableColumnMenu: true,
+  },
+  {
+    ...GRID_CHECKBOX_SELECTION_COL_DEF,
+    renderCell: (params) => {
+      if (params.row.canBeDeleted) return <GridCellCheckboxRenderer {...params} />;
+      return (
+        <FadingTooltip
+          title={t(
+            'commoncomponents.scenariomanager.table.rowAction.cannotDeleteTooltip',
+            'You do not have the required permissions to delete this scenario'
+          )}
+          disableInteractive
+        >
+          <GridCellCheckboxRenderer {...params} />
+        </FadingTooltip>
+      );
+    },
   },
 ];
 
