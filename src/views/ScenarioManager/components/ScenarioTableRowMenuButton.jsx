@@ -24,7 +24,20 @@ export const ScenarioTableRowMenuButton = ({ scenario }) => {
       <IconButton onClick={openMenuPopOver}>
         <MenuIcon />
       </IconButton>
-      <Menu anchorEl={anchorEl} open={open} onClose={closeMenuPopOver}>
+      <Menu
+        anchorEl={anchorEl}
+        elevation={8}
+        open={open}
+        onClose={closeMenuPopOver}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
         <EditScenarioButton autoFocus onClose={closeMenuPopOver} scenarioToEdit={scenario} variant="menuItem" />
         <OpenScenarioMenuItem scenarioId={scenario?.id} />
         <FormProvider {...mockFormMethods}>
