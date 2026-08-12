@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Box, Stack } from '@mui/material';
+import { Card, Paper, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { SearchBar } from '@cosmotech/ui';
 import { DeleteScenarioBatchButton } from './DeleteScenarioBatchButton';
@@ -35,7 +35,7 @@ export const ScenarioManagerTable = () => {
         />
         {<DeleteScenarioBatchButton runnerIdsToDelete={selectedRunnerIds} />}
       </Stack>
-      <Box sx={{ height: 'calc(100% - 97px)' }}>
+      <Card component={Paper} elevation={2} sx={{ p: 0, height: 'calc(100% - 97px)' }}>
         <DataGrid
           loading={isLoading}
           rows={rows}
@@ -54,8 +54,10 @@ export const ScenarioManagerTable = () => {
           rowSelectionModel={visibleSelectionModel}
           onRowSelectionModelChange={handleSelectionChange}
           hideFooter={hideFooter}
+          sx={{ '.MuiDataGrid-columnHeaderTitle': { fontWeight: 'bold !important' } }}
+          slotProps={{ baseCheckbox: { sx: { color: (theme) => theme.palette.primary.main } } }}
         />
-      </Box>
+      </Card>
     </Stack>
   );
 };

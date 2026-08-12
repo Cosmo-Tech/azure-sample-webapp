@@ -23,29 +23,13 @@ const NBSP = '\xa0'; // Non-breaking space
 
 const forgeColumns = (t, validationStatusLabels) => [
   {
-    ...GRID_CHECKBOX_SELECTION_COL_DEF,
-    renderCell: (params) => {
-      if (params.row.canBeDeleted) return <GridCellCheckboxRenderer {...params} />;
-      return (
-        <FadingTooltip
-          title={t(
-            'commoncomponents.scenariomanager.table.rowAction.cannotDeleteTooltip',
-            'You do not have the required permissions to delete this scenario'
-          )}
-          disableInteractive
-        >
-          <GridCellCheckboxRenderer {...params} />
-        </FadingTooltip>
-      );
-    },
-  },
-  {
     field: 'name',
     headerName: t('commoncomponents.scenariomanager.table.column.scenario', 'Scenario'),
     valueGetter: (_, row) => row.name ?? 'N/A',
     renderCell: (params) => {
       const scenarioName = params.value;
-      const nameWithOffset = `${NBSP.repeat(4 * (params.row.depth ?? 0))}${scenarioName}`;
+      const offsetPrefix = ('-' + NBSP.repeat(4)).repeat(params.row.depth ?? 0);
+      const nameWithOffset = `${offsetPrefix}${scenarioName}`;
       return (
         <Stack direction="row" sx={{ alignItems: 'center', height: '100%' }}>
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={scenarioName}>
@@ -118,6 +102,23 @@ const forgeColumns = (t, validationStatusLabels) => [
     flex: 1,
     align: 'center',
     disableColumnMenu: true,
+  },
+  {
+    ...GRID_CHECKBOX_SELECTION_COL_DEF,
+    renderCell: (params) => {
+      if (params.row.canBeDeleted) return <GridCellCheckboxRenderer {...params} />;
+      return (
+        <FadingTooltip
+          title={t(
+            'commoncomponents.scenariomanager.table.rowAction.cannotDeleteTooltip',
+            'You do not have the required permissions to delete this scenario'
+          )}
+          disableInteractive
+        >
+          <GridCellCheckboxRenderer {...params} />
+        </FadingTooltip>
+      );
+    },
   },
 ];
 

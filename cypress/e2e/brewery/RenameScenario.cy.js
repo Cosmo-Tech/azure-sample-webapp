@@ -56,7 +56,7 @@ describe('Scenario renaming in the ScenarioManager view', () => {
     ScenarioManager.switchToScenarioManager();
     ScenarioManager.renameScenario(SCENARIO_A_ID, SCENARIO_NAME_A3);
     ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A3);
-    ScenarioManager.getScenarioViewRedirect(SCENARIO_A_ID).click();
+    ScenarioManager.openScenarioFromScenarioManager(SCENARIO_A_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_B1, SCENARIO_B_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_A3, SCENARIO_A_ID);
 
@@ -73,7 +73,7 @@ describe('Scenario renaming in the ScenarioManager view', () => {
     ScenarioManager.renameScenario(SCENARIO_B_ID, SCENARIO_NAME_A1);
     ScenarioManager.getScenarioName(SCENARIO_B_ID).should('have.text', SCENARIO_NAME_A1);
 
-    ScenarioManager.getScenarioViewRedirect(SCENARIO_B_ID).click();
+    ScenarioManager.openScenarioFromScenarioManager(SCENARIO_B_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_A2, SCENARIO_A_ID);
     ScenarioSelector.selectScenario(SCENARIO_NAME_A1, SCENARIO_B_ID);
   });
