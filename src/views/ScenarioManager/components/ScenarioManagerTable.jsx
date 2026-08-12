@@ -54,6 +54,7 @@ export const ScenarioManagerTable = () => {
           rowSelectionModel={visibleSelectionModel}
           onRowSelectionModelChange={handleSelectionChange}
           hideFooter={hideFooter}
+          slotProps={{ baseCheckbox: { sx: { color: (theme) => theme.palette.primary.main } } }}
         />
       </Box>
     </Stack>
