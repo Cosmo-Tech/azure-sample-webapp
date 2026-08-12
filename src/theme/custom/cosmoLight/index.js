@@ -4,3 +4,4 @@
 export { default as palette } from './palette';
 export { default as picture } from './picture';
 export { default as grid } from './grid';
+export { default as muiDataGrid } from './muiDataGrid';
