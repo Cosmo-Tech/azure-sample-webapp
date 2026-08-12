@@ -28,7 +28,8 @@ const forgeColumns = (t, validationStatusLabels) => [
     valueGetter: (_, row) => row.name ?? 'N/A',
     renderCell: (params) => {
       const scenarioName = params.value;
-      const nameWithOffset = `${NBSP.repeat(4 * (params.row.depth ?? 0))}${scenarioName}`;
+      const offsetPrefix = ('-' + NBSP.repeat(4)).repeat(params.row.depth ?? 0);
+      const nameWithOffset = `${offsetPrefix}${scenarioName}`;
       return (
         <Stack direction="row" sx={{ alignItems: 'center', height: '100%' }}>
           <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={scenarioName}>
