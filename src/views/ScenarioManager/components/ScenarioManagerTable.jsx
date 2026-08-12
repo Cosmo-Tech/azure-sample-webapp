@@ -54,6 +54,7 @@ export const ScenarioManagerTable = () => {
           rowSelectionModel={visibleSelectionModel}
           onRowSelectionModelChange={handleSelectionChange}
           hideFooter={hideFooter}
+          sx={{ '.MuiDataGrid-columnHeaderTitle': { fontWeight: 'bold !important' } }}
           slotProps={{ baseCheckbox: { sx: { color: (theme) => theme.palette.primary.main } } }}
         />
       </Card>
