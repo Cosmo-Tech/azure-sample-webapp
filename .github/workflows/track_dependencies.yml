@@ -12,7 +12,14 @@ jobs:
   dependency_track:
     runs-on: ubuntu-latest
     steps:
-      # Setup
+      - name: Extract version from tag
+        if: ${{ github.ref_type == 'tag' }}
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          TAG_VERSION="${REF_NAME#v}"             # Remove 'v' prefix
+          TAG_VERSION="${TAG_VERSION%-vanilla}"   # Remove '-vanilla' suffix
+          echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v7
       - name: Enable Corepack
@@ -59,8 +66,8 @@ jobs:
           with:
             serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
             apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-            projectname: "azure-sample-webapp - webapp-server - NPM dependencies - ${{ github.ref_name }}"
-            projectversion: ${{ github.ref_name }}
+            projectname: "azure-sample-webapp - webapp-server - NPM dependencies - v${{ env.TAG_VERSION }}"
+            projectversion: ${{ env.TAG_VERSION }}
             projecttags: business-webapp
             parent: 2cac9be4-3c44-4237-87ef-ee589bdd4591
             autocreate: true
@@ -71,8 +78,8 @@ jobs:
           with:
             serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
             apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-            projectname: "azure-sample-webapp - webapp-functions - NPM dependencies - ${{ github.ref_name }}"
-            projectversion: ${{ github.ref_name }}
+            projectname: "azure-sample-webapp - webapp-functions - NPM dependencies - v${{ env.TAG_VERSION }}"
+            projectversion: ${{ env.TAG_VERSION }}
             projecttags: business-webapp
             parent: c336a13e-e275-4357-b73f-4b0d45869d95
             autocreate: true
