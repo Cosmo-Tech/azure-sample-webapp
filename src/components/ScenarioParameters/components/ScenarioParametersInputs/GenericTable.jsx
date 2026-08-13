@@ -223,31 +223,28 @@ export const GenericTable = ({
 
   const isDataFetchedFromDataset = !!ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
 
-  const _getDataFromDatasetPart = async (setClientFileDescriptor) => {
+  const _getDataFromDatasetPart = async (setClientFileDescriptor, parameter) => {
+    if (_checkForLock()) return;
+    GenericTable.downloadLocked[lockId] = true;
+
     const fileName = `${parameterData.id}.csv`;
-    const _setClientFileDescriptorToError = () => {
-      setClientFileDescriptor({
-        value: null,
-        serializedData: null,
-        displayData: null,
-        errors: null,
-        displayStatus: TABLE_DATA_STATUS.ERROR,
-      });
+    const noFileDescriptor = { value: null, serializedData: null, displayData: null, errors: null };
+    const _setErrorStatusAndFreeLock = () => {
+      GenericTable.downloadLocked[lockId] = false;
+
+      // If the current status was already an error, add a short timeout to maintain the loading status and give visual
+      // feedback to users
+      const timeoutDelayInMs = parameter?.displayStatus === TABLE_DATA_STATUS.ERROR ? 100 : null;
+      if (!timeoutDelayInMs) setClientFileDescriptor({ ...noFileDescriptor, displayStatus: TABLE_DATA_STATUS.ERROR });
+      else {
+        setTimeout(function () {
+          setClientFileDescriptor({ ...noFileDescriptor, displayStatus: TABLE_DATA_STATUS.ERROR });
+        }, timeoutDelayInMs);
+      }
     };
 
-    setClientFileDescriptor({
-      value: null,
-      serializedData: null,
-      displayData: null,
-      errors: null,
-      displayStatus: TABLE_DATA_STATUS.DOWNLOADING,
-    });
-    if (_checkForLock()) {
-      return;
-    }
-    GenericTable.downloadLocked[lockId] = true;
+    setClientFileDescriptor({ ...noFileDescriptor, displayStatus: TABLE_DATA_STATUS.DOWNLOADING });
     const sourceDataset = context.targetDataset;
-
     if (!sourceDataset) {
       setPlaceholder({
         title: t('commoncomponents.banner.missingDataset', 'Dataset not found'),
@@ -256,7 +253,7 @@ export const GenericTable = ({
           'Impossible to fetch data from dataset because it does not exist or you do not have access to it. '
         ),
       });
-      _setClientFileDescriptorToError();
+      _setErrorStatusAndFreeLock();
       return;
     }
 
@@ -268,7 +265,7 @@ export const GenericTable = ({
           'Only datasets with parts of type "DB" can be used to fetch table data dynamically'
         ),
       });
-      _setClientFileDescriptorToError();
+      _setErrorStatusAndFreeLock();
       return;
     }
 
@@ -285,7 +282,7 @@ export const GenericTable = ({
           { datasetName: sourceDataset?.name, datasetPartName }
         ),
       });
-      _setClientFileDescriptorToError();
+      _setErrorStatusAndFreeLock();
       return;
     }
 
@@ -302,7 +299,7 @@ export const GenericTable = ({
         ),
       });
       console.error(error?.response?.data?.detail);
-      _setClientFileDescriptorToError();
+      _setErrorStatusAndFreeLock();
       return;
     }
 
@@ -315,7 +312,7 @@ export const GenericTable = ({
             'Please, check your solution'
         ),
       });
-      _setClientFileDescriptorToError();
+      _setErrorStatusAndFreeLock();
       return;
     }
 
@@ -326,7 +323,6 @@ export const GenericTable = ({
         errors: agGridData.error,
       });
     } else {
-      // FIXME import & use forgeFileParameter
       setClientFileDescriptor({
         name: fileName,
         value: null,
@@ -633,7 +629,7 @@ export const GenericTable = ({
       parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
       !alreadyDownloaded
     ) {
-      _getDataFromDatasetPart(updateParameterValueWithReset);
+      _getDataFromDatasetPart(updateParameterValueWithReset, parameter);
     }
   });
 
@@ -711,13 +707,15 @@ export const GenericTable = ({
 
   const revertTableWithDatasetData = useCallback(
     (isChecked) => {
-      localStorage.setItem('dontAskAgainToRevertTableData', isChecked);
+      localStorage.setItem('dontAskAgainToRevertTableData', JSON.stringify(isChecked));
       closeRevertDialog();
       // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
       // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
       // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
-      _getDataFromDatasetPart(parameter.serializedData ? updateParameterValue : updateParameterValueWithReset);
-      if (parameter.serializedData) updateOnFirstEdition();
+      if (parameter.serializedData != null) {
+        _getDataFromDatasetPart(updateParameterValue, parameter);
+        updateOnFirstEdition();
+      } else _getDataFromDatasetPart(updateParameterValueWithReset, parameter);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [parameter.serializedData, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
@@ -725,7 +723,7 @@ export const GenericTable = ({
 
   const onRevertTableData = useCallback(() => {
     if (localStorage.getItem('dontAskAgainToRevertTableData') !== 'true') setIsRevertDialogOpen(true);
-    else revertTableWithDatasetData('true');
+    else revertTableWithDatasetData(true);
   }, [setIsRevertDialogOpen, revertTableWithDatasetData]);
 
   return (
@@ -776,7 +774,7 @@ export const GenericTable = ({
       />
       <TableRevertDataDialog
         onClose={closeRevertDialog}
-        onConfirm={(isChecked) => revertTableWithDatasetData(isChecked)}
+        onConfirm={revertTableWithDatasetData}
         open={isRevertDialogOpen}
       />
     </>
