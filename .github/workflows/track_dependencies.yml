@@ -12,38 +12,68 @@ jobs:
   dependency_track:
     runs-on: ubuntu-latest
     steps:
+      # Setup
       - name: Checkout
         uses: actions/checkout@v7
-
       - name: Enable Corepack
         run: corepack enable
-
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
           node-version: '24'
           cache: 'yarn'
 
-      - name: Generate SBOM
-        run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o sbom.json
+      # Generate SBOM files
 
-      - name: Upload SBOM file (main)
-        if: ${{ github.ref_type != 'tag' }}
-        uses: DependencyTrack/gh-upload-sbom@v4
-        with:
-          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-          project: a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17
-          bomfilename: sbom.json
+      - parallel:
+        - name: Generate SBOM (webapp-server)
+          run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o sbom-webapp-server-dependencies.json
+        - name: Generate SBOM (webapp-functions)
+          working-directory: ./api
+          run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o ../sbom-webapp-functions-dependencies.json
 
-      - name: Upload SBOM file (tag)
-        if: ${{ github.ref_type == 'tag' }}
-        uses: DependencyTrack/gh-upload-sbom@v4
-        with:
-          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-          projectname: azure-sample-webapp
-          projectversion: ${{ github.ref_name }}
-          parent: a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17
-          autocreate: true
-          bomfilename: sbom.json
+      # Upload SBOM files
+
+      - parallel:
+        # Branch commit trigger
+        - name: Upload SBOM files (main - webapp-server)
+          if: ${{ github.ref_type != 'tag' }}
+          uses: DependencyTrack/gh-upload-sbom@v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            project: a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17
+            bomfilename: sbom-webapp-server-dependencies.json
+        - name: Upload SBOM files (main - webapp-functions)
+          if: ${{ github.ref_type != 'tag' }}
+          uses: DependencyTrack/gh-upload-sbom@v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            project: 493e9e7c-ee43-4482-9dd4-d5ad26d6ab9a
+            bomfilename: sbom-webapp-functions-dependencies.json
+        # New tag trigger
+        - name: Upload SBOM files (tag - webapp-server)
+          if: ${{ github.ref_type == 'tag' }}
+          uses: DependencyTrack/gh-upload-sbom@v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            projectname: "azure-sample-webapp - webapp-server - NPM dependencies - ${{ github.ref_name }}"
+            projectversion: ${{ github.ref_name }}
+            projecttags: business-webapp
+            parent: 2cac9be4-3c44-4237-87ef-ee589bdd4591
+            autocreate: true
+            bomfilename: sbom-webapp-server-dependencies.json
+        - name: Upload SBOM files (tag - webapp-functions)
+          if: ${{ github.ref_type == 'tag' }}
+          uses: DependencyTrack/gh-upload-sbom@v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            projectname: "azure-sample-webapp - webapp-functions - NPM dependencies - ${{ github.ref_name }}"
+            projectversion: ${{ github.ref_name }}
+            projecttags: business-webapp
+            parent: c336a13e-e275-4357-b73f-4b0d45869d95
+            autocreate: true
+            bomfilename: sbom-webapp-functions-dependencies.json
