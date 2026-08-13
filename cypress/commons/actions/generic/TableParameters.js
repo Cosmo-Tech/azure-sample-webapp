@@ -107,6 +107,10 @@ function getRevertDialogConfirmButton() {
   return cy.get(GENERIC_SELECTORS.genericComponents.table.toolbar.revertDialogConfirmButton);
 }
 
+function getLoadingSpinner(tableParameterElement) {
+  return tableParameterElement.find(GENERIC_SELECTORS.genericComponents.table.toolbar.loadingSpinner);
+}
+
 function getHeader(tableParameterElement) {
   return getGrid(tableParameterElement).find(GENERIC_SELECTORS.genericComponents.table.header);
 }
@@ -270,6 +274,7 @@ export const TableParameters = {
   getDeleteRowsButton,
   getFullscreenButton,
   toggleFullscreenButton,
+  getLoadingSpinner,
   getHeader,
   getPlaceholder,
   getHeaderCell,

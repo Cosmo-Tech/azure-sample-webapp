@@ -201,3 +201,41 @@ describe('can use options to filter columns when fetching dynamic table data fro
     BreweryParameters.getCustomersTableHeaderCell('name').should('not.exist');
   });
 });
+
+describe('error handling in dynamic tables', () => {
+  const SCENARIOS = clone(DEFAULT_SIMULATION_RUNNERS);
+  SCENARIOS.forEach((scenario) => (scenario.runTemplateId = 'sim_mock_parameters'));
+  const DATASETS_WITH_FILE_DATASET_PARTS = clone(DATASETS);
+  DATASETS_WITH_FILE_DATASET_PARTS.forEach((dataset) => {
+    (dataset?.parts ?? []).forEach((datasetPart) => {
+      datasetPart.type = 'File';
+    });
+  });
+
+  before(() => {
+    stub.start();
+    stub.setDatasets(DATASETS_WITH_FILE_DATASET_PARTS);
+    stub.setRunners(SCENARIOS);
+    stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
+  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
+
+  it('must show an error placeholder when trying to query a dataset part of type File', () => {
+    Scenarios.getScenarioViewTab(60).should('be.visible');
+    ScenarioParameters.expandParametersAccordion();
+    BreweryParameters.switchToCustomersTab();
+    BreweryParameters.getCustomersTableGrid().should('exist');
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('be.visible').contains('of type "DB"');
+
+    BreweryParameters.addRowCustomersTableData();
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('not.exist');
+    ScenarioParameters.getSaveButton().should('be.visible');
+
+    ScenarioParameters.discard();
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('be.visible').contains('of type "DB"');
+  });
+});

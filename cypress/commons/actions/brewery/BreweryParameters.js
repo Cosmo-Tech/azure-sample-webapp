@@ -315,6 +315,10 @@ function revertCustomersTable(response = {}) {
   TableParameters.revertTableData(getCustomersTable());
 }
 
+function getCustomersLoadingSpinner() {
+  return TableParameters.getLoadingSpinner(getCustomersTable());
+}
+
 function getEventsTable() {
   return cy.get(BREWERY_SELECTORS.scenario.parameters.events.table);
 }
@@ -535,6 +539,7 @@ export const BreweryParameters = {
   editCustomersTableStringCell,
   getCustomersRevertTableButton,
   revertCustomersTable,
+  getCustomersLoadingSpinner,
   getEventsTableLabel,
   getEventsTableGrid,
   getEventsImportButton,
