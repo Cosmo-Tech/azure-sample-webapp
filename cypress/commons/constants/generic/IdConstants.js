@@ -366,6 +366,7 @@ export const GENERIC_SELECTORS = {
         deleteRowsDialogConfirmButton: '[data-cy=delete-rows-dialog-confirm-button]',
         revertButton: '[data-cy=revert-table-button]',
         revertDialogConfirmButton: '[data-cy=revert-table-data-dialog-confirm-button]',
+        loadingSpinner: '[role=progressbar]',
       },
       header: '[class=ag-header-container]',
       placeholder: '[data-cy=empty-table-placeholder]',

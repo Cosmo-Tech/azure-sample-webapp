@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
-import { Login, ScenarioParameters, Scenarios, ScenarioSelector } from '../../commons/actions';
+import { Downloads, Login, ScenarioParameters, Scenarios, ScenarioSelector } from '../../commons/actions';
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
@@ -22,12 +22,7 @@ const queryResponse =
   'Customer2,0,0,false\n' +
   'Customer4,0,0,false';
 const firstCustomerName = 'Customer3';
-
-const runOptions = {
-  runDuration: 1000,
-  finalStatus: 'Successful',
-  expectedPollsCount: 2,
-};
+const runOptions = { runDuration: 0, finalStatus: 'Successful', expectedPollsCount: 1 };
 
 const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
   ScenarioSelector.selectScenario(scenario.name, scenario.id);
@@ -48,56 +43,51 @@ describe('can use dataset data in editable table', () => {
     stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
-  beforeEach(() => {
-    Login.login();
-  });
+  beforeEach(() => Login.login());
   after(() => {
     stub.stop();
+    Downloads.clearDownloadsFolder();
   });
 
-  it('can display a table filled with data fetched from dataset', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
+  it('can display a table filled with data fetched from dataset, export it and upload a new table', () => {
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
+    // Check behavior for non-dynamic table parameter
+    BreweryParameters.switchToEventsTab();
+    BreweryParameters.getEventsRevertTableButton().should('not.exist');
+
+    // Check that initial content has been filled by the dynamic query
     BreweryParameters.switchToCustomersTab();
+    BreweryParameters.getCustomersRevertTableButton().should('exist');
     BreweryParameters.getCustomersTable().should('be.visible');
     BreweryParameters.getCustomersTableLabel().should('be.visible').should('have.text', 'Customers');
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.getCustomersTableHeaderCell('name').should('be.visible');
     BreweryParameters.getCustomersTableHeaderCell('satisfaction').should('be.visible');
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', firstCustomerName);
-  });
 
-  it('can export data fetched from dataset and upload a new table', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
-    Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersTable().should('be.visible');
-    BreweryParameters.getCustomersTableGrid().should('exist');
+    // Edit & revert changes
+    BreweryParameters.editCustomersTableStringCell('name', 0, 'Client').should('have.text', 'Client');
+    BreweryParameters.revertCustomersTable(queryResponse);
+    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', firstCustomerName);
+    ScenarioParameters.getSaveButton().should('not.exist');
+
+    // Export to CSV
     BreweryParameters.exportCustomersTableDataToCSV();
+    Downloads.checkByContent('customers.csv', queryResponse);
+
+    // Import a CSV
     BreweryParameters.importCustomersTableData(EDITED_DATA_CSV);
     BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Client');
     BreweryParameters.getCustomersTableCell('name', 1).should('have.text', 'Client');
+
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     ScenarioParameters.discard();
   });
 
-  it('can fetch data from dataset, edit it without saving and revert', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
-    Scenarios.getScenarioViewTab(60).should('be.visible');
-    ScenarioParameters.expandParametersAccordion();
-    BreweryParameters.switchToEventsTab();
-    BreweryParameters.getEventsRevertTableButton().should('not.exist');
-    BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersTableGrid().should('exist');
-    BreweryParameters.getCustomersRevertTableButton().should('exist');
-    BreweryParameters.editCustomersTableStringCell('name', 0, 'Client').should('have.text', 'Client');
-    BreweryParameters.revertCustomersTable(queryResponse);
-    ScenarioParameters.getSaveButton().should('not.exist');
-  });
-
   it('can fetch data from dataset, edit it, save and revert without reloading', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
@@ -111,7 +101,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table as dataset part, then revert data after reloading scenario', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[1]);
     ScenarioSelector.getScenarioSelectorInput().should('have.value', SCENARIOS[1].name);
@@ -149,7 +139,7 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table on first save', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[2]);
     ScenarioParameters.expandParametersAccordion();
@@ -167,19 +157,15 @@ describe('can use dataset data in editable table', () => {
   });
 
   it('can fetch data from dataset and save table on first launch', () => {
-    apiUtils.interceptPostDatasetQuery(queryResponse, false);
+    apiUtils.interceptPostDatasetQuery(queryResponse);
     Scenarios.getScenarioViewTab(60).should('be.visible');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
     ScenarioParameters.expandParametersAccordion();
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
     BreweryParameters.switchToEventsTab();
-    ScenarioParameters.launch({
-      saveAndLaunch: true,
-      datasetPartEvents: [{ id: 'd-stbddtspr5' }],
-      runOptions,
-    });
-    ScenarioParameters.waitForScenarioRunEnd();
+    ScenarioParameters.launch({ saveAndLaunch: true, datasetPartEvents: [{ id: 'd-stbddtspr5' }], runOptions });
+    ScenarioParameters.getStopScenarioRunButton(10).should('not.exist');
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
     apiUtils.interceptDownloadDatasetPart();
     selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[3]);
@@ -199,12 +185,8 @@ describe('can use options to filter columns when fetching dynamic table data fro
     stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE_AND_OPTIONS]);
   });
-  beforeEach(() => {
-    Login.login();
-  });
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
   it('sends options.selects to the query endpoint and only displays the selected columns', () => {
     // The query response only returns the selected column (satisfaction), not the first column (name)
@@ -220,47 +202,40 @@ describe('can use options to filter columns when fetching dynamic table data fro
   });
 });
 
-describe('save table on second launch', () => {
+describe('error handling in dynamic tables', () => {
   const SCENARIOS = clone(DEFAULT_SIMULATION_RUNNERS);
   SCENARIOS.forEach((scenario) => (scenario.runTemplateId = 'sim_mock_parameters'));
+  const DATASETS_WITH_FILE_DATASET_PARTS = clone(DATASETS);
+  DATASETS_WITH_FILE_DATASET_PARTS.forEach((dataset) => {
+    (dataset?.parts ?? []).forEach((datasetPart) => {
+      datasetPart.type = 'File';
+    });
+  });
 
   before(() => {
     stub.start();
-    stub.setDatasets(DATASETS);
+    stub.setDatasets(DATASETS_WITH_FILE_DATASET_PARTS);
     stub.setRunners(SCENARIOS);
     stub.setSolutions([SOLUTION_WITH_DYNAMIC_TABLE]);
   });
-  beforeEach(() => {
-    Login.login();
-  });
-  after(() => {
-    stub.stop();
-  });
+  beforeEach(() => Login.login());
+  after(() => stub.stop());
 
-  it('can fetch data from dataset and save table on second launch', () => {
+  it('must show an error placeholder when trying to query a dataset part of type File', () => {
     Scenarios.getScenarioViewTab(60).should('be.visible');
-    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
-    ScenarioParameters.launch({
-      saveAndLaunch: true,
-      runOptions,
-    });
-    ScenarioParameters.waitForScenarioRunEnd();
     ScenarioParameters.expandParametersAccordion();
-    apiUtils.interceptPostDatasetQuery(queryResponse);
     BreweryParameters.switchToCustomersTab();
     BreweryParameters.getCustomersTableGrid().should('exist');
-    ScenarioParameters.launch({
-      saveAndLaunch: true,
-      datasetPartEvents: [{ id: 'd-stbddtspr6' }],
-      runOptions,
-    });
-    ScenarioParameters.waitForScenarioRunEnd();
-    BreweryParameters.switchToEventsTab();
-    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[0]);
-    apiUtils.interceptDownloadDatasetPart();
-    selectScenarioAndWaitForScenarioViewUrlUpdate(SCENARIOS[4]);
-    BreweryParameters.switchToCustomersTab();
-    BreweryParameters.getCustomersTableGrid().should('exist');
-    BreweryParameters.getCustomersTableCell('name', 0).should('have.text', 'Customer3');
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('be.visible').contains('of type "DB"');
+
+    BreweryParameters.addRowCustomersTableData();
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('not.exist');
+    ScenarioParameters.getSaveButton().should('be.visible');
+
+    ScenarioParameters.discard();
+    BreweryParameters.getCustomersLoadingSpinner().should('not.exist');
+    BreweryParameters.getCustomersTablePlaceholder().should('be.visible').contains('of type "DB"');
   });
 });
