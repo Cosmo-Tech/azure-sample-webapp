@@ -94,10 +94,11 @@ jobs:
           #  "PUBLIC_URL=${{ env.PUBLIC_URL }}"
       - name: "webapp-server: generate SBOM from Docker image"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
-        env:
-          IMAGE_TAG: v${{ env.TAG_VERSION }}-vanilla
-        run: |
-          trivy image --format cyclonedx --output sbom-webapp-server-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server:$IMAGE_TAG"
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
+        with:
+          image-ref: '${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server:${{ github.ref_name }}'
+          format: 'cyclonedx'
+          output: 'sbom-webapp-server-docker.json'
       - name: "webapp-server: upload SBOM to DependencyTrack"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
         uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
@@ -135,10 +136,11 @@ jobs:
           labels: ${{ steps.webapp-functions-metadata.outputs.labels }}
       - name: "webapp-functions: generate SBOM from Docker image"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
-        env:
-          IMAGE_TAG: v${{ env.TAG_VERSION }}-vanilla
-        run: |
-          trivy image --format cyclonedx --output sbom-webapp-functions-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions:$IMAGE_TAG"
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
+        with:
+          image-ref: '${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions:${{ github.ref_name }}'
+          format: 'cyclonedx'
+          output: 'sbom-webapp-functions-docker.json'
       - name: "webapp-functions: upload SBOM to DependencyTrack"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
         uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
