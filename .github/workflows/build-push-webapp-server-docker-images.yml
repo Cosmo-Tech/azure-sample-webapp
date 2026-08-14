@@ -44,12 +44,33 @@ jobs:
 
     steps:
       - name: Checkout git repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
           ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
+
+      - name: Check SBOM upload conditions
+        id: sbom-conditions
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          SHOULD_UPLOAD_SBOM=false
+
+          # Check if tag matches pattern v[0-9]+.[0-9]+.[0-9]+-vanilla
+          if [[ "${{ github.ref_type }}" == "tag" && "$REF_NAME" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)-vanilla$ ]]; then
+            VERSION="${BASH_REMATCH[1]}"
+            echo "TAG_VERSION=$VERSION" >> $GITHUB_ENV
+
+            # Check if secrets are defined
+            if [[ -n "${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}" && -n "${{ secrets.DEPENDENCY_TRACK_API_KEY }}" ]]; then
+              SHOULD_UPLOAD_SBOM=true
+            fi
+          fi
+
+          echo "SHOULD_UPLOAD_SBOM=$SHOULD_UPLOAD_SBOM" >> $GITHUB_OUTPUT
+
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -59,9 +80,11 @@ jobs:
         with:
           identity: ${{ secrets.CHAINGUARD_IDENTITY_GH_WORKFLOW_MIGRATION }}
 
+      # Webapp server image
+
       - name: "webapp-server: extract Docker metadata (tags, labels)"
         id: webapp-server-metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
         with:
           # Change the tag and image name below if needed (see https://github.com/docker/metadata-action)
           flavor: |
@@ -74,7 +97,7 @@ jobs:
             type=ref,event=tag
           images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server
       - name: "webapp-server: build and push Docker image"
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
         env:
           DOCKER_BUILD_RECORD_UPLOAD: false
         with:
@@ -89,10 +112,30 @@ jobs:
           build-args: |
             "VITE_BUILD_NUMBER=${{ env.VITE_BUILD_NUMBER }}"
           #  "PUBLIC_URL=${{ env.PUBLIC_URL }}"
+      - name: "webapp-server: generate SBOM from Docker image"
+        if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
+        env:
+          IMAGE_TAG: v${{ env.TAG_VERSION }}-vanilla
+        run: |
+          trivy image --format cyclonedx --output sbom-webapp-server-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server:$IMAGE_TAG"
+      - name: "webapp-server: upload SBOM to DependencyTrack"
+        if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
+        uses: DependencyTrack/gh-upload-sbom@cc655d7447ad82945e0034afbd67cd8f571f11b0 # v4
+        with:
+          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+          projectname: "azure-sample-webapp - webapp-server - Docker image - v${{ env.TAG_VERSION }}"
+          projectversion: ${{ env.TAG_VERSION }}
+          projecttags: business-webapp
+          parent: ba047d12-e867-474d-ae8a-47129cb92240
+          autocreate: true
+          bomfilename: sbom-webapp-server-docker.json
+
+      # Webapp functions image
 
       - name: "webapp-functions: extract Docker metadata (tags, labels)"
         id: webapp-functions-metadata
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
         with:
           # Change the tag and image name below if needed (see https://github.com/docker/metadata-action)
           flavor: |
@@ -105,7 +148,7 @@ jobs:
             type=ref,event=tag
           images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions
       - name: "webapp-functions: build and push Docker image"
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
         env:
           DOCKER_BUILD_RECORD_UPLOAD: false
         with:
@@ -114,3 +157,21 @@ jobs:
           push: true
           tags: ${{ steps.webapp-functions-metadata.outputs.tags }}
           labels: ${{ steps.webapp-functions-metadata.outputs.labels }}
+      - name: "webapp-functions: generate SBOM from Docker image"
+        if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
+        env:
+          IMAGE_TAG: v${{ env.TAG_VERSION }}-vanilla
+        run: |
+          trivy image --format cyclonedx --output sbom-webapp-functions-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions:$IMAGE_TAG"
+      - name: "webapp-functions: upload SBOM to DependencyTrack"
+        if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
+        uses: DependencyTrack/gh-upload-sbom@cc655d7447ad82945e0034afbd67cd8f571f11b0 # v4
+        with:
+          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+          projectname: "azure-sample-webapp - webapp-functions - Docker image - v${{ env.TAG_VERSION }}"
+          projectversion: ${{ env.TAG_VERSION }}
+          projecttags: business-webapp
+          parent: b578794f-b01d-445c-9f7c-16bd889c2d61
+          autocreate: true
+          bomfilename: sbom-webapp-functions-docker.json
