@@ -1,3 +1,17 @@
+## **7.2.0** <sub><sup>2026-08-14 ([3e08d4a...0c7d736](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/3e08d4a5...0c7d7367?diff=split))</sup></sub>
+
+### Features
+
+- full UI redesign of the Scenario Manager view (including scenario batch delete, and search by runner id) ([65ef57f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/65ef57f9))
+- add delete button in Scenario view ([530a5a7](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/530a5a78))
+- add keyboard shortcut ("Ctrl+Enter") to confirm changes in scenario creation & edit dialogs ([eb0c67a](https://github.com/Cosmo-Tech/webapp-component-ui/commit/eb0c67a))
+
+### Bug Fixes
+
+- fix reversed French labels for granted & denied permissions in resource sharing dialogs ([4768b31](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/4768b31e))
+- fix possible error in DatasetManager when workspace configuration has invalid type ([e40a05b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e40a05b4))
+- fix dynamic table state sometimes stuck to "loading" ([34f8df0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/34f8df02))
+
 ## **7.1.1** <sub><sup>2026-07-10 ([2c2891c...a21c4ba](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/2c2891cb...a21c4bae?diff=split))</sup></sub>
 
 ### Bug Fixes
