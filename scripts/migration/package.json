@@ -2,19 +2,16 @@
   "name": "@cosmotech/migrate-azure-sample-webapp",
   "version": "0.3.0",
   "description": "Scripts to help migrating between versions of the Azure Sample Webapp",
-  "bin": {
-    "migrate-azure-sample-webapp": "./src/migrate.js"
-  },
+  "bin": "./src/migrate.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Cosmo-Tech/azure-sample-webapp.git",
     "directory": "scripts/migration"
   },
   "license": "MIT",
-  "private": false,
   "dependencies": {
     "argparse": "^2.0.1",
-    "js-yaml": "^4.1.1",
-    "prettier": "^3.8.1"
+    "js-yaml": "^4.3.1",
+    "prettier": "^3.9.6"
   }
 }
