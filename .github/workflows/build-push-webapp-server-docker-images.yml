@@ -120,7 +120,7 @@ jobs:
           trivy image --format cyclonedx --output sbom-webapp-server-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server:$IMAGE_TAG"
       - name: "webapp-server: upload SBOM to DependencyTrack"
         if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
-        uses: DependencyTrack/gh-upload-sbom@cc655d7447ad82945e0034afbd67cd8f571f11b0 # v4
+        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
         with:
           serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
           apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
@@ -165,7 +165,7 @@ jobs:
           trivy image --format cyclonedx --output sbom-webapp-functions-docker.json "${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions:$IMAGE_TAG"
       - name: "webapp-functions: upload SBOM to DependencyTrack"
         if: steps.sbom-conditions.outputs.SHOULD_UPLOAD_SBOM == 'true'
-        uses: DependencyTrack/gh-upload-sbom@cc655d7447ad82945e0034afbd67cd8f571f11b0 # v4
+        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
         with:
           serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
           apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
