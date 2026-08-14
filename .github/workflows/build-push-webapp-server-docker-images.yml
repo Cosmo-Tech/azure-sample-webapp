@@ -96,7 +96,7 @@ jobs:
         if: github.ref_type == 'branch' && github.ref_name == 'main'
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
         with:
-          image-ref: '${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-server:${{ github.ref_name }}'
+          image-ref: 'ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server:${{ github.ref_name }}'
           format: 'cyclonedx'
           output: 'sbom-webapp-server-docker.json'
       - name: "webapp-server: upload SBOM to DependencyTrack"
@@ -138,7 +138,7 @@ jobs:
         if: github.ref_type == 'branch' && github.ref_name == 'main'
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
         with:
-          image-ref: '${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions:${{ github.ref_name }}'
+          image-ref: 'ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions:${{ github.ref_name }}'
           format: 'cyclonedx'
           output: 'sbom-webapp-functions-docker.json'
       - name: "webapp-functions: upload SBOM to DependencyTrack"
