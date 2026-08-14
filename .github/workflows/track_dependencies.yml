@@ -5,21 +5,11 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+-vanilla'
 
 jobs:
   dependency_track:
     runs-on: ubuntu-latest
     steps:
-      - name: Extract version from tag
-        if: ${{ github.ref_type == 'tag' }}
-        env:
-          REF_NAME: ${{ github.ref_name }}
-        run: |
-          TAG_VERSION="${REF_NAME#v}"             # Remove 'v' prefix
-          TAG_VERSION="${TAG_VERSION%-vanilla}"   # Remove '-vanilla' suffix
-          echo "TAG_VERSION=$TAG_VERSION" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - name: Enable Corepack
@@ -42,9 +32,9 @@ jobs:
       # Upload SBOM files
 
       - parallel:
-        # Branch commit trigger
+        # Branch main
         - name: Upload SBOM files (main - webapp-server)
-          if: ${{ github.ref_type != 'tag' }}
+          if: github.ref_name == 'main'
           uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
           with:
             serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
@@ -52,35 +42,10 @@ jobs:
             project: a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17
             bomfilename: sbom-webapp-server-dependencies.json
         - name: Upload SBOM files (main - webapp-functions)
-          if: ${{ github.ref_type != 'tag' }}
+          if: github.ref_name == 'main'
           uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
           with:
             serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
             apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
             project: 493e9e7c-ee43-4482-9dd4-d5ad26d6ab9a
-            bomfilename: sbom-webapp-functions-dependencies.json
-        # New tag trigger
-        - name: Upload SBOM files (tag - webapp-server)
-          if: ${{ github.ref_type == 'tag' }}
-          uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
-          with:
-            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-            projectname: "azure-sample-webapp - webapp-server - NPM dependencies - v${{ env.TAG_VERSION }}"
-            projectversion: ${{ env.TAG_VERSION }}
-            projecttags: business-webapp
-            parent: 2cac9be4-3c44-4237-87ef-ee589bdd4591
-            autocreate: true
-            bomfilename: sbom-webapp-server-dependencies.json
-        - name: Upload SBOM files (tag - webapp-functions)
-          if: ${{ github.ref_type == 'tag' }}
-          uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
-          with:
-            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-            projectname: "azure-sample-webapp - webapp-functions - NPM dependencies - v${{ env.TAG_VERSION }}"
-            projectversion: ${{ env.TAG_VERSION }}
-            projecttags: business-webapp
-            parent: c336a13e-e275-4357-b73f-4b0d45869d95
-            autocreate: true
             bomfilename: sbom-webapp-functions-dependencies.json
