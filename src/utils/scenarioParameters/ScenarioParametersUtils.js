@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ConfigUtils } from '../ConfigUtils';
 import { RunnersUtils } from '../RunnersUtils';
 import { SolutionsUtils } from '../SolutionsUtils';
@@ -141,6 +142,9 @@ const _getDefaultValueBasedOnVarType = (solutionParameter, parameterVarType) => 
 
   // Otherwise, use the var type fallback value
   const subType = ConfigUtils.getParameterAttribute(solutionParameter, 'subType');
+  if (parameterVarType === FILE_DATASET_PART_ID_VARTYPE)
+    return forgeFileParameter(solutionParameter.id, parameterVarType, subType, null);
+
   return _getVarTypeDefaultValue(parameterVarType, subType);
 };
 

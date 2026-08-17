@@ -11,6 +11,12 @@ import { DateUtils } from '@cosmotech/core';
 import { BasicDateInput } from '@cosmotech/ui';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericDateInput = ({
   parameterData,
@@ -19,9 +25,9 @@ export const GenericDateInput = ({
   setParameterValue,
   isDirty = false,
   error,
-  gridItemProps,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const dateProps = {
@@ -32,7 +38,7 @@ export const GenericDateInput = ({
   };
 
   return (
-    <Grid id={`date-input-${parameterData.id}`} size={3} {...gridItemProps}>
+    <Grid id={`date-input-${parameterData.id}`} {...gridItemProps}>
       <BasicDateInput
         key={parameterData.id}
         id={parameterData.id}
@@ -56,7 +62,6 @@ GenericDateInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
-  gridItemProps: PropTypes.object,
 };
 
 GenericDateInput.useValidationRules = (parameterData) => {

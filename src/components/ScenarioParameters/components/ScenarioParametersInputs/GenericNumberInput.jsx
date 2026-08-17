@@ -9,6 +9,12 @@ import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
 import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericNumberInput = ({
   parameterData,
@@ -20,6 +26,7 @@ export const GenericNumberInput = ({
   error,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const textFieldProps = {
     disabled: !context.editMode,
@@ -63,7 +70,7 @@ export const GenericNumberInput = ({
 
   return (
     <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
-      <Grid size={3}>
+      <Grid {...gridItemProps}>
         <BasicNumberInput
           key={parameterData.id}
           id={parameterData.id}

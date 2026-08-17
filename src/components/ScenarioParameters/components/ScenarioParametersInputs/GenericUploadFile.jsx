@@ -3,11 +3,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { Grid } from '@mui/material';
 import { UploadFile, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { getFileName } from '../../../../utils/scenarioParameters/FileParameterUtils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericUploadFile = ({
   parameterData,
@@ -21,6 +28,7 @@ export const GenericUploadFile = ({
 }) => {
   const { t } = useTranslation();
   const { downloadDatasetPartFile } = useFileParameters();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const parameterId = parameterData.id;
   const fileName = getFileName(parameterValue);
@@ -41,7 +49,10 @@ export const GenericUploadFile = ({
   const labels = {
     button: t('genericcomponent.uploadfile.button.browse'),
     invalidFileMessage: t('genericcomponent.uploadfile.tooltip.isvalidfile'),
-    label: t(TranslationUtils.getParameterTranslationKey(parameterId), parameterId),
+    label: t(
+      TranslationUtils.getParameterTranslationKey(parameterData.idForTranslationKey ?? parameterId),
+      parameterId
+    ),
     delete: t('genericcomponent.uploadfile.tooltip.delete'),
     noFileMessage: t('genericcomponent.uploadfile.noFileMessage', 'None'),
     getFileNamePlaceholder: (fileExtension) =>
@@ -49,24 +60,26 @@ export const GenericUploadFile = ({
   };
 
   return (
-    <UploadFile
-      key={parameterId}
-      id={parameterId}
-      labels={labels}
-      tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
-      acceptedFileTypes={defaultFileTypeFilter}
-      shouldHideFileName={renameFileOnUpload}
-      handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData)}
-      handleDeleteFile={() => setFileParameterStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE)}
-      handleDownloadFile={(event) => {
-        event.preventDefault();
-        downloadDatasetPartFile(parameterValue, setFileParameterStatus);
-      }}
-      file={file}
-      error={error}
-      editMode={context.editMode}
-      isDirty={isDirty}
-    />
+    <Grid {...gridItemProps}>
+      <UploadFile
+        key={parameterId}
+        id={parameterId}
+        labels={labels}
+        tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+        acceptedFileTypes={defaultFileTypeFilter}
+        shouldHideFileName={renameFileOnUpload}
+        handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData)}
+        handleDeleteFile={() => setFileParameterStatus(UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE)}
+        handleDownloadFile={(event) => {
+          event.preventDefault();
+          downloadDatasetPartFile(parameterValue, setFileParameterStatus);
+        }}
+        file={file}
+        error={error}
+        editMode={context.editMode}
+        isDirty={isDirty}
+      />
+    </Grid>
   );
 };
 

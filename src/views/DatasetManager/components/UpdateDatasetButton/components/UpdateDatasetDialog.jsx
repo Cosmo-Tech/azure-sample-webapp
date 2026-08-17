@@ -1,11 +1,12 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { React, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 import { SolutionsUtils } from '../../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../../utils/scenarioParameters/ParameterContext';
 import { DatasetCreationParameters } from '../../CreateDatasetButton/components/DatasetCreationParameters';
 import { useUpdateDatasetDialog } from './UpdateDatasetDialogHook';
 
@@ -14,11 +15,10 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
   const { dataSourceRunTemplates, updateRunner, solutionData, parentDataset, formattedParametersValues } =
     useUpdateDatasetDialog(dataset, selectedRunner);
 
-  const methods = useForm({
-    mode: 'onChange',
-  });
+  const methods = useForm({ mode: 'onChange' });
   const { isDirty, errors } = methods.formState;
   const isValid = Object.keys(errors ?? {}).length === 0;
+
   useEffect(() => {
     if (open) {
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(selectedRunner?.runTemplateId);
@@ -35,9 +35,17 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
     closeDialog();
   }, [closeDialog, dataset, methods, selectedRunner?.id, selectedRunner?.runTemplateId, solutionData, updateRunner]);
 
+  const [dialogWidth, setDialogWidth] = useState(PARAMETER_CONTEXT_WIDTH.SMALL);
+  const dialogMaxWidth = useMemo(() => {
+    if (dialogWidth === PARAMETER_CONTEXT_WIDTH.SMALL) return 'sm';
+    if (dialogWidth === PARAMETER_CONTEXT_WIDTH.LARGE) return 'xl';
+    console.warn(`Unknown value "${dialogWidth}" for dialog width`);
+    return 'sm';
+  }, [dialogWidth]);
+
   return (
     <FormProvider {...methods} key={`form-update-dataset-${dataset.id}`}>
-      <Dialog data-cy="update-dataset-parameters-dialog" open={open} fullWidth>
+      <Dialog data-cy="update-dataset-parameters-dialog" open={open} fullWidth maxWidth={dialogMaxWidth}>
         <DialogTitle>{t('commoncomponents.datasetmanager.dialogs.update.title', 'Update dataset')}</DialogTitle>
         <DialogContent>
           <Typography sx={{ pb: 1 }}>
@@ -45,6 +53,7 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
           </Typography>
           <DatasetCreationParameters
             dataSourceRunTemplates={dataSourceRunTemplates}
+            dialog={{ width: dialogWidth, setWidth: setDialogWidth }}
             parentDataset={parentDataset}
             selectedRunner={selectedRunner}
           />
@@ -66,6 +75,7 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
     </FormProvider>
   );
 };
+
 UpdateDatasetDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,

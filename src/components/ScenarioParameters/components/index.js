@@ -3,6 +3,7 @@
 
 export { default as ScenarioParametersTabs } from './ScenarioParametersTabs/ScenarioParametersTabs';
 export { default as ScenarioParametersTabsWrapper } from './ScenarioParametersTabs/ScenarioParametersTabsWrapper';
+export { default as ScenarioParameterInput } from './ScenarioParametersTabs/ScenarioParameterInput';
 export { ScenarioActions } from './ScenarioActions';
 export {
   GenericDateInput,

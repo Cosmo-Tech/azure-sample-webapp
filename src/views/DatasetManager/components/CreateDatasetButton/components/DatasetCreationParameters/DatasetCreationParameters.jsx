@@ -6,49 +6,24 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid, Stack, Typography } from '@mui/material';
 import rfdc from 'rfdc';
-import { UploadFile, BasicEnumInput, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
-import { GenericEnumInput, GenericMultiSelect, GenericTextInput, GenericDateInput } from '../../../../../../components';
-import { useFileParameters } from '../../../../../../hooks/FileParameterHooks';
+import { BasicEnumInput } from '@cosmotech/ui';
+import { ScenarioParameterInput } from '../../../../../../components';
+import { ScenarioResetValuesContext } from '../../../../../../components/ScenarioParameters/ScenarioParametersContext';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../../../../services/config/ApiConstants';
-import { ConfigUtils, SolutionsUtils, TranslationUtils } from '../../../../../../utils';
-import { FileManagementUtils } from '../../../../../../utils/FileManagementUtils';
+import { ScenarioParametersUtils, SolutionsUtils } from '../../../../../../utils';
+import {
+  PARAMETER_CONTEXT_VIEWS,
+  PARAMETER_CONTEXT_WIDTH,
+} from '../../../../../../utils/scenarioParameters/ParameterContext';
 import { useDatasetCreationParameters } from './DatasetCreationParametersHook';
 
 const clone = rfdc();
 
-const getParameterDefaultValue = (parameter) => {
-  const varType = parameter.varType;
-  if (varType === FILE_DATASET_PART_ID_VARTYPE) return null;
-  if (parameter?.defaultValue != null) return parameter?.defaultValue;
-
-  if (varType === 'string') return '';
-  if (varType === 'date') return new Date();
-  if (varType === 'list') return [];
-  if (varType === 'enum') {
-    const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-    return enumValues?.[0]?.key ?? '';
-  }
-
-  console.error(`VarType "${varType}" is not supported for ETL runner parameters.`);
-  return null;
-};
-
-const validateFileFormat = (t, fileParameterValue) => {
-  return (
-    fileParameterValue?.value == null ||
-    fileParameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
-    FileManagementUtils.isFileFormatValid(fileParameterValue.value.type) ||
-    t('views.scenario.scenarioParametersValidationErrors.fileFormat', 'File format not supported')
-  );
-};
-
-export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDataset, selectedRunner = {} }) => {
+export const DatasetCreationParameters = ({ dataSourceRunTemplates, dialog, parentDataset, selectedRunner = {} }) => {
   const { t } = useTranslation();
   const { getValues, resetField } = useFormContext();
-  const { downloadDatasetPartFile } = useFileParameters();
 
-  const { datasourceParameterHelpers, getDataSourceTypeEnumValues, getUploadFileLabels, getDefaultFileTypeFilter } =
-    useDatasetCreationParameters();
+  const { datasourceParameterHelpers, getDataSourceTypeEnumValues, isDarkTheme } = useDatasetCreationParameters();
 
   const isSubDatasetCreationWizard = useMemo(() => parentDataset != null, [parentDataset]);
   const isDatasetParametersEditionDialog = selectedRunner && Object.keys(selectedRunner).length > 0;
@@ -66,8 +41,22 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
     if (dataSourceType == null) setDataSourceType(defaultDataSourceTypeKey);
   }, [dataSourceType, setDataSourceType, defaultDataSourceTypeKey]);
 
+  useEffect(() => {
+    if (!dialog?.setWidth) return;
+    const runTemplate = dataSourceRunTemplates[dataSourceType];
+    if (
+      (runTemplate?.parameters ?? []).some(
+        (parameter) =>
+          parameter?.varType === FILE_DATASET_PART_ID_VARTYPE && parameter?.additionalData?.subType === 'TABLE'
+      )
+    )
+      dialog.setWidth(PARAMETER_CONTEXT_WIDTH.LARGE);
+    else dialog.setWidth(PARAMETER_CONTEXT_WIDTH.SMALL);
+  }, [dataSourceRunTemplates, dataSourceType, dialog]);
+
   const defaultFormState = useRef({});
-  const sourceParameters = useMemo(() => {
+  const { sourceParameters, scenarioResetValues } = useMemo(() => {
+    const resetValues = {};
     const forgeParameterInput = (originalParameter) => {
       const parameterId = originalParameter.id;
       const datasourcePatch = datasourceParameterHelpers?.find((datasource) => datasource.id === dataSourceType);
@@ -79,111 +68,35 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
         parameter.additionalData = parameter.additionalData ?? {};
         parameter.additionalData.tooltipText = parametersPatch.tooltipText;
       }
-      const defaultValue = getParameterDefaultValue(parameter);
+      const defaultValue = ScenarioParametersUtils.getDefaultParametersValues([parameterId], [parameter])[parameterId];
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       defaultFormState.current[fieldPath] = defaultValue;
-
-      const validationRules = {};
-      const varType = parameter.varType;
-      if (varType === FILE_DATASET_PART_ID_VARTYPE)
-        validationRules.fileFormat = (value) => validateFileFormat(t, value);
+      resetValues[fieldPath] = defaultValue;
 
       return (
-        <Controller
+        <ScenarioParameterInput
           key={fieldPath}
-          name={fieldPath}
-          defaultValue={defaultValue}
-          rules={{ required: true, validate: validationRules }}
-          render={({ field, fieldState: { error } }) => {
-            const { value, onChange } = field;
-            if (varType === 'string') {
-              return (
-                <GenericTextInput
-                  parameterData={parameter}
-                  context={{ editMode: true }}
-                  parameterValue={value}
-                  setParameterValue={onChange}
-                  gridItemProps={{ sx: { pt: 1 }, size: 12 }}
-                  size="medium"
-                  isDirty={null}
-                />
-              );
-            } else if (varType === 'enum') {
-              return (
-                <GenericEnumInput
-                  gridItemProps={{ size: 6, sx: { pt: 2 } }}
-                  parameterData={parameter}
-                  context={{ editMode: true, targetDataset: parentDataset }}
-                  parameterValue={value}
-                  setParameterValue={onChange}
-                  resetParameterValue={(newDefaultValue) => resetField(fieldPath, { defaultValue: newDefaultValue })}
-                  isDirty={null}
-                />
-              );
-            } else if (varType === 'list') {
-              return (
-                <GenericMultiSelect
-                  gridItemProps={{ sx: { pt: 2 } }}
-                  parameterData={parameter}
-                  context={{ editMode: true, targetDataset: parentDataset }}
-                  parameterValue={value}
-                  setParameterValue={onChange}
-                  isDirty={null}
-                />
-              );
-            } else if (varType === FILE_DATASET_PART_ID_VARTYPE) {
-              return (
-                <Grid sx={{ pt: 1 }} size={12}>
-                  <UploadFile
-                    id={parameterId}
-                    key={parameterId}
-                    labels={getUploadFileLabels(parameterId, parameter.idForTranslationKey)}
-                    tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterId), '')}
-                    handleUploadFile={(event) => FileManagementUtils.prepareToUpload(event, onChange)}
-                    handleDownloadFile={() => downloadDatasetPartFile(value)}
-                    editMode
-                    handleDeleteFile={() => onChange(null)}
-                    file={value ?? {}}
-                    error={error}
-                    acceptedFileTypes={getDefaultFileTypeFilter(dataSourceRunTemplates, parameterId)}
-                  />
-                </Grid>
-              );
-            } else if (varType === 'date') {
-              return (
-                <GenericDateInput
-                  gridItemProps={{ sx: { pt: 1 }, size: 6 }}
-                  parameterData={parameter}
-                  context={{ editMode: true }}
-                  parameterValue={value}
-                  setParameterValue={onChange}
-                  isDirty={null}
-                  error={null}
-                />
-              );
-            } else {
-              return null;
-            }
+          parameterData={parameter}
+          context={{
+            isDarkTheme,
+            editMode: true,
+            targetDataset: parentDataset,
+            fieldName: fieldPath,
+            view: PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER,
+            width: dialog?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL,
+            defaultValue,
           }}
+          defaultParameterValue={defaultValue}
         />
       );
     };
 
     const runTemplate = dataSourceRunTemplates[dataSourceType];
     defaultFormState.current = {};
-    return runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
-  }, [
-    dataSourceRunTemplates,
-    dataSourceType,
-    datasourceParameterHelpers,
-    parentDataset,
-    resetField,
-    getUploadFileLabels,
-    t,
-    getDefaultFileTypeFilter,
-    downloadDatasetPartFile,
-  ]);
+    const parameters = runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
+    return { sourceParameters: parameters, scenarioResetValues: resetValues };
+  }, [dataSourceRunTemplates, dataSourceType, datasourceParameterHelpers, dialog?.width, isDarkTheme, parentDataset]);
 
   useEffect(() => {
     // Do not reset form when updating an existing dataset (already done in a useEffect in UpdateDatasetDialog)
@@ -266,13 +179,28 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, parentDatase
       <Grid size={{ xs: 7 }} sx={{ width: '100%' }}>
         {sourceTypeComponent}
       </Grid>
-      <Stack sx={{ px: 2, pt: 3, width: '100%' }}>{sourceParameters}</Stack>
+
+      <Grid size={12}>
+        <ScenarioResetValuesContext.Provider value={scenarioResetValues}>
+          <Stack
+            spacing={dialog?.width === PARAMETER_CONTEXT_WIDTH.LARGE ? 2 : 1}
+            direction="column"
+            sx={{ alignItems: 'stretch', justifyContent: 'center', px: 2, pt: 3, width: '100%' }}
+          >
+            {sourceParameters}
+          </Stack>
+        </ScenarioResetValuesContext.Provider>
+      </Grid>
     </Grid>
   );
 };
 
 DatasetCreationParameters.propTypes = {
   dataSourceRunTemplates: PropTypes.object.isRequired,
+  dialog: PropTypes.shape({
+    width: PropTypes.string.isRequired,
+    setWidth: PropTypes.func.isRequired,
+  }),
   parentDataset: PropTypes.object,
   selectedRunner: PropTypes.object,
 };

@@ -7,6 +7,12 @@ import { Grid } from '@mui/material';
 import { BasicToggleInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericToggleInput = ({
   parameterData,
@@ -17,13 +23,11 @@ export const GenericToggleInput = ({
   error,
 }) => {
   const { t } = useTranslation();
-  const switchFieldProps = {
-    disabled: !context.editMode,
-    id: `toggle-input-${parameterData.id}`,
-  };
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+  const switchFieldProps = { disabled: !context.editMode, id: `toggle-input-${parameterData.id}` };
 
   return (
-    <Grid size={3}>
+    <Grid {...gridItemProps}>
       <BasicToggleInput
         key={parameterData.id}
         id={parameterData.id}
