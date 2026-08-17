@@ -1,0 +1,51 @@
+name: Track Dependencies
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'release/6.x'
+
+jobs:
+  dependency_track:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '24'
+          cache: 'yarn'
+
+      # Generate SBOM files
+
+      - parallel:
+        - name: Generate SBOM (webapp-server)
+          run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o sbom-webapp-server-dependencies.json
+        - name: Generate SBOM (webapp-functions)
+          working-directory: ./api
+          run: yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx -o ../sbom-webapp-functions-dependencies.json
+
+      # Upload SBOM files
+
+      - parallel:
+        # Branch release/6.x
+        - name: Upload SBOM files (release/6.x - webapp-server)
+          if: github.ref_name == 'release/6.x'
+          uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            project: 0ff0ed43-4717-4a8d-bcd6-cc8991fa719d
+            bomfilename: sbom-webapp-server-dependencies.json
+        - name: Upload SBOM files (release/6.x - webapp-functions)
+          if: github.ref_name == 'release/6.x'
+          uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+          with:
+            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            project: a2d31ce5-3825-4868-8db3-f8991724ec63
+            bomfilename: sbom-webapp-functions-dependencies.json
