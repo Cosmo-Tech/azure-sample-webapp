@@ -25,5 +25,6 @@ export {
   GenericTable,
   GenericSliderInput,
   ScenarioSelect,
+  ScenarioParameterInput,
 } from './ScenarioParameters';
 export { default as LoadingBackdrop } from './LoadingBackdrop';

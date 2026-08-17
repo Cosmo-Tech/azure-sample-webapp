@@ -7,6 +7,12 @@ import { Grid } from '@mui/material';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericEnumInput = ({
   parameterData,
@@ -15,9 +21,9 @@ export const GenericEnumInput = ({
   setParameterValue,
   resetParameterValue, // Set a new value without triggering the form 'dirty' state
   isDirty = false,
-  gridItemProps,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const textFieldProps = {
     disabled: !context.editMode,
@@ -68,7 +74,7 @@ export const GenericEnumInput = ({
   if (dynamicValuesError) return dynamicValuesError;
 
   return (
-    <Grid size={3} {...gridItemProps}>
+    <Grid {...gridItemProps}>
       {loadingDynamicValuesPlaceholder}
       {dynamicEnumValues !== null && (
         <BasicEnumInput
@@ -94,5 +100,4 @@ GenericEnumInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-  gridItemProps: PropTypes.object,
 };

@@ -7,16 +7,16 @@ import { Grid } from '@mui/material';
 import { MultiSelect } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
-export const GenericMultiSelect = ({
-  parameterData,
-  context,
-  parameterValue,
-  setParameterValue,
-  isDirty = false,
-  gridItemProps,
-}) => {
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
+
+export const GenericMultiSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const {
     dynamicValues: dynamicEnumValues,
@@ -68,7 +68,7 @@ export const GenericMultiSelect = ({
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
-    <Grid size={3} {...gridItemProps}>
+    <Grid {...gridItemProps}>
       <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
         {loadingDynamicValuesPlaceholder}
         {dynamicEnumValues !== null && (
@@ -94,5 +94,4 @@ GenericMultiSelect.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-  gridItemProps: PropTypes.object,
 };

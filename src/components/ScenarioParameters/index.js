@@ -14,4 +14,5 @@ export {
   GenericTable,
   GenericSliderInput,
   ScenarioSelect,
+  ScenarioParameterInput,
 } from './components';
