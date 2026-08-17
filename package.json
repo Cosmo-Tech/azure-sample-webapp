@@ -122,7 +122,8 @@
     "nth-check": "^2.1.1",
     "postcss": "^8.5.10",
     "serialize-javascript": "^7.0.2",
-    "underscore": "^1.13.7"
+    "underscore": "^1.13.7",
+    "uuid": "^14.0.0"
   },
   "packageManager": "yarn@4.12.0"
 }
