@@ -105,6 +105,7 @@ function* forgeAndCreateDataset(action, createdRunner, parentDatasetId) {
 }
 
 export function* createETLRunnerAndDataset(action) {
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.LOADING }));
   try {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;

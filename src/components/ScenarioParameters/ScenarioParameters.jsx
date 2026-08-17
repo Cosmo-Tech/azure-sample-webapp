@@ -13,6 +13,7 @@ import { STATUSES } from '../../services/config/StatusConstants';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
 import { useFindDatasetById } from '../../state/datasets/hooks';
 import { RunnersUtils, ScenarioParametersUtils } from '../../utils';
+import { PARAMETER_CONTEXT_VIEWS, PARAMETER_CONTEXT_WIDTH } from '../../utils/scenarioParameters/ParameterContext';
 import { ScenarioResetValuesContext } from './ScenarioParametersContext';
 import { useScenarioParameters } from './ScenarioParametersHook';
 import { ScenarioParametersTabsWrapper, ScenarioActions } from './components';
@@ -92,6 +93,8 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
   // You can use the context object to pass all additional information to custom tab factory
   const context = {
     isDarkTheme,
+    view: PARAMETER_CONTEXT_VIEWS.SCENARIO,
+    width: PARAMETER_CONTEXT_WIDTH.LARGE,
     editMode: !(
       noTabsShown ||
       isCurrentScenarioRunning ||

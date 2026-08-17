@@ -214,7 +214,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const resultKey = dynamicSourceConfig?.resultKey;
 
   useEffect(() => {
-    if (isUnmounted.current) return;
+    if (isUnmounted.current || dynamicSourceConfig == null) return;
     const scenarioParameterValue =
       parametersValues?.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
     if (scenarioParameterValue !== null) {

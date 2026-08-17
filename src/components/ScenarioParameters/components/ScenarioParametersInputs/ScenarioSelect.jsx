@@ -8,9 +8,17 @@ import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
 import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 2 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+
   const scenarioList = useSortedScenarioList();
   const currentScenarioId = useCurrentSimulationRunnerId();
   const runTemplateFilter = ConfigUtils.getParameterAttribute(parameterData, 'runTemplateFilter');
@@ -35,7 +43,7 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
   }, [t, parameterData.id]);
 
   return (
-    <Grid size={3}>
+    <Grid {...gridItemProps}>
       <SingleSelect
         id={parameterData.id}
         labels={labels}
@@ -56,5 +64,4 @@ ScenarioSelect.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-  gridItemProps: PropTypes.object,
 };
