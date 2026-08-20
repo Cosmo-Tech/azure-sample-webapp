@@ -9,7 +9,10 @@ import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { getFileName } from '../../../../utils/scenarioParameters/FileParameterUtils';
-import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+import {
+  PARAMETER_CONTEXT_VIEWS,
+  PARAMETER_CONTEXT_WIDTH,
+} from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
   [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 1 } },
@@ -23,6 +26,7 @@ export const GenericUploadFile = ({
   setParameterValue,
   defaultParameterValue,
   resetParameterValue,
+  setParameterValueError,
   error,
   isDirty = false,
 }) => {
@@ -42,8 +46,17 @@ export const GenericUploadFile = ({
     const shouldReset =
       newFileStatus === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE &&
       defaultParameterValue?.status === UPLOAD_FILE_STATUS_KEY.EMPTY;
-    if (shouldReset) resetParameterValue(defaultParameterValue);
-    else updateParameterValue({ status: newFileStatus });
+
+    if (shouldReset) {
+      resetParameterValue(defaultParameterValue);
+      // Force an error in the input field because RHF does not trigger custom validation rules on reset
+      const isDatasetManagerView = context?.view === PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER;
+      const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required');
+      if (isRequired || isDatasetManagerView) {
+        const message = t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        setParameterValueError({ type: 'required', message });
+      }
+    } else updateParameterValue({ status: newFileStatus });
   };
 
   const labels = {
@@ -58,6 +71,7 @@ export const GenericUploadFile = ({
     getFileNamePlaceholder: (fileExtension) =>
       t('genericcomponent.uploadfile.fileNamePlaceholder', '{{fileExtension}} file', { fileExtension }),
   };
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   return (
     <Grid {...gridItemProps}>
@@ -78,6 +92,7 @@ export const GenericUploadFile = ({
         error={error}
         editMode={context.editMode}
         isDirty={isDirty}
+        required={isRequired}
       />
     </Grid>
   );
@@ -90,14 +105,27 @@ GenericUploadFile.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   defaultParameterValue: PropTypes.any,
   resetParameterValue: PropTypes.func.isRequired,
+  setParameterValueError: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
 };
 
-GenericUploadFile.useValidationRules = () => {
+GenericUploadFile.useValidationRules = (parameterData, isDatasetManagerView) => {
   const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
   return {
     validate: {
+      required: (parameterValue) => {
+        if (
+          isRequired &&
+          (parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE ||
+            parameterValue?.status === UPLOAD_FILE_STATUS_KEY.EMPTY)
+        )
+          return t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        return true;
+      },
       fileFormat: (parameterValue) => {
         return (
           parameterValue?.value == null ||

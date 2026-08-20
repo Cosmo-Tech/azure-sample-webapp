@@ -25,6 +25,7 @@ export const GenericEnumInput = ({
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const textFieldProps = {
     disabled: !context.editMode,
     id: `enum-input-${parameterData.id}`,
@@ -87,6 +88,7 @@ export const GenericEnumInput = ({
           textFieldProps={textFieldProps}
           enumValues={enumValues}
           isDirty={isDirty}
+          required={isRequired}
         />
       )}
     </Grid>
@@ -100,4 +102,20 @@ GenericEnumInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+};
+
+GenericEnumInput.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    validate: {
+      required: (parameterValue) => {
+        if (isRequired && (parameterValue ?? []).length === 0)
+          return t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        return true;
+      },
+    },
+  };
 };

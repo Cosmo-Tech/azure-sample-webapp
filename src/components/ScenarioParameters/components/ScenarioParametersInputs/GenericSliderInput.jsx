@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { BasicSliderInput } from '@cosmotech/ui';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
@@ -21,6 +21,7 @@ const getMaxValue = (parameterData) => parameterData.maxValue ?? DEFAULT_MAX_VAL
 export const GenericSliderInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   const min = getMinValue(parameterData);
   const max = getMaxValue(parameterData);
@@ -38,10 +39,12 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
         min={min}
         max={max}
         isDirty={isDirty}
+        required={isRequired}
       />
     </Grid>
   );
 };
+
 GenericSliderInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,

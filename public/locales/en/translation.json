@@ -47,6 +47,7 @@
           },
           "discard": "DISCARD",
           "edit": "Edit parameters",
+          "formNotValidTooltip": "Some parameters of the form are not valid",
           "launch": "LAUNCH",
           "launchDisabled": "The scenario cannot be run because its dataset isn't found or its data ingestion has failed",
           "save": "SAVE",

@@ -16,7 +16,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   const fieldName = context?.fieldName ?? parameterData.id;
 
   const store = useStore();
-  const { resetField } = useFormContext();
+  const { resetField, setError } = useFormContext();
   const scenarioResetValues = useScenarioResetValues();
 
   const getCurrentScenarioId = useCallback(
@@ -32,8 +32,18 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   }
   if (varTypeFactory === null) return null;
 
-  const factoryRules = varTypeFactory.useValidationRules ? varTypeFactory.useValidationRules(parameterData) : {};
   const isDatasetManagerView = context?.view === PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER;
+  const factoryRules = varTypeFactory.useValidationRules
+    ? varTypeFactory.useValidationRules(parameterData, isDatasetManagerView)
+    : {};
+
+  // Backward compatibility with versions prior to v7.3.0: in the context of the dataset creation dialog, all parameters
+  // are considered as required. Starting with v7.3.0, this default behavior can be disabled by setting
+  // additional.required to false in the parameter definition
+  if (isDatasetManagerView && ConfigUtils.getParameterAttribute(parameterData, 'required') == null) {
+    // Do not modify input parameters that do not define "factoryRules.required" (e.g. for "bool" type)
+    if (factoryRules.required != null && !factoryRules.required.value) factoryRules.required.value = true;
+  }
 
   return (
     <Controller
@@ -52,6 +62,10 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
             resetField(fieldName, { defaultValue: newDefaultValue });
         };
 
+        const setParameterValueError = (error) => {
+          if (scenarioIdOnMount.current === getCurrentScenarioId()) setError(fieldName, error);
+        };
+
         const props = {
           parameterData,
           context,
@@ -61,6 +75,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
           isDirty: isDatasetManagerView ? null : isDirty,
           defaultParameterValue: scenarioResetValues?.[fieldName],
           resetParameterValue,
+          setParameterValueError,
           error,
         };
         // name property helps distinguish React components from factories

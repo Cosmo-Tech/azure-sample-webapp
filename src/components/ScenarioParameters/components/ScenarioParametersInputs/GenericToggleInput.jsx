@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { BasicToggleInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
@@ -24,6 +24,7 @@ export const GenericToggleInput = ({
 }) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const switchFieldProps = { disabled: !context.editMode, id: `toggle-input-${parameterData.id}` };
 
   return (
@@ -38,6 +39,7 @@ export const GenericToggleInput = ({
         switchProps={switchFieldProps}
         isDirty={isDirty}
         error={error}
+        required={isRequired}
       />
     </Grid>
   );
@@ -54,6 +56,7 @@ GenericToggleInput.propTypes = {
 
 GenericToggleInput.useValidationRules = (parameterData) => {
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
+
   return {
     validate: {
       constraint: (v) => getParameterConstraintValidation(v),
