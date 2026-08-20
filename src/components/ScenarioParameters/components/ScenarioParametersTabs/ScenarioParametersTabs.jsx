@@ -1,42 +1,14 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useEffect, useState } from 'react';
-import { useFormState } from 'react-hook-form';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import LockIcon from '@mui/icons-material/Lock';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Badge, Tab, styled } from '@mui/material';
-import { ConfigUtils, ScenarioParametersUtils, TranslationUtils } from '../../../../utils';
+import { TabContext, TabPanel } from '@mui/lab';
+import { styled } from '@mui/material';
+import { ConfigUtils } from '../../../../utils';
+import { hasRequiredProfile, ScenarioParametersTabList } from './ScenarioParametersTabList';
 
-const PlaceholderDiv = styled('div')(({ theme }) => ({
-  margin: `0 ${theme.spacing(3)}`,
-}));
-
-function _buildScenarioTabList(tabs, userRoles, t, errors) {
-  const tabListComponent = [];
-  const errorsByTab = ScenarioParametersUtils.getErrorsCountByTab(tabs, errors);
-  for (const groupMetadata of tabs) {
-    const lockedTab = !hasRequiredProfile(userRoles, groupMetadata.authorizedRoles);
-    const lockIcon = lockedTab ? <LockIcon /> : undefined;
-    if (!lockedTab || !ConfigUtils.getParametersGroupAttribute(groupMetadata, 'hideParameterGroupIfNoPermission')) {
-      tabListComponent.push(
-        <Tab
-          key={groupMetadata.id}
-          value={groupMetadata.id}
-          data-cy={groupMetadata.id + '_tab'}
-          icon={lockIcon}
-          label={
-            <Badge data-cy="error-badge" badgeContent={errorsByTab[groupMetadata.id]} color="error">
-              {t(TranslationUtils.getParametersGroupTranslationKey(groupMetadata.id), groupMetadata.id)}
-            </Badge>
-          }
-        />
-      );
-    }
-  }
-  return tabListComponent;
-}
+const PlaceholderDiv = styled('div')(({ theme }) => ({ margin: `0 ${theme.spacing(3)}` }));
 
 function _buildTabPanels(userRoles, tabs) {
   const tabPanelComponents = [];
@@ -62,16 +34,6 @@ function _buildTabPanels(userRoles, tabs) {
   return tabPanelComponents;
 }
 
-const hasRequiredProfile = (userProfiles, requiredProfiles) => {
-  if (!requiredProfiles) {
-    return true;
-  }
-  if (Array.isArray(requiredProfiles) && requiredProfiles.length === 0) {
-    return true;
-  }
-  return requiredProfiles.some((profile) => userProfiles.includes(profile));
-};
-
 function chooseParametersTab(parametersGroupsMetadata, userRoles) {
   const selectedTabId = '';
   for (const groupMetadata of parametersGroupsMetadata) {
@@ -90,7 +52,6 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
   const [tabs, setTabs] = useState(parametersGroupsMetadata);
   const firstTab = chooseParametersTab(parametersGroupsMetadata, userRoles);
   const [selectedTab, setSelectedTab] = useState(firstTab);
-  const { errors } = useFormState();
 
   // Reset selected tab on scenario change
   useEffect(() => {
@@ -101,6 +62,8 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
     // eslint-disable-next-line
   }, [parametersGroupsMetadata]);
 
+  const tabPanels = useMemo(() => _buildTabPanels(userRoles, tabs), [userRoles, tabs]);
+
   return (
     <div data-cy="scenario-parameters-tabs">
       {tabs.length === 0 ? (
@@ -109,19 +72,14 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
         </PlaceholderDiv>
       ) : (
         <TabContext value={selectedTab}>
-          <TabList
-            value={selectedTab}
-            variant="scrollable"
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={(event, newTab) => {
-              setSelectedTab(newTab);
-            }}
-            aria-label="scenario parameters"
-          >
-            {_buildScenarioTabList(tabs, userRoles, t, errors)}
-          </TabList>
-          {_buildTabPanels(userRoles, tabs)}
+          <ScenarioParametersTabList
+            tabs={tabs}
+            userRoles={userRoles}
+            t={t}
+            selectedTab={selectedTab}
+            onTabChange={(event, newTab) => setSelectedTab(newTab)}
+          />
+          {tabPanels}
         </TabContext>
       )}
     </div>
