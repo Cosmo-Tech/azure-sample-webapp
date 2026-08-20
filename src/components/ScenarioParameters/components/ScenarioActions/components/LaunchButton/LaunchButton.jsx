@@ -22,7 +22,8 @@ import {
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
-  const { isDirty, isValid } = useFormState();
+  const { isDirty, isValid: _isValid, errors } = useFormState();
+  const isValid = _isValid && Object.keys(errors || {}).length === 0;
   const { forceUpdate, saveParameterValues } = useUpdateParameters();
   const currentScenarioId = useCurrentSimulationRunnerId();
   const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();
@@ -69,22 +70,25 @@ export const LaunchButton = () => {
     [currentScenarioId, forceUpdate, isDirty, launchScenario, saveParameterValues, t, setApplicationErrorMessage]
   );
 
+  let tooltipMessage = null;
+  if (isCurrentScenarioDatasetUnavailable)
+    tooltipMessage = t(
+      'commoncomponents.button.scenario.parameters.launchDisabled',
+      "The scenario cannot be run because its dataset isn't found or its data ingestion has failed"
+    );
+  else if (!isValid)
+    tooltipMessage = t(
+      'commoncomponents.button.scenario.parameters.formNotValidTooltip',
+      'Some parameters of the form are not valid'
+    );
+
   return !isCurrentScenarioRunning ? (
     <PermissionsGate
       userPermissions={userAppAndCurrentScenarioPermissions}
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.LAUNCH]}
     >
       <Grid>
-        <FadingTooltip
-          title={
-            isCurrentScenarioDatasetUnavailable
-              ? t(
-                  'commoncomponents.button.scenario.parameters.launchDisabled',
-                  "The scenario cannot be run because its dataset isn't found or its data ingestion has failed"
-                )
-              : ''
-          }
-        >
+        <FadingTooltip title={tooltipMessage}>
           <Button
             data-cy="launch-scenario-button"
             variant="contained"

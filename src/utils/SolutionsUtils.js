@@ -125,9 +125,38 @@ const _patchColumnTypes = (columns, parameterId) => {
   });
 };
 
-const patchIncorrectParameterValuesInSolution = (solution) => {
+const patchIncorrectParametersInSolution = (solution) => {
   solution.parameters?.forEach((parameter) => {
-    if (parameter.varType === 'enum') {
+    if (parameter.varType === 'enum' || parameter.varType === 'list') {
+      if (ConfigUtils.getParameterAttribute(parameter, 'subType') === 'SCENARIOS') {
+        // Scenario select parameters must not have enumValues defined
+        const optionsToCheck = ['enumValues', 'dynamicEnumValues'];
+        optionsToCheck.forEach((optionName) => {
+          if (ConfigUtils.getParameterAttribute(parameter, optionName) != null) {
+            console.warn(
+              `Ignored unnecessary option "${optionName}" of ${parameter.varType} parameter ${parameter.id} because ` +
+                'the parameter has the subType "SCENARIOS". Please check your Solution configuration.'
+            );
+            delete parameter.additionalData[optionName];
+          }
+        });
+      } else {
+        // Ignore "required" for enum parameters if no enumValues are defined, to avoid users not being able to save or
+        // launch scenarios
+        const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+        const noEnumValues = !Array.isArray(enumValues) || enumValues.length === 0;
+        if (noEnumValues) {
+          if (ConfigUtils.getParameterAttribute(parameter, 'required') === true)
+            console.warn(
+              `Ignored option "required" of ${parameter.varType} parameter ${parameter.id} because no enum values ` +
+                'are provided. Please check your Solution configuration.'
+            );
+          if (parameter.additionalData == null) parameter.additionalData = {};
+          parameter.additionalData.required = false;
+        }
+      }
+
+      // Ignore "dynamicEnumValues" if configuration is incomplete or invalid
       const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues');
       if (dynamicSourceConfig == null) return;
 
@@ -184,7 +213,7 @@ const patchIncompatibleValuesInSolution = (solution) => {
   solution.parameters = solution.parameters?.filter((parameter) => parameter != null);
   solution.parameterGroups = solution.parameterGroups?.filter((group) => group != null);
   solution.runTemplates = solution.runTemplates?.filter((runTemplate) => runTemplate != null);
-  patchIncorrectParameterValuesInSolution(solution);
+  patchIncorrectParametersInSolution(solution);
 };
 
 const forgeRunnerParameters = (solution, formValues) => {

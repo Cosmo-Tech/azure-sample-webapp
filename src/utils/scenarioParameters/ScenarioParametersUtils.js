@@ -333,10 +333,22 @@ const buildParametersForUpdateRequest = (
 ) => {
   const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
   for (const parameterId of runTemplateParametersIds ?? Object.keys(parameterValues)) {
-    const parameterValue = parameterValues[parameterId];
-    if (parameterValue == null) continue;
+    const parameterMetadata = SolutionsUtils.getParameterFromSolution(solution, parameterId);
 
-    const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
+    const required = ConfigUtils.getParameterAttribute(parameterMetadata, 'required');
+    let parameterValue = parameterValues[parameterId];
+    if (parameterValue == null) {
+      if (required) {
+        console.warn(
+          `Wrong path: building parameters to send whereas required parameter "${parameterId}" has a null value. ` +
+            'Skipping this parameter value.'
+        );
+        continue;
+      }
+      parameterValue = ''; // Send empty string to API if value is null and parameter is not required
+    }
+
+    const varType = parameterMetadata?.varType;
     const parameter = { parameterId, varType, value: parameterValue };
     if (!ConfigUtils.isDatasetPartVarType(varType)) {
       parameters.nonDatasetParts.push(parameter);

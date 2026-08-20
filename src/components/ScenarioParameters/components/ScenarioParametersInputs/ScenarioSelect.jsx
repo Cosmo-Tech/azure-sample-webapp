@@ -15,7 +15,14 @@ const GRID_ITEM_PROPS_MAPPING = {
   [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
 };
 
-export const ScenarioSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
+export const ScenarioSelect = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty = false,
+  error,
+}) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
@@ -41,6 +48,7 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
       noOptions: t('genericcomponent.scenarioSelect.noOptions', 'No scenarios available'),
     };
   }, [t, parameterData.id]);
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   return (
     <Grid {...gridItemProps}>
@@ -53,6 +61,8 @@ export const ScenarioSelect = ({ parameterData, context, parameterValue, setPara
         onChange={(newValue) => setParameterValue(newValue ?? null)}
         disabled={!context.editMode}
         isDirty={isDirty}
+        error={error}
+        required={isRequired}
       />
     </Grid>
   );
@@ -64,4 +74,18 @@ ScenarioSelect.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
+};
+
+ScenarioSelect.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
+  };
 };

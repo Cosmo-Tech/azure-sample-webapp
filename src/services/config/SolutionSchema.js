@@ -67,6 +67,7 @@ const basicParameterOptions = z.strictObject({
   dateFormat: z.string().optional().nullable(),
   columns: z.array(basicColumnField).optional().nullable(),
   shouldRenameFileOnUpload: z.string().optional().nullable(),
+  required: z.boolean().optional().nullable(),
   runTemplateFilter: z.array(z.string().optional().nullable()).optional().nullable(),
 });
 

@@ -38,6 +38,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
     disabled: !context.editMode,
     id: parameterData.id,
   };
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   return (
     <Grid {...gridItemProps}>
@@ -51,10 +52,12 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
         textFieldProps={textFieldProps}
         enumValues={enumValues}
         isDirty={isDirty}
+        required={isRequired}
       />
     </Grid>
   );
 };
+
 GenericRadioInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,

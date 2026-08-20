@@ -14,7 +14,14 @@ const GRID_ITEM_PROPS_MAPPING = {
   [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
 };
 
-export const GenericMultiSelect = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
+export const GenericMultiSelect = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  isDirty = false,
+  error,
+}) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
@@ -65,6 +72,7 @@ export const GenericMultiSelect = ({ parameterData, context, parameterValue, set
       noValues: t('genericcomponent.multiSelect.noValues', 'No selected values'),
     };
   }, [t, parameterData.id]);
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
@@ -81,6 +89,8 @@ export const GenericMultiSelect = ({ parameterData, context, parameterValue, set
             disabled={!context.editMode}
             options={enumValues}
             isDirty={isDirty}
+            error={error}
+            required={isRequired}
           />
         )}
       </Grid>
@@ -94,4 +104,21 @@ GenericMultiSelect.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+  error: PropTypes.object,
+};
+
+GenericMultiSelect.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    validate: {
+      required: (parameterValue) => {
+        if (isRequired && (parameterValue ?? []).length === 0)
+          return t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        return true;
+      },
+    },
+  };
 };

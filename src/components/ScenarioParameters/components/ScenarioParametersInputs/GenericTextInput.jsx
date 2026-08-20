@@ -26,6 +26,7 @@ export const GenericTextInput = ({
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
   const resolvedSize = 'small';
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const textFieldProps = {
     disabled: !context.editMode,
     id: `text-input-${parameterData.id}`,
@@ -50,6 +51,7 @@ export const GenericTextInput = ({
         isDirty={isDirty}
         error={error}
         size={resolvedSize}
+        required={isRequired}
       />
     </Grid>
   );
@@ -65,15 +67,22 @@ GenericTextInput.propTypes = {
   size: PropTypes.string,
 };
 
-GenericTextInput.useValidationRules = (parameterData) => {
+GenericTextInput.useValidationRules = (parameterData, isDatasetManagerView) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = ConfigUtils.getParameterAttribute(parameterData, 'minLength') ?? 0;
   const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength');
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequiredByMinLength = requiredValueFromConfig == null && minLength > 0;
+  const isRequired =
+    requiredValueFromConfig === true ||
+    isRequiredByMinLength ||
+    (isDatasetManagerView && requiredValueFromConfig !== false);
+
   return {
     required: {
-      value: minLength > 0,
+      value: isRequired,
       message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
     },
     minLength: {

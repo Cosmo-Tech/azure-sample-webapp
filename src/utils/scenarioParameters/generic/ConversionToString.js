@@ -24,6 +24,7 @@ function _convertBoolToString(parameterValue) {
 }
 
 function _convertDateToString(parameterValue) {
+  if (typeof parameterValue === 'string' && parameterValue.length === 0) return '';
   return DateUtils.getDateAtMidnightUTC(parameterValue).toISOString();
 }
 

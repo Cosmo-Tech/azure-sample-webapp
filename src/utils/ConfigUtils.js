@@ -81,6 +81,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     'hidden',
     'maxLength',
     'minLength',
+    'required',
     'runTemplateFilter',
     'shouldRenameFileOnUpload',
     'subType',

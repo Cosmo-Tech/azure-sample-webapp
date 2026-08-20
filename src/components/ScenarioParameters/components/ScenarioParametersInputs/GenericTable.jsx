@@ -716,6 +716,8 @@ export const GenericTable = ({
     else revertTableWithDatasetData(true);
   }, [setIsRevertDialogOpen, revertTableWithDatasetData]);
 
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
+
   return (
     <>
       <TableExportDialog
@@ -750,6 +752,7 @@ export const GenericTable = ({
         maxErrorsCount={MAX_ERRORS_COUNT}
         isDirty={isDirty}
         visibilityOptions={context.tableOptions?.buttons}
+        required={isRequired}
         height={context.tableOptions?.height ?? '258px'}
       />
       <TableDeleteRowsDialog
@@ -778,4 +781,25 @@ GenericTable.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
+};
+
+GenericTable.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
+    validate: {
+      required: (parameterValue) => {
+        if (!isRequired) return true;
+        return (
+          parameterValue?.status !== UPLOAD_FILE_STATUS_KEY.EMPTY && (parameterValue?.displayData ?? []).length !== 0
+        );
+      },
+    },
+  };
 };
