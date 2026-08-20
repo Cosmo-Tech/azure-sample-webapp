@@ -40,7 +40,7 @@ Parameters can be defined with the following properties:
 | key              | mandatory/optional | description                                                                                                                                                                                  |
 | ---------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`             | mandatory          | unique id of the parameter                                                                                                                                                                   |
-| `varType`        | mandatory          | type of the scenario parameter. Supported types are! **enum**, **list**, **string**, **int**, **number**, **bool**, **date**, **%DATASET_PART_ID_FILE%**                                     |
+| `varType`        | mandatory          | type of the scenario parameter. Supported types are: **enum**, **list**, **string**, **int**, **number**, **bool**, **date**, **%DATASET_PART_ID_FILE%**                                     |
 | `defaultValue`   | optional           | default value for this parameter when a new scenario is created                                                                                                                              |
 | `minValue`       | optional           | minimum value (when applicable)                                                                                                                                                              |
 | `maxValue`       | optional           | maximum value (when applicable)                                                                                                                                                              |
@@ -78,6 +78,26 @@ additional keys can be added in the `additionalData` field to customize the beha
 You can find many examples of parameters configuration in the
 [Solution description](https://github.com/Cosmo-Tech/brewery_sample_solution/blob/main/Solution.yaml#L9) of our brewery
 model.
+
+### Overview
+
+Here is a summary of the supported varType values, and some variants that can be defined by setting
+`additionalData.subType`:
+
+| `varType`                | `additionalData.subType` | Graphical input component              |
+| ------------------------ | ------------------------ | -------------------------------------- |
+| `bool`                   |                          | Switch boolean input                   |
+| `date`                   |                          | Date picker                            |
+| `enum`                   |                          | Dropdown list                          |
+| `enum`                   | `RADIO`                  | Radio buttons                          |
+| `enum`                   | `SCENARIOS`              | Scenario selector                      |
+| `list`                   |                          | Multiple-selection dropdown list       |
+| `number`                 |                          | Number input                           |
+| `number`                 | `SLIDER`                 | Slider                                 |
+| `int`                    |                          | Number input (with integer validation) |
+| `string`                 |                          | Text field                             |
+| `%DATASET_PART_ID_FILE%` |                          | File upload                            |
+| `%DATASET_PART_ID_FILE%` | `TABLE`                  | Editable table                         |
 
 ### Parameters of type enum
 
@@ -858,26 +878,3 @@ scenario parameters. Here is the list of reserved parameters ids you can use:
 | `ScenarioLastRunId` | the last run id of the current scenario               |
 | `ParentLastRunId`   | the last run id of the parent of the current scenario |
 | `MasterLastRunId`   | the last run id of the master of the current scenario |
-
-## Input components metadata for Cypress tests
-
-If you want to test the scenario parameters input components in an automated test framework, you will probably need
-to find the metadata tags on the generated components. A `data-cy` property is added to the scenario parameters input
-components, whose value depend on the **input component type** and the **parameter id**, with the following pattern:
-`<input component type>-<parameter id>` (e.g. `number-input-stock`).
-
-Here is the list of `data-cy` patterns for all generic input components provided by the azure-sample-webapp:
-
-| varType                  | subType     | input component      | `data-cy` pattern               |
-| ------------------------ | ----------- | -------------------- | ------------------------------- |
-| `bool`                   |             | Switch boolean input | `toggle-input-<parameterId>`    |
-| `date`                   |             | Date picker          | `date-input-<parameterId>`      |
-| `enum`                   |             | Dropdown list        | `enum-input-<parameterId>`      |
-| `enum`                   | `RADIO`     | Radio buttons        | `radio-input-<parameterId>`     |
-| `enum`                   | `SCENARIOS` | Scenarios select     | `scenarios-input-<parameterId>` |
-| `int`                    |             | Number input         | `number-input-<parameterId>`    |
-| `number`                 |             | Number input         | `number-input-<parameterId>`    |
-| `number`                 | `SLIDER`    | Slider               | `slider-input-<parameterId>`    |
-| `string`                 |             | Text field           | `text-input-<parameterId>`      |
-| `%DATASET_PART_ID_FILE%` |             | File upload          | `file-upload-<parameterId>`     |
-| `%DATASET_PART_ID_FILE%` | `TABLE`     | Editable table       | `table-<parameterId>`           |
