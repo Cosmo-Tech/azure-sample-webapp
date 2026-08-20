@@ -10,7 +10,7 @@ import { isValid } from 'date-fns/isValid';
 import { DateUtils } from '@cosmotech/core';
 import { BasicDateInput } from '@cosmotech/ui';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
@@ -28,6 +28,7 @@ export const GenericDateInput = ({
 }) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const dateProps = {
@@ -50,6 +51,7 @@ export const GenericDateInput = ({
         isDirty={isDirty}
         error={error}
         reverseTimezoneOffset
+        required={isRequired}
       />
     </Grid>
   );
@@ -64,21 +66,31 @@ GenericDateInput.propTypes = {
   error: PropTypes.object,
 };
 
-GenericDateInput.useValidationRules = (parameterData) => {
+GenericDateInput.useValidationRules = (parameterData, isDatasetManagerView) => {
   const { t } = useTranslation();
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const { getDateConstraintValidation } = useDateConstraintValidation(parameterData);
+  // Fallback to isRequired=true for backward compatibility. Note that this may change in a future major version.
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? true;
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
 
   return {
-    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
     validate: {
-      isValid: (v) =>
-        isValid(v) ||
-        t(
-          'views.scenario.scenarioParametersValidationErrors.notValid',
-          'The format is not valid, expected: MM/dd/YYYY'
-        ),
+      isValid: (value) => {
+        if (value == null && isRequired === false) return true;
+        return (
+          isValid(value) ||
+          t(
+            'views.scenario.scenarioParametersValidationErrors.notValid',
+            'The format is not valid, expected: MM/dd/YYYY'
+          )
+        );
+      },
       minDate: (v) =>
         !isBefore(new Date(v), minDate) ||
         TranslationUtils.getStringWithUnescapedCharacters(

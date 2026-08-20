@@ -5,7 +5,7 @@ import { useFormState } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import SaveIcon from '@mui/icons-material/Save';
 import { Button, Grid } from '@mui/material';
-import { PermissionsGate } from '@cosmotech/ui';
+import { FadingTooltip, PermissionsGate } from '@cosmotech/ui';
 import { useUpdateParameters } from '../../../../../../hooks/ScenarioParametersHooks';
 import { useUserAppAndCurrentScenarioPermissions } from '../../../../../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../../../../../services/config/accessControl';
@@ -13,7 +13,12 @@ import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks
 
 export const SaveButton = () => {
   const { t } = useTranslation();
-  const { isDirty, isValid } = useFormState();
+  const { isDirty, isValid: _isValid, errors } = useFormState();
+  const isValid = _isValid && Object.keys(errors || {}).length === 0;
+
+  const tooltipMessage = isValid
+    ? null
+    : t('commoncomponents.button.scenario.parameters.formNotValidTooltip', 'Some parameters of the form are not valid');
   const { saveParameterValues } = useUpdateParameters();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
@@ -44,9 +49,11 @@ export const SaveButton = () => {
       necessaryPermissions={[ACL_PERMISSIONS.SCENARIO.WRITE]}
     >
       <Grid>
-        <Button data-cy="save-button" startIcon={<SaveIcon />} onClick={saveScenarioParameters} disabled={!isValid}>
-          {t('commoncomponents.button.scenario.parameters.save', 'SAVE')}
-        </Button>
+        <FadingTooltip title={tooltipMessage}>
+          <Button data-cy="save-button" startIcon={<SaveIcon />} onClick={saveScenarioParameters} disabled={!isValid}>
+            {t('commoncomponents.button.scenario.parameters.save', 'SAVE')}
+          </Button>
+        </FadingTooltip>
       </Grid>
     </PermissionsGate>
   ) : null;
