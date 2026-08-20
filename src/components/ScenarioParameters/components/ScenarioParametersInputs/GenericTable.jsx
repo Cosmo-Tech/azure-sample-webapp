@@ -173,9 +173,12 @@ export const GenericTable = ({
     [resetParameterValue, setParameterValue]
   );
 
-  const updateParameterValueWithReset = (newValuePart) => {
-    updateParameterValue(newValuePart, true);
-  };
+  const updateParameterValueWithReset = useCallback(
+    (newValuePart) => {
+      updateParameterValue(newValuePart, true);
+    },
+    [updateParameterValue]
+  );
 
   useEffect(() => {
     if (
@@ -197,13 +200,7 @@ export const GenericTable = ({
   }, [parameterValue]);
 
   const setClientFileDescriptorStatuses = (newFileStatus, newDisplayStatus, shouldReset = false) => {
-    updateParameterValue(
-      {
-        status: newFileStatus,
-        displayStatus: newDisplayStatus,
-      },
-      shouldReset
-    );
+    updateParameterValue({ status: newFileStatus, displayStatus: newDisplayStatus }, shouldReset);
   };
 
   const setClientFileDescriptorStatusesWithReset = (newFileStatus, newDisplayStatus) => {
@@ -354,9 +351,7 @@ export const GenericTable = ({
       displayStatus: TABLE_DATA_STATUS.DOWNLOADING,
     });
 
-    if (_checkForLock()) {
-      return;
-    }
+    if (_checkForLock()) return;
     GenericTable.downloadLocked[lockId] = true;
 
     const data = await downloadDatasetPartFileData(clientFileDescriptor, setClientFileDescriptorStatusesWithReset);
@@ -410,12 +405,10 @@ export const GenericTable = ({
           setClientFileDescriptor({
             ...clientFileDescriptorRestoreValue,
             errors: agGridData.error,
+            displayStatus: clientFileDescriptorRestoreValue?.displayStatus ?? TABLE_DATA_STATUS.READY,
           });
         } else {
-          setClientFileDescriptor({
-            displayStatus: TABLE_DATA_STATUS.ERROR,
-            errors: agGridData.error,
-          });
+          setClientFileDescriptor({ displayStatus: TABLE_DATA_STATUS.ERROR, errors: agGridData.error });
         }
       } else {
         setClientFileDescriptor({
@@ -582,39 +575,32 @@ export const GenericTable = ({
     }
   }, [parameter.serialize, isDirty, serializeToCSV, updateParameterValue]);
 
-  const onCellChange = updateOnFirstEdition;
-
-  const onClearErrors = () => {
-    updateParameterValue({
-      errors: null,
-    });
-  };
+  const onClearErrors = () => updateParameterValue({ errors: null });
 
   const buildErrorsPanelTitle = (errorsCount, maxErrorsCount) => {
-    let title = t('genericcomponent.table.labels.errorsCount', '{{count}} errors occurred:', {
-      count: errorsCount,
-    });
+    let title = t('genericcomponent.table.labels.errorsCount', '{{count}} errors occurred:', { count: errorsCount });
     if (errorsCount > maxErrorsCount) {
-      title +=
-        ' ' +
-        t('genericcomponent.table.labels.maxErrorsCount', '(only the top first {{maxCount}} results)', {
-          maxCount: maxErrorsCount,
-        });
+      const errorLimitMessage = t(
+        'genericcomponent.table.labels.maxErrorsCount',
+        '(only the top first {{maxCount}} results)',
+        { maxCount: maxErrorsCount }
+      );
+      title += ' ' + errorLimitMessage;
     }
     return title;
   };
 
-  const alreadyDownloaded =
-    parameter.displayStatus !== undefined &&
-    [
-      TABLE_DATA_STATUS.ERROR,
-      TABLE_DATA_STATUS.DOWNLOADING,
-      TABLE_DATA_STATUS.PARSING,
-      TABLE_DATA_STATUS.READY,
-    ].includes(parameter.displayStatus);
-
   // Trigger dataset download only when mounting the component
   useEffect(() => {
+    const alreadyDownloaded =
+      parameter.displayStatus !== undefined &&
+      [
+        TABLE_DATA_STATUS.ERROR,
+        TABLE_DATA_STATUS.DOWNLOADING,
+        TABLE_DATA_STATUS.PARSING,
+        TABLE_DATA_STATUS.READY,
+      ].includes(parameter.displayStatus);
+
     if (
       parameter.datasetId &&
       parameter.datasetPartId &&
@@ -754,7 +740,7 @@ export const GenericTable = ({
         onAddRow={canChangeRowsNumber ? onAddRow : null}
         onDeleteRow={canChangeRowsNumber ? onDeleteRow : null}
         onRevert={isDataFetchedFromDataset ? onRevertTableData : null}
-        onCellChange={onCellChange}
+        onCellChange={updateOnFirstEdition}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
