@@ -110,8 +110,15 @@ GenericNumberInput.useValidationRules = (parameterData) => {
   const DEFAULT_MAX_VALUE = 1e10 - 1;
   const min = parameterData?.minValue ?? DEFAULT_MIN_VALUE;
   const max = parameterData?.maxValue ?? DEFAULT_MAX_VALUE;
+
+  // Fallback to isRequired=true for backward compatibility. Note that this may change in a future major version.
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? true;
+
   return {
-    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
     min: {
       value: min,
       message: t(

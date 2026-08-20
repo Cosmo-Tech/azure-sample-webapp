@@ -42,6 +42,7 @@ export const GenericSliderInput = ({ parameterData, context, parameterValue, set
     </Grid>
   );
 };
+
 GenericSliderInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,

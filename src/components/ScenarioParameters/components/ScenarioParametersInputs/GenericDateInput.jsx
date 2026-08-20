@@ -10,7 +10,7 @@ import { isValid } from 'date-fns/isValid';
 import { DateUtils } from '@cosmotech/core';
 import { BasicDateInput } from '@cosmotech/ui';
 import { useDateConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
@@ -69,9 +69,13 @@ GenericDateInput.useValidationRules = (parameterData) => {
   const minDate = parameterData.minValue ? new Date(parameterData.minValue) : undefined;
   const maxDate = parameterData.maxValue ? new Date(parameterData.maxValue) : undefined;
   const { getDateConstraintValidation } = useDateConstraintValidation(parameterData);
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required');
 
   return {
-    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
     validate: {
       isValid: (v) =>
         isValid(v) ||

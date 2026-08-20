@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { BasicToggleInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
-import { TranslationUtils } from '../../../../utils';
+import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
@@ -53,8 +53,15 @@ GenericToggleInput.propTypes = {
 };
 
 GenericToggleInput.useValidationRules = (parameterData) => {
+  const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required');
+
   return {
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
     validate: {
       constraint: (v) => getParameterConstraintValidation(v),
     },

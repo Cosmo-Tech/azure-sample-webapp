@@ -95,3 +95,15 @@ GenericMultiSelect.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
 };
+
+GenericMultiSelect.useValidationRules = (parameterData) => {
+  const { t } = useTranslation();
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required');
+
+  return {
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
+  };
+};

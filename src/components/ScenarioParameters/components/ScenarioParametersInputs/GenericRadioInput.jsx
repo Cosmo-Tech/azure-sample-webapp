@@ -55,6 +55,7 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
     </Grid>
   );
 };
+
 GenericRadioInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,

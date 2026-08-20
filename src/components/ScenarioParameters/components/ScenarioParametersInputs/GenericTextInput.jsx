@@ -71,9 +71,12 @@ GenericTextInput.useValidationRules = (parameterData) => {
   const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = ConfigUtils.getParameterAttribute(parameterData, 'minLength') ?? 0;
   const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength');
+  const isRequiredFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = isRequiredFromConfig != null ? isRequiredFromConfig : minLength > 0;
+
   return {
     required: {
-      value: minLength > 0,
+      value: isRequired,
       message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
     },
     minLength: {
