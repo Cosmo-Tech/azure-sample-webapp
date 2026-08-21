@@ -52,7 +52,10 @@ export const useCreateScenarioButton = ({ disabled, onScenarioCreated }) => {
       const cloned = clone(templates) ?? [];
       cloned.forEach(
         (runTemplate) =>
-          (runTemplate.name = t(TranslationUtils.getRunTemplateTranslationKey(runTemplate.id), runTemplate.name))
+          (runTemplate.name = t(
+            TranslationUtils.getRunTemplateTranslationKey(runTemplate.id),
+            runTemplate.name ?? runTemplate.id
+          ))
       );
       return cloned;
     };

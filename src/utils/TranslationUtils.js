@@ -160,7 +160,7 @@ const addTranslationParametersLabels = (parameters) => {
 const addTranslationRunTemplateLabels = (runTemplates) => {
   const resources = {};
   runTemplates.forEach((runTemplate) => {
-    for (const lang in runTemplate.labels) {
+    for (const lang in runTemplate.labels ?? {}) {
       resources[lang] = resources[lang] ?? {};
       const key = getRunTemplateTranslationKey(runTemplate.id);
       resources[lang][key] = runTemplate.labels[lang];
