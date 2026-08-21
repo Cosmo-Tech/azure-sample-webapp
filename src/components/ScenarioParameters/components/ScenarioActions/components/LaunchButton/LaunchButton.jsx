@@ -22,8 +22,7 @@ import {
 
 export const LaunchButton = () => {
   const { t } = useTranslation();
-  const { isDirty, errors } = useFormState();
-  const isValid = Object.keys(errors || {}).length === 0;
+  const { isDirty, isValid } = useFormState();
   const { forceUpdate, saveParameterValues } = useUpdateParameters();
   const currentScenarioId = useCurrentSimulationRunnerId();
   const currentScenarioLastRunStatus = useCurrentSimulationRunnerLastRunStatus();

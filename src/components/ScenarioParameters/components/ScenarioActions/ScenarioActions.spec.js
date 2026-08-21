@@ -74,7 +74,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
   describe('Test scenario buttons if form is not dirty', () => {
     beforeAll(() => {
-      useFormState.mockReturnValue({ isDirty: false });
+      useFormState.mockReturnValue({ isDirty: false, isValid: true });
       customRender(<ScenarioActions />);
     });
 
@@ -101,7 +101,7 @@ describe('Test scenario buttons when scenario is not running', () => {
 
   describe('Test scenario buttons if form is dirty', () => {
     beforeAll(() => {
-      useFormState.mockReturnValue({ isDirty: true });
+      useFormState.mockReturnValue({ isDirty: true, isValid: true });
       customRender(<ScenarioActions />);
     });
 
@@ -132,7 +132,7 @@ describe('Test scenario buttons when scenario is running', () => {
   beforeAll(() => {
     useCurrentSimulationRunnerLastRunStatus.mockReturnValue(RUNNER_RUN_STATE.RUNNING);
     useCurrentSimulationRunnerLastRunId.mockReturnValue('run-0123456');
-    useFormState.mockReturnValue({ isDirty: false });
+    useFormState.mockReturnValue({ isDirty: false, isValid: true });
     customRender(<ScenarioActions />);
   });
 
