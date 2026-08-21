@@ -664,7 +664,7 @@ parameters:
         en: "Choose a symbol:\n\t- $\n\t- €\n\t- ฿\n\t- ¥"
 ```
 
-### Validation
+### Input validation
 
 To prevent errors of user's input in front-end interface, generic components for parameters of type date, number, int,
 string and bool are implemented with some validation rules such as `required`, `isInteger`, `minValue` and `maxValue`,
@@ -710,14 +710,30 @@ can lead to a user-unfriendly behaviour, it is recommended to declare the constr
 
 Below are listed all validation rules for each varType.
 
-#### Date
+#### Required parameters
 
-| validation rule | default/optional | description                                                |
-| --------------- | ---------------- | ---------------------------------------------------------- |
-| required        | default          |                                                            |
-| minDate         | optional         | can be declared as `minValue` key in parameter description |
-| maxDate         | optional         | can be declared as `maxValue` key in parameter description |
-| constraint      | optional         | can be defined between two parameters with `date` varType  |
+You can define that a parameter is **required** by setting `additionalData.required` to `true`. When a parameter is
+required, the **webapp users won't be able to save their changes or launch the scenario** while the parameter value
+is empty.
+
+Please note that the default value for the `required` option depends on the type of the parameter. Most parameter types
+are optional by default, but **`int` and `number` parameters are required by default**: that means the webapp won't
+accept empty values for these fields, but you can disable this behavior by setting `additionalData.required` to `false`)
+
+Also, some types are not impacted by the `required` option:
+
+- parameters with the `bool` `varType`
+- `enum` parameters (including the `RADIO` and `SCENARIOS` variants)
+- `number` parameters with the `SLIDER` variant
+
+#### Date input validation
+
+| validation rule | default/optional | description                                                                                                                        |
+| --------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| required        | default          | All date parameters are **required by default**. <br> To make these parameters optional, set `additionalData.required` to `false`. |
+| minDate         | optional         | can be declared as `minValue` key in parameter description                                                                         |
+| maxDate         | optional         | can be declared as `maxValue` key in parameter description                                                                         |
+| constraint      | optional         | can be defined between two parameters with `date` varType                                                                          |
 
 Example:
 
@@ -731,15 +747,15 @@ parameters:
       validation: '> start_date'
 ```
 
-#### Number and integer
+#### Number and integer validation
 
-| validation rule | default/optional | description                                                               |
-| --------------- | ---------------- | ------------------------------------------------------------------------- |
-| required        | default          |                                                                           |
-| integer         | default          | parameters with varType `int` will be automatically validated as integers |
-| minValue        | optional         | can be declared as `minValue` key in parameter description                |
-| maxValue        | optional         | can be declared as `maxValue` key in parameter description                |
-| constraint      | optional         | can be defined between two parameters with `int` or `number` varType      |
+| validation rule | default/optional | description                                                                                                                                      |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| required        | default          | All number and integer parameters are **required by default**. <br> To make these parameters optional, set `additionalData.required` to `false`. |
+| integer         | default          | parameters with varType `int` will be automatically validated as integers                                                                        |
+| minValue        | optional         | can be declared as `minValue` key in parameter description                                                                                       |
+| maxValue        | optional         | can be declared as `maxValue` key in parameter description                                                                                       |
+| constraint      | optional         | can be defined between two parameters with `int` or `number` varType                                                                             |
 
 Example:
 
@@ -753,14 +769,14 @@ parameters:
       validation: '< stock'
 ```
 
-#### String
+#### String input validation
 
-| validation rule | default/optional | description                                                                                                                                        |
-| --------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| required        | optional         | all strings are optional by default, to make a string parameter required, `minLength` option in `additionalData.validation` must be greater than 0 |
-| minLength       | optional         | can be declared as `minLength` in parameter's `additionalData`                                                                                     |
-| maxLength       | optional         | can be declared as `maxLength` in parameter's `additionalData`                                                                                     |
-| constraint      | optional         | can be defined between two parameters with `string` varType                                                                                        |
+| validation rule | default/optional | description                                                                                                                                                                                                                                                                                                                           |
+| --------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| required        | optional         | All strings are **optional by default**. <br> To make a string parameter required, set `additionalData.required` to `true`. <br> <br> _Backward compatiliblity: if `additionalData.required` is not defined, then the parameter will be required if the `minLength` option in `additionalData.validation` is set and greater than 0._ |
+| minLength       | optional         | can be declared as `minLength` in parameter's `additionalData`                                                                                                                                                                                                                                                                        |
+| maxLength       | optional         | can be declared as `maxLength` in parameter's `additionalData`                                                                                                                                                                                                                                                                        |
+| constraint      | optional         | can be defined between two parameters with `string` varType                                                                                                                                                                                                                                                                           |
 
 Example:
 
@@ -773,7 +789,7 @@ parameters:
       validation: '!= evaluation'
 ```
 
-#### Bool
+#### Bool input validation
 
 | validation rule | default/optional | description                                               |
 | --------------- | ---------------- | --------------------------------------------------------- |
