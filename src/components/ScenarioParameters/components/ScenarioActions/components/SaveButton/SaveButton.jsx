@@ -13,8 +13,7 @@ import { useSetApplicationErrorMessage } from '../../../../../../state/app/hooks
 
 export const SaveButton = () => {
   const { t } = useTranslation();
-  const { isDirty, errors } = useFormState();
-  const isValid = Object.keys(errors || {}).length === 0;
+  const { isDirty, isValid } = useFormState();
   const { saveParameterValues } = useUpdateParameters();
   const setApplicationErrorMessage = useSetApplicationErrorMessage();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();
