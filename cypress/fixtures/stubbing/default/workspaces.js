@@ -58,6 +58,9 @@ export const DEFAULT_WORKSPACE = {
 
 export const DEFAULT_WORKSPACES = [DEFAULT_WORKSPACE];
 
+export const WORKSPACE_WITH_DATASET_MANAGER = clone(DEFAULT_WORKSPACE);
+WORKSPACE_WITH_DATASET_MANAGER.additionalData.webapp.datasetManager = {};
+
 export const WORKSPACE_WITH_INSTANCE_VIEW = clone(DEFAULT_WORKSPACE);
 WORKSPACE_WITH_INSTANCE_VIEW.additionalData.webapp.instanceView = {
   dataSource: { type: 'twingraph_dataset' },

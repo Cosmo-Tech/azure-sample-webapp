@@ -1,0 +1,49 @@
+// Copyright (c) Cosmo Tech.
+// Licensed under the MIT license.
+import {
+  REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_PARAMETERS,
+  NOT_IMPACTED_BY_REQUIRED_PARAMETERS,
+  REQUIRED_ENABLED_IN_CONFIG_PARAMETERS,
+  REQUIRED_DISABLED_IN_CONFIG_PARAMETERS,
+  REQUIRED_BY_DEFAULT_PARAMETERS,
+  NOT_REQUIRED_BY_DEFAULT_PARAMETERS,
+} from './parameters';
+
+export const REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_PARAMETER_GROUP = {
+  id: 'parameter-group-requiredEnabledWithInconsistentConfig',
+  parameters: REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_PARAMETERS.map((p) => p.id),
+};
+
+export const NOT_IMPACTED_BY_REQUIRED_PARAMETER_GROUP = {
+  id: 'parameter-group-notImpactedByRequired',
+  parameters: NOT_IMPACTED_BY_REQUIRED_PARAMETERS.map((p) => p.id),
+};
+
+export const REQUIRED_ENABLED_IN_CONFIG_PARAMETER_GROUPS = REQUIRED_ENABLED_IN_CONFIG_PARAMETERS.map((param) => ({
+  id: `parameter-group-${param.id}`,
+  parameters: [param.id],
+}));
+
+export const REQUIRED_DISABLED_IN_CONFIG_PARAMETER_GROUP = {
+  id: 'parameter-group-requiredDisabledInConfig',
+  parameters: REQUIRED_DISABLED_IN_CONFIG_PARAMETERS.map((p) => p.id),
+};
+
+export const REQUIRED_BY_DEFAULT_PARAMETER_GROUP = {
+  id: 'parameter-group-requiredByDefault',
+  parameters: REQUIRED_BY_DEFAULT_PARAMETERS.map((p) => p.id),
+};
+
+export const NOT_REQUIRED_BY_DEFAULT_PARAMETER_GROUP = {
+  id: 'parameter-group-notRequiredByDefault',
+  parameters: NOT_REQUIRED_BY_DEFAULT_PARAMETERS.map((p) => p.id),
+};
+
+export const ALL_PARAMETER_GROUPS = [
+  REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_PARAMETER_GROUP,
+  NOT_IMPACTED_BY_REQUIRED_PARAMETER_GROUP,
+  ...REQUIRED_ENABLED_IN_CONFIG_PARAMETER_GROUPS,
+  REQUIRED_DISABLED_IN_CONFIG_PARAMETER_GROUP,
+  REQUIRED_BY_DEFAULT_PARAMETER_GROUP,
+  NOT_REQUIRED_BY_DEFAULT_PARAMETER_GROUP,
+];

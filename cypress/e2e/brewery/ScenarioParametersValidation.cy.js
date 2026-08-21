@@ -24,10 +24,7 @@ describe('scenario parameters inputs validation', () => {
     stub.setSolutions(SOLUTIONS);
     stub.setRunners(SCENARIOS);
   });
-
-  beforeEach(() => {
-    Login.login();
-  });
+  beforeEach(() => Login.login());
 
   it(
     'clears number input, checks required value error message, Save and Launch buttons, ' +
@@ -36,7 +33,6 @@ describe('scenario parameters inputs validation', () => {
       ScenarioParameters.expandParametersAccordion();
       ScenarioParameters.getInputValue(BreweryParameters.getRestockInput()).as('restock');
       BreweryParameters.getRestockInput().click().clear();
-      BreweryParameters.getRestockInput().blur();
       BreweryParameters.getRestockInput().should('value', '');
       BreweryParameters.getRestockHelperText().should('be.visible').contains('required');
       ScenarioParameters.getSaveButton().should('be.disabled');
@@ -62,26 +58,22 @@ describe('scenario parameters inputs validation', () => {
     'checks required and int varType error messages for int varType ' +
       "and checks that int error message isn't displayed for number varType",
     () => {
+      ScenarioParameters.expandParametersAccordion();
       ScenarioParameters.getInputValue(BreweryParameters.getStockInput()).as('stock');
       ScenarioParameters.getInputValue(BreweryParameters.getRestockInput()).as('restock');
 
-      ScenarioParameters.expandParametersAccordion();
       ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).should('not.be.visible');
       BreweryParameters.getStockInput().clear();
-      BreweryParameters.getStockInput().blur();
       BreweryParameters.getStockInput().should('value', '');
       BreweryParameters.getStockHelperText().should('be.visible').contains('required');
       ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('1');
-      BreweryParameters.getStockInput().type('5.12');
-      BreweryParameters.getStockInput().blur();
+      BreweryParameters.getStockInput().type('5.12', { delay: 1 });
       BreweryParameters.getStockHelperText().should('be.visible').contains('integer');
       BreweryParameters.getRestockInput().clear();
-      BreweryParameters.getRestockInput().blur();
       BreweryParameters.getRestockInput().should('value', '');
       BreweryParameters.getRestockHelperText().should('be.visible').contains('required');
       ScenarioParameters.getTabsErrorBadge(BreweryParameters.getBasicTypesTab()).contains('2');
-      BreweryParameters.getRestockInput().type('5.12');
-      BreweryParameters.getRestockInput().blur();
+      BreweryParameters.getRestockInput().type('5.12', { delay: 1 });
       BreweryParameters.getRestockHelperText().should('not.exist');
 
       ScenarioParameters.getSaveButton().should('be.disabled');
@@ -176,9 +168,9 @@ describe('scenario parameters inputs validation', () => {
 
     BreweryParameters.getCurrencyNameInput().type(currencyValueShort);
     BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Minimum length');
-    BreweryParameters.getCommentInput().type(commentValue, { delay: 10 });
+    BreweryParameters.getCommentInput().type(commentValue, { delay: 1 });
     BreweryParameters.getCommentHelperText().should('exist').contains('Maximum length');
-    BreweryParameters.getCurrencyNameInput().clear().type(currencyValueLong, { delay: 10 });
+    BreweryParameters.getCurrencyNameInput().clear().type(currencyValueLong, { delay: 1 });
     BreweryParameters.getCurrencyNameHelperText().should('exist').contains('Maximum length');
     ScenarioParameters.discard();
     cy.get('@currency_name').then((input) => {
@@ -194,21 +186,21 @@ describe('scenario parameters inputs validation', () => {
 
   it('checks error messages for min and max values in number input', () => {
     ScenarioParameters.expandParametersAccordion();
-    BreweryParameters.getStockInput().clear().type('150');
+    BreweryParameters.getStockInput().clear().type('150', { delay: 1 });
     BreweryParameters.getStockHelperText().should('be.visible').contains('Maximum value');
-    BreweryParameters.getStockInput().clear().type('-150');
+    BreweryParameters.getStockInput().clear().type('-150', { delay: 1 });
     BreweryParameters.getStockHelperText().should('be.visible').contains('Minimum value');
-    BreweryParameters.getRestockInput().clear().type('30');
+    BreweryParameters.getRestockInput().clear().type('30', { delay: 1 });
     BreweryParameters.getRestockHelperText().should('be.visible').contains('Maximum value');
-    BreweryParameters.getRestockInput().clear().type('-30');
+    BreweryParameters.getRestockInput().clear().type('-30', { delay: 1 });
     BreweryParameters.getRestockHelperText().should('not.exist');
-    BreweryParameters.getWaitersInput().clear().type('-5');
+    BreweryParameters.getWaitersInput().clear().type('-5', { delay: 1 });
     BreweryParameters.getWaitersHelperText().should('be.visible').contains('Minimum value');
-    BreweryParameters.getWaitersInput().clear().type('25');
+    BreweryParameters.getWaitersInput().clear().type('25', { delay: 1 });
     BreweryParameters.getWaitersHelperText().should('not.exist');
     ScenarioParameters.getSaveButton().should('be.disabled');
     ScenarioParameters.getLaunchButton().should('be.disabled');
-    BreweryParameters.getStockInput().clear().type('50');
+    BreweryParameters.getStockInput().clear().type('50', { delay: 1 });
     BreweryParameters.getStockHelperText().should('not.exist');
     ScenarioParameters.getSaveButton().should('not.be.disabled');
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
