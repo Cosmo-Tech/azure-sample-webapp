@@ -19,7 +19,7 @@ cypress/
       generic/          ← framework-agnostic helpers
         ScenarioParameters.js   launch(), save(), expand accordion …
         Scenarios.js            createScenario(), selectRunTemplate …
-        ScenarioSelector.js     selectScenario()
+        ScenarioSelector.js     selectScenario(scenarioName, scenarioId)
         DatasetManager.js       switchToDatasetManagerView(), selectDatasetById(),
                                 ignoreDatasetTwingraphQueries(), getDownloadETLLogsButton() …
       brewery/
@@ -89,6 +89,35 @@ describe('My feature', () => {
 
 `stub.start()` with no argument enables **all** stub types. You can also pass a
 subset, e.g. `stub.start({ GET_SCENARIOS: true, LAUNCH_SCENARIO: true })`.
+
+---
+
+## Best practices for test structure
+
+**Lifecycle hooks formatting:**
+Keep hook calls on a single line when they just call one method:
+```js
+before(() => stub.start());
+afterEach(() => stub.reset());
+after(() => stub.stop());
+```
+
+**Resource initialization:**
+- Call `stub.setRunners()` and `stub.setSolutions()` in `beforeEach()` or `before()`
+  (before the `it` blocks run), **not** inside the `it` blocks
+- This ensures clean state for each test and proper stub configuration
+
+**Comment minimalism:**
+- Avoid excessive comments in the test body
+- Use explicit action names and helper functions instead
+- The code structure should be self-explanatory:
+  ```js
+  it('scenario name', () => {
+    ScenarioSelector.selectScenario(scenarioName, scenarioId);
+    ScenarioParameters.expandParametersAccordion();
+    cy.get('[data-testid="paramId"]').should('have.value', 'expected');
+  });
+  ```
 
 ---
 
