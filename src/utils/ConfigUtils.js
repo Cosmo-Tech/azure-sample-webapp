@@ -34,8 +34,8 @@ function getConversionMethod(param, functionArray) {
     }
   }
   console.warn(
-    `Parameter "${param.id}": no conversion function (to/from string) defined for varType "${varType} or subType ` +
-      `${subType} in ${functionArray}"`
+    `Parameter "${param.id}": no conversion function (to/from string) defined for varType "${varType}" ` +
+      `or subType "${subType}"`
   );
   return undefined;
 }
