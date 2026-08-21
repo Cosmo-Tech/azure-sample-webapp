@@ -249,7 +249,7 @@ const Scenario = () => {
                   <FadingTooltip
                     title={t(
                       TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
-                      currentScenarioData.runTemplateName
+                      currentScenarioData.runTemplateName ?? currentScenarioData.runTemplateId
                     )}
                     useSpan
                     spanProps={{ style: { overflow: 'hidden' } }}
@@ -261,7 +261,7 @@ const Scenario = () => {
                       :{' '}
                       {t(
                         TranslationUtils.getRunTemplateTranslationKey(currentScenarioData.runTemplateId),
-                        currentScenarioData.runTemplateName
+                        currentScenarioData.runTemplateName ?? currentScenarioData.runTemplateId
                       )}
                     </Typography>
                   </FadingTooltip>
