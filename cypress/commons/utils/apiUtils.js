@@ -391,19 +391,6 @@ const interceptGetDataset = () => {
   return alias;
 };
 
-const interceptGetDatasetStatus = (times = 1) => {
-  const alias = forgeAlias('reqGetDatasetStatus');
-  cy.intercept({ method: 'GET', url: API_REGEX.DATASET_STATUS, times }, (req) => {
-    const datasetId = req.url.match(API_REGEX.DATASET_STATUS)?.[1];
-    if (stub.isEnabledFor('CREATE_DATASET')) {
-      req.reply(stub.getDatasetById(datasetId).ingestionStatus);
-    } else if (stub.isEnabledFor('GET_DATASETS')) {
-      req.continue((res) => stub.patchDataset(datasetId, { ingestionStatus: res.body }));
-    }
-  }).as(alias);
-  return alias;
-};
-
 // Parameters:
 //   - response (optional): JSON response to the dataset query that is simulated if stubbing is enabled. Example:
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
@@ -443,9 +430,7 @@ const interceptPostDatasetQueries = (responses = [], validateRequest = null, tim
 //       cypress checks on the content of the intercepted query
 //     - customDatasetPatch (optional): data to set in the request body, you can use this option to replace the original
 //       content of the query
-//   - stubbingOptions (optional): must be an object or undefined (see doc of 'DEFAULT_DATASET_IMPORT_OPTIONS' in
-//     'stubbing' service file).
-const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImportOptions()) => {
+const interceptCreateDataset = (options) => {
   const alias = forgeAlias('reqCreateDataset');
   cy.intercept({ method: 'POST', url: API_REGEX.DATASETS, times: 1 }, (req) => {
     if (options?.validateRequest) options?.validateRequest(req);
@@ -453,17 +438,12 @@ const interceptCreateDataset = (options, stubbingOptions = stub.getDatasetImport
     if (stub.isEnabledFor('CREATE_DATASET')) {
       const dataset = {
         ...DEFAULT_DATASET,
-        ...req.body,
+        ...req.body, // FIXME: do we really need this? it seems to unstructure the multipart file string into Datasets
         id: datasetId,
-        ingestionStatus: 'PENDING',
         ...options?.customDatasetPatch,
       };
 
       stub.addDataset(dataset);
-      setTimeout(() => {
-        stub.patchDataset(datasetId, { ingestionStatus: stubbingOptions.finalIngestionStatus });
-      }, stubbingOptions.importJobDuration);
-
       req.reply(dataset);
     } else if (stub.isEnabledFor('GET_DATASETS')) {
       req.continue((res) => stub.addDataset(res.body));
@@ -537,9 +517,16 @@ const interceptCreateDatasetPart = (options = {}) => {
 
 const interceptDownloadDatasetPart = (options = {}) => {
   const alias = forgeAlias('reqDownloadDatasetPart');
-  cy.intercept({ method: 'GET', url: API_REGEX.DATASET_PART_DOWNLOAD, times: 1 }, (req) => {
+  let interceptionURL = API_REGEX.DATASET_PART_DOWNLOAD;
+  if (options?.datasetId || options?.datasetPartId) {
+    const datasetId = options?.datasetId ?? '(d|D)-[\\w]+';
+    const datasetPartId = options?.datasetPartId ?? 'dp-[\\w]+';
+    interceptionURL = new RegExp('^' + URL_ROOT + `/.*/datasets/(${datasetId})/parts/(${datasetPartId})/download$`);
+  }
+
+  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
     if (!stub.isEnabledFor('GET_DATASETS')) return;
-    const datasetPartId = req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
+    const datasetPartId = options?.datasetPartId ?? req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
     const fileContent = options?.fileContent ?? stub.getDatasetPartFile(datasetPartId);
     req.reply(fileContent ?? '');
   }).as(alias);
@@ -706,8 +693,11 @@ const interceptUpdateRunner = (options = {}) => {
       ...options?.customRunnerPatch,
     };
     const runnerId = req.url.match(API_REGEX.RUNNER)?.[1];
-    if (stub.isEnabledFor('GET_DATASETS')) stub.patchRunner(runnerId, runnerPatch);
-    if (stub.isEnabledFor('UPDATE_DATASET')) req.reply(runnerPatch);
+    if (stub.isEnabledFor('GET_DATASETS')) {
+      stub.patchRunner(runnerId, runnerPatch);
+      const patchedRunner = stub.getRunnerById(runnerId);
+      req.reply(patchedRunner);
+    } else if (stub.isEnabledFor('UPDATE_DATASET')) req.reply({ ...req.body, ...runnerPatch });
   }).as(alias);
   return alias;
 };
@@ -776,7 +766,6 @@ export const apiUtils = {
   interceptAuthentication,
   interceptGetDatasets,
   interceptGetDataset,
-  interceptGetDatasetStatus,
   interceptPostDatasetQuery,
   interceptPostDatasetQueries,
   interceptCreateDataset,

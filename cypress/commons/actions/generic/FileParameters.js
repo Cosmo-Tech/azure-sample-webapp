@@ -28,8 +28,11 @@ function getErrorMessage(fileParameterElement) {
   return fileParameterElement.find(GENERIC_SELECTORS.genericComponents.uploadFile.errorMessage);
 }
 
-function download(fileParameterElement) {
-  const alias = api.interceptDownloadDatasetPart();
+function download(fileParameterElement, options) {
+  const alias = api.interceptDownloadDatasetPart({
+    datasetId: options?.datasetId,
+    datasetPartId: options?.datasetPartId,
+  });
   getDownloadButton(fileParameterElement).click({ force: true });
   api.waitAlias(alias, { timeout: 60 * 1000 });
 }

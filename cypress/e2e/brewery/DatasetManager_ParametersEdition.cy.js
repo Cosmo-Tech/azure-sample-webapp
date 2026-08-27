@@ -62,9 +62,7 @@ describe('Dataset Manager - Parameters Edition', () => {
     cy.get(enumValue1Selector).click();
     cy.get(enumParameterSelector).find('input').should('have.value', 'First');
     cy.log(datasetETLDynamicValues);
-    DatasetManager.updateDatasetParameters(datasetETLDynamicValues.id, {
-      importJobOptions: ingestionOptions,
-    });
+    DatasetManager.updateDatasetParameters(datasetETLDynamicValues.id, { importJobOptions: ingestionOptions });
     DatasetManager.getRefreshDatasetSpinner(datasetETLDynamicValues.id, 20).should('not.exist');
     DatasetManager.selectDatasetById(secondDatasetETLLocalFile.id);
     DatasetManager.getUpdateDatasetParametersButton().should('be.visible');
