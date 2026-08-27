@@ -9,8 +9,6 @@ import {
 
 const EDITABLE_DATASET = {
   ...DEFAULT_DATASET,
-  ingestionStatus: 'SUCCESS',
-  twincacheStatus: 'FULL',
   security: { default: 'admin', accessControlList: [] },
 };
 
@@ -248,8 +246,6 @@ const DATASET_ETL_FOR_REFRESH = {
     path: null,
     jobId: 'run-stbrun1',
   },
-  ingestionStatus: 'SUCCESS',
-  twincacheStatus: 'FULL',
 };
 
 const DATASET_FROM_SCRATCH = {
@@ -264,7 +260,6 @@ const DATASET_FROM_SCRATCH = {
   },
   name: 'Dataset From Scratch',
   source: {},
-  ingestionStatus: 'NONE',
 };
 
 export const DATASETS = [

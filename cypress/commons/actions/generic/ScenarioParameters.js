@@ -31,13 +31,8 @@ function getDateParameterInput(id) {
 }
 function clearDateParameterInput(inputElementOrGetter) {
   const getElement = () => (typeof inputElementOrGetter === 'function' ? inputElementOrGetter() : inputElementOrGetter);
-  getElement()
-    .find('div')
-    .first()
-    .find('span')
-    .first()
-    .click({ force: true })
-    .type('{selectAll}{backspace}', { delay: 1 });
+  getElement().click({ force: true });
+  getElement().find('div').first().find('span[contenteditable="true"]').first().clear({ force: true });
 }
 
 function clearAndTypeInDateParameterInput(inputElement, value) {
@@ -47,7 +42,7 @@ function clearAndTypeInDateParameterInput(inputElement, value) {
   // Typing delay must be 0 for Chrome, but something above 10 for electron
   let delay = 0;
   if (Cypress.browser.name === 'electron') delay = 100;
-  inputElement.type('{backspace}' + value, { delay });
+  inputElement.type('{backspace}' + value, { delay, force: true });
 }
 
 function typeInDateParameterInput(inputElement, value) {

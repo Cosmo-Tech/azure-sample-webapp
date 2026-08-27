@@ -68,9 +68,9 @@ describe('Dataset Manager - Required Parameters', () => {
   it('must prevent dataset creation until all required parameters are set', () => {
     DatasetManager.switchToDatasetManagerView();
     startETLDatasetCreation(SCENARIO_REQUIRED_TRUE_RUN_TEMPLATE.id);
-    RTParams.getSingleSelectInput('scenarioRequiredTrue').should('have.text', '');
+    RTParams.getScenarioSelectInput('scenarioRequiredTrue').should('have.text', '');
     DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setSingleSelect('scenarioRequiredTrue', DEFAULT_SIMULATION_RUNNER.id);
+    RTParams.setScenarioSelect('scenarioRequiredTrue', DEFAULT_SIMULATION_RUNNER.id);
     DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
 
     DatasetManager.selectNewDatasetSourceType(NUMBER_REQUIRED_TRUE_RUN_TEMPLATE.id);
@@ -131,7 +131,7 @@ describe('Dataset Manager - Required Parameters', () => {
     DatasetManager.getConfirmDatasetCreation().should('be.disabled');
 
     // Set a value to all fields
-    RTParams.setSingleSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
+    RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
     RTParams.setNumber('numberRequiredUndefined', '1');
     RTParams.setNumber('intRequiredUndefined', '2');
     RTParams.setString('stringRequiredUndefined', 'a');
@@ -146,9 +146,9 @@ describe('Dataset Manager - Required Parameters', () => {
     ScenarioParameters.typeInDateParameterInput(RTParams.getDateInput('dateRequiredUndefined'), '01/01/2100');
     DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
 
-    RTParams.getSingleSelectInput('scenarioRequiredUndefined').click().clear().blur();
+    RTParams.getScenarioSelectInput('scenarioRequiredUndefined').click().clear().blur();
     DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setSingleSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
+    RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
     DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
 
     RTParams.clearNumber('numberRequiredUndefined');
@@ -192,7 +192,7 @@ describe('Dataset Manager - Required Parameters', () => {
     DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
 
     // Check that values are empty
-    RTParams.checkSingleSelectValue('scenarioRequiredFalse', '');
+    RTParams.checkScenarioSelectValue('scenarioRequiredFalse', '');
 
     ScenarioParameters.clearDateParameterInput(RTParams.getDateInput('dateRequiredFalse'));
     RTParams.getDateInput('dateRequiredFalse').should('value', '');
@@ -200,8 +200,12 @@ describe('Dataset Manager - Required Parameters', () => {
     RTParams.checkStringValue('stringRequiredFalse', '');
     RTParams.checkStringValue('stringRequiredFalseMinLength1', '');
 
-    RTParams.checkMultiSelectValue('listRequiredFalse_noEnumValues', '');
-    RTParams.checkMultiSelectValue('listRequiredFalse', '');
+    RTParams.checkMultiSelectInputFieldValue('listRequiredFalse_noEnumValues', '');
+    RTParams.checkMultiSelectInputFieldValue('listRequiredFalse', '');
+    RTParams.getMultiSelectInput('listRequiredFalse').click();
+    RTParams.checkMultiSelectOptionValue('A', false);
+    RTParams.checkMultiSelectOptionValue('B', false);
+    RTParams.getMultiSelectInput('listRequiredFalse').blur();
 
     RTParams.clearNumber('numberRequiredFalse');
     RTParams.checkNumberValue('numberRequiredFalse', '');
