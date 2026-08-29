@@ -24,7 +24,7 @@
     "@mui/icons-material": "^7.3.11",
     "@mui/lab": "7.0.1-beta.20",
     "@mui/material": "^7.3.11",
-    "@mui/x-data-grid": "^7.29.13",
+    "@mui/x-data-grid": "^9.11.0",
     "@reduxjs/toolkit": "^2.12.0",
     "axios": "^1.19.0",
     "date-fns": "^4.4.0",
