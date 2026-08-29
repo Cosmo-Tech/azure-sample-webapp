@@ -2315,21 +2315,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/lab@npm:7.0.1-beta.20":
-  version: 7.0.1-beta.20
-  resolution: "@mui/lab@npm:7.0.1-beta.20"
+"@mui/lab@npm:7.0.1-beta.25":
+  version: 7.0.1-beta.25
+  resolution: "@mui/lab@npm:7.0.1-beta.25"
   dependencies:
-    "@babel/runtime": "npm:^7.28.4"
-    "@mui/system": "npm:^7.3.6"
-    "@mui/types": "npm:^7.4.9"
-    "@mui/utils": "npm:^7.3.6"
+    "@babel/runtime": "npm:^7.28.6"
+    "@mui/system": "npm:^7.3.11"
+    "@mui/types": "npm:^7.4.12"
+    "@mui/utils": "npm:^7.3.11"
     clsx: "npm:^2.1.1"
     prop-types: "npm:^15.8.1"
   peerDependencies:
     "@emotion/react": ^11.5.0
     "@emotion/styled": ^11.3.0
-    "@mui/material": ^7.3.6
-    "@mui/material-pigment-css": ^7.3.6
+    "@mui/material": ^7.3.11
+    "@mui/material-pigment-css": ^7.3.11
     "@types/react": ^17.0.0 || ^18.0.0 || ^19.0.0
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -2342,7 +2342,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 10c0/2116e2244d6998ddf9ae302657d4587374aa9f975c508673c9591aa4f03912838d396acda2e3e2e4fb0ddabb9d69b57b198d828fe5cbc244baa41da76d6ae097
+  checksum: 10c0/5e72d656c044ec153bf6b09ce20a5707bc0328850482fc2e1e35c00d959452e14de6f2a02a2d53842ec5a3893abfbc1c89fae7fc7b9b949cd6db500f127ac680
   languageName: node
   linkType: hard
 
@@ -2422,7 +2422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/system@npm:^7.3.11, @mui/system@npm:^7.3.6":
+"@mui/system@npm:^7.3.11":
   version: 7.3.11
   resolution: "@mui/system@npm:7.3.11"
   dependencies:
@@ -2450,7 +2450,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/types@npm:^7.4.12, @mui/types@npm:^7.4.9":
+"@mui/types@npm:^7.4.12":
   version: 7.4.12
   resolution: "@mui/types@npm:7.4.12"
   dependencies:
@@ -2464,7 +2464,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/utils@npm:^5.16.6 || ^6.0.0 || ^7.0.0, @mui/utils@npm:^7.3.11, @mui/utils@npm:^7.3.5, @mui/utils@npm:^7.3.6":
+"@mui/utils@npm:^5.16.6 || ^6.0.0 || ^7.0.0, @mui/utils@npm:^7.3.11, @mui/utils@npm:^7.3.5":
   version: 7.3.11
   resolution: "@mui/utils@npm:7.3.11"
   dependencies:
@@ -4118,7 +4118,7 @@ __metadata:
     "@eslint/eslintrc": "npm:^3.3.6"
     "@eslint/js": "npm:^10.0.1"
     "@mui/icons-material": "npm:^7.3.11"
-    "@mui/lab": "npm:7.0.1-beta.20"
+    "@mui/lab": "npm:7.0.1-beta.25"
     "@mui/material": "npm:^7.3.11"
     "@mui/x-data-grid": "npm:^7.29.13"
     "@reduxjs/toolkit": "npm:^2.12.0"
