@@ -10,7 +10,7 @@ import { BasicEnumInput } from '@cosmotech/ui';
 import { ScenarioParameterInput } from '../../../../../../components';
 import { ScenarioResetValuesContext } from '../../../../../../components/ScenarioParameters/ScenarioParametersContext';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../../../../services/config/ApiConstants';
-import { ScenarioParametersUtils, SolutionsUtils } from '../../../../../../utils';
+import { ConfigUtils, ScenarioParametersUtils, SolutionsUtils } from '../../../../../../utils';
 import {
   PARAMETER_CONTEXT_VIEWS,
   PARAMETER_CONTEXT_WIDTH,
@@ -68,7 +68,14 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, dialog, pare
         parameter.additionalData = parameter.additionalData ?? {};
         parameter.additionalData.tooltipText = parametersPatch.tooltipText;
       }
-      const defaultValue = ScenarioParametersUtils.getDefaultParametersValues([parameterId], [parameter])[parameterId];
+      // Backward compatibility with versions prior to v7.3.0: in the context of the dataset creation dialog, all
+      // parameters are considered as required. Starting with v7.3.0, this default behavior can be disabled by setting
+      // additional.required to false in the parameter definition
+      const required = ConfigUtils.getParameterAttribute(parameter, 'required') !== false;
+      let defaultValue = null;
+      if (required)
+        defaultValue = ScenarioParametersUtils.getDefaultParametersValues([parameterId], [parameter])[parameterId];
+
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
       const fieldPath = `${escapedSourceType}.${parameterId}`;
       defaultFormState.current[fieldPath] = defaultValue;
