@@ -6,7 +6,7 @@ import { useSetDatasetReducerStatus } from '../../../../state/datasets/hooks';
 import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useSubDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
 import { useUserPermissionsOnCurrentWorkspace, useWorkspaceData } from '../../../../state/workspaces/hooks';
-import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
+import { ArrayDictUtils, ScenarioParametersUtils, SolutionsUtils } from '../../../../utils';
 
 export const useSubDatasetCreationParameters = () => {
   const createETLRunnerAndDataset = useCreateETLRunnerAndDataset();
@@ -54,7 +54,14 @@ export const useSubDatasetCreationParameters = () => {
         datasetList: [parentDatasetId],
       };
       const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
-      runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
+      ScenarioParametersUtils.serializeParameterValues(values[escapedSourceType]);
+      runner.parametersValues = ScenarioParametersUtils.buildParametersForUpdateRequest(
+        solutionData,
+        values[escapedSourceType],
+        null,
+        null,
+        null
+      );
       createETLRunnerAndDataset(runner);
     },
     [createETLRunnerAndDataset, setDatasetReducerStatus, solutionData]

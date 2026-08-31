@@ -4,7 +4,6 @@ import { DateUtils } from '@cosmotech/core';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 function _convertEnumFromString(parameterValue) {
-  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
   if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
@@ -14,13 +13,11 @@ function _convertStringFromString(parameterValue) {
 }
 
 function _convertIntFromString(parameterValue) {
-  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
   if (parameterValue === '') return null;
   return parseInt(parameterValue);
 }
 
 function _convertNumberFromString(parameterValue) {
-  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
   if (parameterValue === '') return null;
   return parseFloat(parameterValue);
 }
@@ -30,6 +27,8 @@ function _convertBoolFromString(parameterValue) {
 }
 
 function _convertDateFromString(parameterValue) {
+  if (parameterValue === '') return null;
+
   let parsedDate = DateUtils.parseISO(parameterValue);
   if (!DateUtils.isValidDate(parsedDate)) {
     parsedDate = new Date(parameterValue);
@@ -45,14 +44,13 @@ function _convertDateFromString(parameterValue) {
   return DateUtils.getDateAtMidnightUTC(parsedDate);
 }
 
+// FIXME: no longer used?
 function _convertDatasetIdFromString(parameterValue) {
-  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return null instead
   if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
 
 function _convertListFromString(parameterValue) {
-  // PROD-14190 - API may return an empty string for parameters that have never been initialized: return [] instead
   if (parameterValue === '') return [];
   try {
     const parsedValue = JSON.parse(parameterValue);

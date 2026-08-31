@@ -216,20 +216,6 @@ const patchIncompatibleValuesInSolution = (solution) => {
   patchIncorrectParametersInSolution(solution);
 };
 
-const forgeRunnerParameters = (solution, formValues) => {
-  if (formValues == null) return [];
-
-  return Object.entries(formValues).map(([key, value]) => {
-    const solutionParameter = solution?.parameters?.find((param) => param.id === key);
-    const parameter = {
-      parameterId: key,
-      varType: solutionParameter?.varType,
-      value,
-    };
-    return parameter;
-  });
-};
-
 const isDataSource = (runTemplate) => runTemplate?.tags?.includes('datasource');
 const isSubDataSource = (runTemplate) => runTemplate?.tags?.includes('subdatasource');
 
@@ -254,7 +240,6 @@ export const SolutionsUtils = {
   patchSolutionIfLocalConfigExists,
   checkParametersValidationConstraintsInSolution,
   patchIncompatibleValuesInSolution,
-  forgeRunnerParameters,
   isDataSource,
   isSubDataSource,
   getParameterFromSolution,

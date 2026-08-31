@@ -4,7 +4,8 @@ import { DateUtils } from '@cosmotech/core';
 import { FILE_DATASET_PART_ID_VARTYPE } from '../../../services/config/ApiConstants';
 
 function _convertEnumToString(parameterValue) {
-  return parameterValue; // Already a string
+  // Already a string when a value is selected. If the input field is empty, send an empty string
+  return parameterValue ?? '';
 }
 
 function _convertStringToString(parameterValue) {
@@ -33,6 +34,7 @@ function _convertDatasetIdToString(parameterValue) {
 }
 
 function _convertListToString(parameterValue) {
+  if (!parameterValue) return '[]';
   return JSON.stringify(parameterValue);
 }
 

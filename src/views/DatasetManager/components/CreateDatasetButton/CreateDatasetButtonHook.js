@@ -8,7 +8,7 @@ import { useCreateDataset, useSetDatasetReducerStatus } from '../../../../state/
 import { useCreateETLRunnerAndDataset } from '../../../../state/runner/hooks';
 import { useDataSourceRunTemplates, useSolutionData } from '../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../state/workspaces/hooks';
-import { ArrayDictUtils, SolutionsUtils } from '../../../../utils';
+import { ArrayDictUtils, ScenarioParametersUtils, SolutionsUtils } from '../../../../utils';
 
 export const useDatasetCreationParameters = () => {
   const ownerName = useUserName();
@@ -72,7 +72,14 @@ export const useDatasetCreationParameters = () => {
       } else {
         const runner = { ...dataset, runTemplateId: sourceType };
         const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
-        runner.parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
+        ScenarioParametersUtils.serializeParameterValues(values[escapedSourceType]);
+        runner.parametersValues = ScenarioParametersUtils.buildParametersForUpdateRequest(
+          solutionData,
+          values[escapedSourceType],
+          null,
+          null,
+          null
+        );
         createETLRunnerAndDataset(runner);
       }
     },

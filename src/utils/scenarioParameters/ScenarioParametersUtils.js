@@ -309,6 +309,8 @@ const generateParametersGroupsMetadata = (solution, runTemplateId) => {
 };
 
 const _addDatasetPartsToDelete = (runner, newParameters) => {
+  if (!runner) return;
+
   const runnerDatasetParts = runner?.datasets?.parameters ?? [];
   for (const newParameter of [...newParameters.dbDatasetParts, ...newParameters.fileDatasetParts]) {
     const parameterId = newParameter.parameterId;
@@ -319,6 +321,24 @@ const _addDatasetPartsToDelete = (runner, newParameters) => {
   }
 };
 
+// Run through an array of parameter values and call the serialization function for those of type file dataset parts.
+// Note that this function should only be called for temporary forms (e.g. creation or update of a dataset created by
+// an ETL run template), it does not apply any change of status for React states. For parameter values persisted inside
+// a form (e.g. scenario parameter values), use the processFilesToUpload hook instead (in FileParameterHooks.js)
+const serializeParameterValues = (parameterValues = {}) => {
+  for (const parameterValue of Object.values(parameterValues)) {
+    if (
+      parameterValue?.varType === FILE_DATASET_PART_ID_VARTYPE &&
+      parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD &&
+      parameterValue?.serialize != null
+    ) {
+      // Work-around implemented here because Table parameter status might not be correct if the table is empty
+      if (parameterValue.displayData?.length === 0) parameterValue.status = UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE;
+      else parameterValue.serializedData = parameterValue.serialize(parameterValue);
+    }
+  }
+};
+
 // Returns an object with 4 arrays, containing the parameter data required for runner update requests:
 // - dbDatasetParts
 // - fileDatasetParts
@@ -326,13 +346,15 @@ const _addDatasetPartsToDelete = (runner, newParameters) => {
 // - idsOfDatasetPartsToDelete
 const buildParametersForUpdateRequest = (
   solution,
-  parameterValues,
+  parameterValues = {},
   runTemplateParametersIds,
-  selectedScenario,
+  runnerToUpdate,
   allScenarios
 ) => {
+  const parameterIds = runTemplateParametersIds ?? Object.keys(parameterValues);
+
   const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
-  for (const parameterId of runTemplateParametersIds ?? Object.keys(parameterValues)) {
+  for (const parameterId of parameterIds) {
     const parameterMetadata = SolutionsUtils.getParameterFromSolution(solution, parameterId);
 
     const required = ConfigUtils.getParameterAttribute(parameterMetadata, 'required');
@@ -357,8 +379,8 @@ const buildParametersForUpdateRequest = (
 
     if (ConfigUtils.isFileParameter(parameter)) {
       // Check if file has been erased without new content to upload
-      if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-        const runnerDatasetParts = selectedScenario?.datasets?.parameters ?? [];
+      if (runnerToUpdate && parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+        const runnerDatasetParts = runnerToUpdate?.datasets?.parameters ?? [];
         const datasetPartIdsToDelete = runnerDatasetParts
           .filter((part) => part.name === parameterId)
           .map((part) => part.id);
@@ -385,8 +407,9 @@ const buildParametersForUpdateRequest = (
     console.warn(`Var type "${varType}" is not supported`);
   }
 
-  _addHiddenParameters(parameters.nonDatasetParts, selectedScenario, allScenarios, runTemplateParametersIds);
-  _addDatasetPartsToDelete(selectedScenario, parameters);
+  // Note: hidden parameters are not supported for ETL runners (in the DatasetManager context)
+  _addHiddenParameters(parameters.nonDatasetParts, runnerToUpdate, allScenarios, parameterIds);
+  _addDatasetPartsToDelete(runnerToUpdate, parameters);
   return parameters;
 };
 
@@ -406,6 +429,7 @@ export const ScenarioParametersUtils = {
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
+  serializeParameterValues,
   buildParametersForUpdateRequest,
   shouldForceScenarioParametersUpdate,
   getErrorsCountByTab,
