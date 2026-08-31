@@ -3,7 +3,6 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import DatasetService from '../../../services/dataset/DatasetService';
-import { ScenarioParametersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
 import { addOrUpdateDatasetPart, deleteDatasetPart } from '../../datasets/reducers';
@@ -12,12 +11,10 @@ import { updateEtlRunner } from '../reducers';
 import { asyncUpdateRunner } from './UpdateSimulationRunner';
 
 const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
-const getSolution = (state) => state.solution?.current?.data;
 
 export function* updateEtlRunnerData(action) {
   try {
     const runners = yield select(getETLRunners);
-    const solution = yield select(getSolution);
 
     const runnerId = action.runnerId;
     const runner = runners?.find((item) => item.id === runnerId);
@@ -31,20 +28,8 @@ export function* updateEtlRunnerData(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const dataset = action.dataset;
-
     const runnerParameterDatasetId = runner.datasets?.parameter;
-    const parameterValueDict = {};
-    runnerPatch.parametersValues.forEach((parameterValue) => {
-      parameterValueDict[parameterValue.parameterId] = parameterValue.value;
-    });
-
-    const parametersForUpdateRequest = ScenarioParametersUtils.buildParametersForUpdateRequest(
-      solution,
-      parameterValueDict,
-      null,
-      runner,
-      null
-    );
+    const parametersForUpdateRequest = runnerPatch.parametersValues;
 
     const updatedRunner = yield call(
       asyncUpdateRunner,

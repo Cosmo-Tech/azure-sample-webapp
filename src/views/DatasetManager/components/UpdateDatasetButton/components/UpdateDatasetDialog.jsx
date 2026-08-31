@@ -5,7 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
-import { SolutionsUtils } from '../../../../../utils';
+import { ScenarioParametersUtils, SolutionsUtils } from '../../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../../utils/scenarioParameters/ParameterContext';
 import { DatasetCreationParameters } from '../../CreateDatasetButton/components/DatasetCreationParameters';
 import { useUpdateDatasetDialog } from './UpdateDatasetDialogHook';
@@ -29,11 +29,19 @@ export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner
   const updateRunnerAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
     const escapedSourceType = SolutionsUtils.escapeRunTemplateId(selectedRunner?.runTemplateId);
-    const parametersValues = SolutionsUtils.forgeRunnerParameters(solutionData, values[escapedSourceType]);
-    const runnerPatch = { runTemplateId: selectedRunner?.runTemplateId, parametersValues };
+    ScenarioParametersUtils.serializeParameterValues(values[escapedSourceType]);
+    const parametersForUpdateRequest = ScenarioParametersUtils.buildParametersForUpdateRequest(
+      solutionData,
+      values[escapedSourceType],
+      null,
+      selectedRunner,
+      null
+    );
+
+    const runnerPatch = { runTemplateId: selectedRunner?.runTemplateId, parametersValues: parametersForUpdateRequest };
     updateRunner(selectedRunner?.id, dataset, runnerPatch);
     closeDialog();
-  }, [closeDialog, dataset, methods, selectedRunner?.id, selectedRunner?.runTemplateId, solutionData, updateRunner]);
+  }, [closeDialog, dataset, methods, selectedRunner, solutionData, updateRunner]);
 
   const [dialogWidth, setDialogWidth] = useState(PARAMETER_CONTEXT_WIDTH.SMALL);
   const dialogMaxWidth = useMemo(() => {

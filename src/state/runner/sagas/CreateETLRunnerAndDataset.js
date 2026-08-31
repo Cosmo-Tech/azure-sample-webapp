@@ -4,7 +4,7 @@ import { t } from 'i18next';
 import { put, takeEvery, call, select } from 'redux-saga/effects';
 import { Api } from '../../../services/config/Api';
 import DatasetService from '../../../services/dataset/DatasetService';
-import { ApiUtils, ConfigUtils, DatasetsUtils, RunnersUtils } from '../../../utils';
+import { ApiUtils, DatasetsUtils, RunnersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
 import { DATASET_REDUCER_STATUS } from '../../datasets/constants';
 import { addDataset, addOrUpdateDatasetPart, setDatasetReducerStatus } from '../../datasets/reducers';
@@ -58,25 +58,24 @@ function* createETLRunner(action) {
 
 function* createRunnerDatasetParts(action, createdRunner, datasetPartParameters) {
   const runnerParameterDatasetId = createdRunner.datasets?.parameter;
+  const runnerId = createdRunner.id;
   const organizationId = action.organizationId;
   const workspaceId = action.workspaceId;
 
+  const { dbDatasetParts, fileDatasetParts } = datasetPartParameters;
+  if (dbDatasetParts.length > 0) console.warn('Not implemented: DB dataset part creation is not implemented yet');
+
   const createdDatasetParts = [];
-  for (const parameter of datasetPartParameters) {
-    const parameterId = parameter.parameterId;
-    const fileParameter = parameter.value;
-    const file = fileParameter.value;
-    const datasetPartToCreate = { name: parameterId, sourceName: file?.name };
+  for (const parameter of fileDatasetParts) {
     const createdDatasetPart = yield call(
       DatasetService.createDatasetPart,
       organizationId,
       workspaceId,
       runnerParameterDatasetId,
-      datasetPartToCreate,
-      file
+      parameter.value.part,
+      parameter.value.file
     );
 
-    const runnerId = createdRunner.id;
     addOrUpdateDatasetPart({ datasetId: runnerParameterDatasetId, datasetPart: createdDatasetPart, runnerId });
     createdDatasetParts.push(createdDatasetPart);
   }
@@ -109,15 +108,17 @@ export function* createETLRunnerAndDataset(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
 
-    const datasetPartParameters = [];
-    if (action?.runner?.parametersValues != null) {
-      const filteredParameterValues = [];
-      action.runner.parametersValues.forEach((parameter) => {
-        if (ConfigUtils.isDatasetPartVarType(parameter?.varType)) datasetPartParameters.push(parameter);
-        else filteredParameterValues.push(parameter);
-      });
-      action.runner.parametersValues = filteredParameterValues;
-    }
+    const {
+      dbDatasetParts = [],
+      fileDatasetParts = [],
+      nonDatasetParts = [],
+      idsOfDatasetPartsToDelete = [],
+    } = action?.runner?.parametersValues ?? {};
+
+    action.runner.parametersValues = nonDatasetParts;
+    const datasetPartParameters = { dbDatasetParts, fileDatasetParts };
+    if (idsOfDatasetPartsToDelete.length !== 0)
+      console.warn('Wrong path: idsOfDatasetPartsToDelete should be empty in CreateETLRunnerAndDataset saga');
 
     // When creating subdatasets, the runner provided to the createRunner saga contains the id of the **parent dataset**
     // in datasets.bases

@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
@@ -18,13 +18,28 @@ const DEFAULT_MAX_VALUE = 100;
 const getMinValue = (parameterData) => parameterData.minValue ?? DEFAULT_MIN_VALUE;
 const getMaxValue = (parameterData) => parameterData.maxValue ?? DEFAULT_MAX_VALUE;
 
-export const GenericSliderInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
+export const GenericSliderInput = ({
+  parameterData,
+  context,
+  parameterValue,
+  setParameterValue,
+  resetParameterValue,
+  isDirty = false,
+}) => {
   const { t } = useTranslation();
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
   const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
-  const min = getMinValue(parameterData);
-  const max = getMaxValue(parameterData);
+  const { min, max } = useMemo(() => {
+    const min = getMinValue(parameterData);
+    const max = getMaxValue(parameterData);
+    return { min, max };
+  }, [parameterData]);
+
+  useEffect(() => {
+    if (parameterValue == null) resetParameterValue(min);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- do not trigger reset every time parameterValue changes
+  }, [resetParameterValue, min]);
 
   return (
     <Grid {...gridItemProps}>
@@ -50,5 +65,6 @@ GenericSliderInput.propTypes = {
   context: PropTypes.object.isRequired,
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
+  resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
 };
