@@ -27,7 +27,7 @@ const MAX_ERRORS_COUNT = 100;
 const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
   return AgGridUtils.fromCSV(
     fileContent,
-    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
+    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') ?? true,
     AgGridUtils.getFlattenColumnsWithoutGroups(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
@@ -36,7 +36,7 @@ const _generateGridDataFromCSV = (fileContent, parameterData, options) => {
 const _generateGridDataFromXLSX = async (fileBlob, parameterData, options) => {
   return await AgGridUtils.fromXLSX(
     fileBlob,
-    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') || true,
+    ConfigUtils.getParameterAttribute(parameterData, 'hasHeader') ?? true,
     AgGridUtils.getFlattenColumnsWithoutGroups(ConfigUtils.getParameterAttribute(parameterData, 'columns')),
     options
   );
