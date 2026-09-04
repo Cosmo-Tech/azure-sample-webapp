@@ -58,8 +58,6 @@ export const GenericTable = ({
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
-  const [parameter, setParameter] = useState(parameterValue || {});
-
   const lockId = `${scenarioId}_${parameterId}`;
 
   const [isConfirmRowsDeletionDialogOpen, setConfirmRowsDeletionDialogOpen] = useState(false);
@@ -140,33 +138,18 @@ export const GenericTable = ({
     };
   }, [lockId]);
 
-  // Store last parameter in a ref
-  // Update a state is async, so, in case of multiple call of updateParameterValue in same function
-  // parameter state value will be updated only in last call.
-  // We need here to use a ref value for be sure to have the good value.
-  const lastNewParameterValue = useRef(parameter);
+  // Use a ref to keep the most recent data available when serialization is called
+  const lastNewParameterValue = useRef(parameterValue ?? {});
   const updateParameterValue = useCallback(
     (newValuePart, shouldReset = false) => {
-      const newParameterValue = {
-        ...lastNewParameterValue.current,
-        ...newValuePart,
-      };
-
+      const newParameterValue = { ...lastNewParameterValue.current, ...newValuePart };
       lastNewParameterValue.current = newParameterValue;
-      if (!isUnmount.current) {
-        setParameter(newParameterValue);
-      }
 
-      // Update parameterValue in another process to allow grid to update parameter before.
-      // if not, the parent should update parameterValue in same time that grid refreshing by update local parameter.
-      setTimeout(() => {
-        // Prevent useless update of parameterValue if multiple updateParameterValue was done before
-        if (lastNewParameterValue.current === newParameterValue) {
-          if (shouldReset) {
-            resetParameterValue(newParameterValue);
-          } else {
-            setParameterValue(newParameterValue);
-          }
+      // Using a timeout here seems mandatory for react-hook-form to correctly computes the "isDirty" state of the form
+      setTimeout(function () {
+        if (!isUnmount.current) {
+          if (shouldReset) resetParameterValue(newParameterValue);
+          else setParameterValue(newParameterValue);
         }
       });
     },
@@ -179,25 +162,6 @@ export const GenericTable = ({
     },
     [updateParameterValue]
   );
-
-  useEffect(() => {
-    if (
-      parameterValue?.status !== parameter.status ||
-      !equal(parameterValue?.errors, parameter.errors) ||
-      !equal(parameterValue?.displayData, parameter.displayData)
-    ) {
-      // Ignore undesired update of the table if its content is being initialized
-      if (
-        lastNewParameterValue.current.displayStatus === TABLE_DATA_STATUS.READY &&
-        parameterValue.displayStatus === TABLE_DATA_STATUS.DOWNLOADING
-      )
-        return;
-
-      lastNewParameterValue.current = parameterValue;
-      setParameter(parameterValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parameterValue]);
 
   const setClientFileDescriptorStatuses = (newFileStatus, newDisplayStatus, shouldReset = false) => {
     updateParameterValue({ status: newFileStatus, displayStatus: newDisplayStatus }, shouldReset);
@@ -220,7 +184,7 @@ export const GenericTable = ({
 
   const isDataFetchedFromDataset = !!ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues');
 
-  const _getDataFromDatasetPart = async (setClientFileDescriptor, parameter) => {
+  const _getDataFromDatasetPart = async (setClientFileDescriptor, currentParameterValue) => {
     if (_checkForLock()) return;
     GenericTable.downloadLocked[lockId] = true;
 
@@ -231,7 +195,7 @@ export const GenericTable = ({
 
       // If the current status was already an error, add a short timeout to maintain the loading status and give visual
       // feedback to users
-      const timeoutDelayInMs = parameter?.displayStatus === TABLE_DATA_STATUS.ERROR ? 100 : null;
+      const timeoutDelayInMs = currentParameterValue?.displayStatus === TABLE_DATA_STATUS.ERROR ? 100 : null;
       if (!timeoutDelayInMs) setClientFileDescriptor({ ...noFileDescriptor, displayStatus: TABLE_DATA_STATUS.ERROR });
       else {
         setTimeout(function () {
@@ -514,20 +478,20 @@ export const GenericTable = ({
   const importFile = useCallback(
     (event) => {
       // TODO: ask confirmation if data already exist
-      const previousFileBackup = clone(parameter);
+      const previousFileBackup = clone(parameterValue);
       const options = { defaultFileTypeFilter: '.csv, .xlsx' };
       const file = FileManagementUtils.prepareToUpload(event, updateParameterValue, parameterData, options);
       if (file.name.endsWith('.csv')) {
-        _readAndParseCSVFile(file, parameter, updateParameterValue, previousFileBackup);
+        _readAndParseCSVFile(file, parameterValue, updateParameterValue, previousFileBackup);
       } else if (file.name.endsWith('.xlsx')) {
-        _readAndParseXLSXFile(file, parameter, updateParameterValue, previousFileBackup);
+        _readAndParseXLSXFile(file, parameterValue, updateParameterValue, previousFileBackup);
       } else {
         updateParameterValue({
           errors: [{ summary: 'Unknown file type, please provide a CSV or XLSX file.', loc: file.name }],
         });
       }
     },
-    [_readAndParseCSVFile, _readAndParseXLSXFile, parameter, updateParameterValue, parameterData]
+    [_readAndParseCSVFile, _readAndParseXLSXFile, parameterValue, updateParameterValue, parameterData]
   );
 
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
@@ -537,17 +501,17 @@ export const GenericTable = ({
   const closeRevertDialog = () => setIsRevertDialogOpen(false);
   const exportCSV = useCallback(
     (fileName) => {
-      const fileContent = AgGridUtils.toCSV(parameter.displayData, columns, options);
+      const fileContent = AgGridUtils.toCSV(lastNewParameterValue.current.displayData, columns, options);
       FileBlobUtils.downloadFileFromData(fileContent, fileName);
     },
-    [columns, options, parameter.displayData]
+    [columns, options]
   );
   const exportXSLX = useCallback(
     (fileName) => {
-      const fileContent = AgGridUtils.toXLSX(parameter.displayData, columns, options);
+      const fileContent = AgGridUtils.toXLSX(lastNewParameterValue.current.displayData, columns, options);
       FileBlobUtils.downloadFileFromData(fileContent, fileName);
     },
-    [columns, options, parameter.displayData]
+    [columns, options]
   );
   const exportFile = useCallback(
     (fileName) => {
@@ -565,7 +529,7 @@ export const GenericTable = ({
   );
 
   const updateOnFirstEdition = useCallback(() => {
-    if (!parameter.serialize || !isDirty) {
+    if (!lastNewParameterValue.current.serialize || !isDirty) {
       updateParameterValue({
         status: UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD,
         displayStatus: TABLE_DATA_STATUS.READY,
@@ -573,7 +537,7 @@ export const GenericTable = ({
         serialize: serializeToCSV,
       });
     }
-  }, [parameter.serialize, isDirty, serializeToCSV, updateParameterValue]);
+  }, [isDirty, serializeToCSV, updateParameterValue]);
 
   const onClearErrors = () => updateParameterValue({ errors: null });
 
@@ -593,40 +557,50 @@ export const GenericTable = ({
   // Trigger dataset download only when mounting the component
   useEffect(() => {
     const alreadyDownloaded =
-      parameter.displayStatus !== undefined &&
+      parameterValue?.displayStatus !== undefined &&
       [
         TABLE_DATA_STATUS.ERROR,
         TABLE_DATA_STATUS.DOWNLOADING,
         TABLE_DATA_STATUS.PARSING,
         TABLE_DATA_STATUS.READY,
-      ].includes(parameter.displayStatus);
+      ].includes(parameterValue?.displayStatus);
 
     if (
-      parameter.datasetId &&
-      parameter.datasetPartId &&
-      !parameter.serializedData &&
-      parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
+      parameterValue?.datasetId &&
+      parameterValue?.datasetPartId &&
+      !parameterValue?.serializedData &&
+      parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded
     ) {
-      _downloadDatasetFileContentFromStorage(organizationId, workspaceId, parameter, updateParameterValueWithReset);
+      _downloadDatasetFileContentFromStorage(
+        organizationId,
+        workspaceId,
+        parameterValue,
+        updateParameterValueWithReset
+      );
     } else if (
       isDataFetchedFromDataset &&
-      !parameter.serializedData &&
-      parameter.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
+      !parameterValue?.serializedData &&
+      parameterValue?.status === UPLOAD_FILE_STATUS_KEY.EMPTY &&
       !alreadyDownloaded
     ) {
-      _getDataFromDatasetPart(updateParameterValueWithReset, parameter);
+      _getDataFromDatasetPart(updateParameterValueWithReset, parameterValue);
     }
   });
+
+  const onCellChange = useCallback(() => {
+    updateParameterValue({ displayData: clone(parameterValue?.displayData ?? []) });
+    updateOnFirstEdition();
+  }, [parameterValue?.displayData, updateParameterValue, updateOnFirstEdition]);
 
   const onAddRow = useCallback(() => {
     const newLine = TableUtils.createNewTableLine(
       ConfigUtils.getParameterAttribute(parameterData, 'columns'),
       ConfigUtils.getParameterAttribute(parameterData, 'dateFormat')
     );
-    const rowsCountBeforeRowAddition = parameter?.displayData?.length ?? 0;
+    const rowsCountBeforeRowAddition = lastNewParameterValue.current?.displayData?.length ?? 0;
     if (rowsCountBeforeRowAddition === 0) {
-      updateParameterValue({ displayData: [newLine], name: parameter?.file?.name ?? `${parameterData.id}.csv` });
+      updateParameterValue({ displayData: [newLine], name: parameterValue?.file?.name ?? `${parameterData.id}.csv` });
       updateOnFirstEdition();
       return;
     }
@@ -650,18 +624,22 @@ export const GenericTable = ({
       addIndex = selectedLines.length > 0 ? getRowNodeIndex(lastSelectedLine) + 1 : 0;
     }
 
-    if (isSortEnabled) {
-      parameter.displayData.push(newLine);
-    } else if (selectedLines?.length > 0) {
-      parameter.displayData.splice(addIndex, 0, newLine);
-    } else {
-      parameter.displayData.unshift(newLine);
-    }
+    const newDisplayData = clone(parameterValue?.displayData ?? []);
+    if (isSortEnabled) newDisplayData.push(newLine);
+    else if (selectedLines?.length > 0) newDisplayData.splice(addIndex, 0, newLine);
+    else newDisplayData.unshift(newLine);
+    updateParameterValue({ displayData: newDisplayData });
 
     gridApi.applyTransaction({ add: [newLine], addIndex: addIndexForTransaction });
     gridApi.deselectAll();
     updateOnFirstEdition();
-  }, [updateOnFirstEdition, parameter.displayData, parameter.file?.name, parameterData, updateParameterValue]);
+  }, [
+    updateOnFirstEdition,
+    parameterValue?.displayData,
+    parameterValue?.file?.name,
+    parameterData,
+    updateParameterValue,
+  ]);
 
   const deleteRow = useCallback(() => {
     const gridApi = gridRef.current?.api;
@@ -670,18 +648,16 @@ export const GenericTable = ({
     const nodesDataToRemove = gridApi.getSelectedNodes().map((rowNode) => rowNode.data);
     gridApi.applyTransaction({ remove: nodesDataToRemove });
 
-    const _findRowIndexFromData = (nodeData) => parameter.displayData.findIndex((row) => row === nodeData);
+    const newDisplayData = clone(lastNewParameterValue.current?.displayData ?? []);
+    const _findRowIndexFromData = (nodeData) => newDisplayData.findIndex((row) => equal(row, nodeData));
     nodesDataToRemove.forEach((nodeDataToRemove) => {
       const rowIndexToRemove = _findRowIndexFromData(nodeDataToRemove);
-      parameter.displayData.splice(rowIndexToRemove, 1);
+      newDisplayData.splice(rowIndexToRemove, 1);
     });
 
-    if (parameter.displayData.length === 0) {
-      updateParameterValue({ displayData: parameter.displayData });
-    }
-
+    updateParameterValue({ displayData: newDisplayData });
     updateOnFirstEdition();
-  }, [updateOnFirstEdition, parameter.displayData, updateParameterValue]);
+  }, [updateOnFirstEdition, updateParameterValue]);
 
   const onDeleteRow = useCallback(() => {
     const selectedRows = gridRef.current?.api?.getSelectedNodes() ?? [];
@@ -698,13 +674,13 @@ export const GenericTable = ({
       // To trigger isDirty state when an already saved table was reverted and avoid it in other cases, we need to
       // updateParameterValue setter and updateOnFirstEdition function that triggers the start of edition; on the other
       // hand, updateParameterValueWithReset setter rollbacks modified values without triggering isDirty
-      if (parameter.serializedData != null) {
-        _getDataFromDatasetPart(updateParameterValue, parameter);
+      if (parameterValue?.serializedData != null) {
+        _getDataFromDatasetPart(updateParameterValue, parameterValue);
         updateOnFirstEdition();
-      } else _getDataFromDatasetPart(updateParameterValueWithReset, parameter);
+      } else _getDataFromDatasetPart(updateParameterValueWithReset, parameterValue);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [parameter.serializedData, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
+    [parameterValue?.serializedData, updateParameterValue, updateParameterValueWithReset, updateOnFirstEdition]
   );
 
   const onRevertTableData = useCallback(() => {
@@ -713,7 +689,6 @@ export const GenericTable = ({
   }, [setIsRevertDialogOpen, revertTableWithDatasetData]);
 
   const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
-
   return (
     <>
       <TableExportDialog
@@ -732,17 +707,17 @@ export const GenericTable = ({
         tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
         dateFormat={options.dateFormat}
         editMode={context.editMode}
-        dataStatus={parameter.displayStatus || TABLE_DATA_STATUS.EMPTY}
-        errors={parameter.errors}
+        dataStatus={parameterValue?.displayStatus || TABLE_DATA_STATUS.EMPTY}
+        errors={parameterValue?.errors}
         columns={columns}
-        rows={parameter.displayData ?? []}
+        rows={parameterValue?.displayData ?? []}
         agTheme={context.isDarkTheme ? gridDark.agTheme : gridLight.agTheme}
         onImport={importFile}
         onExport={openExportDialog}
         onAddRow={canChangeRowsNumber ? onAddRow : null}
         onDeleteRow={canChangeRowsNumber ? onDeleteRow : null}
         onRevert={isDataFetchedFromDataset ? onRevertTableData : null}
-        onCellChange={updateOnFirstEdition}
+        onCellChange={onCellChange}
         onClearErrors={onClearErrors}
         buildErrorsPanelTitle={buildErrorsPanelTitle}
         maxErrorsCount={MAX_ERRORS_COUNT}
