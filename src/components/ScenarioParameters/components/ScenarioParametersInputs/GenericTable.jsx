@@ -189,7 +189,8 @@ export const GenericTable = ({
       // Ignore undesired update of the table if its content is being initialized
       if (
         lastNewParameterValue.current.displayStatus === TABLE_DATA_STATUS.READY &&
-        parameterValue.displayStatus === TABLE_DATA_STATUS.DOWNLOADING
+        (parameterValue.displayStatus === TABLE_DATA_STATUS.DOWNLOADING ||
+          parameterValue.status === UPLOAD_FILE_STATUS_KEY.DOWNLOADING)
       )
         return;
 
@@ -200,7 +201,10 @@ export const GenericTable = ({
   }, [parameterValue]);
 
   const setClientFileDescriptorStatuses = (newFileStatus, newDisplayStatus, shouldReset = false) => {
-    updateParameterValue({ status: newFileStatus, displayStatus: newDisplayStatus }, shouldReset);
+    updateParameterValue(
+      { status: newFileStatus, displayStatus: newDisplayStatus ?? lastNewParameterValue.current?.displayStatus },
+      shouldReset
+    );
   };
 
   const setClientFileDescriptorStatusesWithReset = (newFileStatus, newDisplayStatus) => {
