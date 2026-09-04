@@ -15,7 +15,7 @@ const checkStringValue = (parameterId, value) => getStringInput(parameterId).sho
 const clearString = (parameterId) => getStringInput(parameterId).clear();
 const setString = (parameterId, value, clear = true) => {
   if (clear) clearString(parameterId);
-  getStringInput(parameterId).type(value);
+  getStringInput(parameterId).type(value, { force: true });
 };
 
 const getNumberInput = (parameterId) => getParameterInput(`number-input-${parameterId}`);
@@ -23,7 +23,7 @@ const checkNumberValue = (parameterId, value) => getNumberInput(parameterId).sho
 const clearNumber = (parameterId) => getNumberInput(parameterId).clear();
 const setNumber = (parameterId, value, clear = true) => {
   if (clear) clearNumber(parameterId);
-  getNumberInput(parameterId).type(value);
+  getNumberInput(parameterId).type(value, { force: true });
 };
 
 const getSlider = (parameterId) => cy.get(`[data-cy=slider-input-${parameterId}]`);
