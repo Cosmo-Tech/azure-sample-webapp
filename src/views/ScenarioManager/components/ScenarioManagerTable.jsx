@@ -4,12 +4,13 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, Paper, Stack } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
+import { enUS, frFR } from '@mui/x-data-grid/locales';
 import { SearchBar } from '@cosmotech/ui';
 import { DeleteScenarioBatchButton } from './DeleteScenarioBatchButton';
 import { useScenarioManagerTable } from './ScenarioManagerTableHook';
 
 export const ScenarioManagerTable = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     isLoading,
     columns,
@@ -20,7 +21,14 @@ export const ScenarioManagerTable = () => {
     visibleSelectionModel,
     handleSelectionChange,
     setSearchFieldValueDebounced,
+    apiRef,
+    initialState,
   } = useScenarioManagerTable();
+
+  const dataGridLocaleText = useMemo(() => {
+    if (i18n.language === 'fr') return frFR.components.MuiDataGrid.defaultProps.localeText;
+    return enUS.components.MuiDataGrid.defaultProps.localeText;
+  }, [i18n.language]);
 
   const columnIds = useMemo(() => columns.map((column) => column.field), [columns]);
   return (
@@ -37,6 +45,9 @@ export const ScenarioManagerTable = () => {
       </Stack>
       <Card component={Paper} elevation={2} sx={{ p: 0, height: 'calc(100% - 97px)' }}>
         <DataGrid
+          apiRef={apiRef}
+          initialState={{ ...initialState }}
+          localeText={dataGridLocaleText}
           loading={isLoading}
           rows={rows}
           columns={columns}

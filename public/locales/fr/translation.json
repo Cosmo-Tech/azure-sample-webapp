@@ -356,7 +356,8 @@
           "dataset": "Dataset",
           "owner": "Auteur",
           "created": "Créé le",
-          "status": "Statut"
+          "status": "Statut",
+          "menu": "Menu"
         },
         "scenarioTooltip": {
           "noDescription": "Aucune",
