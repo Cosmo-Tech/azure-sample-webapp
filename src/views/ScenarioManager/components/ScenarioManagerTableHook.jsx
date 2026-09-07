@@ -91,7 +91,8 @@ const forgeColumns = (t, validationStatusLabels) => [
   },
   {
     field: 'actionMenu',
-    headerName: '',
+    headerName: t('commoncomponents.scenariomanager.table.column.menu', 'Menu'),
+    renderHeader: () => '',
     renderCell: (params) => (
       <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
         <ScenarioTableRowMenuButton scenario={params.row} />
