@@ -21,6 +21,8 @@ export const ScenarioManagerTable = () => {
     visibleSelectionModel,
     handleSelectionChange,
     setSearchFieldValueDebounced,
+    apiRef,
+    initialState,
   } = useScenarioManagerTable();
 
   const dataGridLocaleText = useMemo(() => {
@@ -43,6 +45,8 @@ export const ScenarioManagerTable = () => {
       </Stack>
       <Card component={Paper} elevation={2} sx={{ p: 0, height: 'calc(100% - 97px)' }}>
         <DataGrid
+          apiRef={apiRef}
+          initialState={{ ...initialState }}
           localeText={dataGridLocaleText}
           loading={isLoading}
           rows={rows}

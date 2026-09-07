@@ -1,9 +1,9 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Stack } from '@mui/material';
-import { GRID_CHECKBOX_SELECTION_COL_DEF, GridCellCheckboxRenderer } from '@mui/x-data-grid';
+import { GRID_CHECKBOX_SELECTION_COL_DEF, GridCellCheckboxRenderer, useGridApiRef } from '@mui/x-data-grid';
 import rfdc from 'rfdc';
 import { ResourceUtils } from '@cosmotech/core';
 import { FadingTooltip, ScenarioValidationStatusChip } from '@cosmotech/ui';
@@ -238,8 +238,8 @@ export const useScenarioManagerTable = () => {
     [rows, selectedRunnerIds]
   );
 
-  const searchDebounceTimer = React.useRef();
-  React.useEffect(() => () => clearTimeout(searchDebounceTimer.current), []);
+  const searchDebounceTimer = useRef();
+  useEffect(() => () => clearTimeout(searchDebounceTimer.current), []);
 
   const setSearchFieldValueDebounced = useCallback(
     (value, delay = SEARCH_FIELD_DEBOUNCE_DELAY_MS) => {
@@ -254,6 +254,27 @@ export const useScenarioManagerTable = () => {
     [setSearchFieldValue]
   );
 
+  // Table state persistence - Code adapted from the MUI documentation example:
+  // https://v7.mui.com/x/react-data-grid/state/#restore-the-state-with-apiref
+  const apiRef = useGridApiRef();
+
+  const initialState = useMemo(() => {
+    const stateFromLocalStorage = localStorage?.getItem('scenarioManagerDataGridState');
+    return stateFromLocalStorage ? JSON.parse(stateFromLocalStorage) : {};
+  }, []);
+
+  const saveSnapshot = useCallback(() => {
+    if (apiRef?.current?.exportState && localStorage) {
+      const currentState = apiRef.current.exportState();
+      localStorage.setItem('scenarioManagerDataGridState', JSON.stringify(currentState));
+    }
+  }, [apiRef]);
+
+  useLayoutEffect(() => {
+    // Save table state when the component is unmounted
+    return () => saveSnapshot();
+  }, [saveSnapshot]);
+
   return {
     isLoading: isSearchPending,
     columns,
@@ -264,5 +285,7 @@ export const useScenarioManagerTable = () => {
     visibleSelectionModel,
     handleSelectionChange,
     setSearchFieldValueDebounced,
+    apiRef,
+    initialState,
   };
 };
