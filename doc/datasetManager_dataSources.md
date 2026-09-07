@@ -99,14 +99,7 @@ dataset manager. These ETLs are actually defined as **run templates** (similar t
 **must be identified with a specific tag**: `datasource`.
 
 The same way simulation run templates can have parameters, **it is possible to define parameters for these ETLs**.
-Currently, the only supported `varType`s for the ETL data sources are:
-
-- `string`
-- `enum`
-- `list`
-- `%DATASET_PART_ID_FILE%`
-
-For these types, the configuration of parameters is mostly identical to the configuration of scenario parameters
+The supported `varType`s are the same as for the scenario parameters, and their configuration is identical
 (see [Scenario Parameters configuration](scenarioParametersConfiguration.md)).
 
 #### Visibility in the webapp
