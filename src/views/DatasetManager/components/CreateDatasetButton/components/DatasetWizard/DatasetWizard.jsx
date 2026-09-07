@@ -20,6 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../../../utils/scenarioParameters/ParameterContext';
 import { DatasetCreationParameters } from '../DatasetCreationParameters';
 
 export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTemplates, parentDataset }) => {
@@ -109,11 +110,11 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                 renderTags={(value, getTagProps) =>
                   value.map((tagText, index) => (
                     <Chip
-                      key={index}
                       label={tagText}
                       data-cy={`new-dataset-tags-tag-${index}`}
                       color="primary"
                       {...getTagProps({ index })}
+                      key={index}
                     />
                   ))
                 }
@@ -173,17 +174,26 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
     );
   }, [t, activeStep, isSubDatasetCreationWizard]);
 
+  const [dialogWidth, setDialogWidth] = useState(PARAMETER_CONTEXT_WIDTH.SMALL);
+  const dialogMaxWidth = useMemo(() => {
+    if (activeStep === 0 || dialogWidth === PARAMETER_CONTEXT_WIDTH.SMALL) return 'sm';
+    if (dialogWidth === PARAMETER_CONTEXT_WIDTH.LARGE) return 'xl';
+    console.warn(`Unknown value "${dialogWidth}" for dialog width`);
+    return 'sm';
+  }, [activeStep, dialogWidth]);
+
   return (
     <FormProvider {...methods}>
-      <Dialog open={open} fullWidth data-cy="dataset-creation-dialog">
+      <Dialog open={open} fullWidth maxWidth={dialogMaxWidth} data-cy="dataset-creation-dialog">
         <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <Grid container sx={{ gap: 1 }}>
+          <Grid container direction="column" sx={{ gap: 1 }}>
             <Grid size="grow">{stepper}</Grid>
             {activeStep === 0 && firstStep}
             {activeStep === 1 && (
               <DatasetCreationParameters
                 dataSourceRunTemplates={dataSourceRunTemplates}
+                dialog={{ width: dialogWidth, setWidth: setDialogWidth }}
                 parentDataset={parentDataset}
               />
             )}
@@ -194,12 +204,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
             {t('commoncomponents.datasetmanager.dialogs.cancel', 'Cancel')}
           </Button>
           {activeStep !== 0 && (
-            <Button
-              data-cy="dataset-creation-previous-step"
-              onClick={() => {
-                setActiveStep(activeStep - 1);
-              }}
-            >
+            <Button data-cy="dataset-creation-previous-step" onClick={() => setActiveStep(activeStep - 1)}>
               {t('commoncomponents.datasetmanager.wizard.buttons.previous', 'Previous')}
             </Button>
           )}
@@ -208,9 +213,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
               data-cy="dataset-creation-next-step"
               variant="contained"
               disabled={!formState.isValid}
-              onClick={() => {
-                setActiveStep(activeStep + 1);
-              }}
+              onClick={() => setActiveStep(activeStep + 1)}
             >
               {t('commoncomponents.datasetmanager.wizard.buttons.next', 'Next')}
             </Button>

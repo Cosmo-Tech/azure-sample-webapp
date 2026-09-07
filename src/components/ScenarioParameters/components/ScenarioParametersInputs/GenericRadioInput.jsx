@@ -6,9 +6,16 @@ import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import { BasicRadioInput } from '@cosmotech/ui';
 import { TranslationUtils, ConfigUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericRadioInput = ({ parameterData, context, parameterValue, setParameterValue, isDirty = false }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
   const enumValues = useMemo(() => {
     const rawEnumValues = ConfigUtils.getParameterAttribute(parameterData, 'enumValues') ?? [];
     if (rawEnumValues.length === 0) {
@@ -31,9 +38,10 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
     disabled: !context.editMode,
     id: parameterData.id,
   };
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   return (
-    <Grid size={3}>
+    <Grid {...gridItemProps}>
       <BasicRadioInput
         key={parameterData.id}
         id={parameterData.id}
@@ -44,10 +52,12 @@ export const GenericRadioInput = ({ parameterData, context, parameterValue, setP
         textFieldProps={textFieldProps}
         enumValues={enumValues}
         isDirty={isDirty}
+        required={isRequired}
       />
     </Grid>
   );
 };
+
 GenericRadioInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,

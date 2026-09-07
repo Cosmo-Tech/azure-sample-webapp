@@ -1,6 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
+import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
 import { DB_DATASET_PART_ID_VARTYPE, FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ScenarioParametersUtils } from '../scenarioParameters/ScenarioParametersUtils';
 import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
@@ -207,17 +208,16 @@ describe('getDefaultParametersValues with solution', () => {
   });
 
   test.each`
-    parameterVarType                | expectedDefaultValue | expectedWarningsNumber
-    ${undefined}                    | ${undefined}         | ${1}
-    ${null}                         | ${undefined}         | ${1}
-    ${''}                           | ${undefined}         | ${1}
-    ${'enum'}                       | ${null}              | ${0}
-    ${'string'}                     | ${''}                | ${0}
-    ${'int'}                        | ${0}                 | ${0}
-    ${'number'}                     | ${0}                 | ${0}
-    ${'bool'}                       | ${false}             | ${0}
-    ${DB_DATASET_PART_ID_VARTYPE}   | ${null}              | ${0}
-    ${FILE_DATASET_PART_ID_VARTYPE} | ${null}              | ${0}
+    parameterVarType              | expectedDefaultValue | expectedWarningsNumber
+    ${undefined}                  | ${undefined}         | ${1}
+    ${null}                       | ${undefined}         | ${1}
+    ${''}                         | ${undefined}         | ${1}
+    ${'enum'}                     | ${null}              | ${0}
+    ${'string'}                   | ${''}                | ${0}
+    ${'int'}                      | ${0}                 | ${0}
+    ${'number'}                   | ${0}                 | ${0}
+    ${'bool'}                     | ${false}             | ${0}
+    ${DB_DATASET_PART_ID_VARTYPE} | ${null}              | ${0}
   `(
     'to infer default value when varType is "$parameterVarType"',
     ({ parameterVarType, expectedDefaultValue, expectedWarningsNumber }) => {
@@ -232,6 +232,37 @@ describe('getDefaultParametersValues with solution', () => {
       expect(res).toStrictEqual({ someParameter: expectedDefaultValue });
     }
   );
+
+  const forgeEmptyFileParameterValue = ({ parameterId = 'someParameter', subType = undefined, varType }) => ({
+    parameterId,
+    varType,
+    subType,
+    datasetId: null,
+    datasetPartId: null,
+    value: null,
+    name: null,
+    status: UPLOAD_FILE_STATUS_KEY.EMPTY,
+    displayStatus: null,
+    displayData: null,
+  });
+
+  // Note: DB dataset part type might be added later in this test, but for now its default value is still "null", and
+  // not a file parameter value
+  test.each`
+    parameterVarType
+    ${FILE_DATASET_PART_ID_VARTYPE}
+  `('to infer default value when varType is "$parameterVarType"', ({ parameterVarType }) => {
+    const someSolutionParameterWithoutDefaultValue = [
+      { id: 'someParameter', defaultValue: null, varType: parameterVarType },
+    ];
+    const expectedDefaultValue = forgeEmptyFileParameterValue({ varType: parameterVarType });
+    const res = ScenarioParametersUtils.getDefaultParametersValues(
+      ['someParameter'],
+      someSolutionParameterWithoutDefaultValue
+    );
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(0);
+    expect(res).toStrictEqual({ someParameter: expectedDefaultValue });
+  });
 });
 
 describe('getParametersValuesForReset', () => {

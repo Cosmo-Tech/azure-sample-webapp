@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 import rfdc from 'rfdc';
 import { UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui';
+import { FILE_DATASET_PART_ID_VARTYPE } from '../../services/config/ApiConstants';
 import { ConfigUtils } from '../ConfigUtils';
 import { RunnersUtils } from '../RunnersUtils';
 import { SolutionsUtils } from '../SolutionsUtils';
@@ -141,6 +142,9 @@ const _getDefaultValueBasedOnVarType = (solutionParameter, parameterVarType) => 
 
   // Otherwise, use the var type fallback value
   const subType = ConfigUtils.getParameterAttribute(solutionParameter, 'subType');
+  if (parameterVarType === FILE_DATASET_PART_ID_VARTYPE)
+    return forgeFileParameter(solutionParameter.id, parameterVarType, subType, null);
+
   return _getVarTypeDefaultValue(parameterVarType, subType);
 };
 
@@ -305,6 +309,8 @@ const generateParametersGroupsMetadata = (solution, runTemplateId) => {
 };
 
 const _addDatasetPartsToDelete = (runner, newParameters) => {
+  if (!runner) return;
+
   const runnerDatasetParts = runner?.datasets?.parameters ?? [];
   for (const newParameter of [...newParameters.dbDatasetParts, ...newParameters.fileDatasetParts]) {
     const parameterId = newParameter.parameterId;
@@ -315,6 +321,24 @@ const _addDatasetPartsToDelete = (runner, newParameters) => {
   }
 };
 
+// Run through an array of parameter values and call the serialization function for those of type file dataset parts.
+// Note that this function should only be called for temporary forms (e.g. creation or update of a dataset created by
+// an ETL run template), it does not apply any change of status for React states. For parameter values persisted inside
+// a form (e.g. scenario parameter values), use the processFilesToUpload hook instead (in FileParameterHooks.js)
+const serializeParameterValues = (parameterValues = {}) => {
+  for (const parameterValue of Object.values(parameterValues)) {
+    if (
+      parameterValue?.varType === FILE_DATASET_PART_ID_VARTYPE &&
+      parameterValue?.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD &&
+      parameterValue?.serialize != null
+    ) {
+      // Work-around implemented here because Table parameter status might not be correct if the table is empty
+      if (parameterValue.displayData?.length === 0) parameterValue.status = UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE;
+      else parameterValue.serializedData = parameterValue.serialize(parameterValue);
+    }
+  }
+};
+
 // Returns an object with 4 arrays, containing the parameter data required for runner update requests:
 // - dbDatasetParts
 // - fileDatasetParts
@@ -322,17 +346,31 @@ const _addDatasetPartsToDelete = (runner, newParameters) => {
 // - idsOfDatasetPartsToDelete
 const buildParametersForUpdateRequest = (
   solution,
-  parameterValues,
+  parameterValues = {},
   runTemplateParametersIds,
-  selectedScenario,
+  runnerToUpdate,
   allScenarios
 ) => {
-  const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
-  for (const parameterId of runTemplateParametersIds ?? Object.keys(parameterValues)) {
-    const parameterValue = parameterValues[parameterId];
-    if (parameterValue == null) continue;
+  const parameterIds = runTemplateParametersIds ?? Object.keys(parameterValues);
 
-    const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
+  const parameters = { dbDatasetParts: [], fileDatasetParts: [], nonDatasetParts: [], idsOfDatasetPartsToDelete: [] };
+  for (const parameterId of parameterIds) {
+    const parameterMetadata = SolutionsUtils.getParameterFromSolution(solution, parameterId);
+
+    const required = ConfigUtils.getParameterAttribute(parameterMetadata, 'required');
+    let parameterValue = parameterValues[parameterId];
+    if (parameterValue == null) {
+      if (required) {
+        console.warn(
+          `Wrong path: building parameters to send whereas required parameter "${parameterId}" has a null value. ` +
+            'Skipping this parameter value.'
+        );
+        continue;
+      }
+      parameterValue = ''; // Send empty string to API if value is null and parameter is not required
+    }
+
+    const varType = parameterMetadata?.varType;
     const parameter = { parameterId, varType, value: parameterValue };
     if (!ConfigUtils.isDatasetPartVarType(varType)) {
       parameters.nonDatasetParts.push(parameter);
@@ -341,8 +379,8 @@ const buildParametersForUpdateRequest = (
 
     if (ConfigUtils.isFileParameter(parameter)) {
       // Check if file has been erased without new content to upload
-      if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-        const runnerDatasetParts = selectedScenario?.datasets?.parameters ?? [];
+      if (runnerToUpdate && parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+        const runnerDatasetParts = runnerToUpdate?.datasets?.parameters ?? [];
         const datasetPartIdsToDelete = runnerDatasetParts
           .filter((part) => part.name === parameterId)
           .map((part) => part.id);
@@ -369,8 +407,9 @@ const buildParametersForUpdateRequest = (
     console.warn(`Var type "${varType}" is not supported`);
   }
 
-  _addHiddenParameters(parameters.nonDatasetParts, selectedScenario, allScenarios, runTemplateParametersIds);
-  _addDatasetPartsToDelete(selectedScenario, parameters);
+  // Note: hidden parameters are not supported for ETL runners (in the DatasetManager context)
+  _addHiddenParameters(parameters.nonDatasetParts, runnerToUpdate, allScenarios, parameterIds);
+  _addDatasetPartsToDelete(runnerToUpdate, parameters);
   return parameters;
 };
 
@@ -390,6 +429,7 @@ export const ScenarioParametersUtils = {
   generateParametersGroupsMetadata,
   getDefaultParametersValues,
   getParametersValuesForReset,
+  serializeParameterValues,
   buildParametersForUpdateRequest,
   shouldForceScenarioParametersUpdate,
   getErrorsCountByTab,

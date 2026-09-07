@@ -8,10 +8,13 @@ const SELECTORS = GENERIC_SELECTORS.datasetmanager;
 
 export const getDatasetManagerTab = (timeout = 5) => cy.get(SELECTORS.tabName, { timeout: timeout * 1000 });
 export const getDatasetManagerView = (timeout = 5) => cy.get(SELECTORS.view, { timeout: timeout * 1000 });
-export const switchToDatasetManagerView = (queries = []) => {
-  const alias = api.interceptPostDatasetQueries(queries, null, queries?.length ?? 1);
-  getDatasetManagerTab().click();
-  if (Array.isArray(queries) && queries?.length > 0) api.waitAliases(queries.map(() => alias));
+export const switchToDatasetManagerView = (queries = [], options = {}) => {
+  const { interceptDatasetQueries = true } = options;
+  if (interceptDatasetQueries) {
+    const alias = api.interceptPostDatasetQueries(queries, null, queries?.length ?? 1);
+    getDatasetManagerTab().click();
+    if (Array.isArray(queries) && queries?.length > 0) api.waitAliases(queries.map(() => alias));
+  } else getDatasetManagerTab().click();
 };
 
 export const getNoDatasetsPlaceholder = (timeout = 5) =>
@@ -234,6 +237,7 @@ export const confirmDatasetCreation = (options = {}) => {
     aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
     aliases.push(api.interceptStartRunner());
     aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
+    aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
   }
 
   getConfirmDatasetCreation().click();
@@ -361,6 +365,7 @@ export const updateDatasetParameters = (datasetId, options) => {
   aliases.push(api.interceptUpdateRunner(options));
   aliases.push(api.interceptStartRunner());
   aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
+  aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

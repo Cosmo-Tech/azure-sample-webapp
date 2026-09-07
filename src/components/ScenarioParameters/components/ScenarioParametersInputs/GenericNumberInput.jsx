@@ -9,6 +9,12 @@ import { BasicNumberInput, FadingTooltip } from '@cosmotech/ui';
 import { useLoadInitialValueFromDataset } from '../../../../hooks/DynamicValuesHooks';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericNumberInput = ({
   parameterData,
@@ -20,7 +26,9 @@ export const GenericNumberInput = ({
   error,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const textFieldProps = {
     disabled: !context.editMode,
     id: `number-input-${parameterData.id}`,
@@ -63,7 +71,7 @@ export const GenericNumberInput = ({
 
   return (
     <Stack direction="row" sx={{ gap: 1, alignItems: 'center' }}>
-      <Grid size={3}>
+      <Grid {...gridItemProps}>
         <BasicNumberInput
           key={parameterData.id}
           id={parameterData.id}
@@ -71,6 +79,7 @@ export const GenericNumberInput = ({
           tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
           value={parameterValue ?? NaN}
           changeNumberField={changeValue}
+          required={isRequired}
           textFieldProps={textFieldProps}
           isDirty={isDirty}
           error={error}
@@ -96,15 +105,23 @@ GenericNumberInput.propTypes = {
   error: PropTypes.object,
 };
 
-GenericNumberInput.useValidationRules = (parameterData) => {
+GenericNumberInput.useValidationRules = (parameterData, isDatasetManagerView) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const DEFAULT_MIN_VALUE = -1e10 + 1;
   const DEFAULT_MAX_VALUE = 1e10 - 1;
   const min = parameterData?.minValue ?? DEFAULT_MIN_VALUE;
   const max = parameterData?.maxValue ?? DEFAULT_MAX_VALUE;
+
+  // Fallback to isRequired=true for backward compatibility. Note that this may change in a future major version.
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? true;
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
   return {
-    required: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    required: {
+      value: isRequired,
+      message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
+    },
     min: {
       value: min,
       message: t(
@@ -122,10 +139,11 @@ GenericNumberInput.useValidationRules = (parameterData) => {
       ),
     },
     validate: {
-      integer: (v) => {
+      integer: (value) => {
         if (parameterData?.varType === 'int') {
+          if (value == null && !isRequired) return true;
           return (
-            Number.isInteger(v) ||
+            Number.isInteger(value) ||
             t('views.scenario.scenarioParametersValidationErrors.integer', 'This value must be an integer')
           );
         }

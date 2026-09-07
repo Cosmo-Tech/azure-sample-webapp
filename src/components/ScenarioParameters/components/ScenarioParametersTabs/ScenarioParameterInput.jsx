@@ -5,17 +5,18 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useStore } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ConfigUtils } from '../../../../utils';
-import { VAR_TYPES_COMPONENTS_MAPPING } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
+import { PARAMETER_CONTEXT_VIEWS } from '../../../../utils/scenarioParameters/ParameterContext';
+// eslint-disable-next-line max-len
+import { VAR_TYPES_COMPONENTS_MAPPING as VAR_TYPE_COMPONENTS } from '../../../../utils/scenarioParameters/VarTypesComponentsMapping';
 import { useScenarioResetValues } from '../../ScenarioParametersContext';
 
 const ScenarioParameterInput = ({ parameterData, context }) => {
   const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, subType);
-  let varTypeFactory;
+  const fieldName = context?.fieldName ?? parameterData.id;
 
   const store = useStore();
-
-  const { resetField } = useFormContext();
+  const { resetField, setError } = useFormContext();
   const scenarioResetValues = useScenarioResetValues();
 
   const getCurrentScenarioId = useCallback(
@@ -24,54 +25,61 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
   );
   const scenarioIdOnMount = useRef(getCurrentScenarioId());
 
-  if (parameterVarType in VAR_TYPES_COMPONENTS_MAPPING) {
-    varTypeFactory = VAR_TYPES_COMPONENTS_MAPPING[parameterVarType];
-  } else {
-    varTypeFactory = VAR_TYPES_COMPONENTS_MAPPING[parameterData.varType];
-  }
+  const varTypeFactory = VAR_TYPE_COMPONENTS?.[parameterVarType] ?? VAR_TYPE_COMPONENTS[parameterData.varType];
   if (varTypeFactory === undefined) {
     console.warn('No factory defined for varType ' + parameterVarType);
     return null;
   }
-  if (varTypeFactory === null) {
-    return null;
+  if (varTypeFactory === null) return null;
+
+  const isDatasetManagerView = context?.view === PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER;
+  const factoryRules = varTypeFactory.useValidationRules
+    ? varTypeFactory.useValidationRules(parameterData, isDatasetManagerView)
+    : {};
+
+  // Backward compatibility with versions prior to v7.3.0: in the context of the dataset creation dialog, all parameters
+  // are considered as required. Starting with v7.3.0, this default behavior can be disabled by setting
+  // additional.required to false in the parameter definition
+  if (isDatasetManagerView && ConfigUtils.getParameterAttribute(parameterData, 'required') == null) {
+    // Do not modify input parameters that do not define "factoryRules.required" (e.g. for "bool" type)
+    if (factoryRules.required != null && !factoryRules.required.value) factoryRules.required.value = true;
   }
-  const rules = varTypeFactory.useValidationRules ? varTypeFactory.useValidationRules(parameterData) : undefined;
 
   return (
     <Controller
-      name={parameterData.id}
-      rules={rules}
+      name={fieldName}
+      defaultValue={context?.defaultValue}
+      rules={factoryRules}
       render={({ field, fieldState }) => {
         const { value: parameterValue, onChange: setRhfValue } = field;
         const { isDirty, error } = fieldState;
         const setParameterValue = (newValue) => {
-          if (scenarioIdOnMount.current === getCurrentScenarioId()) {
-            setRhfValue(newValue);
-          }
+          if (scenarioIdOnMount.current === getCurrentScenarioId()) setRhfValue(newValue);
         };
 
         const resetParameterValue = (newDefaultValue) => {
-          if (scenarioIdOnMount.current === getCurrentScenarioId()) {
-            resetField(parameterData.id, { defaultValue: newDefaultValue });
-          }
+          if (scenarioIdOnMount.current === getCurrentScenarioId())
+            resetField(fieldName, { defaultValue: newDefaultValue });
+        };
+
+        const setParameterValueError = (error) => {
+          if (scenarioIdOnMount.current === getCurrentScenarioId()) setError(fieldName, error);
         };
 
         const props = {
           parameterData,
           context,
-          key: parameterData.id,
+          key: fieldName,
           parameterValue,
           setParameterValue,
-          isDirty,
-          defaultParameterValue: scenarioResetValues[parameterData.id],
+          isDirty: isDatasetManagerView ? null : isDirty,
+          defaultParameterValue: scenarioResetValues?.[fieldName],
           resetParameterValue,
+          setParameterValueError,
           error,
         };
         // name property helps distinguish React components from factories
-        if ('name' in varTypeFactory) {
-          return React.createElement(varTypeFactory, props);
-        }
+        if ('name' in varTypeFactory) return React.createElement(varTypeFactory, props);
 
         // Factories as a function are not supported
         throw new Error(`
@@ -82,8 +90,10 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
     />
   );
 };
+
 ScenarioParameterInput.propTypes = {
   parameterData: PropTypes.object.isRequired,
   context: PropTypes.object.isRequired,
 };
+
 export default ScenarioParameterInput;

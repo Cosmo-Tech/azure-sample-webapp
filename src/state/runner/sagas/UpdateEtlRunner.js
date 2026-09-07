@@ -3,27 +3,26 @@
 import { t } from 'i18next';
 import { call, put, select, takeEvery } from 'redux-saga/effects';
 import DatasetService from '../../../services/dataset/DatasetService';
-import { ScenarioParametersUtils } from '../../../utils';
 import { setApplicationErrorMessage } from '../../app/reducers';
-import { DATASET_ACTIONS_KEY } from '../../datasets/constants';
-import { addOrUpdateDatasetPart, deleteDatasetPart } from '../../datasets/reducers';
+import { DATASET_ACTIONS_KEY, DATASET_REDUCER_STATUS } from '../../datasets/constants';
+import { addOrUpdateDatasetPart, deleteDatasetPart, setDatasetReducerStatus } from '../../datasets/reducers';
 import { RUNNER_ACTIONS_KEY } from '../constants';
 import { updateEtlRunner } from '../reducers';
 import { asyncUpdateRunner } from './UpdateSimulationRunner';
 
 const getETLRunners = (state) => state.runner?.etlRunners?.list?.data;
-const getSolution = (state) => state.solution?.current?.data;
 
 export function* updateEtlRunnerData(action) {
+  yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.LOADING }));
   try {
     const runners = yield select(getETLRunners);
-    const solution = yield select(getSolution);
 
     const runnerId = action.runnerId;
     const runner = runners?.find((item) => item.id === runnerId);
     if (runner === undefined) {
       const errorMessage = `Couldn't retrieve runner with id "${runnerId}"`;
       yield put(setApplicationErrorMessage({ error: { title: 'Dataset update failed' }, errorMessage }));
+      yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
       return;
     }
 
@@ -31,20 +30,8 @@ export function* updateEtlRunnerData(action) {
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const dataset = action.dataset;
-
     const runnerParameterDatasetId = runner.datasets?.parameter;
-    const parameterValueDict = {};
-    runnerPatch.parametersValues.forEach((parameterValue) => {
-      parameterValueDict[parameterValue.parameterId] = parameterValue.value;
-    });
-
-    const parametersForUpdateRequest = ScenarioParametersUtils.buildParametersForUpdateRequest(
-      solution,
-      parameterValueDict,
-      null,
-      runner,
-      null
-    );
+    const parametersForUpdateRequest = runnerPatch.parametersValues;
 
     const updatedRunner = yield call(
       asyncUpdateRunner,
@@ -83,6 +70,7 @@ export function* updateEtlRunnerData(action) {
     }
 
     yield put({ type: DATASET_ACTIONS_KEY.REFRESH_DATASET, organizationId, dataset });
+    yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
   } catch (error) {
     console.error(error);
     yield put(

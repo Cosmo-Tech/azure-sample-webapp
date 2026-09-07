@@ -7,6 +7,12 @@ import { Grid } from '@mui/material';
 import { BasicEnumInput } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericEnumInput = ({
   parameterData,
@@ -15,10 +21,11 @@ export const GenericEnumInput = ({
   setParameterValue,
   resetParameterValue, // Set a new value without triggering the form 'dirty' state
   isDirty = false,
-  gridItemProps,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const textFieldProps = {
     disabled: !context.editMode,
     id: `enum-input-${parameterData.id}`,
@@ -68,7 +75,7 @@ export const GenericEnumInput = ({
   if (dynamicValuesError) return dynamicValuesError;
 
   return (
-    <Grid size={3} {...gridItemProps}>
+    <Grid {...gridItemProps}>
       {loadingDynamicValuesPlaceholder}
       {dynamicEnumValues !== null && (
         <BasicEnumInput
@@ -81,6 +88,7 @@ export const GenericEnumInput = ({
           textFieldProps={textFieldProps}
           enumValues={enumValues}
           isDirty={isDirty}
+          required={isRequired}
         />
       )}
     </Grid>
@@ -94,5 +102,20 @@ GenericEnumInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   resetParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-  gridItemProps: PropTypes.object,
+};
+
+GenericEnumInput.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    validate: {
+      required: (parameterValue) => {
+        if (isRequired && (parameterValue ?? []).length === 0)
+          return t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        return true;
+      },
+    },
+  };
 };

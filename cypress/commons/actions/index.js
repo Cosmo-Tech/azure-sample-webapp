@@ -7,6 +7,7 @@ export {
   InstanceVisualization,
   FileParameters,
   TableParameters,
+  RunTemplateParameters,
   ScenarioManager,
   Scenarios,
   ScenarioParameters,

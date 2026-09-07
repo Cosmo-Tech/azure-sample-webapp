@@ -7,6 +7,12 @@ import { Grid } from '@mui/material';
 import { MultiSelect } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 6, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericMultiSelect = ({
   parameterData,
@@ -14,9 +20,10 @@ export const GenericMultiSelect = ({
   parameterValue,
   setParameterValue,
   isDirty = false,
-  gridItemProps,
+  error,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const {
     dynamicValues: dynamicEnumValues,
@@ -65,10 +72,11 @@ export const GenericMultiSelect = ({
       noValues: t('genericcomponent.multiSelect.noValues', 'No selected values'),
     };
   }, [t, parameterData.id]);
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
   if (dynamicValuesError) return dynamicValuesError;
   return (
-    <Grid size={3} {...gridItemProps}>
+    <Grid {...gridItemProps}>
       <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
         {loadingDynamicValuesPlaceholder}
         {dynamicEnumValues !== null && (
@@ -81,6 +89,8 @@ export const GenericMultiSelect = ({
             disabled={!context.editMode}
             options={enumValues}
             isDirty={isDirty}
+            error={error}
+            required={isRequired}
           />
         )}
       </Grid>
@@ -94,5 +104,21 @@ GenericMultiSelect.propTypes = {
   parameterValue: PropTypes.any,
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
-  gridItemProps: PropTypes.object,
+  error: PropTypes.object,
+};
+
+GenericMultiSelect.useValidationRules = (parameterData, isDatasetManagerView) => {
+  const { t } = useTranslation();
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequired = requiredValueFromConfig === true || (isDatasetManagerView && requiredValueFromConfig !== false);
+
+  return {
+    validate: {
+      required: (parameterValue) => {
+        if (isRequired && (parameterValue ?? []).length === 0)
+          return t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required');
+        return true;
+      },
+    },
+  };
 };

@@ -7,6 +7,12 @@ import { Grid } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
 import { useParameterConstraintValidation } from '../../../../hooks/ParameterConstraintsHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
+import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+
+const GRID_ITEM_PROPS_MAPPING = {
+  [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 1 } },
+  [PARAMETER_CONTEXT_WIDTH.LARGE]: { size: 3 },
+};
 
 export const GenericTextInput = ({
   parameterData,
@@ -15,17 +21,19 @@ export const GenericTextInput = ({
   setParameterValue,
   isDirty = false,
   error,
-  gridItemProps,
-  size = 'small',
+  size,
 }) => {
   const { t } = useTranslation();
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
+  const resolvedSize = 'small';
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
   const textFieldProps = {
     disabled: !context.editMode,
     id: `text-input-${parameterData.id}`,
   };
 
   return (
-    <Grid size={3} {...gridItemProps}>
+    <Grid {...gridItemProps}>
       <BasicTextInput
         key={parameterData.id}
         id={parameterData.id}
@@ -42,7 +50,8 @@ export const GenericTextInput = ({
         textFieldProps={textFieldProps}
         isDirty={isDirty}
         error={error}
-        size={size}
+        size={resolvedSize}
+        required={isRequired}
       />
     </Grid>
   );
@@ -55,19 +64,25 @@ GenericTextInput.propTypes = {
   setParameterValue: PropTypes.func.isRequired,
   isDirty: PropTypes.bool,
   error: PropTypes.object,
-  gridItemProps: PropTypes.object,
   size: PropTypes.string,
 };
 
-GenericTextInput.useValidationRules = (parameterData) => {
+GenericTextInput.useValidationRules = (parameterData, isDatasetManagerView) => {
   const { t } = useTranslation();
   const { getParameterConstraintValidation } = useParameterConstraintValidation(parameterData);
   const getStringSizeInBytes = (string) => new Blob([string]).size;
   const minLength = ConfigUtils.getParameterAttribute(parameterData, 'minLength') ?? 0;
   const maxLength = ConfigUtils.getParameterAttribute(parameterData, 'maxLength');
+  const requiredValueFromConfig = ConfigUtils.getParameterAttribute(parameterData, 'required');
+  const isRequiredByMinLength = requiredValueFromConfig == null && minLength > 0;
+  const isRequired =
+    requiredValueFromConfig === true ||
+    isRequiredByMinLength ||
+    (isDatasetManagerView && requiredValueFromConfig !== false);
+
   return {
     required: {
-      value: minLength > 0,
+      value: isRequired,
       message: t('views.scenario.scenarioParametersValidationErrors.required', 'This field is required'),
     },
     minLength: {
