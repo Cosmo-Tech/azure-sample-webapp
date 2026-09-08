@@ -81,6 +81,23 @@ jobs:
           # PUBLIC_URL is only required when building the server in instance-specific mode
           #build-args: |
           #  "PUBLIC_URL=${{ env.PUBLIC_URL }}"
+      - name: "webapp-server: generate SBOM from Docker image"
+        if: github.ref_type == 'branch' && github.ref_name == 'experimental/on_premises_api_v4'
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
+        with:
+          image-ref: "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server:experimental-on_premises_api_v4"
+          format: 'cyclonedx'
+          output: 'sbom-webapp-server-docker.json'
+      - name: "webapp-server: upload SBOM to DependencyTrack"
+        if: github.ref_type == 'branch' && github.ref_name == 'experimental/on_premises_api_v4'
+        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+        with:
+          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+          project: 8487b420-0323-4bcc-b902-7c563bbd415a
+          bomfilename: sbom-webapp-server-docker.json
+
+      # Webapp functions image
 
       - name: "webapp-functions: extract Docker metadata (tags, labels)"
         id: webapp-functions-metadata
@@ -106,3 +123,18 @@ jobs:
           push: true
           tags: ${{ steps.webapp-functions-metadata.outputs.tags }}
           labels: ${{ steps.webapp-functions-metadata.outputs.labels }}
+      - name: "webapp-functions: generate SBOM from Docker image"
+        if: github.ref_type == 'branch' && github.ref_name == 'experimental/on_premises_api_v4'
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
+        with:
+          image-ref: "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions:experimental-on_premises_api_v4"
+          format: 'cyclonedx'
+          output: 'sbom-webapp-functions-docker.json'
+      - name: "webapp-functions: upload SBOM to DependencyTrack"
+        if: github.ref_type == 'branch' && github.ref_name == 'experimental/on_premises_api_v4'
+        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+        with:
+          serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+          apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+          project: cd3cf912-7d19-43e8-a301-cb5e89589ab9
+          bomfilename: sbom-webapp-functions-docker.json
