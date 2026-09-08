@@ -1,3 +1,27 @@
+## **7.3.0** <sub><sup>2026-09-09 ([26bfdb8...9c38215](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/26bfdb86...9c382158?diff=split))</sup></sub>
+
+### Features
+
+- add support of previously missing varTypes for ETL parameters \(in dataset creation dialog\) ([fc4935f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/fc4935f2))
+- add new option 'required' for run template parameters ([9fd43c3](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/9fd43c39))
+
+### Bug Fixes
+
+- fix labels to match selected language in Scenario Manager table ([1ca21b5](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/1ca21b5f))
+- fix name of action menu column in the Scenario Manager table ([8a5b22a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8a5b22a3))
+- persist table state when leaving and opening the Scenario Manager view ([5dcd44f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/5dcd44f1))
+- fix table status sometimes stuck in loading state after a failed import ([34152ec](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/34152ec2))
+- fix possible bug related to loading status update in Table component ([6f27ddc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6f27ddc4))
+- fix fallback value for run templates when name and labels are missing ([8a4b72f](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/8a4b72f0))
+- fix caching of dataset parts in webapp redux storage when creating datasets from ETL ([0653155](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/06531557))
+- fix incorrect fallback condition leading to the hasHeader table option being ignored ([6562d38](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/6562d388))
+
+### Documentation
+
+- add documentation for the new parameter option \`required\` ([d908561](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d9085615))
+- update docs regarding var types now supported by ETL run templates ([a1b5437](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a1b54373))
+- remove dev\-oriented section from docs ([d36c41a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d36c41a2))
+
 ## **7.2.0** <sub><sup>2026-08-14 ([3e08d4a...0c7d736](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/3e08d4a5...0c7d7367?diff=split))</sup></sub>
 
 ### Features
