@@ -36,7 +36,7 @@ RUN PUBLIC_URL="$PUBLIC_URL" yarn build
 
 # ==== Serve - "universal" server mode ====
 
-FROM cgr.dev/cosmotech/node-python-bash:24 AS server-universal
+FROM cgr.dev/cosmotech/node-python-bash:24-dev AS server-universal
 LABEL com.cosmotech.business-webapp.buildType="universal"
 
 # Setting "USER root" is required to install serve globally
@@ -62,7 +62,7 @@ HEALTHCHECK --interval=60s --retries=3 CMD curl --fail http://localhost:3000 || 
 
 # ==== Serve - "specific" server mode (default) ====
 
-FROM cgr.dev/cosmotech/node-python-bash:24
+FROM cgr.dev/cosmotech/node-python-bash:24-dev
 LABEL com.cosmotech.business-webapp.buildType="specific"
 
 # Setting "USER root" is required to install serve globally
