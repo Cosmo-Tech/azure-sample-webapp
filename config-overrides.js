@@ -7,7 +7,7 @@ export const CSP_CONFIG_POLICY = {
     "'self'",
 
     // Example of source for a custom on-premises cluster
-    'https://kubernetes.cosmotech.com',
+    'https://aks-dev-joy.azure.platform.cosmotech.com',
 
     // Examples of sources for Azure login and PowerBI
     // 'api.powerbi.com',
@@ -24,7 +24,7 @@ export const CSP_CONFIG_POLICY = {
     'blob:',
 
     // Example of source for a custom on-premises cluster
-    'https://superset-kubernetes.cosmotech.com',
+    'https://superset-aks-dev-joy.azure.platform.cosmotech.com',
 
     // Examples of sources for Azure login and PowerBI
     'https://app.powerbi.com',
