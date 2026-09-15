@@ -35,7 +35,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   before(() => {
     Login.login();
     // Create "another scenarios"
-    Scenarios.createScenario(otherScenarioName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(otherScenarioName, true, DATASET.REFERENCE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         otherScenarioId = value.scenarioCreatedId;
       }
@@ -54,7 +54,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   it('can create and launch scenario master', () => {
     // Create scenario master:
     let scenarioName, scenarioRunTemplateName;
-    Scenarios.createScenario(scenarioMasterName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
+    Scenarios.createScenario(scenarioMasterName, true, DATASET.REFERENCE, RUN_TEMPLATE.BREWERY_PARAMETERS).then(
       (value) => {
         scenarioMasterId = value.scenarioCreatedId;
         scenarioName = value.scenarioCreatedName;
@@ -170,7 +170,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
   it('can create scenario, edit/discard parameters and switch between parameters tabs', () => {
     // Create Scenario with some parameters tabs
     let scenarioCreatedName;
-    Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.BREWERY_STORAGE, RUN_TEMPLATE.BASIC_TYPES).then(
+    Scenarios.createScenario(scenarioWithBasicTypesName, true, DATASET.REFERENCE, RUN_TEMPLATE.BASIC_TYPES).then(
       (value) => {
         scenarioWithBasicTypesId = value.scenarioCreatedId;
         scenarioCreatedName = value.scenarioCreatedName;

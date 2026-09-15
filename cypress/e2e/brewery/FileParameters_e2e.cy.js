@@ -6,7 +6,7 @@ import { BreweryParameters, Login } from '../../commons/actions/brewery';
 import { DATASET, RUN_TEMPLATE } from '../../commons/constants/brewery/TestConstants';
 import { EXPECTED_DATA_AFTER_DUMMY_DATASET_1_UPLOAD } from '../../fixtures/FileParametersData';
 
-const SCENARIO_DATASET = DATASET.BREWERY_STORAGE;
+const SCENARIO_DATASET = DATASET.REFERENCE;
 const BASIC_TYPES_RUN_TEMPLATE = RUN_TEMPLATE.BASIC_TYPES;
 const FILE_PATH_1 = 'dummy_dataset_1.csv';
 const FILE_PATH_2 = 'dummy_dataset_2.csv';

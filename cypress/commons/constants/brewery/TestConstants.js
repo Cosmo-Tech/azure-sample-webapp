@@ -62,7 +62,7 @@ export const BASIC_PARAMETERS_CONST = {
 };
 
 export const DATASET = {
-  BREWERY_STORAGE: 'Demo Brewery Storage reference',
+  REFERENCE: 'Reference dataset - LTS',
 };
 
 export const RUN_TEMPLATE = {
