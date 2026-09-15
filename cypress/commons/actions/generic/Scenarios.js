@@ -4,6 +4,8 @@ import { GENERIC_SELECTORS } from '../../constants/generic/IdConstants';
 import { apiUtils as api } from '../../utils';
 import { ScenarioSelector } from './ScenarioSelector';
 
+const RUNNER_CREATION_TIMEOUT_IN_SECONDS = 10;
+
 // From scenario View
 // Get elements
 function getScenarioViewTab(timeout = 5) {
@@ -184,15 +186,17 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   getScenarioCreationDialogNameField().type(scenarioName);
   if (description) setNewScenarioDescription(description);
   if (tags) tags.forEach((tag) => addNewScenarioTag(tag));
-  if (isMaster === true) {
-    selectDataset(datasetOrMasterName);
-  } else {
-    selectParentScenario(datasetOrMasterName);
-  }
-  selectRunTemplate(runTemplate);
 
+  if (isMaster === true) selectDataset(datasetOrMasterName);
+  else selectParentScenario(datasetOrMasterName);
+
+  selectRunTemplate(runTemplate);
   getScenarioCreationDialogSubmitButton().click();
+
   getScenarioCreationDialog().should('not.exist');
+  getScenarioLoadingSpinner().should('be.visible');
+  getScenarioLoadingSpinner(RUNNER_CREATION_TIMEOUT_IN_SECONDS).should('not.be.visible');
+
   ScenarioSelector.getScenarioSelectorInput().should('value', scenarioName);
 
   let scenarioCreated;
