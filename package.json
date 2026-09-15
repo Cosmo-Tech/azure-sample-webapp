@@ -39,7 +39,7 @@
     "react-countdown": "^2.3.6",
     "react-dom": "^19.2.8",
     "react-fade-in": "^2.0.1",
-    "react-hook-form": "^7.87.0",
+    "react-hook-form": "7.86.0",
     "react-i18next": "^17.0.13",
     "react-idle-timer": "^5.7.3",
     "react-redux": "^9.3.0",
