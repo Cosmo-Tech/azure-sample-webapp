@@ -193,8 +193,8 @@ function createScenario(scenarioName, isMaster, datasetOrMasterName, runTemplate
   selectRunTemplate(runTemplate);
   getScenarioCreationDialogSubmitButton().click();
 
-  getScenarioCreationDialog().should('not.exist');
   getScenarioLoadingSpinner().should('be.visible');
+  getScenarioCreationDialog().should('not.exist');
   getScenarioLoadingSpinner(RUNNER_CREATION_TIMEOUT_IN_SECONDS).should('not.be.visible');
 
   ScenarioSelector.getScenarioSelectorInput().should('value', scenarioName);
