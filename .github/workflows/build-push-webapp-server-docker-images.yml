@@ -19,6 +19,10 @@ on:
       - '*'
 
 env:
+  # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
+  IMAGE_REF: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
+  # No fallback value here, the "push images to Harbor" step will define the fallback value
+  IMAGE_TAG: ${{ inputs.imageTag }}
   LATEST_BRANCH: 'experimental/on_premises_api_v4'
   DOCKER_BUILDKIT: 1
   # Change the Container Registry information below if necessary
@@ -39,8 +43,7 @@ jobs:
       - name: Checkout git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
-          ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
+          ref: ${{ env.IMAGE_REF }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
@@ -153,7 +156,8 @@ jobs:
 
       - name: "push Docker images to Harbor"
         run: |
-          docker tag "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server:experimental-on_premises_api_v4" "registry.cosmotech.com/project-dell-govd-private/webapp-server:experimental-on_premises_api_v4"
-          docker push "registry.cosmotech.com/project-dell-govd-private/webapp-server:experimental-on_premises_api_v4"
-          docker tag "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions:experimental-on_premises_api_v4" "registry.cosmotech.com/project-dell-govd-private/webapp-functions:experimental-on_premises_api_v4"
-          docker push "registry.cosmotech.com/project-dell-govd-private/webapp-functions:experimental-on_premises_api_v4"
+          IMAGE_TAG="${IMAGE_TAG:-${IMAGE_REF//\//-}}"
+          docker tag "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server:${IMAGE_TAG}" "registry.cosmotech.com/project-dell-govd-private/webapp-server:${IMAGE_TAG}"
+          docker push "registry.cosmotech.com/project-dell-govd-private/webapp-server:${IMAGE_TAG}"
+          docker tag "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions:${IMAGE_TAG}" "registry.cosmotech.com/project-dell-govd-private/webapp-functions:${IMAGE_TAG}"
+          docker push "registry.cosmotech.com/project-dell-govd-private/webapp-functions:${IMAGE_TAG}"
