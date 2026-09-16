@@ -101,7 +101,7 @@ jobs:
           output: 'sbom-webapp-server-docker.json'
       - name: "webapp-server: upload SBOM to DependencyTrack"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
-        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+        uses: DependencyTrack/gh-upload-sbom@d8935b70f527d6aca6bbef5ab02db3933c9a8626 # v4
         with:
           serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
           apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
@@ -143,7 +143,7 @@ jobs:
           output: 'sbom-webapp-functions-docker.json'
       - name: "webapp-functions: upload SBOM to DependencyTrack"
         if: github.ref_type == 'branch' && github.ref_name == 'main'
-        uses: DependencyTrack/gh-upload-sbom@95c2b5a810450509ef8a67e4f854b42d2ddf7fbf # v4
+        uses: DependencyTrack/gh-upload-sbom@d8935b70f527d6aca6bbef5ab02db3933c9a8626 # v4
         with:
           serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
           apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
