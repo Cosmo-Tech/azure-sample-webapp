@@ -10,7 +10,7 @@ import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui'
 import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import DatasetService from '../../../../services/dataset/DatasetService';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
-import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
+import { useCurrentSimulationRunnerData } from '../../../../state/runner/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils';
@@ -54,11 +54,15 @@ export const GenericTable = ({
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const scenarioId = useCurrentSimulationRunnerId();
+  const currentSimulationRunner = useCurrentSimulationRunnerData();
+  const scenarioId = currentSimulationRunner?.id;
   const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
 
   const parameterId = parameterData.id;
-  const [parameter, setParameter] = useState(parameterValue || {});
+  const [parameter, setParameter] = useState(parameterValue ?? {});
+  useEffect(() => {
+    setParameter(parameterValue ?? {});
+  }, [currentSimulationRunner?.id, parameterValue]);
 
   const lockId = `${scenarioId}_${parameterId}`;
 
@@ -596,6 +600,7 @@ export const GenericTable = ({
 
   // Trigger dataset download only when mounting the component
   useEffect(() => {
+    if (!isDataFetchedFromDataset && currentSimulationRunner?.datasets?.parameter !== parameter?.datasetId) return;
     const alreadyDownloaded =
       parameter.displayStatus !== undefined &&
       [
