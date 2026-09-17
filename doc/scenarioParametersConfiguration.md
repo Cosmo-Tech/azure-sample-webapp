@@ -309,6 +309,27 @@ For scenario parameters with the _varType_ `%DATASET_PART_ID_FILE%`, you can def
 in the property `additionalData.defaultFileTypeFilter`. When defined, this value must be a comma-separated list of the
 file extensions you want to use as the default filter in users' file browser.
 
+#### File upload restrictions
+
+When users try to upload file parameters from their computer, the webapp may prevent uploading some file types that are
+considered as possibly harmful, and that are not allowed by the Cosmo Tech API.
+
+Here is a list of the allowed file MIME types:
+
+- `application/json`
+- `application/zip`
+- `application/x-zip-compressed`
+- `application/xml`
+- `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
+- `mats-officedocument.spreadsheetml.sheet`
+- `application/x-tika-ooxml`
+- `text/csv`
+- `text/plain`
+- `text/x-yaml`
+- `text/yaml`
+- `application/x-yaml`
+- `application/yaml`
+
 #### File upload behavior
 
 :information_source: Since v7.0.0 of the azure-sample-webapp, the parameter `shouldRenameFileOnUpload`
