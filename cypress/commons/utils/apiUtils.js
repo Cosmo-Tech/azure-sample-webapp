@@ -524,7 +524,8 @@ const interceptDownloadDatasetPart = (options = {}) => {
     interceptionURL = new RegExp('^' + URL_ROOT + `/.*/datasets/(${datasetId})/parts/(${datasetPartId})/download$`);
   }
 
-  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+  cy.intercept({ method: 'GET', url: interceptionURL, times: options?.times ?? 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
     const datasetPartId = options?.datasetPartId ?? req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
     const fileContent = options?.fileContent ?? stub.getDatasetPartFile(datasetPartId);

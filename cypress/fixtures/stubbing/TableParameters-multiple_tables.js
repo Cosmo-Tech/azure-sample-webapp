@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import {
   DEFAULT_RUNNER_BASE_DATASET,
-  DEFAULT_RUNNER_PARAMETER_DATASET,
   DEFAULT_SIMULATION_RUNNER,
   DEFAULT_SOLUTION,
 } from './default';
@@ -88,6 +87,8 @@ export const CHILD_BASE_DATASET = {
   ],
 };
 
+export const PARENT_RUNNER_PARAMETER_DATASET_ID = 'd-parentRunnerParameterDataset';
+export const CHILD_RUNNER_PARAMETER_DATASET_ID = 'd-childRunnerParameterDataset';
 export const PARENT_EDITABLE_TABLE_PART_ID = 'dp-parentEditableTable';
 export const CHILD_EDITABLE_TABLE_PART_ID = 'dp-childEditableTable';
 
@@ -99,12 +100,12 @@ export const PARENT_RUNNER = {
   runTemplateName: CUSTOM_RUN_TEMPLATE.name,
   datasets: {
     bases: [PARENT_BASE_DATASET.id],
-    parameter: DEFAULT_RUNNER_PARAMETER_DATASET.id,
+    parameter: PARENT_RUNNER_PARAMETER_DATASET_ID,
     parameters: [
       {
         id: PARENT_EDITABLE_TABLE_PART_ID,
         name: EDITABLE_TABLE_PARAM.id,
-        datasetId: DEFAULT_RUNNER_PARAMETER_DATASET.id,
+        datasetId: PARENT_RUNNER_PARAMETER_DATASET_ID,
         sourceName: 'editable_table.csv',
       },
     ],
@@ -121,12 +122,12 @@ export const CHILD_RUNNER = {
   runTemplateName: CUSTOM_RUN_TEMPLATE.name,
   datasets: {
     bases: [CHILD_BASE_DATASET.id],
-    parameter: DEFAULT_RUNNER_PARAMETER_DATASET.id,
+    parameter: CHILD_RUNNER_PARAMETER_DATASET_ID,
     parameters: [
       {
         id: CHILD_EDITABLE_TABLE_PART_ID,
         name: EDITABLE_TABLE_PARAM.id,
-        datasetId: DEFAULT_RUNNER_PARAMETER_DATASET.id,
+        datasetId: CHILD_RUNNER_PARAMETER_DATASET_ID,
         sourceName: 'editable_table.csv',
       },
     ],
