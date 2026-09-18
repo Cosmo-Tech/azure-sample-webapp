@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import { ACL_ROLES } from '../services/config/accessControl';
+import { ACL_ROLES, ORDERED_ACL_ROLES } from '../services/config/accessControl';
 
 const _findById = (array, idToFind) => {
   return array.find((element) => element.id === idToFind);
@@ -37,6 +37,30 @@ const compareAccessControlLists = (currentACL, newACL) => {
   }
 
   return { usersToAdd, usersToModify, usersToRemove };
+};
+
+const getHighestRole = (roleA = 'none', roleB = 'none', orderedRoles = ORDERED_ACL_ROLES) => {
+  return orderedRoles.find((orderedRole) => orderedRole === roleA || orderedRole === roleB) ?? 'none';
+};
+
+const getResourceUsersAndGroups = (acl = [], membersAndGroups = {}, orderedRoles = ORDERED_ACL_ROLES) => {
+  const groups = membersAndGroups?.groups ?? [];
+  const groupIds = groups.map((group) => group.id);
+  const groupUsers = groups.map((group) => (group?.users ?? []).map((user) => ({ id: user, role: group.role }))).flat();
+  const usersFromACL = (acl ?? []).filter((aclEntry) => !groupIds.includes(aclEntry.id));
+  const usersFromMembers = membersAndGroups?.users ?? [];
+
+  const allUserEntries = groupUsers.concat(usersFromACL).concat(usersFromMembers);
+  const users = [];
+  allUserEntries.forEach((userEntry) => {
+    const foundIndex = users.findIndex((user) => user.id === userEntry.id);
+    if (foundIndex === -1) {
+      users.push(userEntry);
+      return;
+    }
+    users[foundIndex].role = getHighestRole(users[foundIndex].role, userEntry.role, orderedRoles);
+  });
+  return { users, groups };
 };
 
 const getUsersIdsFromACL = (acl) => {
@@ -187,7 +211,7 @@ const getRolesGrantingPermission = (permission, rolesToPermissionsMapping) => {
   return rolesGrantingPermission;
 };
 
-const getUserRoleForResource = (resourceSecurity, userIdentifier) => {
+const getUserRoleFromSecurity = (resourceSecurity, userIdentifier) => {
   if (resourceSecurity == null) {
     console.warn("Resource security is null or undefined, can't retrieve user role for resource.");
     return null;
@@ -210,7 +234,12 @@ const getUserRoleForResource = (resourceSecurity, userIdentifier) => {
   return resourceSecurity.default ?? null;
 };
 
-const getUserPermissionsForResource = (resource, userIdentifier, resourceRolesToPermissionsMapping) => {
+const getUserPermissionsForResource = (
+  resource,
+  userIdentifier,
+  resourceRolesToPermissionsMapping,
+  orderedRoles = ORDERED_ACL_ROLES
+) => {
   const resourceSecurity = resource?.security;
   if (resourceSecurity == null) {
     console.warn("Resource security is null or undefined, can't retrieve user permissions.");
@@ -224,9 +253,11 @@ const getUserPermissionsForResource = (resource, userIdentifier, resourceRolesTo
     console.warn("Mapping between roles and permissions is null or undefined, can't retrieve user permissions.");
     return [];
   }
-  const userRoleForResource = getUserRoleForResource(resourceSecurity, userIdentifier);
-  if (userRoleForResource === null) return [];
-  return getPermissionsFromRole(userRoleForResource, resourceRolesToPermissionsMapping);
+  const userRoleFromSecurity = getUserRoleFromSecurity(resourceSecurity, userIdentifier);
+  const userRoleFromMembers = (resource.users ?? []).find((user) => user.id === userIdentifier)?.role;
+  const userRole = getHighestRole(userRoleFromSecurity, userRoleFromMembers, orderedRoles);
+  if (userRole == null) return [];
+  return getPermissionsFromRole(userRole, resourceRolesToPermissionsMapping);
 };
 
 const _getRolesFromMapping = (permissionsMapping) => {
@@ -327,7 +358,9 @@ export const SecurityUtils = {
   getPermissionsFromRole,
   getRolesGrantingPermission,
   getUserPermissionsForResource,
-  getUserRoleForResource,
+  getUserRoleFromSecurity,
+  getHighestRole,
+  getResourceUsersAndGroups,
   getUsersIdsFromACL,
   parseOrganizationPermissions,
   sortByNewAdminsFirst,

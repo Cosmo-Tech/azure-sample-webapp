@@ -220,7 +220,9 @@ export const WorkspaceSchema = z
       })
       .optional()
       .nullable(),
+    // Webapp-specific entries
     users: z.array(z.string().optional().nullable()).optional().nullable(),
+    groups: z.array(z.string().optional().nullable()).optional().nullable(),
     kpiIdsByQueryId: z.record(z.string(), z.array(z.string().optional().nullable()).optional().nullable()),
   })
   .optional()

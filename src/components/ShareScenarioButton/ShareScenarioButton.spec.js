@@ -95,7 +95,7 @@ describe('ShareScenarioButton', () => {
     test('agents prop match to current workspace users', () => {
       const workspaceUsers = storeState.workspace.current.data.users;
       workspaceUsers.forEach((user) => {
-        expect(mockRoleEditionButtonProps.agents.some((agent) => agent.id === user)).toBeTruthy();
+        expect(mockRoleEditionButtonProps.agents.some((agent) => agent.id === user.id)).toBeTruthy();
       });
     });
 

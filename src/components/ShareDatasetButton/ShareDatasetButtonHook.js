@@ -43,7 +43,7 @@ export const useShareDatasetButton = () => {
     return SecurityUtils.getDatasetPermissionsLabels(t, permissionsNames);
   }, [permissions.dataset, t]);
 
-  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
+  const workspaceUsers = useMemo(() => workspaceData.users, [workspaceData.users]);
 
   const accessListSpecific = useCallback(
     (datasetId) => findDatasetById(datasetId)?.security?.accessControlList ?? [],

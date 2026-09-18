@@ -21,3 +21,6 @@ export const ACL_ROLES = {
   SCENARIO: { NONE: 'none', VIEWER: 'viewer', EDITOR: 'editor', VALIDATOR: 'validator', ADMIN: 'admin' },
   RUNNER: { NONE: 'none', VIEWER: 'viewer', EDITOR: 'editor', VALIDATOR: 'validator', ADMIN: 'admin' },
 };
+
+// First entries are the highest roles
+export const ORDERED_ACL_ROLES = ['admin', 'validator', 'editor', 'user', 'viewer', 'none'];

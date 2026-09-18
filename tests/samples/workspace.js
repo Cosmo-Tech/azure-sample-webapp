@@ -9,5 +9,5 @@ export const WORKSPACEDATA_WITHOUT_USERS = {
 
 export const WORKSPACEDATA_WITH_USERS = {
   ...WORKSPACEDATA_WITHOUT_USERS,
-  users: [...USERS_EMAIL_LIST],
+  users: USERS_EMAIL_LIST.map((userEmail) => ({ id: userEmail, role: 'admin' })),
 };

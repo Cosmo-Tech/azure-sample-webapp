@@ -71,7 +71,7 @@ export const useShareScenarioButton = (scenarioId) => {
     [userPermissionsOnCurrentScenario]
   );
 
-  const workspaceUsers = useMemo(() => workspaceData.users.map((user) => ({ id: user })), [workspaceData.users]);
+  const workspaceUsers = useMemo(() => workspaceData.users, [workspaceData.users]);
 
   const usersWithRestrictedDatasets = useMemo(() => {
     const restrictedUsers = [];
