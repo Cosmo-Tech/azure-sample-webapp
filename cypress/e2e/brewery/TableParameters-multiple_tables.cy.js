@@ -11,7 +11,9 @@ import {
   PARENT_BASE_DATASET,
   PARENT_EDITABLE_TABLE_PART_ID,
   PARENT_RUNNER,
+  ROOT_EDITABLE_TABLE_PART_ID,
   ROOT_RUNNER,
+  ROOT_TABLE_PART_ID,
   SOLUTION_WITH_TWO_TABLES,
 } from '../../fixtures/stubbing/TableParameters-multiple_tables';
 import { DEFAULT_RUNNER_BASE_DATASET, DEFAULT_WORKSPACE } from '../../fixtures/stubbing/default';
@@ -20,9 +22,11 @@ const PARENT_DYNAMIC_TABLE_QUERY_RESPONSE = 'product,stock\nWidgetParent,1';
 const PARENT_EDITABLE_TABLE_CSV = 'item,quantity\nParentItem,0';
 const CHILD_DYNAMIC_TABLE_QUERY_RESPONSE = 'product,stock\nWidgetChild,42';
 const CHILD_EDITABLE_TABLE_CSV = 'item,quantity\nChildItem,7';
+const ROOT_TABLE_CSV = 'name,value\nRootItem,99';
 
 const getDynamicTable = () => cy.get('[data-cy=table-dynamic_table]');
 const getEditableTable = () => cy.get('[data-cy=table-editable_table]');
+const getRootTable = () => cy.get('[data-cy=table-root_table]');
 
 // TODO: we shouldn't need to intercept these queries so many times, it may be cause only by the cypress test
 // behavior (the page refresh during login) but it might also be caused by the webapp (too many renders? no lock
@@ -36,6 +40,7 @@ describe('Table parameters with multiple tables in one group, opened directly on
     stub.setDatasets([DEFAULT_RUNNER_BASE_DATASET, PARENT_BASE_DATASET, CHILD_BASE_DATASET]);
     stub.setRunners([ROOT_RUNNER, PARENT_RUNNER, CHILD_RUNNER]);
     stub.addDatasetPartFile(CHILD_EDITABLE_TABLE_PART_ID, CHILD_EDITABLE_TABLE_CSV);
+    stub.addDatasetPartFile(ROOT_TABLE_PART_ID, ROOT_TABLE_CSV);
   });
 
   after(() => stub.stop());
@@ -134,8 +139,35 @@ describe('Table parameters with multiple tables in one group, opened directly on
     cy.then(() => expect(hasParentDatasetPostQueryBeenCalled).to.be.true);
     cy.then(() => expect(hasParentDatasetPartDownloadBeenCalled).to.be.true);
 
-    // Switch to root scenario & switch back to child scenario
+    let hasRootDatasetPartDownloadBeenCalled = false;
+    apiUtils.interceptDownloadDatasetPart({
+      datasetPartId: ROOT_TABLE_PART_ID,
+      fileContent: ROOT_TABLE_CSV,
+      validateRequest: (req) => {
+        hasRootDatasetPartDownloadBeenCalled = true;
+        expect(req.url).to.include(ROOT_RUNNER.datasets.parameter);
+      },
+      times: 1,
+    });
+
+    apiUtils.interceptDownloadDatasetPart({
+      datasetPartId: ROOT_EDITABLE_TABLE_PART_ID,
+      validateRequest: (req) => {
+        throw new Error('Query for the hidden root editable table must not be called');
+      },
+    });
+
+    // Switch to root scenario to check that its hidden table parameter has no impact on ohter scenarios
     ScenarioSelector.selectScenario(ROOT_RUNNER.name, ROOT_RUNNER.id);
+    getEditableTable().should('not.exist');
+
+    TableParameters.getLoadingSpinner(getRootTable()).should('not.exist');
+    TableParameters.getCell(getRootTable(), 'name', 0).should('have.text', 'RootItem');
+    TableParameters.getCell(getRootTable(), 'value', 0).should('have.text', '99');
+
+    cy.then(() => expect(hasRootDatasetPartDownloadBeenCalled).to.be.true);
+
+    // Switch back to child scenario
     ScenarioSelector.selectScenario(CHILD_RUNNER.name, CHILD_RUNNER.id);
 
     TableParameters.getLoadingSpinner(getDynamicTable()).should('not.exist');

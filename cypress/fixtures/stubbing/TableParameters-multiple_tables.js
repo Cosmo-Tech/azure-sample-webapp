@@ -12,6 +12,17 @@ const TWO_TABLES_GROUP = {
   parameters: ['dynamic_table', 'editable_table'],
 };
 
+const HIDDEN_EDITABLE_TABLE_GROUP = {
+  id: 'hidden_editable_table_group',
+  additionalData: { hidden: true },
+  parameters: ['editable_table'],
+};
+
+const ROOT_TABLE_GROUP = {
+  id: 'root_table_group',
+  parameters: ['root_table'],
+};
+
 const DYNAMIC_TABLE_PARAM = {
   id: 'dynamic_table',
   varType: '%DATASET_PART_ID_FILE%',
@@ -44,6 +55,22 @@ const EDITABLE_TABLE_PARAM = {
   },
 };
 
+const ROOT_TABLE_PARAM = {
+  id: 'root_table',
+  varType: '%DATASET_PART_ID_FILE%',
+  additionalData: {
+    subType: 'TABLE',
+    canChangeRowsNumber: true,
+    columns: [
+      { field: 'name', type: ['string'] },
+      {
+        field: 'value',
+        type: ['int'],
+      },
+    ],
+  },
+};
+
 const CUSTOM_RUN_TEMPLATE = {
   id: 'sim_two_tables_inheritance',
   name: 'Run template with two table parameters',
@@ -51,19 +78,48 @@ const CUSTOM_RUN_TEMPLATE = {
   parameterGroups: [TWO_TABLES_GROUP.id],
 };
 
+const ROOT_RUN_TEMPLATE = {
+  ...NO_PARAMETERS_RUN_TEMPLATE,
+  id: 'sim_root_with_hidden_table',
+  name: 'Run template with a hidden table parameter',
+  parameterGroups: [HIDDEN_EDITABLE_TABLE_GROUP.id, ROOT_TABLE_GROUP.id],
+};
+
 export const SOLUTION_WITH_TWO_TABLES = {
   ...DEFAULT_SOLUTION,
-  runTemplates: [NO_PARAMETERS_RUN_TEMPLATE, CUSTOM_RUN_TEMPLATE],
-  parameters: [DYNAMIC_TABLE_PARAM, EDITABLE_TABLE_PARAM],
-  parameterGroups: [TWO_TABLES_GROUP],
+  runTemplates: [ROOT_RUN_TEMPLATE, CUSTOM_RUN_TEMPLATE],
+  parameters: [DYNAMIC_TABLE_PARAM, EDITABLE_TABLE_PARAM, ROOT_TABLE_PARAM],
+  parameterGroups: [TWO_TABLES_GROUP, HIDDEN_EDITABLE_TABLE_GROUP, ROOT_TABLE_GROUP],
 };
+
+export const ROOT_RUNNER_PARAMETER_DATASET_ID = 'd-rootRunnerParameterDataset';
+export const ROOT_TABLE_PART_ID = 'dp-rootTable';
+export const ROOT_EDITABLE_TABLE_PART_ID = 'dp-rootEditableTable';
 
 export const ROOT_RUNNER = {
   ...DEFAULT_SIMULATION_RUNNER,
   id: 'r-twoTablesRoot',
   name: 'Cypress - Two tables root scenario',
-  runTemplateId: NO_PARAMETERS_RUN_TEMPLATE.id,
-  runTemplateName: NO_PARAMETERS_RUN_TEMPLATE.name,
+  runTemplateId: ROOT_RUN_TEMPLATE.id,
+  runTemplateName: ROOT_RUN_TEMPLATE.name,
+  datasets: {
+    bases: [],
+    parameter: ROOT_RUNNER_PARAMETER_DATASET_ID,
+    parameters: [
+      {
+        id: ROOT_TABLE_PART_ID,
+        name: ROOT_TABLE_PARAM.id,
+        datasetId: ROOT_RUNNER_PARAMETER_DATASET_ID,
+        sourceName: 'root_table.csv',
+      },
+      {
+        id: ROOT_EDITABLE_TABLE_PART_ID,
+        name: EDITABLE_TABLE_PARAM.id,
+        datasetId: ROOT_RUNNER_PARAMETER_DATASET_ID,
+        sourceName: 'editable_table.csv',
+      },
+    ],
+  },
   parentId: null,
   rootId: null,
 };
