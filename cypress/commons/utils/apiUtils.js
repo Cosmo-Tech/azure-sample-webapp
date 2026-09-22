@@ -7,6 +7,7 @@ import {
   DEFAULT_ETL_RUNNER,
   DEFAULT_SIMULATION_RUNNER,
   DEFAULT_RUNNER_RUN,
+  DEFAULT_WORKSPACE_MEMBERS,
 } from '../../fixtures/stubbing/default';
 import {
   API_ENDPOINT,
@@ -734,6 +735,26 @@ const interceptGetWorkspaces = () => {
   return alias;
 };
 
+// The function interceptGetWorkspaceMembers expects workspaces to have been stored in the stubbing service instance
+const interceptGetWorkspaceMembers = (options) => {
+  const aliases = [];
+
+  const workspaceIds = stub.getWorkspaces().map((workspace) => workspace.id);
+  workspaceIds.forEach((workspaceId) => {
+    let interceptionURL = API_REGEX.WORKSPACE_MEMBERS;
+    if (options?.workspaceId)
+      interceptionURL = new RegExp('^' + URL_ROOT + '/.*/workspaces/(' + options?.workspaceId + ')/members$');
+    const alias = forgeAlias('reqGetWorkspaceMembers');
+    cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+      if (!stub.isEnabledFor('GET_WORKSPACES')) return;
+      req.reply(options?.mockMembers ?? stub.getWorkspaceMembers(workspaceId) ?? DEFAULT_WORKSPACE_MEMBERS);
+    }).as(alias);
+    aliases.push(alias);
+  });
+
+  return aliases;
+};
+
 const interceptGetSolution = (solutionId) => {
   let interceptionURL = API_REGEX.SOLUTION;
   if (solutionId) {
@@ -758,7 +779,12 @@ const interceptPowerBIAzureFunction = () => {
 };
 
 const interceptWorkspaceSelectorQueries = () => {
-  return [interceptGetOrganization(), interceptGetOrganizationPermissions(), interceptGetWorkspaces()];
+  return [
+    interceptGetOrganization(),
+    interceptGetOrganizationPermissions(),
+    interceptGetWorkspaces(),
+    ...interceptGetWorkspaceMembers(),
+  ];
 };
 
 const interceptSelectWorkspaceQueries = (isPowerBiEnabled = true) => {

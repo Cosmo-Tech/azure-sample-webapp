@@ -10,6 +10,7 @@ import {
   DEFAULT_ORGANIZATION,
   DEFAULT_ORGANIZATIONS,
   DEFAULT_SOLUTIONS,
+  DEFAULT_WORKSPACE_MEMBERS,
 } from '../../fixtures/stubbing/default';
 import { authUtils as auth } from '../utils/authUtils';
 
@@ -113,6 +114,7 @@ class Stubbing {
   constructor() {
     this.reset();
     this.datasetPartFiles = {}; // Storage for dataset part files
+    this.workspaceMembers = {}; // Storage for mock workspace members
 
     this.enabledStubs = {};
     STUB_TYPES.forEach((stubType) => {
@@ -331,6 +333,9 @@ class Stubbing {
   setDatasetPartFiles = (newDatasetPartFiles) => (this.datasetPartFiles = newDatasetPartFiles);
   addDatasetPartFile = (partId, fileContent) => (this.datasetPartFiles[partId] = fileContent);
   getDatasetPartFile = (partId) => this.datasetPartFiles[partId];
+
+  getWorkspaceMembers = (workspaceId) => this.workspaceMembers[workspaceId];
+  setWorkspaceMembers = (workspaceId, members) => (this.workspaceMembers[workspaceId] = members);
 }
 
 export const stub = new Stubbing();
