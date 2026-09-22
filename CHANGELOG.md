@@ -1,3 +1,15 @@
+## **7.3.1** <sub><sup>2026-09-22 ([1cf1052...be931d3](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/1cf1052c...be931d36?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix URL scenario redirection triggering unnecessary queries ([7b08cc6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/7b08cc67))
+- fix stale state causing incorrect Table queries when switching between scenarios ([d9c2389](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d9c23898))
+- fix possible regression about table changes not correctly saved ([282f06c](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/282f06c0))
+
+### Documentation
+
+- add list of allowed MIME types for file uploads in the webapp ([2485672](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/24856720))
+
 ## **7.3.0** <sub><sup>2026-09-09 ([26bfdb8...9c38215](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/26bfdb86...9c382158?diff=split))</sup></sub>
 
 ### Features
