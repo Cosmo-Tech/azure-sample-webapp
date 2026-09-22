@@ -1,12 +1,13 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import { matchPath } from 'react-router';
 import { t } from 'i18next';
 import { all, call, select, takeEvery, put } from 'redux-saga/effects';
 import { ResourceUtils } from '@cosmotech/core';
 import { RUNNER_RUN_STATE } from '../../../services/config/ApiConstants';
 import { STATUSES } from '../../../services/config/StatusConstants';
 import { WorkspaceSchema } from '../../../services/config/WorkspaceSchema';
-import { ConfigUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
+import { ConfigUtils, RouterUtils, RunnersUtils, WorkspacesUtils } from '../../../utils';
 import { setApplicationErrorMessage, setApplicationStatus } from '../../app/reducers';
 import { CHART_ACTIONS_KEY, CHART_MODES } from '../../charts/constants';
 import { dispatchGetPowerBIEmbedInfo, dispatchGetSupersetGuestToken } from '../../charts/dispatchers';
@@ -24,6 +25,10 @@ import { getAllRunners } from '../../runner/sagas/GetAllRunners';
 import { fetchSolutionByIdData } from '../../solutions/sagas/FindSolutionByIdData';
 import { WORKSPACE_ACTIONS_KEY } from '../constants';
 import { setCurrentWorkspace } from '../reducers';
+
+const providedUrlBeforeSignIn = sessionStorage.getItem('providedUrlBeforeSignIn');
+const relativePath = RouterUtils.getLocationRelativePath(providedUrlBeforeSignIn ?? window.location.pathname);
+const scenarioIdFromURL = matchPath(':workspaceId/scenario/:scenarioId', relativePath)?.params?.scenarioId;
 
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const selectSolutionIdFromCurrentWorkspace = (state) => state.workspace.current.data.solution.solutionId;
@@ -142,7 +147,7 @@ export function* selectWorkspace(action) {
   const simulationRunners = yield select(selectSimulationRunners);
   yield put(
     setCurrentSimulationRunner({
-      runnerId: ResourceUtils.getFirstRootResource(simulationRunners)?.id, // Function returns null if list is empty
+      runnerId: scenarioIdFromURL ?? ResourceUtils.getFirstRootResource(simulationRunners)?.id,
       status: STATUSES.SUCCESS,
     })
   );

@@ -10,7 +10,7 @@ import { Table, TABLE_DATA_STATUS, UPLOAD_FILE_STATUS_KEY } from '@cosmotech/ui'
 import { useFileParameters } from '../../../../hooks/FileParameterHooks';
 import DatasetService from '../../../../services/dataset/DatasetService';
 import { useOrganizationId } from '../../../../state/organizations/hooks';
-import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
+import { useCurrentSimulationRunnerData } from '../../../../state/runner/hooks';
 import { useWorkspaceId } from '../../../../state/workspaces/hooks.js';
 import { gridLight, gridDark } from '../../../../theme/';
 import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils';
@@ -54,9 +54,10 @@ export const GenericTable = ({
   const { t } = useTranslation();
   const organizationId = useOrganizationId();
   const workspaceId = useWorkspaceId();
-  const scenarioId = useCurrentSimulationRunnerId();
-  const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
+  const currentScenario = useCurrentSimulationRunnerData();
+  const scenarioId = currentScenario?.id;
 
+  const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameterData, 'canChangeRowsNumber') ?? false;
   const parameterId = parameterData.id;
   const [parameter, setParameter] = useState(parameterValue || {});
 
@@ -183,6 +184,8 @@ export const GenericTable = ({
   useEffect(() => {
     if (
       parameterValue?.status !== parameter.status ||
+      parameterValue?.datasetId !== parameter.datasetId ||
+      parameterValue?.datasetPartId !== parameter.datasetPartId ||
       !equal(parameterValue?.errors, parameter.errors) ||
       !equal(parameterValue?.displayData, parameter.displayData)
     ) {
@@ -605,12 +608,17 @@ export const GenericTable = ({
         TABLE_DATA_STATUS.READY,
       ].includes(parameter.displayStatus);
 
+    // Make sure we're not using a stale value from RHF state
+    const isValueFromCurrentScenario =
+      parameter.datasetId == null || parameter.datasetId === currentScenario?.datasets?.parameter;
+
     if (
       parameter.datasetId &&
       parameter.datasetPartId &&
       !parameter.serializedData &&
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
-      !alreadyDownloaded
+      !alreadyDownloaded &&
+      isValueFromCurrentScenario
     ) {
       _downloadDatasetFileContentFromStorage(organizationId, workspaceId, parameter, updateParameterValueWithReset);
     } else if (

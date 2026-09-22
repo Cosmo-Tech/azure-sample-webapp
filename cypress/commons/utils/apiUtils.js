@@ -396,11 +396,19 @@ const interceptGetDataset = () => {
 //       [{"id":"Dynamic value 1"},{"id":"Dynamic value 2"},{"id":"Dynamic value 3"}]
 //   - validateRequest (optional): a function, taking the request object as argument, that can be used to perform
 //       cypress checks on the content of the intercepted query
-const interceptPostDatasetQuery = (response = {}, validateRequest = null, times = 1) => {
+// TODO: refactor to move all arguments to options
+const interceptPostDatasetQuery = (response = {}, validateRequest = null, times = 1, options) => {
   const alias = forgeAlias('reqPostDatasetQuery');
-  const options = { method: 'GET', url: API_REGEX.DATASET_PART_QUERY };
-  if (times > 0) options.times = times;
-  cy.intercept(options, (req) => {
+  let interceptionURL = API_REGEX.DATASET_PART_QUERY;
+  if (options?.datasetId || options?.datasetPartId) {
+    const datasetId = options?.datasetId ?? '(d|D)-[\\w]+';
+    const datasetPartId = options?.datasetPartId ?? 'dp-[\\w]+';
+    interceptionURL = new RegExp('^' + URL_ROOT + `/.*/datasets/(${datasetId})/parts/(${datasetPartId})/query`);
+  }
+  const interceptOptions = { method: 'GET', url: interceptionURL };
+  if (times > 0) interceptOptions.times = times;
+
+  cy.intercept(interceptOptions, (req) => {
     if (validateRequest) validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
     req.reply(response);
@@ -524,7 +532,8 @@ const interceptDownloadDatasetPart = (options = {}) => {
     interceptionURL = new RegExp('^' + URL_ROOT + `/.*/datasets/(${datasetId})/parts/(${datasetPartId})/download$`);
   }
 
-  cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
+  cy.intercept({ method: 'GET', url: interceptionURL, times: options?.times ?? 1 }, (req) => {
+    if (options?.validateRequest) options?.validateRequest(req);
     if (!stub.isEnabledFor('GET_DATASETS')) return;
     const datasetPartId = options?.datasetPartId ?? req.url.match(API_REGEX.DATASET_PART_DOWNLOAD)?.[3];
     const fileContent = options?.fileContent ?? stub.getDatasetPartFile(datasetPartId);
