@@ -80,7 +80,7 @@ export const useShareScenarioButton = (scenarioId) => {
     workspaceUsers.forEach((user) => {
       const restrictedDatasets = baseDatasets.filter((dataset) => {
         const userPermissions = SecurityUtils.getUserPermissionsForResource(
-          dataset.security,
+          dataset,
           user.id,
           permissionsMapping.dataset
         );

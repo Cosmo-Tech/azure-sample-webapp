@@ -210,7 +210,8 @@ const getUserRoleForResource = (resourceSecurity, userIdentifier) => {
   return resourceSecurity.default ?? null;
 };
 
-const getUserPermissionsForResource = (resourceSecurity, userIdentifier, resourceRolesToPermissionsMapping) => {
+const getUserPermissionsForResource = (resource, userIdentifier, resourceRolesToPermissionsMapping) => {
+  const resourceSecurity = resource?.security;
   if (resourceSecurity == null) {
     console.warn("Resource security is null or undefined, can't retrieve user permissions.");
     return [];

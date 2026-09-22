@@ -10,7 +10,7 @@ const _getUserPermissionsForWorkspace = (workspace, userEmail, userId, permissio
     console.warn(`No security data for workspace ${workspace?.id}, restricting access to its content`);
     return [];
   }
-  return SecurityUtils.getUserPermissionsForResource(workspace.security, userEmail, permissionsMapping);
+  return SecurityUtils.getUserPermissionsForResource(workspace, userEmail, permissionsMapping);
 };
 
 const patchWorkspaceWithCurrentUserPermissions = (workspace, userEmail, userId, permissionsMapping) => {

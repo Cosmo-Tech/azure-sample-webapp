@@ -13,7 +13,7 @@ const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsM
   let userPermissions;
   if (dataset.security == null)
     userPermissions = SecurityUtils.getPermissionsFromRole(ACL_ROLES.DATASET.ADMIN, permissionsMapping);
-  else userPermissions = SecurityUtils.getUserPermissionsForResource(dataset.security, userEmail, permissionsMapping);
+  else userPermissions = SecurityUtils.getUserPermissionsForResource(dataset, userEmail, permissionsMapping);
 
   dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };

@@ -343,7 +343,7 @@ describe('getUserPermissionsForResource with invalid parameters', () => {
     for (const defaultSecurity of [null, undefined, '', validSecurity]) {
       for (const acl of [null, undefined, [], validACL]) {
         for (const mapping of [null, undefined, {}, validMapping]) {
-          const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
+          const resource = { security: { default: defaultSecurity, accessControlList: acl } };
           let expectedRes = [];
           if (defaultSecurity === validSecurity && userIdentifier === validUserId && mapping === validMapping) {
             expectedRes = ['read'];
@@ -354,13 +354,13 @@ describe('getUserPermissionsForResource with invalid parameters', () => {
             acl: ${JSON.stringify(acl)}
             mapping: ${JSON.stringify(mapping)}
             expected: ${JSON.stringify(expectedRes)}`, () => {
-            expect(
-              SecurityUtils.getUserPermissionsForResource(resourceSecurity, userIdentifier, mapping)
-            ).toStrictEqual(expectedRes);
+            expect(SecurityUtils.getUserPermissionsForResource(resource, userIdentifier, mapping)).toStrictEqual(
+              expectedRes
+            );
 
             // A first warning must be shown when user id is invalid, and another one when the mapping is null
             let warnCounts = 0;
-            if (resourceSecurity == null || mapping == null || userIdentifier == null) ++warnCounts;
+            if (resource == null || mapping == null || userIdentifier == null) ++warnCounts;
             expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
           });
         }
@@ -408,12 +408,8 @@ describe('getUserPermissionsForResource with valid parameters', () => {
   `(
     'with userIdentifier "$userIdentifier", defaultSecurity "$defaultSecurity", and acl "$acl", then "$expectedRes"',
     ({ userIdentifier, defaultSecurity, acl, expectedRes }) => {
-      const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
-      const res = SecurityUtils.getUserPermissionsForResource(
-        resourceSecurity,
-        userIdentifier,
-        rolesToPermissionsMapping
-      );
+      const resource = { security: { default: defaultSecurity, accessControlList: acl } };
+      const res = SecurityUtils.getUserPermissionsForResource(resource, userIdentifier, rolesToPermissionsMapping);
       expect(res).toStrictEqual(expectedRes);
     }
   );

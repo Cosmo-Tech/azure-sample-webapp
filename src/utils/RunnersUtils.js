@@ -18,7 +18,7 @@ const _getUserPermissionsForRunner = (scenario, userEmail, userId, permissionsMa
     console.warn(`No security data for scenario ${scenario?.id}, restricting access to its content`);
     return [];
   }
-  return SecurityUtils.getUserPermissionsForResource(scenario.security, userEmail, permissionsMapping);
+  return SecurityUtils.getUserPermissionsForResource(scenario, userEmail, permissionsMapping);
 };
 
 const patchRunnerParameterValues = (solutionParameters, parameterValues) => {
