@@ -11,6 +11,7 @@ import { addDataset, selectDataset, setDatasetReducerStatus } from '../reducers'
 
 const getUserName = (state) => state.auth.userName;
 const getUserEmail = (state) => state.auth.userEmail;
+const getWorkspace = (state) => state.workspace.current?.data;
 const getWorkspaceId = (state) => state.workspace.current?.data?.id;
 const getOrganizationId = (state) => state.organization.current?.data?.id;
 
@@ -66,14 +67,19 @@ export function* createDataset({ dataset, files, shouldSelectDataset, shouldUpda
   let createdDataset;
   try {
     createdDataset = yield postDatasetAndDatasetParts(dataset, files);
-
     const userEmail = yield select(getUserEmail);
-    DatasetsUtils.patchDatasetWithCurrentUserPermissions(createdDataset, userEmail, DATASET_PERMISSIONS_MAPPING);
+    const workspace = yield select(getWorkspace);
+    DatasetsUtils.patchDatasetWithCurrentUserPermissions(
+      createdDataset,
+      userEmail,
+      DATASET_PERMISSIONS_MAPPING,
+      workspace?.groups
+    );
+
     yield put(addDataset(createdDataset));
-
     if (shouldSelectDataset) yield put(selectDataset({ selectedDatasetId: createdDataset.id }));
-
     if (shouldUpdateReducerStatus) yield put(setDatasetReducerStatus({ status: DATASET_REDUCER_STATUS.SUCCESS }));
+
     return createdDataset;
   } catch (error) {
     console.error(error);

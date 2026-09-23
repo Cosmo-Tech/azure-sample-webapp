@@ -71,43 +71,56 @@ export const useShareScenarioButton = (scenarioId) => {
     [userPermissionsOnCurrentScenario]
   );
 
-  const workspaceUsers = useMemo(() => workspaceData.users, [workspaceData.users]);
+  const workspaceAgents = useMemo(() => {
+    const workspaceUsers = (workspaceData?.users ?? []).map((user) => ({ ...user, isGroup: false }));
+    const workspaceGroups = (workspaceData?.groups ?? []).map((group) => ({ ...group, isGroup: true }));
+    return [...workspaceUsers, ...workspaceGroups];
+  }, [workspaceData]);
 
-  const usersWithRestrictedDatasets = useMemo(() => {
-    const restrictedUsers = [];
-    if (baseDatasets.length === 0) return restrictedUsers;
+  const agentsWithRestrictedDatasets = useMemo(() => {
+    if (baseDatasets.length === 0) return [];
 
-    workspaceUsers.forEach((user) => {
+    const restrictedAgents = [];
+    workspaceAgents.forEach((userOrGroup) => {
       const restrictedDatasets = baseDatasets.filter((dataset) => {
-        const userPermissions = SecurityUtils.getUserPermissionsForResource(
+        const permissions = SecurityUtils.getUserPermissionsForResource(
           dataset,
-          user.id,
-          permissionsMapping.dataset
+          userOrGroup.id,
+          permissionsMapping.dataset,
+          undefined,
+          workspaceData?.groups
         );
-        return !userPermissions.includes(ACL_PERMISSIONS.DATASET.READ);
+        return !permissions.includes(ACL_PERMISSIONS.DATASET.READ);
       });
-      if (restrictedDatasets.length > 0) restrictedUsers.push({ id: user.id, restrictedDatasets });
+      if (restrictedDatasets.length > 0) restrictedAgents.push({ ...userOrGroup, restrictedDatasets });
     });
 
-    return restrictedUsers;
-  }, [baseDatasets, workspaceUsers, permissionsMapping]);
+    return restrictedAgents;
+  }, [baseDatasets, workspaceAgents, permissionsMapping, workspaceData?.groups]);
 
   const canBeSharedWithAgent = useCallback(
-    (user) => {
-      const restrictedDatasets = usersWithRestrictedDatasets.find(
-        (usersRestricted) => usersRestricted.id === user.id
-      )?.restrictedDatasets;
+    (userOrGroup) => {
+      const restrictedAgent = agentsWithRestrictedDatasets.find((item) => item.id === userOrGroup.id);
+      const restrictedDatasets = restrictedAgent?.restrictedDatasets;
       if (restrictedDatasets == null || restrictedDatasets.length === 0) return null;
 
       const restrictedDataset = restrictedDatasets[0].name;
-      return t(
-        'commoncomponents.dialog.share.dialog.select.disabledUserTooltip',
-        'This user does not have access to the scenario dataset "{{restrictedDataset}}". ' +
-          'Please share this dataset with them first, or ask the dataset owner to do it.',
-        { restrictedDataset, interpolation: { escapeValue: false } }
-      );
+      if (!restrictedAgent.isGroup)
+        return t(
+          'commoncomponents.dialog.share.dialog.select.disabledUserTooltip',
+          'This user does not have access to the scenario dataset "{{restrictedDataset}}". ' +
+            'Please share this dataset with them first, or ask the dataset owner to do it.',
+          { restrictedDataset, interpolation: { escapeValue: false } }
+        );
+      else
+        return t(
+          'commoncomponents.dialog.share.dialog.select.disabledGroupTooltip',
+          'This group does not have access to the scenario dataset "{{restrictedDataset}}". ' +
+            'Please share this dataset with the group first, or ask the dataset owner to do it.',
+          { restrictedDataset, interpolation: { escapeValue: false } }
+        );
     },
-    [usersWithRestrictedDatasets, t]
+    [agentsWithRestrictedDatasets, t]
   );
 
   const disabled = useMemo(() => isDirty || !hasReadSecurityPermission, [isDirty, hasReadSecurityPermission]);
@@ -159,6 +172,6 @@ export const useShareScenarioButton = (scenarioId) => {
     accessListSpecific,
     defaultRole,
     applyScenarioSecurityChanges,
-    workspaceUsers,
+    workspaceAgents,
   };
 };

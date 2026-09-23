@@ -43,7 +43,11 @@ export const useShareDatasetButton = () => {
     return SecurityUtils.getDatasetPermissionsLabels(t, permissionsNames);
   }, [permissions.dataset, t]);
 
-  const workspaceUsers = useMemo(() => workspaceData.users, [workspaceData.users]);
+  const workspaceAgents = useMemo(() => {
+    const workspaceUsers = (workspaceData?.users ?? []).map((user) => ({ ...user, isGroup: false }));
+    const workspaceGroups = (workspaceData?.groups ?? []).map((group) => ({ ...group, isGroup: true }));
+    return [...workspaceUsers, ...workspaceGroups];
+  }, [workspaceData]);
 
   const accessListSpecific = useCallback(
     (datasetId) => findDatasetById(datasetId)?.security?.accessControlList ?? [],
@@ -61,7 +65,7 @@ export const useShareDatasetButton = () => {
     buildShareDatasetDialogLabels,
     rolesLabels,
     permissionsLabels,
-    workspaceUsers,
+    workspaceAgents,
     accessListSpecific,
     defaultRole,
     updateDatasetSecurity,

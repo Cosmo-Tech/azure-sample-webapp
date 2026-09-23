@@ -80,15 +80,15 @@ const runnerSlice = createSlice({
       }
     },
     setRunnerSecurity: (state, action) => {
-      const { runnerId, security, userEmail, userId, runnersPermissionsMapping } = action.payload;
+      const { runnerId, security, userEmail, runnersPermissionsMapping, workspaceGroups } = action.payload;
       state.simulationRunners.list.data = state.simulationRunners.list?.data?.map((runner) => {
         if (runner.id === runnerId) {
           const runnerWithNewSecurity = { ...runner, security };
           RunnersUtils.patchRunnerWithCurrentUserPermissions(
             runnerWithNewSecurity,
             userEmail,
-            userId,
-            runnersPermissionsMapping
+            runnersPermissionsMapping,
+            workspaceGroups
           );
           return { ...runner, security: runnerWithNewSecurity.security };
         }
@@ -99,8 +99,8 @@ const runnerSlice = createSlice({
         RunnersUtils.patchRunnerWithCurrentUserPermissions(
           runnerWithNewSecurity,
           userEmail,
-          userId,
-          runnersPermissionsMapping
+          runnersPermissionsMapping,
+          workspaceGroups
         );
         state.simulationRunners.current.data = runnerWithNewSecurity;
       }

@@ -12,10 +12,9 @@ import { RUNNER_ACTIONS_KEY } from '../constants';
 import { setRunnerSecurity } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
-const getUserId = (state) => state.auth.userId;
 const getRunnersPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 const getOrganizationId = (state) => state.organization.current.data.id;
-const getWorkspaceId = (state) => state.workspace.current.data.id;
+const getWorkspace = (state) => state.workspace?.current?.data;
 const getCurrentSimulationRunner = (state) => state.runner.simulationRunners.current?.data;
 const getDatasets = (state) => state.dataset.list?.data;
 const getSolutionParameters = (state) => state?.solution?.current?.data?.parameters ?? [];
@@ -24,10 +23,10 @@ const getDatasetPermissionMapping = (state) => state.application.permissionsMapp
 export function* applyRunnerSharingChanges(action) {
   try {
     const organizationId = yield select(getOrganizationId);
-    const workspaceId = yield select(getWorkspaceId);
+    const workspace = yield select(getWorkspace);
+    const workspaceId = workspace?.id;
     const datasets = yield select(getDatasets);
     const userEmail = yield select(getUserEmail);
-    const userId = yield select(getUserId);
     const currentSimulationRunner = yield select(getCurrentSimulationRunner);
     const currentSimulationRunnerSecurity = currentSimulationRunner?.security;
     const { runnerId, newRunnerSecurity } = action;
@@ -74,8 +73,8 @@ export function* applyRunnerSharingChanges(action) {
           datasetId,
           security: newDatasetSecurity,
           userEmail,
-          userId,
           datasetPermissionsMapping,
+          workspaceGroups: workspace?.groups,
         })
       );
     }
@@ -87,8 +86,8 @@ export function* applyRunnerSharingChanges(action) {
           runnerId,
           security: newRunnerSecurity,
           userEmail,
-          userId,
           runnersPermissionsMapping,
+          workspaceGroups: workspace?.groups,
         })
       );
     }

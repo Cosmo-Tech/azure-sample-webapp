@@ -17,7 +17,7 @@ const ShareScenarioButton = ({ scenarioId, RolesEditionButtonProps }) => {
     permissionsMapping,
     rolesLabels,
     shareScenarioDialogLabels,
-    workspaceUsers,
+    workspaceAgents,
     canBeSharedWithAgent,
   } = useShareScenarioButton(scenarioId);
 
@@ -30,7 +30,7 @@ const ShareScenarioButton = ({ scenarioId, RolesEditionButtonProps }) => {
       labels={shareScenarioDialogLabels}
       onConfirmChanges={applyScenarioSecurityChanges}
       resourceRolesPermissionsMapping={permissionsMapping.runner}
-      agents={workspaceUsers}
+      agents={workspaceAgents}
       canBeSharedWithAgent={canBeSharedWithAgent}
       specificAccessByAgent={accessListSpecific}
       defaultRole={defaultRole}

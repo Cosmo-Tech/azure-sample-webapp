@@ -489,7 +489,8 @@
           "select": {
             "addPeople": "Ajouter un utilisateur",
             "userSelected": "Utilisateur sélectionné",
-            "disabledUserTooltip": "Cet utilisateur n'a pas accès au dataset \"{{restrictedDataset}}\" utilisé par le scénario. Veuillez partager le dataset ou demander au propriétaire du dataset de le faire."
+            "disabledUserTooltip": "Cet utilisateur n'a pas accès au dataset \"{{restrictedDataset}}\" utilisé par le scénario. Veuillez partager le dataset ou demander au propriétaire du dataset de le faire.",
+            "disabledGroupTooltip": "Ce groupe n'a pas accès au dataset \"{{restrictedDataset}}\" utilisé par le scénario. Veuillez partager le dataset ou demander au propriétaire du dataset de le faire."
           },
           "editor": {
             "usersAccess": "Accès par utilisateur",

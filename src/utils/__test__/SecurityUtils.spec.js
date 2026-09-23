@@ -251,6 +251,7 @@ describe('getUserRoleFromSecurity with invalid parameters', () => {
     spyConsoleWarn.mockClear();
   });
 
+  const orderedRoles = ['admin', 'writer', 'reader', 'other', 'guest'];
   const validUserId = 'unknownUser';
   const validSecurity = 'reader';
   const validACL = [{ id: 'alice', role: 'reader' }];
@@ -259,15 +260,17 @@ describe('getUserRoleFromSecurity with invalid parameters', () => {
     for (const defaultSecurity of [null, undefined, '', validSecurity]) {
       for (const acl of [null, undefined, [], validACL]) {
         const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
-        let expectedRes = null;
-        if (defaultSecurity != null && userIdentifier != null) {
+        let expectedRes = 'none';
+        if (defaultSecurity != null && defaultSecurity !== '' && userIdentifier != null) {
           expectedRes = defaultSecurity;
         }
         test(`with
           id: ${userIdentifier},
           default security: ${JSON.stringify(defaultSecurity)},
           acl: ${JSON.stringify(acl)}`, () => {
-          expect(SecurityUtils.getUserRoleFromSecurity(resourceSecurity, userIdentifier)).toStrictEqual(expectedRes);
+          expect(SecurityUtils.getUserRoleFromSecurity(resourceSecurity, userIdentifier, orderedRoles)).toStrictEqual(
+            expectedRes
+          );
 
           // A warning must be shown when user id is invalid
           let warnCounts = 0;
@@ -280,6 +283,7 @@ describe('getUserRoleFromSecurity with invalid parameters', () => {
 });
 
 describe('getUserRoleFromSecurity with valid parameters', () => {
+  const orderedRoles = ['admin', 'writer', 'reader', 'other', 'guest'];
   const aclAliceNoRole = [{ id: 'alice', role: null }];
   const aclAliceReader = [{ id: 'alice', role: 'reader' }];
   const aclAliceWriter = [{ id: 'alice', role: 'writer' }];
@@ -290,29 +294,29 @@ describe('getUserRoleFromSecurity with valid parameters', () => {
 
   test.each`
     userIdentifier | defaultSecurity | acl                      | expectedRes
-    ${'alice'}     | ${null}         | ${null}                  | ${null}
+    ${'alice'}     | ${null}         | ${null}                  | ${'none'}
     ${'alice'}     | ${'reader'}     | ${null}                  | ${'reader'}
     ${'alice'}     | ${'writer'}     | ${null}                  | ${'writer'}
-    ${'alice'}     | ${null}         | ${aclAliceNoRole}        | ${null}
-    ${'alice'}     | ${'reader'}     | ${aclAliceNoRole}        | ${null}
-    ${'alice'}     | ${'writer'}     | ${aclAliceNoRole}        | ${null}
+    ${'alice'}     | ${null}         | ${aclAliceNoRole}        | ${'none'}
+    ${'alice'}     | ${'reader'}     | ${aclAliceNoRole}        | ${'reader'}
+    ${'alice'}     | ${'writer'}     | ${aclAliceNoRole}        | ${'writer'}
     ${'alice'}     | ${null}         | ${aclAliceReader}        | ${'reader'}
     ${'alice'}     | ${'reader'}     | ${aclAliceReader}        | ${'reader'}
-    ${'alice'}     | ${'writer'}     | ${aclAliceReader}        | ${'reader'}
+    ${'alice'}     | ${'writer'}     | ${aclAliceReader}        | ${'writer'}
     ${'alice'}     | ${null}         | ${aclAliceWriter}        | ${'writer'}
     ${'alice'}     | ${'reader'}     | ${aclAliceWriter}        | ${'writer'}
     ${'alice'}     | ${'writer'}     | ${aclAliceWriter}        | ${'writer'}
     ${'alice'}     | ${null}         | ${aclAliceAndBobWriters} | ${'writer'}
     ${'alice'}     | ${'reader'}     | ${aclAliceAndBobWriters} | ${'writer'}
     ${'alice'}     | ${'writer'}     | ${aclAliceAndBobWriters} | ${'writer'}
-    ${'bob'}       | ${null}         | ${aclAliceNoRole}        | ${null}
+    ${'bob'}       | ${null}         | ${aclAliceNoRole}        | ${'none'}
     ${'bob'}       | ${'reader'}     | ${aclAliceNoRole}        | ${'reader'}
     ${'bob'}       | ${'writer'}     | ${aclAliceNoRole}        | ${'writer'}
   `(
     'with userIdentifier "$userIdentifier", defaultSecurity "$defaultSecurity", and acl "$acl", then "$expectedRes"',
     ({ userIdentifier, defaultSecurity, acl, expectedRes }) => {
       const resourceSecurity = { default: defaultSecurity, accessControlList: acl };
-      const res = SecurityUtils.getUserRoleFromSecurity(resourceSecurity, userIdentifier);
+      const res = SecurityUtils.getUserRoleFromSecurity(resourceSecurity, userIdentifier, orderedRoles);
       expect(res).toStrictEqual(expectedRes);
     }
   );
@@ -393,11 +397,11 @@ describe('getUserPermissionsForResource with valid parameters', () => {
     ${'alice'}     | ${'reader'}     | ${null}                  | ${readerLevelPermissions}
     ${'alice'}     | ${'writer'}     | ${null}                  | ${writerLevelPermissions}
     ${'alice'}     | ${null}         | ${aclAliceNoRole}        | ${[]}
-    ${'alice'}     | ${'reader'}     | ${aclAliceNoRole}        | ${[]}
-    ${'alice'}     | ${'writer'}     | ${aclAliceNoRole}        | ${[]}
+    ${'alice'}     | ${'reader'}     | ${aclAliceNoRole}        | ${readerLevelPermissions}
+    ${'alice'}     | ${'writer'}     | ${aclAliceNoRole}        | ${writerLevelPermissions}
     ${'alice'}     | ${null}         | ${aclAliceReader}        | ${readerLevelPermissions}
     ${'alice'}     | ${'reader'}     | ${aclAliceReader}        | ${readerLevelPermissions}
-    ${'alice'}     | ${'writer'}     | ${aclAliceReader}        | ${readerLevelPermissions}
+    ${'alice'}     | ${'writer'}     | ${aclAliceReader}        | ${writerLevelPermissions}
     ${'alice'}     | ${null}         | ${aclAliceWriter}        | ${writerLevelPermissions}
     ${'alice'}     | ${'reader'}     | ${aclAliceWriter}        | ${writerLevelPermissions}
     ${'alice'}     | ${'writer'}     | ${aclAliceWriter}        | ${writerLevelPermissions}

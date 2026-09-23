@@ -5,7 +5,7 @@ import { ArrayDictUtils } from './ArrayDictUtils';
 import { SecurityUtils } from './SecurityUtils';
 import { TranslationUtils } from './TranslationUtils';
 
-const _getUserPermissionsForWorkspace = (workspace, userEmail, userId, permissionsMapping) => {
+const _getUserPermissionsForWorkspace = (workspace, userEmail, permissionsMapping) => {
   if (workspace?.security == null || Object.keys(workspace?.security).length === 0) {
     console.warn(`No security data for workspace ${workspace?.id}, restricting access to its content`);
     return [];
@@ -13,11 +13,11 @@ const _getUserPermissionsForWorkspace = (workspace, userEmail, userId, permissio
   return SecurityUtils.getUserPermissionsForResource(workspace, userEmail, permissionsMapping);
 };
 
-const patchWorkspaceWithCurrentUserPermissions = (workspace, userEmail, userId, permissionsMapping) => {
+const patchWorkspaceWithCurrentUserPermissions = (workspace, userEmail, permissionsMapping) => {
   // workspace.security seems to be read-only, we have to create a new object to add a "currentUserPermissions" key
   workspace.security = {
     ...workspace.security,
-    currentUserPermissions: _getUserPermissionsForWorkspace(workspace, userEmail, userId, permissionsMapping),
+    currentUserPermissions: _getUserPermissionsForWorkspace(workspace, userEmail, permissionsMapping),
   };
 };
 

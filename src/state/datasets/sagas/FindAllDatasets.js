@@ -12,6 +12,8 @@ import { DATASET_ACTIONS_KEY } from '../constants';
 import { loadDatasets, selectDataset, setAllDatasets } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
+const getWorkspace = (state) => state.workspace.current?.data;
+
 const keepOnlyReadableDatasets = (datasets) =>
   datasets.filter(
     (dataset) =>
@@ -23,12 +25,18 @@ export function* fetchAllDatasetsData(organizationId, workspaceId) {
   try {
     yield put(loadDatasets());
     const userEmail = yield select(getUserEmail);
+    const workspace = yield select(getWorkspace);
     const page = 0;
     const pageSize = 99999;
     const { data } = yield call(Api.Datasets.listDatasets, organizationId, workspaceId, page, pageSize);
 
     data.forEach((dataset) =>
-      DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING)
+      DatasetsUtils.patchDatasetWithCurrentUserPermissions(
+        dataset,
+        userEmail,
+        DATASET_PERMISSIONS_MAPPING,
+        workspace?.groups
+      )
     );
     const datasets = keepOnlyReadableDatasets(data);
 
