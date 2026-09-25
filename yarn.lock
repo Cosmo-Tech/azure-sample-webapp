@@ -1498,18 +1498,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/ui@npm:^12.2.0":
-  version: 12.2.0
-  resolution: "@cosmotech/ui@npm:12.2.0"
+"@cosmotech/ui@npm:^12.3.0":
+  version: 12.3.0
+  resolution: "@cosmotech/ui@npm:12.3.0"
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@mui/x-date-pickers": "npm:^8.29.0"
-    "@mui/x-tree-view": "npm:^8.29.0"
+    "@mui/x-date-pickers": "npm:^8.29.3"
+    "@mui/x-tree-view": "npm:^8.29.3"
     "@superset-ui/embedded-sdk": "npm:^0.3.0"
     ag-grid-community: "npm:^35.3.1"
     ag-grid-react: "npm:^35.3.1"
-    cytoscape: "npm:^3.34.0"
+    cytoscape: "npm:^3.34.2"
     cytoscape-bubblesets: "npm:^4.1.0"
     cytoscape-dagre: "npm:^2.5.0"
     cytoscape-layers: "npm:^3.1.0"
@@ -1527,7 +1527,7 @@ __metadata:
     react: ^19.1.1
     react-dom: ^19.1.1
     react-i18next: ^15.7.3
-  checksum: 10c0/b16161effb7d865a6ed289f152371ef8844e990386acd6c6415fb7b6a8d1dce2008739c9d49099b48d1ddf527992feea25ae9e1936850baa42bed16fb81fe11d
+  checksum: 10c0/a8e5dd2c11ae4f926af04b3a1ffbfbe1221c16c27d3ebc780eb5341472761c831bbe90296d98670a38840b3562249f8b7b99dab05a71df155df592aa99a1b29e
   languageName: node
   linkType: hard
 
@@ -2567,7 +2567,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-date-pickers@npm:^8.29.0":
+"@mui/x-date-pickers@npm:^8.29.3":
   version: 8.29.3
   resolution: "@mui/x-date-pickers@npm:8.29.3"
   dependencies:
@@ -2641,7 +2641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mui/x-tree-view@npm:^8.29.0":
+"@mui/x-tree-view@npm:^8.29.3":
   version: 8.29.3
   resolution: "@mui/x-tree-view@npm:8.29.3"
   dependencies:
@@ -4177,7 +4177,7 @@ __metadata:
     "@cosmotech/api-ts": "npm:5.2.0"
     "@cosmotech/azure": "npm:^5.0.0"
     "@cosmotech/core": "npm:^4.0.0"
-    "@cosmotech/ui": "npm:^12.2.0"
+    "@cosmotech/ui": "npm:^12.3.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/compat": "npm:^2.1.1"
@@ -5294,10 +5294,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cytoscape@npm:^3.34.0":
-  version: 3.34.2
-  resolution: "cytoscape@npm:3.34.2"
-  checksum: 10c0/048db6c151a4e4322ea9246df06824bde8edb8681163afd50425c0471d2f72a064273b689afdad3302976b9c07ab4f433033a2b29c3a1aad0c793724847a6999
+"cytoscape@npm:^3.34.2":
+  version: 3.34.3
+  resolution: "cytoscape@npm:3.34.3"
+  checksum: 10c0/953ef85160d4a5b1a7e47af4039e66b81d4e6d00b39d6e1f4387c4563cdc4cb4480e91e8f7f6b5fbda05bf3d8019792b514a809ed1e4d1c2a5b16827b4c4a315
   languageName: node
   linkType: hard
 
