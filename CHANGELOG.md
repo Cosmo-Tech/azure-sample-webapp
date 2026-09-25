@@ -1,3 +1,14 @@
+## **7.4.0** <sub><sup>2026-09-25 ([137be7a...eb30f0d](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/137be7a5...eb30f0da?diff=split))</sup></sub>
+
+### Features
+
+- add support for ACL groups when sharing resources ([2cd7138](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2cd7138c))
+
+### Bug Fixes
+
+- fix width of dropdown options in role edition dialog ([522adc3](https://github.com/Cosmo-Tech/webapp-component-ui/commit/522adc3))
+- fix cursor icon for disabled options in role edition dialog ([7fc775b](https://github.com/Cosmo-Tech/webapp-component-ui/commit/7fc775b))
+
 ## **7.3.1** <sub><sup>2026-09-22 ([1cf1052...be931d3](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/1cf1052c...be931d36?diff=split))</sup></sub>
 
 ### Bug Fixes
