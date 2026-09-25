@@ -7,13 +7,20 @@ import { ACL_ROLES } from '../services/config/accessControl';
 import { setApplicationErrorMessage } from '../state/app/reducers';
 import { SecurityUtils } from './SecurityUtils';
 
-const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping) => {
+const patchDatasetWithCurrentUserPermissions = (dataset, userEmail, permissionsMapping, groups) => {
   if (dataset == null) return;
 
   let userPermissions;
   if (dataset.security == null)
     userPermissions = SecurityUtils.getPermissionsFromRole(ACL_ROLES.DATASET.ADMIN, permissionsMapping);
-  else userPermissions = SecurityUtils.getUserPermissionsForResource(dataset.security, userEmail, permissionsMapping);
+  else
+    userPermissions = SecurityUtils.getUserPermissionsForResource(
+      dataset,
+      userEmail,
+      permissionsMapping,
+      undefined,
+      groups
+    );
 
   dataset.security = { ...dataset.security, currentUserPermissions: userPermissions };
 };

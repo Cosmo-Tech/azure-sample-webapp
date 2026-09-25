@@ -7,7 +7,7 @@ const _getUserPermissionsForOrganization = (organization, userEmail, permissions
     console.warn(`No security data for organization ${organization?.id}, restricting access to its content`);
     return [];
   }
-  return SecurityUtils.getUserPermissionsForResource(organization.security, userEmail, permissionsMapping);
+  return SecurityUtils.getUserPermissionsForResource(organization, userEmail, permissionsMapping);
 };
 
 const patchOrganizationWithCurrentUserPermissions = (organization, userEmail, permissionsMapping) => {

@@ -19,7 +19,12 @@ export function* getDataset(organizationId, workspaceId, datasetId, resetDataset
     const workspace = yield select(getWorkspace);
 
     const { data: dataset } = yield call(Api.Datasets.getDataset, organizationId, workspaceId, datasetId);
-    DatasetsUtils.patchDatasetWithCurrentUserPermissions(dataset, userEmail, DATASET_PERMISSIONS_MAPPING);
+    DatasetsUtils.patchDatasetWithCurrentUserPermissions(
+      dataset,
+      userEmail,
+      DATASET_PERMISSIONS_MAPPING,
+      workspace?.groups
+    );
     yield put(updateDataset({ datasetId, datasetData: dataset }));
 
     if (resetDatasetQueryResults) yield put(resetQueriesResults({ dataset, workspace }));

@@ -95,7 +95,7 @@ describe('ShareScenarioButton', () => {
     test('agents prop match to current workspace users', () => {
       const workspaceUsers = storeState.workspace.current.data.users;
       workspaceUsers.forEach((user) => {
-        expect(mockRoleEditionButtonProps.agents.some((agent) => agent.id === user)).toBeTruthy();
+        expect(mockRoleEditionButtonProps.agents.some((agent) => agent.id === user.id)).toBeTruthy();
       });
     });
 
@@ -143,5 +143,42 @@ describe('ShareScenarioButton', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(actionExpected);
     });
+  });
+
+  test('allows scenario sharing with users who inherit base dataset access from a group', () => {
+    const state = getStateWithScenarioRole(ROLES.RUNNER.ADMIN);
+    const scenarioId = state.runner.simulationRunners.current.data.id;
+    const baseDatasetId = state.runner.simulationRunners.current.data.datasets.bases[0];
+    const baseDataset = state.dataset.list.data.find((dataset) => dataset.id === baseDatasetId);
+    const allowedGroup = { id: 'datasetReaders', users: [USERS_LIST[1].email] };
+    const restrictedGroup = { id: 'restrictedGroup', users: [] };
+    baseDataset.security = {
+      ...baseDataset.security,
+      default: 'none',
+      accessControlList: [
+        { id: state.auth.userEmail, role: 'admin' },
+        { id: allowedGroup.id, role: 'viewer' },
+      ],
+    };
+    state.workspace.current.data.users = [
+      { id: USERS_LIST[1].email, role: 'viewer' },
+      { id: USERS_LIST[2].email, role: 'viewer' },
+    ];
+    state.workspace.current.data.groups = [allowedGroup, restrictedGroup];
+
+    mockStore = createMockStore(state);
+    render(
+      <Provider store={mockStore}>
+        <MockFormProvider>
+          <ShareScenarioButton scenarioId={scenarioId} />
+        </MockFormProvider>
+      </Provider>
+    );
+
+    const canShareWith = mockRoleEditionButtonProps.canBeSharedWithAgent;
+    expect(canShareWith({ id: USERS_LIST[1].email })).toBeNull();
+    expect(canShareWith({ id: allowedGroup.id })).toBeNull();
+    expect(canShareWith({ id: USERS_LIST[2].email })).not.toBeNull();
+    expect(canShareWith({ id: restrictedGroup.id })).not.toBeNull();
   });
 });

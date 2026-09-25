@@ -16,7 +16,7 @@ const ShareDatasetButton = ({ dataset }) => {
     rolesLabels,
     buildShareDatasetDialogLabels,
     getUserPermissionOnDataset,
-    workspaceUsers,
+    workspaceAgents,
   } = useShareDatasetButton();
 
   const datasetId = dataset?.id;
@@ -34,7 +34,7 @@ const ShareDatasetButton = ({ dataset }) => {
       hasWriteSecurityPermission={hasWriteSecurityPermission}
       onConfirmChanges={(security) => updateDatasetSecurity(datasetId, security)}
       resourceRolesPermissionsMapping={permissionsMapping.dataset}
-      agents={workspaceUsers}
+      agents={workspaceAgents}
       specificAccessByAgent={accessListSpecific(datasetId)}
       defaultRole={defaultRole(datasetId)}
       defaultAccessScope="Workspace"

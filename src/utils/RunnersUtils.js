@@ -13,12 +13,12 @@ const forgeRunnerLastRunInfoPatch = (lastRunId, lastRunStatus = RUNNER_RUN_STATE
   lastRunInfo: { lastRunId, lastRunStatus },
 });
 
-const _getUserPermissionsForRunner = (scenario, userEmail, userId, permissionsMapping) => {
+const _getUserPermissionsForRunner = (scenario, userEmail, permissionsMapping, groups) => {
   if (scenario?.security == null || Object.keys(scenario?.security).length === 0) {
     console.warn(`No security data for scenario ${scenario?.id}, restricting access to its content`);
     return [];
   }
-  return SecurityUtils.getUserPermissionsForResource(scenario.security, userEmail, permissionsMapping);
+  return SecurityUtils.getUserPermissionsForResource(scenario, userEmail, permissionsMapping, undefined, groups);
 };
 
 const patchRunnerParameterValues = (solutionParameters, parameterValues) => {
@@ -35,11 +35,11 @@ const patchRunnerParameterValues = (solutionParameters, parameterValues) => {
   });
 };
 
-const patchRunnerWithCurrentUserPermissions = (runner, userEmail, userId, permissionsMapping) => {
+const patchRunnerWithCurrentUserPermissions = (runner, userEmail, permissionsMapping, groups) => {
   // runner.security seems to be read-only, we have to create a new object to add a "currentUserPermissions" key
   runner.security = {
     ...runner.security,
-    currentUserPermissions: _getUserPermissionsForRunner(runner, userEmail, userId, permissionsMapping),
+    currentUserPermissions: _getUserPermissionsForRunner(runner, userEmail, permissionsMapping, groups),
   };
 };
 

@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 export { ACL_PERMISSIONS } from './Permissions';
-export { ACL_ROLES, APP_ROLES } from './Roles';
+export { ACL_ROLES, APP_ROLES, ORDERED_ACL_ROLES } from './Roles';

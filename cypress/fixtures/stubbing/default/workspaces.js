@@ -17,6 +17,7 @@ const defaultPowerBIReport = {
   pageName: { en: 'ReportSection', fr: 'ReportSection' },
 };
 export const DEFAULT_WORKSPACE_DATASET_ID = 'd-stbdWorkspaceDataset';
+export const DEFAULT_WORKSPACE_MEMBERS = { users: [], groups: [] };
 export const DEFAULT_WORKSPACE = {
   id: 'W-stbbdbrwry',
   organizationId: DEFAULT_ORGANIZATION.id,

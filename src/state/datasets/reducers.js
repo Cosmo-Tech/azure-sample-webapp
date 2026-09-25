@@ -34,15 +34,15 @@ const datasetSlice = createSlice({
       state.list.data.push(action.payload);
     },
     setDatasetSecurity: (state, action) => {
-      const { datasetId, security, userEmail, userId, permissionsMapping } = action.payload;
+      const { datasetId, security, userEmail, permissionsMapping, workspaceGroups } = action.payload;
       state.list.data = state.list.data?.map((datasetData) => {
         if (datasetData.id === datasetId) {
           const datasetWithNewSecurity = { ...datasetData, security };
           DatasetsUtils.patchDatasetWithCurrentUserPermissions(
             datasetWithNewSecurity,
             userEmail,
-            userId,
-            permissionsMapping
+            permissionsMapping,
+            workspaceGroups
           );
           return { ...datasetData, security: datasetWithNewSecurity.security };
         }

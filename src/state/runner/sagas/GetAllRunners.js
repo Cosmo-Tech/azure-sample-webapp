@@ -11,10 +11,10 @@ import { RUNNER_ACTIONS_KEY } from '../constants';
 import { setAllEtlRunners, setAllSimulationRunners, setReducerStatus } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
-const getUserId = (state) => state.auth.userId;
 const getRunnersPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 const getSolutionParameters = (state) => state.solution?.current?.data?.parameters;
 const getSolutionRunTemplates = (state) => state.solution?.current?.data?.runTemplates;
+const getWorkspace = (state) => state.workspace?.current?.data;
 
 const filterVisibleRunners = (runners) =>
   runners.filter(
@@ -25,10 +25,10 @@ const filterVisibleRunners = (runners) =>
 
 export function* getAllRunners(organizationId, workspaceId) {
   const userEmail = yield select(getUserEmail);
-  const userId = yield select(getUserId);
   const runTemplates = yield select(getSolutionRunTemplates);
   const runnersPermissionsMapping = yield select(getRunnersPermissionsMapping);
   const solutionParameters = yield select(getSolutionParameters);
+  const workspace = yield select(getWorkspace);
 
   yield put(setReducerStatus({ status: STATUSES.LOADING }));
 
@@ -42,8 +42,9 @@ export function* getAllRunners(organizationId, workspaceId) {
     throw error;
   }
 
+  const workspaceGroups = workspace?.groups;
   data.forEach((runner) =>
-    RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, userId, runnersPermissionsMapping)
+    RunnersUtils.patchRunnerWithCurrentUserPermissions(runner, userEmail, runnersPermissionsMapping, workspaceGroups)
   );
 
   const filteredRunners = filterVisibleRunners(data);

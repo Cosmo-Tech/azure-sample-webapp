@@ -12,7 +12,6 @@ import { setAllWorkspaces } from '../reducers';
 const WORKSPACES_IDS_FILTER = ConfigService.getParameterValue('WORKSPACES_IDS_FILTER');
 
 const getUserEmail = (state) => state.auth.userEmail;
-const getUserId = (state) => state.auth.userId;
 const getWorkspacesPermissionsMapping = (state) => state.application.permissionsMapping.workspace;
 
 const keepOnlyReadableWorkspaces = (workspaces) => {
@@ -30,22 +29,24 @@ const keepOnlyReadableWorkspaces = (workspaces) => {
 
 export function* getAllWorkspaces(organizationId) {
   const userEmail = yield select(getUserEmail);
-  const userId = yield select(getUserId);
   const workspacesPermissionsMapping = yield select(getWorkspacesPermissionsMapping);
 
   const { data } = yield call(Api.Workspaces.listWorkspaces, organizationId);
   WorkspacesUtils.patchWorkspacesIfLocalConfigExists(data);
-  data.forEach((workspace) => {
-    workspace.users = SecurityUtils.getUsersIdsFromACL(workspace?.security?.accessControlList ?? []);
-    WorkspacesUtils.patchWorkspaceWithCurrentUserPermissions(
-      workspace,
-      userEmail,
-      userId,
-      workspacesPermissionsMapping
+  for (const workspace of data) {
+    const { data: membersAndGroups } = yield call(Api.Workspaces.getWorkspaceMembers, organizationId, workspace.id);
+
+    const { users, groups } = SecurityUtils.getResourceUsersAndGroups(
+      workspace?.security?.accessControlList,
+      membersAndGroups
     );
+    workspace.users = users;
+    workspace.groups = groups;
+
+    WorkspacesUtils.patchWorkspaceWithCurrentUserPermissions(workspace, userEmail, workspacesPermissionsMapping);
     WorkspacesUtils.patchWorkspaceWithDatasetManagerConfiguration(workspace);
     WorkspacesUtils.addTranslationLabels(workspace);
-  });
+  }
 
   yield put(setAllWorkspaces({ list: keepOnlyReadableWorkspaces(data), status: STATUSES.SUCCESS }));
 }

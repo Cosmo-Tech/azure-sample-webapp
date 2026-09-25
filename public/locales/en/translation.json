@@ -489,7 +489,8 @@
           "select": {
             "addPeople": "Add people",
             "userSelected": "Selected user",
-            "disabledUserTooltip": "This user does not have access to the scenario dataset \"{{restrictedDataset}}\". Please share this dataset with them first, or ask the dataset owner to do it."
+            "disabledUserTooltip": "This user does not have access to the scenario dataset \"{{restrictedDataset}}\". Please share this dataset with them first, or ask the dataset owner to do it.",
+            "disabledGroupTooltip": "This group does not have access to the scenario dataset \"{{restrictedDataset}}\". Please share this dataset with the group first, or ask the dataset owner to do it."
           },
           "editor": {
             "usersAccess": "Users access",

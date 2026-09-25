@@ -12,18 +12,18 @@ import { RUNNER_ACTIONS_KEY } from '../constants';
 import { setCurrentSimulationRunner, setValidationStatus } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
-const getUserId = (state) => state.auth.userId;
 const getRunnersPermissionsMapping = (state) => state.application.permissionsMapping.runner;
 const getSolutionParameters = (state) => state.solution?.current?.data?.parameters;
 const getRunStatuses = (state) => state.runner.runDetails;
+const getWorkspace = (state) => state.workspace?.current?.data;
 
 export function* getRunner(action) {
   try {
     const userEmail = yield select(getUserEmail);
-    const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnersPermissionsMapping);
     const solutionParameters = yield select(getSolutionParameters);
     const runDetails = yield select(getRunStatuses) ?? [];
+    const workspace = yield select(getWorkspace);
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runnerId = action.runnerId;
@@ -36,7 +36,7 @@ export function* getRunner(action) {
 
     RunnersUtils.patchRunnerParameterValues(solutionParameters, data.parametersValues);
     data.parametersValues = ApiUtils.formatParametersFromApi(data.parametersValues);
-    RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, userId, runnersPermissionsMapping);
+    RunnersUtils.patchRunnerWithCurrentUserPermissions(data, userEmail, runnersPermissionsMapping, workspace?.groups);
 
     if (!data.security.currentUserPermissions.includes(ACL_PERMISSIONS.RUNNER.READ)) {
       const err = new Error(t('commoncomponents.banner.openScenario', "Scenario can't be opened"));

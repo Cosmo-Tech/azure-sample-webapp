@@ -13,8 +13,8 @@ import { addSimulationRunner, setCurrentSimulationRunner } from '../reducers';
 
 const getUserEmail = (state) => state.auth.userEmail;
 const getUserName = (state) => state.auth.userName;
-const getUserId = (state) => state.auth.userId;
 const getRunnerPermissionsMapping = (state) => state.application.permissionsMapping.runner;
+const getWorkspace = (state) => state.workspace?.current?.data;
 
 export function* createSimulationRunner(action) {
   try {
@@ -22,8 +22,8 @@ export function* createSimulationRunner(action) {
 
     const userEmail = yield select(getUserEmail);
     const ownerName = yield select(getUserName);
-    const userId = yield select(getUserId);
     const runnersPermissionsMapping = yield select(getRunnerPermissionsMapping);
+    const workspace = yield select(getWorkspace);
     const organizationId = action.organizationId;
     const workspaceId = action.workspaceId;
     const runner = action.runner;
@@ -51,7 +51,12 @@ export function* createSimulationRunner(action) {
     }
 
     createdRunner.parametersValues = ApiUtils.formatParametersFromApi(createdRunner.parametersValues);
-    RunnersUtils.patchRunnerWithCurrentUserPermissions(createdRunner, userEmail, userId, runnersPermissionsMapping);
+    RunnersUtils.patchRunnerWithCurrentUserPermissions(
+      createdRunner,
+      userEmail,
+      runnersPermissionsMapping,
+      workspace?.groups
+    );
     yield put(addSimulationRunner({ data: createdRunner }));
     yield put(setCurrentSimulationRunner({ status: STATUSES.SUCCESS, runnerId: createdRunner.id }));
   } catch (error) {
