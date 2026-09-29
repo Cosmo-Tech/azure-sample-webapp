@@ -8,7 +8,10 @@ import { SingleSelect } from '@cosmotech/ui';
 import { useSortedScenarioList } from '../../../../hooks/ScenarioListHooks';
 import { useCurrentSimulationRunnerId } from '../../../../state/runner/hooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
-import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
+import {
+  PARAMETER_CONTEXT_VIEWS,
+  PARAMETER_CONTEXT_WIDTH,
+} from '../../../../utils/scenarioParameters/ParameterContext';
 
 const GRID_ITEM_PROPS_MAPPING = {
   [PARAMETER_CONTEXT_WIDTH.SMALL]: { size: 12, sx: { pt: 2 } },
@@ -24,22 +27,22 @@ export const ScenarioSelect = ({
   error,
 }) => {
   const { t } = useTranslation();
-  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
-
   const scenarioList = useSortedScenarioList();
   const currentScenarioId = useCurrentSimulationRunnerId();
+
+  const isDatasetManagerView = context?.view === PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER;
   const runTemplateFilter = ConfigUtils.getParameterAttribute(parameterData, 'runTemplateFilter');
-
   const mappedScenarioList = useMemo(() => {
-    const filteredScenarioList =
-      runTemplateFilter == null || runTemplateFilter?.length === 0
-        ? scenarioList
-        : scenarioList.filter((scenario) => {
-            return runTemplateFilter.includes(scenario.runTemplateId) && scenario.id !== currentScenarioId;
-          });
+    let filteredScenarios = scenarioList;
 
-    return filteredScenarioList.map((scenario) => ({ key: scenario.id, label: scenario.name }));
-  }, [runTemplateFilter, scenarioList, currentScenarioId]);
+    if (runTemplateFilter != null && runTemplateFilter.length !== 0)
+      filteredScenarios = filteredScenarios.filter((scenario) => runTemplateFilter.includes(scenario.runTemplateId));
+
+    if (!isDatasetManagerView)
+      filteredScenarios = filteredScenarios.filter((scenario) => scenario.id !== currentScenarioId);
+
+    return filteredScenarios.map((scenario) => ({ key: scenario.id, label: scenario.name }));
+  }, [isDatasetManagerView, runTemplateFilter, scenarioList, currentScenarioId]);
 
   const labels = useMemo(() => {
     return {
@@ -50,6 +53,7 @@ export const ScenarioSelect = ({
   }, [t, parameterData.id]);
   const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
+  const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
   return (
     <Grid {...gridItemProps}>
       <SingleSelect
