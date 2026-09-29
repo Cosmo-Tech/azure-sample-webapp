@@ -39,5 +39,5 @@ data:
 
 ## Other options
 
-- `webApp.options.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `true` the
+- `additionalData.webapp.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `true` the
   warning frame around scenario results in the Scenario view will be disabled (default value is `false`)

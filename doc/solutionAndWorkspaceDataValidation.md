@@ -16,7 +16,7 @@ If your solution or workspace configuration contains some customized options, yo
 
 - options in `parameters` section of the solution must be enumerated in `CUSTOM_SCENARIO_PARAMETERS_OPTIONS` array in [src/utils/schemas/custom/customSolutionOptions.js](../src/utils/schemas/custom/customSolutionOptions.js)
 - options in `parameterGroups` section of the solution must be enumerated in `CUSTOM_PARAMETER_GROUPS_OPTIONS` array in [src/utils/schemas/custom/customSolutionOptions.js](../src/utils/schemas/custom/customSolutionOptions.js)
-- options in `webApp` section of the workspace configuration must be enumerated in `CUSTOM_WEB_APP_OPTIONS` array in [src/utils/schemas/custom/customWorkspaceOptions.js](../src/utils/schemas/custom/customWorkspaceOptions.js)
+- options in `additionalData.webapp` section of the workspace configuration must be enumerated in `CUSTOM_WEB_APP_OPTIONS` array in [src/utils/schemas/custom/customWorkspaceOptions.js](../src/utils/schemas/custom/customWorkspaceOptions.js)
 
 Example:
 
