@@ -12,6 +12,29 @@ The following pages of the webapp depend on the workspace configuration:
 - Dashboards view (see documentation [here](powerBI.md))
 - Digital Twin view (see documentation [here](instanceVisualization.md))
 
+## Solution configuration
+
+Whether your project has several workspaces using the same solution, or your solution contains more logic than you want
+to expose in the webapp, you might want to customize some elements of the solution **for each workspace**.
+
+In your workspace configuration, you can define `additionalData.webapp.solution.runTemplateFilter` to
+**filter which run templates are listed** when users create new scenarios in the webapp. The value for this option
+must be a **list** containing the **ids of the run templates** you want to show.
+
+Example:
+
+```yaml
+additionalData:
+  webapp:
+    solution:
+      runTemplateFilter:
+        - 'full_demo'
+        - 'sim_no_parameters'
+        - 'sim_mock_parameters'
+        - 'dynamic_values_customers'
+        - 'standalone'
+```
+
 ## Help menu configuration
 
 The "_Help_" menu contains information related to webapp functioning and maintenance. It can be found in the top-right
