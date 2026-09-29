@@ -39,5 +39,6 @@ data:
 
 ## Other options
 
-- `additionalData.webapp.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `true` the
-  warning frame around scenario results in the Scenario view will be disabled (default value is `false`)
+- `additionalData.webapp.disableOutOfSyncWarningBanner` (optional) boolean value; when set to `false` a warning frame
+  around scenario results will be displayed in the Scenario view when the parameters haven been changed after the last
+  scenario run (since v7.0.0, the default value for this option is `true`)
