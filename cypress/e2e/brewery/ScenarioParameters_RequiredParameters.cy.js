@@ -163,7 +163,9 @@ describe('ScenarioParameters - Required Option - requiredEnabledInConfig', () =>
     ScenarioParameters.getSaveButton().should('not.exist');
 
     ScenarioParameters.getParameterInput('single-select-text-scenarioRequiredTrue').click();
-    cy.get(`[data-cy=single-select-option-${SCENARIO_REQUIRED_TRUE_SCENARIO.id}]`).click();
+    // Check that the scenario currently selected in the Scenario view is not listed
+    cy.get(`[data-cy=single-select-option-${SCENARIO_REQUIRED_TRUE_SCENARIO.id}]`).should('not.exist');
+    cy.get(`[data-cy=single-select-option-${INT_REQUIRED_TRUE_SCENARIO.id}]`).click();
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioParameters.getSaveButton().should('exist').should('not.be.disabled');
 
@@ -335,7 +337,7 @@ describe('ScenarioParameters - Required Option - notRequiredByDefault', () => {
   beforeEach(() => {
     Login.login();
     stub.setSolutions([SOLUTION]);
-    stub.setRunners([NOT_REQUIRED_BY_DEFAULT_SCENARIO]);
+    stub.setRunners([NOT_REQUIRED_BY_DEFAULT_SCENARIO, INT_REQUIRED_TRUE_SCENARIO]);
   });
   afterEach(() => stub.reset());
   after(() => stub.stop());
@@ -347,7 +349,10 @@ describe('ScenarioParameters - Required Option - notRequiredByDefault', () => {
     ScenarioParameters.getSaveButton().should('not.exist');
 
     ScenarioParameters.getParameterInput('single-select-text-scenarioRequiredUndefined').click({ force: true });
-    cy.get(`[data-cy=single-select-option-${NOT_REQUIRED_BY_DEFAULT_SCENARIO.id}]`).click();
+    // Check that the scenario currently selected in the Scenario view is not listed
+    cy.get(`[data-cy=single-select-option-${NOT_REQUIRED_BY_DEFAULT_SCENARIO.id}]`).should('not.exist');
+    cy.get(`[data-cy=single-select-option-${INT_REQUIRED_TRUE_SCENARIO.id}]`).click();
+
     ScenarioParameters.getLaunchButton().should('not.be.disabled');
     ScenarioParameters.getSaveButton().should('exist').should('not.be.disabled');
     ScenarioParameters.getParameterInput('single-select-text-scenarioRequiredUndefined').click({ force: true }).clear();
