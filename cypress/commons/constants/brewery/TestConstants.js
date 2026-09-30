@@ -62,8 +62,8 @@ export const BASIC_PARAMETERS_CONST = {
 };
 
 export const DATASET = {
-  BREWERY_ADT: 'Brewery dataset - Amsterdam',
-  BREWERY_STORAGE: 'Brewery dataset - Reference',
+  BREWERY_ADT: 'Demo Brewery Storage reference',
+  BREWERY_STORAGE: 'Demo Brewery Storage reference',
 };
 
 export const RUN_TEMPLATE = {
