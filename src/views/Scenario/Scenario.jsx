@@ -13,6 +13,7 @@ import {
   CreateScenarioButton,
   CurrentScenarioSelector,
 } from '../../components';
+import { ScenarioRunStateChip } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { RUNNER_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
@@ -240,9 +241,9 @@ const Scenario = () => {
     <FormProvider {...methods} key={`form-${currentScenarioData?.id}`}>
       <BackdropLoadingScenario />
       <div data-cy="scenario-view" style={{ paddingTop: '16px', paddingLeft: '8px', paddingRight: '8px' }}>
-        <Grid container spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+        <Grid container size={12} spacing={2} sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <Grid size={4}>
-            <Stack>
+            <Stack sx={{ width: '100%' }}>
               <CurrentScenarioSelector disabled={isDirty} renderInputToolTip={currentScenarioRenderInputTooltip} />
               {currentScenarioData && (
                 <Stack direction="row" sx={{ justifyContent: 'center' }}>
@@ -282,7 +283,10 @@ const Scenario = () => {
               )}
             </Stack>
           </Grid>
-          <Grid container sx={{ justifyContent: 'flex-end' }} size={3}>
+          <Grid container sx={{ justifyContent: 'flex-start' }} size={2}>
+            <ScenarioRunStateChip scenarioId={currentScenarioData?.id} />
+          </Grid>
+          <Grid container sx={{ justifyContent: 'flex-end' }} size={6}>
             <Grid sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
               <CreateScenarioButton disabled={isDirty} onScenarioCreated={onScenarioCreated} />
               <ShareScenarioButton scenarioId={currentScenarioData?.id} />
