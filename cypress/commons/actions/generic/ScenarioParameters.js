@@ -175,6 +175,7 @@ function save(options = {}) {
   aliases.push(api.interceptUpdateSimulationRunner(options?.updateOptions));
 
   getSaveButton().should('not.be.disabled').click();
+  Scenarios.getScenarioBackdrop(10).should('be.visible');
   if (options?.wait !== false) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     api.waitAliases(aliases, { timeout: 10 * 1000 });
