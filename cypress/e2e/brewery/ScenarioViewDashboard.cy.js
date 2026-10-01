@@ -69,7 +69,10 @@ describe('Scenario view PowerBI report', () => {
     // run date
     const fakeLastUpdate = new Date();
     fakeLastUpdate.setMinutes(fakeLastUpdate.getMinutes() + 2);
-    const saveOptions = { updateOptions: { customScenarioPatch: { lastUpdate: fakeLastUpdate.toISOString() } } };
+    const saveOptions = {
+      skipBackdropWait: true,
+      updateOptions: { customScenarioPatch: { lastUpdate: fakeLastUpdate.toISOString() } },
+    };
     ScenarioParameters.save(saveOptions);
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     Scenarios.checkIfReportIsUnsynced(true);
@@ -97,7 +100,7 @@ describe('Scenario view PowerBI report', () => {
 
     BreweryParameters.getCurrencyValueInput().clear().type(CURRENCY_VALUE_TO_UPDATE);
     Scenarios.checkIfReportIsUnsynced(false);
-    ScenarioParameters.save();
+    ScenarioParameters.save({ skipBackdropWait: true });
     Scenarios.checkIfReportIsUnsynced(false);
   });
 });
