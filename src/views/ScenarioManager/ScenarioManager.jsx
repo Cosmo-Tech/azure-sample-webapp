@@ -9,10 +9,12 @@ const ScenarioManager = () => {
   const { runnersListStatus } = useScenarioManager();
 
   return (
-    <div style={{ position: 'fixed', margin: 'auto', height: '100%', width: '100%' }} data-cy="scenario-manager-view">
+    <>
       <LoadingBackdrop status={runnersListStatus} />
-      <ScenarioManagerTable />
-    </div>
+      <div style={{ position: 'fixed', margin: 'auto', height: '100%', width: '100%' }} data-cy="scenario-manager-view">
+        <ScenarioManagerTable />
+      </div>
+    </>
   );
 };
 
