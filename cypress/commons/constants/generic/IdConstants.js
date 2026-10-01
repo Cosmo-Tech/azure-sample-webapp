@@ -97,6 +97,7 @@ export const GENERIC_SELECTORS = {
       failed: '[data-cy=scenario-status-failed]',
       unknown: '[data-cy=scenario-status-unknown]',
     },
+    runStateChip: '[data-cy=run-state-chip-$STATUS-$SCENARIOID]',
     validationStatusLoadingSpinner: '[data-cy=scenario-validation-status-loading-spinner]',
     scenarioViewRedirect: '[data-cy=scenario-view-redirect]',
     validationStatusChip: '[data-cy=scenario-validation-status]',

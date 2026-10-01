@@ -29,6 +29,11 @@ function getScenarioValidationStatusChip() {
 function getScenarioValidationStatusChipDeleteIcon() {
   return getScenarioValidationStatusChip().find(GENERIC_SELECTORS.scenario.validationStatusChipDeleteIcon);
 }
+function getScenarioRunStateChip(scenarioId, status) {
+  return cy.get(
+    GENERIC_SELECTORS.scenario.runStateChip.replace('$STATUS', status.toLowerCase()).replace('$SCENARIOID', scenarioId)
+  );
+}
 function getScenarioValidationStatusLoadingSpinner(timeout = 5) {
   return cy.get(GENERIC_SELECTORS.scenario.validationStatusLoadingSpinner, { timeout: timeout * 1000 });
 }
@@ -267,6 +272,7 @@ export const Scenarios = {
   getScenarioBackdropSavingText,
   getScenarioValidationStatusChip,
   getScenarioValidationStatusChipDeleteIcon,
+  getScenarioRunStateChip,
   getScenarioValidationStatusLoadingSpinner,
   getScenarioValidateButton,
   getScenarioRejectButton,
