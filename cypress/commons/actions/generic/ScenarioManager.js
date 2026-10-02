@@ -8,7 +8,10 @@ const getScenarioManagerView = () => {
 };
 
 const switchToScenarioManager = (options) => {
-  // eslint-disable-next-line cypress/no-force -- Workaround for MUI hidden elements not correctly ignored by cypress
+  /*
+  eslint-disable-next-line cypress/no-force,sonarjs/no-forced-browser-interaction -- Workaround for MUI hidden
+  elements not correctly ignored by cypress
+  */
   cy.get(GENERIC_SELECTORS.scenario.manager.tabName).click({ force: true, ...options });
 };
 
