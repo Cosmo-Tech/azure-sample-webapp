@@ -35,7 +35,13 @@ export default [
     ],
   },
   ...neostandardConfig,
-  ...compat.extends('plugin:react/recommended', 'prettier', 'plugin:prettier/recommended', 'plugin:jest/recommended', "plugin:sonarjs/recommended-legacy"),
+  ...compat.extends(
+    'plugin:react/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:jest/recommended',
+    'plugin:sonarjs/recommended-legacy'
+  ),
 
   cypress.configs.recommended,
   cypress.configs.globals,
