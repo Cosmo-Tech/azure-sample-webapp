@@ -262,11 +262,7 @@ const getParametersValuesForReset = (parameterIds, defaultParametersValues, runn
       const datasetPart = RunnersUtils.findParameterInDatasetParts(parameterId, runner?.datasets?.parameters);
       if (datasetPart !== undefined)
         parameterValues[parameterId] = forgeFileParameterFromDatasetPart(datasetPart, varType, subType);
-      else {
-        parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
-        // FIXME: handle default values
-        // else parameterValues[parameterId] = defaultParametersValues?.[parameterId];
-      }
+      else parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
     } else {
       const runnerParameter = runner.parametersValues?.find((parameter) => parameter.parameterId === parameterId);
       parameterValues[parameterId] = runnerParameter?.value ?? defaultParametersValues?.[parameterId];
