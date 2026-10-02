@@ -48,6 +48,52 @@ const _addResourcesToi18next = (resources) => {
   langs.forEach((lang) => i18next.addResources(lang, I18N_NAMESPACE, resources[lang]));
 };
 
+const _addLabels = (addResource, labels, key) => {
+  for (const lang in labels) addResource(lang, key, labels[lang]);
+};
+
+const _addKpiCardsLabels = (addResource, kpiCards) => {
+  for (const indicator of kpiCards ?? []) {
+    if (indicator.id == null || indicator.queryId == null) continue;
+    _addLabels(addResource, indicator.name, getDatasetGraphIndicatorNameTranslationKey(indicator));
+  }
+};
+
+const _addCategoryKpisLabels = (addResource, category) => {
+  for (const kpi of category.kpis ?? []) {
+    if (kpi.id == null) {
+      console.warn(`Found KPI without id in category "${category.id}"`);
+      continue;
+    }
+    if (kpi.queryId == null) {
+      console.warn(`Found KPI without queryId in category "${category.id}"`);
+      continue;
+    }
+    _addLabels(addResource, kpi.name, getDatasetCategoryKpiNameTranslationKey(category.id, kpi));
+  }
+};
+
+const _addCategoriesLabels = (addResource, categories) => {
+  for (const category of categories ?? []) {
+    if (category.id == null) {
+      console.warn(`Found category without id in dataset manager configuration`);
+      continue;
+    }
+    _addLabels(addResource, category.name, getDatasetCategoryNameTranslationKey(category.id));
+    _addLabels(addResource, category.description, getDatasetCategoryDescriptionTranslationKey(category.id));
+    _addCategoryKpisLabels(addResource, category);
+  }
+};
+
+const _addDatasourceHelpersLabels = (addResource, helpers) => {
+  for (const datasource of helpers ?? []) {
+    for (const parameter of datasource.parameters ?? []) {
+      const key = getParameterTooltipTranslationKey(`${datasource.id}.${parameter.id}`); // Using "idForTranslationKey"
+      _addLabels(addResource, parameter.tooltipText, key);
+    }
+  }
+};
+
 const addTranslationOfDatasetManagerLabels = (datasetManager) => {
   const resources = {};
   const _addResource = (lang, key, value) => {
@@ -55,53 +101,9 @@ const addTranslationOfDatasetManagerLabels = (datasetManager) => {
     resources[lang][key] = value;
   };
 
-  for (const indicator of datasetManager?.kpiCards ?? []) {
-    if (indicator.id == null || indicator.queryId == null) continue;
-    for (const lang in indicator.name) {
-      const key = getDatasetGraphIndicatorNameTranslationKey(indicator);
-      _addResource(lang, key, indicator.name[lang]);
-    }
-  }
-
-  for (const category of datasetManager?.categories ?? []) {
-    if (category.id == null) {
-      console.warn(`Found category without id in dataset manager configuration`);
-      continue;
-    }
-    for (const lang in category.name) {
-      const key = getDatasetCategoryNameTranslationKey(category.id);
-      _addResource(lang, key, category.name[lang]);
-    }
-    for (const lang in category.description) {
-      const key = getDatasetCategoryDescriptionTranslationKey(category.id);
-      _addResource(lang, key, category.description[lang]);
-    }
-    for (const kpi of category?.kpis ?? []) {
-      if (kpi.id == null) {
-        console.warn(`Found KPI without id in category "${category.id}"`);
-        continue;
-      }
-      if (kpi.queryId == null) {
-        console.warn(`Found KPI without queryId in category "${category.id}"`);
-        continue;
-      }
-      for (const lang in kpi.name) {
-        const key = getDatasetCategoryKpiNameTranslationKey(category.id, kpi);
-        _addResource(lang, key, kpi.name[lang]);
-      }
-    }
-  }
-
-  for (const datasource of datasetManager?.datasourceParameterHelpers ?? []) {
-    const sourceType = datasource.id;
-    for (const parameter of datasource?.parameters ?? []) {
-      const parameterId = parameter.id;
-      for (const lang in parameter?.tooltipText) {
-        const key = getParameterTooltipTranslationKey(`${sourceType}.${parameterId}`); // Using "idForTranslationKey"
-        _addResource(lang, key, parameter.tooltipText[lang]);
-      }
-    }
-  }
+  _addKpiCardsLabels(_addResource, datasetManager?.kpiCards);
+  _addCategoriesLabels(_addResource, datasetManager?.categories);
+  _addDatasourceHelpersLabels(_addResource, datasetManager?.datasourceParameterHelpers);
 
   _addResourcesToi18next(resources);
 };
@@ -119,6 +121,17 @@ const addTranslationParametersGroupsLabels = (parametersGroups) => {
   _addResourcesToi18next(resources);
 };
 
+const _addEnumValuesLabels = (addResource, parameter) => {
+  const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+  for (const enumValue of enumValues) {
+    if (typeof enumValue.value === 'object') {
+      _addLabels(addResource, enumValue.value, getParameterEnumValueTranslationKey(parameter.id, enumValue.key));
+    }
+    const tooltipKey = getParameterEnumValueTooltipTranslationKey(parameter.id, enumValue.key);
+    _addLabels(addResource, enumValue.tooltipText, tooltipKey);
+  }
+};
+
 const addTranslationParametersLabels = (parameters) => {
   const resources = {};
   const _addResource = (lang, key, value) => {
@@ -127,31 +140,10 @@ const addTranslationParametersLabels = (parameters) => {
   };
 
   for (const parameter of parameters) {
-    for (const lang in parameter.labels) {
-      const key = getParameterTranslationKey(parameter.id);
-      _addResource(lang, key, parameter.labels[lang]);
-    }
-
+    _addLabels(_addResource, parameter.labels, getParameterTranslationKey(parameter.id));
     const parameterTooltip = ConfigUtils.getParameterAttribute(parameter, 'tooltipText');
-    for (const lang in parameterTooltip) {
-      const key = getParameterTooltipTranslationKey(parameter.id);
-      _addResource(lang, key, parameterTooltip[lang]);
-    }
-
-    const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-    for (const enumValue of enumValues) {
-      if (typeof enumValue.value === 'object') {
-        for (const lang in enumValue.value) {
-          const key = getParameterEnumValueTranslationKey(parameter.id, enumValue.key);
-          _addResource(lang, key, enumValue.value[lang]);
-        }
-      }
-
-      for (const lang in enumValue.tooltipText) {
-        const key = getParameterEnumValueTooltipTranslationKey(parameter.id, enumValue.key);
-        _addResource(lang, key, enumValue.tooltipText[lang]);
-      }
-    }
+    _addLabels(_addResource, parameterTooltip, getParameterTooltipTranslationKey(parameter.id));
+    _addEnumValuesLabels(_addResource, parameter);
   }
 
   _addResourcesToi18next(resources);
