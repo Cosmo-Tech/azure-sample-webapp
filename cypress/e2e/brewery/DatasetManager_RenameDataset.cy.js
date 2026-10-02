@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 import { DatasetManager, Login } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
+import { WORKSPACE } from '../../fixtures/stubbing/DatasetManager';
 import { EDITABLE_DATASET, NON_EDITABLE_DATASET } from '../../fixtures/stubbing/RenameDataset';
+import { DEFAULT_ORGANIZATION } from '../../fixtures/stubbing/default';
 
 describe('rename datasets in Dataset Manager view', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([EDITABLE_DATASET, NON_EDITABLE_DATASET]);
   });

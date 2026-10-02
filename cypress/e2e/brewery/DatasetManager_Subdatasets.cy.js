@@ -4,8 +4,8 @@ import rfdc from 'rfdc';
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
 import { apiUtils } from '../../commons/utils';
-import { DATASETS, WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
-import { DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
+import { DATASETS, WORKSPACE } from '../../fixtures/stubbing/DatasetManager';
+import { DEFAULT_ORGANIZATION, DEFAULT_SOLUTION } from '../../fixtures/stubbing/default';
 
 const clone = rfdc();
 
@@ -33,7 +33,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
     expect(subdatasourceCount).to.be.at.least(1);
 
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
   });
@@ -55,7 +55,7 @@ describe('Subdatasources in subdataset creation wizard when no whitelist is defi
 describe('Subdatasources in subdataset creation wizard when whitelist is defined', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE_WITH_SOURCE_FILTERS]);
     stub.setDatasets([...DATASETS]);
   });
@@ -77,7 +77,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is defined
 describe('Subdatasources in subdataset creation wizard when whitelist is empty', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE_WITH_EMPTY_FILTERS]);
     stub.setDatasets([...DATASETS]);
   });
@@ -96,7 +96,7 @@ describe('Subdatasources in subdataset creation wizard when whitelist is empty',
 describe('Subdatasets creation', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
   });
