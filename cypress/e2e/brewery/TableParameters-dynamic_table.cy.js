@@ -26,10 +26,10 @@ const runOptions = { runDuration: 0, finalStatus: 'Successful', expectedPollsCou
 
 const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
   ScenarioSelector.selectScenario(scenario.name, scenario.id);
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  // eslint-disable-next-line cypress/no-unnecessary-waiting,sonarjs/no-fixed-wait-in-tests
   cy.wait(100); // Work-around for electron browser
   cy.url({ timeout: 3000 }).should('include', `/scenario/${scenario.id}`);
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  // eslint-disable-next-line cypress/no-unnecessary-waiting,sonarjs/no-fixed-wait-in-tests
   cy.wait(100); // Work-around for electron browser
 };
 

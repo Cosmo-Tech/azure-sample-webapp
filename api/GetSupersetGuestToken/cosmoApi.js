@@ -5,6 +5,7 @@ const { getConfigValue } = require('../common/config');
 const { ServiceAccountError } = require('../common/errors');
 
 const getWorkspace = async (authorizationHeader, organizationId, workspaceId) => {
+  // eslint-disable-next-line sonarjs/super-linear-regex -- config value is trusted input
   const apiURL = getConfigValue('COSMOTECH_API_URL').replace(/\/+$/, ''); // Remove trailing slashes from URL
   const getWorkspaceURL = `${apiURL}/organizations/${organizationId}/workspaces/${workspaceId}`;
   const headers = { 'Content-Type': 'application/json', Authorization: authorizationHeader };

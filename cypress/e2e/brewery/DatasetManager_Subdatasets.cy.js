@@ -14,9 +14,6 @@ const datasources = runTemplates.filter((runTemplate) => runTemplate.tags.includ
 const datasourceCount = datasources.length;
 const subdatasources = runTemplates.filter((runTemplate) => runTemplate.tags.includes('subdatasource'));
 const subdatasourceCount = subdatasources.length;
-// Check fixtures data are not empty
-expect(datasourceCount).to.be.at.least(1);
-expect(subdatasourceCount).to.be.at.least(1);
 
 const WORKSPACE_WITH_SOURCE_FILTERS = clone(WORKSPACE);
 WORKSPACE_WITH_SOURCE_FILTERS.additionalData.webapp.datasetManager.subdatasourceFilter = [
@@ -31,6 +28,10 @@ const forgeSubdatasetNameFromParentName = (parentName) => `${parentName} (subdat
 
 describe('Subdatasources in subdataset creation wizard when no whitelist is defined', () => {
   before(() => {
+    // Check fixtures data are not empty
+    expect(datasourceCount).to.be.at.least(1);
+    expect(subdatasourceCount).to.be.at.least(1);
+
     stub.start();
     stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
     stub.setWorkspaces([WORKSPACE]);

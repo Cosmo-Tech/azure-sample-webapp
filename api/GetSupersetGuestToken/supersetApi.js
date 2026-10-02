@@ -32,6 +32,7 @@ const checkSupersetResponse = async (res, hintsByStatusCode = {}, errorMessageMa
 };
 
 const getSupersetAdminToken = async () => {
+  // eslint-disable-next-line sonarjs/super-linear-regex -- config value is trusted input
   const apiURL = getConfigValue('SUPERSET_API_URL').replace(/\/+$/, ''); // Remove trailing slashes from URL
   const queryURL = `${apiURL}/security/login`;
 
@@ -52,6 +53,7 @@ const getSupersetAdminToken = async () => {
 };
 
 const getSupersetGuestToken = async (adminToken, dashboardIds) => {
+  // eslint-disable-next-line sonarjs/super-linear-regex -- config value is trusted input
   const apiURL = getConfigValue('SUPERSET_API_URL').replace(/\/+$/, ''); // Remove trailing slashes from URL
   const queryURL = `${apiURL}/security/guest_token`;
 

@@ -49,13 +49,11 @@ export const filterTabsForCurrentWorkspace = (tabs, currentWorkspaceData) => {
   const hideDashboardsView = !ConfigUtils.isResultsDisplayEnabledInWorkspace(currentWorkspaceData);
 
   return tabs.filter((tab) => {
-    if (
+    const isTabHidden =
       (hideInstanceView && tab.key === 'tabs.instance.key') ||
       (hideDatasetManager && tab.key === 'tabs.datasetmanager.key') ||
-      (hideDashboardsView && tab.key === 'tabs.dashboards.key')
-    )
-      return false;
-    return true;
+      (hideDashboardsView && tab.key === 'tabs.dashboards.key');
+    return !isTabHidden;
   });
 };
 

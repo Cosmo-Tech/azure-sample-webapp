@@ -29,7 +29,7 @@ const getFormDataFromRequest = (req) => {
   return JSON.parse(serializedFormData);
 };
 
-// FIXME: the option shouldRenameFileOnUpload may no longer be necessary since v7, because the dataset part can hold
+// TODO: the option shouldRenameFileOnUpload may no longer be necessary since v7, because the dataset part can hold
 // both the file name (sourceName) and the parameter id (name)
 describe('Management of file names for scenario parameters of type file', () => {
   before(() => {

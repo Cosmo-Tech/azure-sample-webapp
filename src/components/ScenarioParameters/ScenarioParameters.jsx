@@ -126,7 +126,6 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
                 <Typography>{t('genericcomponent.text.scenario.parameters.title', 'Scenario parameters')}</Typography>
               </Grid>
               <Grid container>
-                {/* FIXME: add PLATFORM.ADMIN bypass */}
                 <ScenarioActions />
               </Grid>
             </Grid>

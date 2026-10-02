@@ -171,8 +171,7 @@ const isInstanceViewConfigValid = (instanceView) => {
 
 const isDatasetManagerEnabledInWorkspace = (workspace) => {
   const datasetManagerConfig = workspace?.additionalData?.webapp?.datasetManager;
-  if (datasetManagerConfig == null) return false;
-  return true;
+  return datasetManagerConfig != null;
 };
 
 const isResultsDisplayEnabledInWorkspace = (workspace) => {

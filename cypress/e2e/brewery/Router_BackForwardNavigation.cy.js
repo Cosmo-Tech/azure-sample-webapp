@@ -24,14 +24,14 @@ EXTENDED_WORKSPACES_LIST.forEach((workspace) => (workspace.additionalData.webapp
 const selectScenarioAndWaitForScenarioViewUrlUpdate = (scenario) => {
   ScenarioSelector.selectScenario(scenario.name, scenario.id);
   cy.url({ timeout: 3000 }).should('include', `/scenario/${scenario.id}`);
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  // eslint-disable-next-line cypress/no-unnecessary-waiting,sonarjs/no-fixed-wait-in-tests
   cy.wait(100); // Work-around for electron browser
 };
 
 const selectScenarioAndWaitForInstanceViewUrlUpdate = (scenario) => {
   ScenarioSelector.selectScenario(scenario.name, scenario.id);
   cy.url({ timeout: 3000 }).should('include', `/instance/${scenario.id}`);
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  // eslint-disable-next-line cypress/no-unnecessary-waiting,sonarjs/no-fixed-wait-in-tests
   cy.wait(100); // Work-around for electron browser
 };
 

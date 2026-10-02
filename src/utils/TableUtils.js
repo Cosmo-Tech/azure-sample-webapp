@@ -15,12 +15,10 @@ const getTableCellDefaultValue = (column, dateFormat) => {
       return column?.defaultValue ?? 'false';
     case 'enum':
       return column?.defaultValue ?? column?.enumValues?.[0] ?? '';
-    case 'date':
-      return column?.defaultValue
-        ? DateUtils.format(new Date(column.defaultValue), dateFormat)
-        : column?.minValue
-          ? DateUtils.format(new Date(column.minValue), dateFormat)
-          : DateUtils.format(new Date(0), dateFormat);
+    case 'date': {
+      const valueToFormat = column?.defaultValue ?? column?.minValue ?? 0;
+      return DateUtils.format(new Date(valueToFormat), dateFormat);
+    }
     default:
       return column?.defaultValue ?? 'value';
   }

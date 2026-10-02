@@ -249,7 +249,7 @@ describe('Create scenario', { keystrokeDelay: 1 }, () => {
       const numberGet = parseFloat(paramsGet.find((obj) => obj.parameterId === 'currency_value').value);
       const enumGet = paramsGet.find((obj) => obj.parameterId === 'currency').value;
       const boolGet = paramsGet.find((obj) => obj.parameterId === 'currency_used').value;
-      // FIXME: possible timezone bug here caused by "new Date" being called on non-ISO formatted date string? (the
+      // TODO: possible timezone bug here caused by "new Date" being called on non-ISO formatted date string? (the
       // input value might have a one-day offset)
       const startDateGet = utils.stringToDateInputExpectedFormat(
         new Date(paramsGet.find((obj) => obj.parameterId === 'start_date').value)

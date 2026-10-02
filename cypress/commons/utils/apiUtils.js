@@ -236,10 +236,7 @@ const interceptCreateSimulationRunner = () => {
         ...req.body,
         id: `r-${utils.randomStr(8)}`,
       };
-      if (req.body.parentId) {
-        // FIXME no stub data if GET_SCENARIOS disabled ?
-        scenario.parametersValues = stub.getRunnerById(req.body.parentId).parametersValues;
-      }
+      if (req.body.parentId) scenario.parametersValues = stub.getRunnerById(req.body.parentId).parametersValues;
 
       if (stub.isEnabledFor('GET_SCENARIOS')) {
         const user = stub.getUser();
@@ -447,7 +444,7 @@ const interceptCreateDataset = (options) => {
     if (stub.isEnabledFor('CREATE_DATASET')) {
       const dataset = {
         ...DEFAULT_DATASET,
-        ...req.body, // FIXME: do we really need this? it seems to unstructure the multipart file string into Datasets
+        ...req.body, // TODO: do we really need this? it seems to unstructure the multipart file string into Datasets
         id: datasetId,
         ...options?.customDatasetPatch,
       };

@@ -46,12 +46,12 @@ const getEnumDropdownMenu = (parameterId) => cy.get(`[data-cy=enum-input-menu-${
 // TODO: add a better data-cy selector in the UI component, the current one is "data-cy={option.key}"
 const getEnumOptions = (parameterId) => getEnumDropdownMenu(parameterId).find('[data-value^=""]');
 const getEnumOption = (parameterId, value) => getEnumDropdownMenu(parameterId).find(`[data-value=${value}]`);
-// FIXME: no value selector yet in the generic enum component
-// const checkEnumValue = (parameterId, value) => getEnumDropdownMenu(parameterId).should('value', value);
 const setEnumValue = (parameterId, value) => {
   getEnumDropdown(parameterId).click();
   getEnumOption(parameterId, value).click();
 };
+// TODO: add a better data-cy selector in the UI component (no value selector yet in the generic enum component)
+// const checkEnumValue = (parameterId, value) => getEnumDropdownMenu(parameterId).should('value', value);
 const checkEnumValue = (parameterId, value) => getEnumDropdown(parameterId).should('contain', value);
 
 const getRadioButtonGroup = (parameterId) => cy.get(`[data-cy=radio-input-${parameterId}]`);

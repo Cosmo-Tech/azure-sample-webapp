@@ -25,13 +25,10 @@ parser.add_argument('-f', '--format', {
 async function main() {
   const args = parser.parse_args();
   runAllChecks(args);
-  switch (args.target) {
-    case 'v7':
-      await v7.run(args);
-      break;
-    default:
-      console.error('Error: Unknown target version. Valid options are: ' + VALID_TARGET_VERSIONS.join(', '));
-      process.exit(1);
+  if(args.target === 'v7') await v7.run(args);
+  else {
+    console.error('Error: Unknown target version. Valid options are: ' + VALID_TARGET_VERSIONS.join(', '));
+    process.exit(1);
   }
 }
 

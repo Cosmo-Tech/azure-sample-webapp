@@ -30,7 +30,7 @@ const isFileFormatValid = (fileMIMEType) => {
   return VALID_MIME_TYPES.length === 0 || VALID_MIME_TYPES.includes(fileMIMEType);
 };
 
-// FIXME: split the "browser upload" part, the FileParameter creation (FileParameterUtils) and the state
+// TODO: split the "browser upload" part, the FileParameter creation (FileParameterUtils) and the state
 // update (component)
 const prepareToUpload = (event, setClientFileDescriptor, parameterData, options) => {
   const file = event.target.files[0];

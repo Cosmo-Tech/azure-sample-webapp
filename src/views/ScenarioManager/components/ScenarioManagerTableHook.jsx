@@ -145,8 +145,7 @@ const applyScenarioFilter = (scenarios = [], filter) => {
     for (const tag of scenario?.tags ?? []) {
       if (tag.trim().toLowerCase().includes(filter.trim().toLowerCase())) return true;
     }
-    if (scenario.id === filter.trim().toLowerCase()) return true; // Exact match only for id
-    return false;
+    return scenario.id === filter.trim().toLowerCase(); // Exact match only for id
   });
 };
 
