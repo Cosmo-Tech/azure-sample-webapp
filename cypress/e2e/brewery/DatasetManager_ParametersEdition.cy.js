@@ -3,8 +3,8 @@
 import { Login, DatasetManager } from '../../commons/actions';
 import { GENERIC_SELECTORS } from '../../commons/constants/generic/IdConstants';
 import { stub } from '../../commons/services/stubbing';
-import { ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
 import { DATASETS, RUNNERS, SOLUTION, WORKSPACE } from '../../fixtures/stubbing/DatasetManagerParametersEdition';
+import { DEFAULT_ORGANIZATION } from '../../fixtures/stubbing/default';
 
 const NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH = 'customers2.csv';
 
@@ -32,7 +32,7 @@ describe('Dataset Manager - Parameters Edition', () => {
   const ingestionOptions = { expectedPollsCount: 2, finalIngestionStatus: 'SUCCESS' };
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);

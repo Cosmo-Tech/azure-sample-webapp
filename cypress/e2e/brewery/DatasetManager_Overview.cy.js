@@ -8,8 +8,8 @@ import {
   DATASET_A_KPI_QUERIES,
   DATASET_B_KPI_QUERIES,
   DATASET_B_TABLE_DECODED_RESPONSE,
-  ORGANIZATION_WITH_DEFAULT_ROLE_USER,
 } from '../../fixtures/stubbing/DatasetManager';
+import { DEFAULT_ORGANIZATION } from '../../fixtures/stubbing/default';
 
 const DATASET_A = DATASETS[0];
 const DATASET_B = DATASETS[1];
@@ -23,7 +23,7 @@ const getTableTransport = () => cy.get(`[data-cy=table-transport]`);
 describe('Dataset manager overview works correctly', () => {
   before(() => stub.start());
   beforeEach(() => {
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
     Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });

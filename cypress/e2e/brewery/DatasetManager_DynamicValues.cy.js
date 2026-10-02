@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 import { Login, DatasetManager } from '../../commons/actions';
 import { stub } from '../../commons/services/stubbing';
-import { DATASETS, WORKSPACE, ORGANIZATION_WITH_DEFAULT_ROLE_USER } from '../../fixtures/stubbing/DatasetManager';
+import { DATASETS, WORKSPACE } from '../../fixtures/stubbing/DatasetManager';
+import { DEFAULT_ORGANIZATION } from '../../fixtures/stubbing/default';
 
 describe('Subdatasets creation', () => {
   before(() => {
     stub.start();
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS]);
   });
