@@ -24,15 +24,11 @@ describe('addTranslationLabels', () => {
 
 describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution', () => {
   test('if solution is undefined', () => {
-    const solution = undefined;
-    SolutionsUtils.addRunTemplatesParametersIdsDict(solution);
-    expect(solution).toBeUndefined();
+    expect(() => SolutionsUtils.addRunTemplatesParametersIdsDict(undefined)).not.toThrow();
   });
 
   test('if solution is null', () => {
-    const solution = null;
-    SolutionsUtils.addRunTemplatesParametersIdsDict(solution);
-    expect(solution).toBeNull();
+    expect(() => SolutionsUtils.addRunTemplatesParametersIdsDict(null)).not.toThrow();
   });
 
   test('if solution is empty', () => {
