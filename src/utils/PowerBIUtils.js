@@ -43,11 +43,8 @@ const fillChartsConfig = (chartsConfig) => {
 
 const getScenarioViewReportConfig = (reportsConfig, runTemplateId) => {
   if (!reportsConfig) return [];
-  return Array.isArray(reportsConfig)
-    ? reportsConfig
-    : runTemplateId in reportsConfig
-      ? [reportsConfig[runTemplateId]]
-      : [];
+  if (Array.isArray(reportsConfig)) return reportsConfig;
+  return runTemplateId in reportsConfig ? [reportsConfig[runTemplateId]] : [];
 };
 
 const _getReportsIdsFromDashboardsViewConfig = (reportsConfig) => reportsConfig.map((report) => report.reportId);

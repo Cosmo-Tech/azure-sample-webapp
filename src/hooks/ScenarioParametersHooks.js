@@ -107,6 +107,7 @@ export const useUpdateParameters = () => {
       updateSimulationRunnerInRedux({ runnerId: currentScenario.id, status: STATUSES.SUCCESS });
     } catch (e) {
       updateSimulationRunnerInRedux({ runnerId: currentScenario.id, status: STATUSES.ERROR });
+      console.error(e);
     }
   }, [
     addOrUpdateDatasetPartInRedux,
