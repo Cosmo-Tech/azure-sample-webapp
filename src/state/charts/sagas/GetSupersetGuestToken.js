@@ -8,14 +8,47 @@ import { CHART_ACTIONS_KEY } from '../constants';
 import { setSupersetGuestToken } from '../reducers';
 
 const REFRESH_MARGIN_MS = 45_000;
+const DEFAULT_ERROR_STATE = { data: { token: null, expiry: null }, status: STATUSES.ERROR };
 
 const getSupersetChartsConfig = (state) => state?.workspace?.current?.data?.additionalData?.webapp?.charts;
 const getOrganizationId = (state) => state?.organization?.current?.data?.id;
 const getWorkspaceId = (state) => state?.workspace?.current?.data?.id;
 
-function extractDashboardIds(chartsConfig) {
+const extractDashboardIds = (chartsConfig) => {
   const dashboards = chartsConfig?.dashboards ?? [];
   return dashboards.map((dashboard) => dashboard.id);
+};
+
+const getRetryDelay = (consecutiveErrors) =>
+  consecutiveErrors <= SUPERSET_TOKEN_MAX_RETRIES ? SUPERSET_TOKEN_POLLING_DELAY : 0;
+
+const getRefreshDelay = (expiry) => (expiry == null ? 0 : new Date(expiry).getTime() - Date.now() - REFRESH_MARGIN_MS);
+
+function* putError(error) {
+  yield put(setSupersetGuestToken({ ...DEFAULT_ERROR_STATE, error }));
+}
+
+const getStartupError = (organizationId, workspaceId, dashboardIds) => {
+  if (!organizationId || !workspaceId) return { message: 'Missing organizationId or workspaceId' };
+  if (dashboardIds.length === 0) return { message: 'No dashboard IDs configured' };
+  return null;
+};
+
+function* fetchTokenOnce(organizationId, workspaceId, dashboardIds, consecutiveErrors) {
+  try {
+    const response = yield SupersetService.getSupersetGuestToken(organizationId, workspaceId, dashboardIds);
+    if (response?.error) {
+      yield* putError(response.error);
+      return { consecutiveErrors: consecutiveErrors + 1, tokenDelay: getRetryDelay(consecutiveErrors + 1) };
+    }
+    const data = { token: response.token, expiry: response.expiry };
+    yield put(setSupersetGuestToken({ data, error: null, status: STATUSES.SUCCESS }));
+    return { consecutiveErrors: 0, tokenDelay: getRefreshDelay(response.expiry) };
+  } catch (error) {
+    console.error(error);
+    yield* putError(error);
+    return { consecutiveErrors: consecutiveErrors + 1, tokenDelay: getRetryDelay(consecutiveErrors + 1) };
+  }
 }
 
 export function* getSupersetGuestTokenSaga() {
@@ -29,35 +62,14 @@ export function* getSupersetGuestTokenSaga() {
         'If you want to activate it, please configure the dashboards to be displayed in your workspace, ' +
         'in [workspace].additionalData.webapp.charts'
     );
-    yield put(
-      setSupersetGuestToken({
-        data: { token: null, expiry: null },
-        status: STATUSES.DISABLED,
-      })
-    );
-    return;
-  }
-
-  if (!organizationId || !workspaceId) {
-    yield put(
-      setSupersetGuestToken({
-        data: { token: null, expiry: null },
-        status: STATUSES.ERROR,
-        error: { message: 'Missing organizationId or workspaceId' },
-      })
-    );
+    yield put(setSupersetGuestToken({ data: { token: null, expiry: null }, status: STATUSES.DISABLED }));
     return;
   }
 
   const dashboardIds = extractDashboardIds(chartsConfig);
-  if (dashboardIds.length === 0) {
-    yield put(
-      setSupersetGuestToken({
-        data: { token: null, expiry: null },
-        status: STATUSES.ERROR,
-        error: { message: 'No dashboard IDs configured' },
-      })
-    );
+  const startupError = getStartupError(organizationId, workspaceId, dashboardIds);
+  if (startupError) {
+    yield* putError(startupError);
     return;
   }
 
@@ -66,49 +78,12 @@ export function* getSupersetGuestTokenSaga() {
   let tokenDelay;
   let consecutiveErrors = 0;
   do {
-    try {
-      const response = yield SupersetService.getSupersetGuestToken(organizationId, workspaceId, dashboardIds);
-      const error = response?.error;
-
-      if (error) {
-        consecutiveErrors++;
-        yield put(
-          setSupersetGuestToken({
-            data: { token: null, expiry: null },
-            error,
-            status: STATUSES.ERROR,
-          })
-        );
-        tokenDelay = consecutiveErrors <= SUPERSET_TOKEN_MAX_RETRIES ? SUPERSET_TOKEN_POLLING_DELAY : 0;
-      } else {
-        consecutiveErrors = 0;
-        yield put(
-          setSupersetGuestToken({
-            data: { token: response.token, expiry: response.expiry },
-            error: null,
-            status: STATUSES.SUCCESS,
-          })
-        );
-
-        if (response.expiry == null) {
-          tokenDelay = 0;
-        } else {
-          tokenDelay = new Date(response.expiry).getTime() - Date.now() - REFRESH_MARGIN_MS;
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      consecutiveErrors++;
-      yield put(
-        setSupersetGuestToken({
-          data: { token: null, expiry: null },
-          error,
-          status: STATUSES.ERROR,
-        })
-      );
-      tokenDelay = consecutiveErrors <= SUPERSET_TOKEN_MAX_RETRIES ? SUPERSET_TOKEN_POLLING_DELAY : 0;
-    }
-
+    ({ consecutiveErrors, tokenDelay } = yield* fetchTokenOnce(
+      organizationId,
+      workspaceId,
+      dashboardIds,
+      consecutiveErrors
+    ));
     if (tokenDelay > 0) yield delay(tokenDelay);
   } while (tokenDelay > 0);
 }

@@ -62,16 +62,15 @@ export function* getPowerBIEmbedInfoSaga() {
       if (error) {
         yield put(setPowerBIEmbedInfo({ data: noAccess, error, status: STATUSES.ERROR }));
         tokenDelay = POWER_BI_INFO_POLLING_DELAY;
-      } else {
-        const accesses = response?.accesses;
-        yield put(setPowerBIEmbedInfo({ data: accesses, error: null, status: STATUSES.SUCCESS }));
-        if (accesses?.expiry == null) {
-          console.warn('Expiration delay of PowerBI token not provided. Token refresh may not work as expected.');
-          tokenDelay = 0;
-        } else {
-          tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
-        }
+        continue;
       }
+
+      const accesses = response?.accesses;
+      yield put(setPowerBIEmbedInfo({ data: accesses, error: null, status: STATUSES.SUCCESS }));
+      if (accesses?.expiry == null) {
+        console.warn('Expiration delay of PowerBI token not provided. Token refresh may not work as expected.');
+        tokenDelay = 0;
+      } else tokenDelay = Date.parse(accesses.expiry) - Date.now() - 120000;
     } catch (error) {
       console.error(error);
       yield put(setPowerBIEmbedInfo({ data: noAccess, error, status: STATUSES.ERROR }));

@@ -88,28 +88,30 @@ export const useFileParameters = () => {
     for (const [parameterId, parameterValue] of Object.entries(parameterValues)) {
       const varType = SolutionsUtils.getParameterVarType(solution, parameterId);
       // TODO: add support for edition of DB parameters
-      if (varType === FILE_DATASET_PART_ID_VARTYPE) {
-        const fileStatus = parameterValue?.status;
-        if (fileStatus === FILE_STATUS.READY_TO_UPLOAD) {
-          if (parameterValue?.serialize != null) {
-            try {
-              setParameterValueStatus(parameterId, FILE_STATUS.UPLOADING); // Actually only "processing"
-              const serializedData = serializeBeforeUpload(parameterValue);
-              updateParameterValue(parameterId, { serializedData, status: FILE_STATUS.READY_TO_UPLOAD });
-            } catch (error) {
-              setParameterValueStatus(parameterId, FILE_STATUS.READY_TO_UPLOAD);
-              throw error;
-            }
-          }
-        } else if (
-          fileStatus === FILE_STATUS.READY_TO_DOWNLOAD ||
-          fileStatus === FILE_STATUS.EMPTY ||
-          fileStatus === FILE_STATUS.READY_TO_DELETE
-        ) {
-          continue;
-        } else {
-          console.warn(`Unknown file status "${fileStatus}"`);
-        }
+      if (varType !== FILE_DATASET_PART_ID_VARTYPE) continue;
+
+      const fileStatus = parameterValue?.status;
+      if (
+        fileStatus === FILE_STATUS.READY_TO_DOWNLOAD ||
+        fileStatus === FILE_STATUS.EMPTY ||
+        fileStatus === FILE_STATUS.READY_TO_DELETE
+      )
+        continue;
+
+      if (fileStatus !== FILE_STATUS.READY_TO_UPLOAD) {
+        console.warn(`Unknown file status "${fileStatus}"`);
+        continue;
+      }
+
+      if (parameterValue?.serialize == null) continue;
+
+      try {
+        setParameterValueStatus(parameterId, FILE_STATUS.UPLOADING); // Actually only "processing"
+        const serializedData = serializeBeforeUpload(parameterValue);
+        updateParameterValue(parameterId, { serializedData, status: FILE_STATUS.READY_TO_UPLOAD });
+      } catch (error) {
+        setParameterValueStatus(parameterId, FILE_STATUS.READY_TO_UPLOAD);
+        throw error;
       }
     }
   }, [setValue, getValues, solution, isInFormContext]);
