@@ -116,8 +116,8 @@ function confirmDatasetNewPermissions(expectedSecurity, isRunner = false) {
 
   if (expectedSecurityDefault) {
     api.waitAlias(updateDatasetDefaultSecurityAlias);
-    if (isRunner) updateDatasetDefaultSecurityAlias = api.interceptUpdateRunnerDefaultSecurity(expectedSecurityDefault);
   }
+
   api.waitAliases(interceptUpdateDatasetACLSecurityAlias);
   if (isRunner) api.waitAliases(interceptUpdateRunnerACLSecurityAlias);
 }

@@ -65,7 +65,6 @@ function* createRunnerDatasetParts(action, createdRunner, datasetPartParameters)
   const { dbDatasetParts, fileDatasetParts } = datasetPartParameters;
   if (dbDatasetParts.length > 0) console.warn('Not implemented: DB dataset part creation is not implemented yet');
 
-  const createdDatasetParts = [];
   for (const parameter of fileDatasetParts) {
     const createdDatasetPart = yield call(
       DatasetService.createDatasetPart,
@@ -77,7 +76,6 @@ function* createRunnerDatasetParts(action, createdRunner, datasetPartParameters)
     );
 
     addOrUpdateDatasetPart({ datasetId: runnerParameterDatasetId, datasetPart: createdDatasetPart, runnerId });
-    createdDatasetParts.push(createdDatasetPart);
   }
 }
 
