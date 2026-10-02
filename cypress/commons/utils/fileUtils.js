@@ -26,7 +26,7 @@ const parseMultipartFormData = (dataString) => {
 
   const form = {};
   formParts.forEach((formPart) => {
-    const regexMatch = formPart.match(/Content-Disposition: form-data; name="(\w*)"(?:[\S\s]*)?\r\n\r\n([\S\s]*)/);
+    const regexMatch = formPart.match(/Content-Disposition: form-data; name="(\w*)"(?:[\S\s]*)\r\n\r\n([\S\s]*)/);
     if (!regexMatch) return;
     const parameterName = regexMatch[1];
     form[parameterName] = regexMatch[2];
