@@ -24,46 +24,48 @@ export const DatasetOverviewPlaceholder = () => {
     let title = null;
     let subtitle = null;
     const subtitleDataCy = 'dataset-overview-subtitle';
-    if (currentDatasetId == null)
+
+    if (currentDatasetId == null) {
       title = t(
         'commoncomponents.datasetmanager.overview.placeholder.noDatasetSelected',
         'No dataset selected. You can select a dataset in the left-side panel.'
       );
-
-    switch (currentDatasetStatus) {
-      case RUNNER_RUN_STATE.SUCCESSFUL:
-        title = t('commoncomponents.datasetmanager.overview.placeholder.noKpis.title', 'Your dataset is ready');
-        subtitle = t(
-          'commoncomponents.datasetmanager.overview.placeholder.noKpis.subtitle',
-          'You can use it to create new scenarios'
-        );
-        break;
-      case RUNNER_RUN_STATE.RUNNING:
-        title = t(
-          'commoncomponents.datasetmanager.overview.placeholder.loading',
-          'Importing your data, please wait...'
-        );
-        break;
-      case RUNNER_RUN_STATE.CREATED:
-        title = t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
-        subtitle = t(
-          'commoncomponents.datasetmanager.overview.placeholder.etlNotStarted',
-          'The dataset creation script has not run. You can launch it by clicking on the "refresh" button in the ' +
-            'top-right corner.'
-        );
-        break;
-      case RUNNER_RUN_STATE.FAILED:
-        title = t(
-          'commoncomponents.datasetmanager.overview.placeholder.error',
-          'An error occurred during import of your data'
-        );
-        break;
-      case RUNNER_RUN_STATE.UNKNOWN:
-      default:
-        title = t(
-          'commoncomponents.datasetmanager.overview.placeholder.unknown',
-          'The dataset has an unknown state, if the problem persists, please, contact your administrator'
-        );
+    } else {
+      switch (currentDatasetStatus) {
+        case RUNNER_RUN_STATE.SUCCESSFUL:
+          title = t('commoncomponents.datasetmanager.overview.placeholder.noKpis.title', 'Your dataset is ready');
+          subtitle = t(
+            'commoncomponents.datasetmanager.overview.placeholder.noKpis.subtitle',
+            'You can use it to create new scenarios'
+          );
+          break;
+        case RUNNER_RUN_STATE.RUNNING:
+          title = t(
+            'commoncomponents.datasetmanager.overview.placeholder.loading',
+            'Importing your data, please wait...'
+          );
+          break;
+        case RUNNER_RUN_STATE.CREATED:
+          title = t('commoncomponents.datasetmanager.overview.placeholder.empty', 'Your dataset is empty');
+          subtitle = t(
+            'commoncomponents.datasetmanager.overview.placeholder.etlNotStarted',
+            'The dataset creation script has not run. You can launch it by clicking on the "refresh" button in the ' +
+              'top-right corner.'
+          );
+          break;
+        case RUNNER_RUN_STATE.FAILED:
+          title = t(
+            'commoncomponents.datasetmanager.overview.placeholder.error',
+            'An error occurred during import of your data'
+          );
+          break;
+        case RUNNER_RUN_STATE.UNKNOWN:
+        default:
+          title = t(
+            'commoncomponents.datasetmanager.overview.placeholder.unknown',
+            'The dataset has an unknown state, if the problem persists, please, contact your administrator'
+          );
+      }
     }
 
     return {
