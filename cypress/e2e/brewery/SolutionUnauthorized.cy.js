@@ -34,7 +34,7 @@ describe('User has no access to the solution', () => {
 
   it('Redirects to workspace selector when there are several workspaces', () => {
     stub.setWorkspaces(EXTENDED_WORKSPACES_LIST);
-    const interceptionURL = new RegExp('^' + '/.*/solutions/((sol|SOL)-[\\w]+)');
+    const interceptionURL = new RegExp('^' + '/.*/solutions/((sol|SOL)-\\w+)');
     cy.intercept({ method: 'GET', url: interceptionURL, times: 1 }, (req) => {
       req.reply(solutionError);
     });

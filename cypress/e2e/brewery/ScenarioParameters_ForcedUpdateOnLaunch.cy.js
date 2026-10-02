@@ -125,7 +125,7 @@ describe('Scenario parameters forced update on launch', () => {
   it('should NOT trigger a save before launch when child scenario parameters match its run template', () => {
     // Spy on PATCH calls to the runner update endpoint; the forced save must not occur.
     let saveWasCalled = false;
-    cy.intercept({ method: 'PATCH', url: /\/runners\/(r|R)-\w+$/ }, (req) => {
+    cy.intercept({ method: 'PATCH', url: /\/runners\/r-\w+$/i }, (req) => {
       saveWasCalled = true;
       req.continue();
     });
