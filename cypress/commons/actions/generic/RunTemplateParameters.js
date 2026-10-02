@@ -33,8 +33,7 @@ const setSlider = (parameterId, { min, max, value }) => {
   getSliderElement()
     .invoke('width')
     .then((width) => {
-      // FIXME: fix formula to support generic min/max options
-      const x = (width * value) / (max - min || 1);
+      const x = (width * (value - min)) / (max - min || 1);
       if (x === 0) getSliderElement().click('left');
       else if (x === width) getSliderElement().click('right');
       else getSliderElement().click(x, 0);
