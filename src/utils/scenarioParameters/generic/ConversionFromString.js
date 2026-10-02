@@ -61,7 +61,9 @@ function _convertListFromString(parameterValue) {
       return [];
     }
   } catch (error) {
+    console.error(error);
     console.warn(`Value ${parameterValue} does not match JSON format`);
+    return [];
   }
 }
 
