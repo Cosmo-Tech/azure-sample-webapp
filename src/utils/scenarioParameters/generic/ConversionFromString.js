@@ -44,8 +44,13 @@ function _convertDateFromString(parameterValue) {
   return DateUtils.getDateAtMidnightUTC(parsedDate);
 }
 
-// FIXME: no longer used?
 function _convertDatasetIdFromString(parameterValue) {
+  // DEPRECATED: Since API v5.0.0, dataset part parameters should no longer be stored as string parameter values by the
+  // back-end
+  console.warn(
+    `Unexpected parameter value of type ${FILE_DATASET_PART_ID_VARTYPE}. Please make sure your runner ` +
+      ' parameter values have been migrated to API v5'
+  );
   if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
