@@ -50,7 +50,7 @@ describe('dynamic value for number input', () => {
     ScenarioParameters.getParameterInput('number-input-dynamic_number_error').clear();
     ScenarioParameters.getParameterInput('number-input-dynamic_number_error').type('30');
     ScenarioParameters.getParameterInput('number-input-dynamic_number_error').should('have.value', 30);
-    ScenarioParameters.save();
+    ScenarioParameters.save({ skipBackdropWait: true });
     ScenarioParameters.getDynamicValueErrorIcon().should('not.exist');
   });
 });

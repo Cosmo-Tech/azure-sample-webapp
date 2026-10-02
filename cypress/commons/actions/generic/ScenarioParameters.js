@@ -164,6 +164,8 @@ function launch(options) {
 }
 
 // Parameter 'options' is an object with the following properties:
+//  - skipBackdropWait: whether the action must wait for the loading backdrop to become visible (false to skip this
+//    step)
 //  - wait: whether the action must wait for the update request interception (true by default). Set this option to false
 //    if you want to handle the request interception in your test or if you want to ignore it.
 //  - updateOptions: options to provide to the interception of the "scenario update" query (default: undefined)
@@ -175,7 +177,7 @@ function save(options = {}) {
   aliases.push(api.interceptUpdateSimulationRunner(options?.updateOptions));
 
   getSaveButton().should('not.be.disabled').click();
-  Scenarios.getScenarioBackdrop(10).should('be.visible');
+  if (options?.skipBackdropWait !== true) Scenarios.getScenarioBackdrop(10).should('be.visible');
   if (options?.wait !== false) {
     Scenarios.getScenarioBackdrop(10).should('not.be.visible');
     api.waitAliases(aliases, { timeout: 10 * 1000 });
