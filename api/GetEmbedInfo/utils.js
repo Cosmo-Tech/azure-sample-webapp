@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const uuid = require('uuid');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');

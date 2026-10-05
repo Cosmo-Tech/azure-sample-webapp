@@ -257,7 +257,7 @@ def apply_config_values(output_folder, js_env_file_content, public_url=""):
     # Add JS script loading in index.html
     html_file_path = os.path.join(output_folder, 'index.html')
     pattern = '<script id="publicWebappConfigElement"></script>'
-    script_tag = f'<script src="/assets/publicWebappConfig.js"></script>'
+    script_tag = '<script src="/assets/publicWebappConfig.js"></script>'
     find_replace_in_file(html_file_path, pattern, script_tag)
 
     # Inject public URL in path of static resources (src="/foo", href="/bar")

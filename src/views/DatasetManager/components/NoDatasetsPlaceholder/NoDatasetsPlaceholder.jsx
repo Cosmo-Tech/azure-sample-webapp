@@ -8,10 +8,9 @@ import { ACL_PERMISSIONS } from '../../../../services/config/accessControl';
 import { CreateDatasetButton } from '../CreateDatasetButton';
 import { useNoDatasetsPlaceholder } from './NoDatasetsPlaceholderHook';
 
-export const NoDatasetsPlaceholder = () => {
+const ViewerSubTitle = () => {
   const { t } = useTranslation();
-  const { userPermissionsOnCurrentWorkspace } = useNoDatasetsPlaceholder();
-  const ViewerSubTitle = () => (
+  return (
     <Typography data-cy="no-datasets-viewer-subtitle">
       {t(
         'commoncomponents.datasetmanager.noDatasets.readOnlySubtitle',
@@ -19,6 +18,11 @@ export const NoDatasetsPlaceholder = () => {
       )}
     </Typography>
   );
+};
+
+export const NoDatasetsPlaceholder = () => {
+  const { t } = useTranslation();
+  const { userPermissionsOnCurrentWorkspace } = useNoDatasetsPlaceholder();
 
   const editorSubTitle = (
     <Typography data-cy="no-datasets-user-subtitle">

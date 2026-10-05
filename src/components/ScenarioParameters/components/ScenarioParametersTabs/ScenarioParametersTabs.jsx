@@ -59,7 +59,7 @@ const ScenarioParametersTabs = ({ parametersGroupsMetadata, userRoles }) => {
     if (parametersGroupsMetadata.find((groupMetadata) => groupMetadata.id === selectedTab) === undefined) {
       setSelectedTab(firstTab);
     }
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parametersGroupsMetadata]);
 
   const tabPanels = useMemo(() => _buildTabPanels(userRoles, tabs), [userRoles, tabs]);

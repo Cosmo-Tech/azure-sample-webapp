@@ -89,10 +89,8 @@ const checkDatasetManagerConfiguration = (workspace) => {
       else if (kpi.queryId == null) logWarning(`in ${propertyNameForWarnings}, item #${index} has no queryId`);
       else if (kpiIdsByQueryId?.[kpi.queryId]?.includes(kpi.id))
         logWarning(`in ${propertyNameForWarnings}, item #${index} uses a KPI id that already exists (id: ${kpi.id}).`);
-      else {
-        if (!kpiIdsByQueryId?.[kpi.queryId]) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
-        else kpiIdsByQueryId?.[kpi.queryId].push(kpi.id);
-      }
+      else if (!kpiIdsByQueryId?.[kpi.queryId]) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
+      else kpiIdsByQueryId?.[kpi.queryId].push(kpi.id);
 
       if (kpi.queryId == null) return;
       if (!isQueriesValid || queries.find((query) => query.id === kpi.queryId) === undefined) {

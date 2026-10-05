@@ -682,7 +682,7 @@ export const GenericTable = ({
     const nodesDataToRemove = gridApi.getSelectedNodes().map((rowNode) => rowNode.data);
     gridApi.applyTransaction({ remove: nodesDataToRemove });
 
-    const _findRowIndexFromData = (nodeData) => parameter.displayData.findIndex((row) => row === nodeData);
+    const _findRowIndexFromData = (nodeData) => parameter.displayData.indexOf(nodeData);
     nodesDataToRemove.forEach((nodeDataToRemove) => {
       const rowIndexToRemove = _findRowIndexFromData(nodeDataToRemove);
       parameter.displayData.splice(rowIndexToRemove, 1);
