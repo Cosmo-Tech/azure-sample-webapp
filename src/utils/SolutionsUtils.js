@@ -239,7 +239,7 @@ const isSubDataSource = (runTemplate) => runTemplate?.tags?.includes('subdatasou
 // Replace dot characters from run template ids to prevent undesired nested items when using theses id as field paths
 // with React Hook Form (see https://github.com/react-hook-form/react-hook-form/issues/676)
 const DOT_REPLACEMENT_PATTERN = '__DOT__';
-const escapeRunTemplateId = (runTemplateId) => runTemplateId.replace(/\./g, DOT_REPLACEMENT_PATTERN);
+const escapeRunTemplateId = (runTemplateId) => runTemplateId.replaceAll('.', DOT_REPLACEMENT_PATTERN);
 
 const getParameterFromSolution = (solution, parameterId) => {
   return solution?.parameters?.find((parameter) => parameter.id === parameterId);
