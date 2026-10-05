@@ -26,7 +26,7 @@ export function forgeStopPollingAction(runnerId) {
   return { type: actionName, data: { runnerId } };
 }
 
-const FINAL_RUN_STATES = [RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN];
+const FINAL_RUN_STATES = new Set([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN]);
 
 function* handleFinalRunStatus(action, runner, runStatus, updateRunner) {
   const { organizationId, workspaceId, runnerId, lastRunId, runnerType } = action;
@@ -85,7 +85,7 @@ export function* pollRunnerState(action) {
       );
 
       networkErrorsCount = 0;
-      if (FINAL_RUN_STATES.includes(runStatus.state)) {
+      if (FINAL_RUN_STATES.has(runStatus.state)) {
         yield call(handleFinalRunStatus, action, runner, runStatus, updateRunner);
       }
 
