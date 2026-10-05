@@ -9,7 +9,7 @@ const getTableCellDefaultValue = (column, dateFormat) => {
       return String(
         column?.defaultValue ??
           column?.minValue ??
-          (parseFloat(column?.maxValue) && parseFloat(column.maxValue) < 0 ? column.maxValue : 0)
+          (Number.parseFloat(column?.maxValue) && Number.parseFloat(column.maxValue) < 0 ? column.maxValue : 0)
       );
     case 'bool':
       return column?.defaultValue ?? 'false';
