@@ -344,34 +344,37 @@ describe('getUserPermissionsForResource with invalid parameters', () => {
   };
   const orderedRoles = ['admin', 'writer', 'reader', 'other', 'guest'];
 
-  for (const userIdentifier of [null, undefined, validUserId]) {
-    for (const defaultSecurity of [null, undefined, '', validDefaultRole]) {
-      for (const acl of [null, undefined, [], validACL]) {
-        for (const mapping of [null, undefined, {}, validMapping]) {
-          const resource = { security: { default: defaultSecurity, accessControlList: acl } };
-          let expectedRes = [];
-          if (defaultSecurity === validDefaultRole && userIdentifier === validUserId && mapping === validMapping) {
-            expectedRes = ['read'];
-          }
-          test(`with
-            id: ${userIdentifier},
-            default security: ${JSON.stringify(defaultSecurity)},
-            acl: ${JSON.stringify(acl)}
-            mapping: ${JSON.stringify(mapping)}
-            expected: ${JSON.stringify(expectedRes)}`, () => {
-            expect(
-              SecurityUtils.getUserPermissionsForResource(resource, userIdentifier, mapping, orderedRoles)
-            ).toStrictEqual(expectedRes);
+  const userIdentifiers = [null, undefined, validUserId];
+  const defaultSecurities = [null, undefined, '', validDefaultRole];
+  const acls = [null, undefined, [], validACL];
+  const mappings = [null, undefined, {}, validMapping];
 
-            // A first warning must be shown when user id is invalid, and another one when the mapping is null
-            let warnCounts = 0;
-            if (resource == null || mapping == null || userIdentifier == null) ++warnCounts;
-            expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
-          });
-        }
-      }
-    }
-  }
+  const cases = userIdentifiers.flatMap((userIdentifier) =>
+    defaultSecurities.flatMap((defaultSecurity) =>
+      acls.flatMap((acl) =>
+        mappings.map((mapping) => {
+          const isValid =
+            defaultSecurity === validDefaultRole && userIdentifier === validUserId && mapping === validMapping;
+          const expectedRes = isValid ? ['read'] : [];
+          const name =
+            `with id: ${userIdentifier}, default security: ${JSON.stringify(defaultSecurity)}, acl: ` +
+            `${JSON.stringify(acl)}, mapping: ${JSON.stringify(mapping)}, expected: ${JSON.stringify(expectedRes)}`;
+          return [name, { userIdentifier, defaultSecurity, acl, mapping, expectedRes }];
+        })
+      )
+    )
+  );
+
+  test.each(cases)('%s', (_name, { userIdentifier, defaultSecurity, acl, mapping, expectedRes }) => {
+    const resource = { security: { default: defaultSecurity, accessControlList: acl } };
+    expect(SecurityUtils.getUserPermissionsForResource(resource, userIdentifier, mapping, orderedRoles)).toStrictEqual(
+      expectedRes
+    );
+
+    // A warning must be shown when user id or mapping are invalid
+    const warnCounts = mapping == null || userIdentifier == null ? 1 : 0;
+    expect(spyConsoleWarn).toHaveBeenCalledTimes(warnCounts);
+  });
 });
 
 describe('getUserPermissionsForResource with valid parameters', () => {

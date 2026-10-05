@@ -92,7 +92,7 @@ describe('forgeDatasetManagerConfiguration', () => {
       ...invalidValuesForItems.map((invalidValue) => ({ categories: invalidValue })),
     ];
     invalidConfigs.forEach((config) =>
-      expect(WorkspacesUtils.forgeDatasetManagerConfiguration(config)).toEqual(undefined)
+      expect(WorkspacesUtils.forgeDatasetManagerConfiguration(config)).toBeUndefined()
     );
   });
 

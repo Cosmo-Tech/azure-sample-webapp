@@ -68,7 +68,7 @@ describe('Dataset Manager - ETL Parameters', () => {
     RTParams.clearNumber(ETL_NUMBER_PLAIN.id);
     RTParams.clearNumber(ETL_INT.id);
 
-    const validateCreateRunnerQuery = (req) => {
+    const validateDefaultValuesRunnerQuery = (req) => {
       expect(req.body.parametersValues).to.deep.equal([
         { parameterId: ETL_BOOL.id, varType: 'bool', value: 'false' },
         { parameterId: ETL_DATE.id, varType: 'date', value: '' },
@@ -87,7 +87,7 @@ describe('Dataset Manager - ETL Parameters', () => {
       id: datasetId,
       isETL: true,
       importJobOptions: etlRunOptions,
-      runnerCreationOptions: { validateRequest: validateCreateRunnerQuery },
+      runnerCreationOptions: { validateRequest: validateDefaultValuesRunnerQuery },
     });
 
     DatasetManager.getRefreshDatasetSpinner(datasetId, 20).should('not.exist');
@@ -206,24 +206,9 @@ describe('Dataset Manager - ETL Parameters', () => {
     TableParameters.getRow(RTParams.getTableContainer(ETL_TABLE.id), 0).click();
     TableParameters.deleteRows(RTParams.getTableContainer(ETL_TABLE.id));
 
-    const validateSecondRunnerUpdateQuery = (req) => {
-      expect(req.body.parametersValues).to.deep.equal([
-        { parameterId: ETL_BOOL.id, varType: 'bool', value: 'false' },
-        { parameterId: ETL_DATE.id, varType: 'date', value: '' },
-        { parameterId: ETL_ENUM_PLAIN.id, varType: 'enum', value: 'A' },
-        { parameterId: ETL_ENUM_RADIO.id, varType: 'enum', value: 'A' },
-        { parameterId: ETL_ENUM_SCENARIOS.id, varType: 'enum', value: '' },
-        { parameterId: ETL_LIST.id, varType: 'list', value: '[]' },
-        { parameterId: ETL_NUMBER_PLAIN.id, varType: 'number', value: '' },
-        { parameterId: ETL_NUMBER_SLIDER.id, varType: 'number', value: defaultSliderValue.toString() },
-        { parameterId: ETL_INT.id, varType: 'int', value: '' },
-        { parameterId: ETL_STRING.id, varType: 'string', value: '' },
-      ]);
-    };
-
     DatasetManager.updateDatasetParameters(datasetId, {
       importJobOptions: etlRunOptions,
-      validateRequest: validateSecondRunnerUpdateQuery,
+      validateRequest: validateDefaultValuesRunnerQuery,
       datasetPartEvents: [
         { id: 'dp-file', delete: true },
         { id: 'dp-table', delete: true },

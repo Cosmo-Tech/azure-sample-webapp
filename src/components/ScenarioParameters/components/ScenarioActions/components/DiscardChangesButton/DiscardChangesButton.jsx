@@ -16,9 +16,9 @@ const clone = rfdc();
 export const DiscardChangesButton = () => {
   const { t } = useTranslation();
   const { reset } = useFormContext();
-  /* eslint-disable-next-line no-unused-vars -- "errors" is unused here because RHF seems to return a stale state
-  sometimes for isDirty, adding a dependency to "errors" seems to fix the issue (bug only encountered in cypress tests
-  so far) */
+  /* eslint-disable-next-line no-unused-vars, sonarjs/no-unused-vars -- "errors" is unused here because RHF seems to
+   return a stale state sometimes for isDirty, adding a dependency to "errors" seems to fix the issue (bug only
+   encountered in cypress tests so far) */
   const { isDirty, errors: _ } = useFormState();
   const scenarioResetValues = useScenarioResetValues();
   const userAppAndCurrentScenarioPermissions = useUserAppAndCurrentScenarioPermissions();

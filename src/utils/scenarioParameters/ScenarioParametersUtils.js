@@ -262,11 +262,7 @@ const getParametersValuesForReset = (parameterIds, defaultParametersValues, runn
       const datasetPart = RunnersUtils.findParameterInDatasetParts(parameterId, runner?.datasets?.parameters);
       if (datasetPart !== undefined)
         parameterValues[parameterId] = forgeFileParameterFromDatasetPart(datasetPart, varType, subType);
-      else {
-        parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
-        // FIXME: handle default values
-        // else parameterValues[parameterId] = defaultParametersValues?.[parameterId];
-      }
+      else parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
     } else {
       const runnerParameter = runner.parametersValues?.find((parameter) => parameter.parameterId === parameterId);
       parameterValues[parameterId] = runnerParameter?.value ?? defaultParametersValues?.[parameterId];
@@ -339,6 +335,34 @@ const serializeParameterValues = (parameterValues = {}) => {
   }
 };
 
+const _getFileToUpload = (parameterValue, parameterId) => {
+  if (parameterValue.value != null) return parameterValue.value;
+  if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD && parameterValue.serializedData != null)
+    return new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
+  return undefined; // No modifications to save
+};
+
+const _addFileParameter = (parameters, parameter, parameterValue, runnerToUpdate) => {
+  const { parameterId, varType } = parameter;
+
+  // File has been erased without new content to upload
+  if (runnerToUpdate && parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
+    const idsToDelete = (runnerToUpdate?.datasets?.parameters ?? [])
+      .filter((part) => part.name === parameterId)
+      .map((part) => part.id);
+    parameters.idsOfDatasetPartsToDelete = parameters.idsOfDatasetPartsToDelete.concat(idsToDelete);
+    return;
+  }
+
+  const file = _getFileToUpload(parameterValue, parameterId);
+  if (file === undefined) return;
+  parameters.fileDatasetParts.push({
+    parameterId,
+    varType,
+    value: { file, part: { name: parameterId, sourceName: file?.name } },
+  });
+};
+
 // Returns an object with 4 arrays, containing the parameter data required for runner update requests:
 // - dbDatasetParts
 // - fileDatasetParts
@@ -378,29 +402,7 @@ const buildParametersForUpdateRequest = (
     }
 
     if (ConfigUtils.isFileParameter(parameter)) {
-      // Check if file has been erased without new content to upload
-      if (runnerToUpdate && parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DELETE) {
-        const runnerDatasetParts = runnerToUpdate?.datasets?.parameters ?? [];
-        const datasetPartIdsToDelete = runnerDatasetParts
-          .filter((part) => part.name === parameterId)
-          .map((part) => part.id);
-        parameters.idsOfDatasetPartsToDelete = parameters.idsOfDatasetPartsToDelete.concat(datasetPartIdsToDelete);
-        continue;
-      }
-
-      // Check if file has been modified
-      let file = parameterValue.value;
-      if (file == null) {
-        if (parameterValue.status === UPLOAD_FILE_STATUS_KEY.READY_TO_UPLOAD && parameterValue.serializedData != null)
-          file = new File([parameterValue.serializedData], parameterId, { type: 'text/plain' });
-        else continue; // No modifications to save
-      }
-
-      parameters.fileDatasetParts.push({
-        parameterId,
-        varType,
-        value: { file, part: { name: parameterId, sourceName: file?.name } },
-      });
+      _addFileParameter(parameters, parameter, parameterValue, runnerToUpdate);
       continue;
     }
 

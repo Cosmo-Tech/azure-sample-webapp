@@ -33,8 +33,7 @@ const setSlider = (parameterId, { min, max, value }) => {
   getSliderElement()
     .invoke('width')
     .then((width) => {
-      // FIXME: fix formula to support generic min/max options
-      const x = (width * value) / (max - min || 1);
+      const x = (width * (value - min)) / (max - min || 1);
       if (x === 0) getSliderElement().click('left');
       else if (x === width) getSliderElement().click('right');
       else getSliderElement().click(x, 0);
@@ -46,12 +45,12 @@ const getEnumDropdownMenu = (parameterId) => cy.get(`[data-cy=enum-input-menu-${
 // TODO: add a better data-cy selector in the UI component, the current one is "data-cy={option.key}"
 const getEnumOptions = (parameterId) => getEnumDropdownMenu(parameterId).find('[data-value^=""]');
 const getEnumOption = (parameterId, value) => getEnumDropdownMenu(parameterId).find(`[data-value=${value}]`);
-// FIXME: no value selector yet in the generic enum component
-// const checkEnumValue = (parameterId, value) => getEnumDropdownMenu(parameterId).should('value', value);
 const setEnumValue = (parameterId, value) => {
   getEnumDropdown(parameterId).click();
   getEnumOption(parameterId, value).click();
 };
+// TODO: add a better data-cy selector in the UI component (no value selector yet in the generic enum component)
+// const checkEnumValue = (parameterId, value) => getEnumDropdownMenu(parameterId).should('value', value);
 const checkEnumValue = (parameterId, value) => getEnumDropdown(parameterId).should('contain', value);
 
 const getRadioButtonGroup = (parameterId) => cy.get(`[data-cy=radio-input-${parameterId}]`);

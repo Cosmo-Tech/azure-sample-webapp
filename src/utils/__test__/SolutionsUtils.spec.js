@@ -6,33 +6,29 @@ import { STANDARD_SOLUTION } from './fixtures/StandardSolutionData';
 
 describe('addTranslationLabels', () => {
   test('from an undefined solution', () => {
-    expect(SolutionsUtils.addTranslationLabels(undefined)).toBe(undefined);
+    expect(SolutionsUtils.addTranslationLabels(undefined)).toBeUndefined();
   });
 
   test('from an empty solution', () => {
-    expect(SolutionsUtils.addTranslationLabels({})).toBe(undefined);
+    expect(SolutionsUtils.addTranslationLabels({})).toBeUndefined();
   });
 
   test('from a solution with an empty list of parameters', () => {
-    expect(SolutionsUtils.addTranslationLabels({ parameters: [] })).toBe(undefined);
+    expect(SolutionsUtils.addTranslationLabels({ parameters: [] })).toBeUndefined();
   });
 
   test('from a solution with an empty list of parameters groups', () => {
-    expect(SolutionsUtils.addTranslationLabels({ parameterGroups: [] })).toBe(undefined);
+    expect(SolutionsUtils.addTranslationLabels({ parameterGroups: [] })).toBeUndefined();
   });
 });
 
 describe('addRunTemplatesParametersIdsDict for a minimal or incomplete solution', () => {
   test('if solution is undefined', () => {
-    const solution = undefined;
-    SolutionsUtils.addRunTemplatesParametersIdsDict(solution);
-    expect(solution).toBe(undefined);
+    expect(() => SolutionsUtils.addRunTemplatesParametersIdsDict(undefined)).not.toThrow();
   });
 
   test('if solution is null', () => {
-    const solution = null;
-    SolutionsUtils.addRunTemplatesParametersIdsDict(solution);
-    expect(solution).toBe(null);
+    expect(() => SolutionsUtils.addRunTemplatesParametersIdsDict(null)).not.toThrow();
   });
 
   test('if solution is empty', () => {

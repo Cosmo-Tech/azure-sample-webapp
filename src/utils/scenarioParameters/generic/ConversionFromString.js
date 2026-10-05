@@ -44,8 +44,10 @@ function _convertDateFromString(parameterValue) {
   return DateUtils.getDateAtMidnightUTC(parsedDate);
 }
 
-// FIXME: no longer used?
 function _convertDatasetIdFromString(parameterValue) {
+  // Since API v5.0.0, dataset part parameters are no longer stored in the runner parameterValues, but this function can
+  // still be called for the defaultValue field of parameters defined in the Solution (e.g. when a Table parameter has a
+  // default value)
   if (parameterValue === '') return null;
   return parameterValue; // Already a string
 }
@@ -61,7 +63,9 @@ function _convertListFromString(parameterValue) {
       return [];
     }
   } catch (error) {
+    console.error(error);
     console.warn(`Value ${parameterValue} does not match JSON format`);
+    return [];
   }
 }
 

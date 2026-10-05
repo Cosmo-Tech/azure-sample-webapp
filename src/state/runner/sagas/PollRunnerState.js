@@ -26,6 +26,38 @@ export function forgeStopPollingAction(runnerId) {
   return { type: actionName, data: { runnerId } };
 }
 
+const FINAL_RUN_STATES = [RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN];
+
+function* handleFinalRunStatus(action, runner, runStatus, updateRunner) {
+  const { organizationId, workspaceId, runnerId, lastRunId, runnerType } = action;
+  if (runnerType === 'etl' && runStatus.state === RUNNER_RUN_STATE.SUCCESSFUL) {
+    // Datasets created in the Dataset Manager are the first entry in runners' property "datasets.bases"
+    const datasetId = runner?.datasets?.bases?.[0];
+    if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId, true);
+  }
+
+  const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);
+  yield put(updateRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
+  yield put(addOrUpdateRunStatus({ data: runStatus }));
+  yield put(forgeStopPollingAction(runnerId));
+}
+
+function* handlePollingFailure(action, error, lastRunStatusBeforePolling, updateRunner) {
+  const { runnerId, lastRunId } = action;
+  console.error(error);
+  // If the status polling was started because the scenario has been launched, show an error banner, otherwise,
+  // fail silently without changing the runner status
+  if (lastRunStatusBeforePolling === RUNNER_RUN_STATE.RUNNING) {
+    const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
+    yield put(setApplicationErrorMessage({ error, errorMessage }));
+
+    const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.FAILED);
+    yield put(updateRunner({ runnerId, status: STATUSES.ERROR, runner: { ...lastRunInfoPatch } }));
+  }
+
+  yield put(forgeStopPollingAction(runnerId));
+}
+
 export function* pollRunnerState(action) {
   const { organizationId, workspaceId, runnerId, lastRunId, runnerType, delayFirstCall = true } = action;
   const runner = yield select(getETLRunnerFromState, runnerId);
@@ -53,18 +85,8 @@ export function* pollRunnerState(action) {
       );
 
       networkErrorsCount = 0;
-      if ([RUNNER_RUN_STATE.FAILED, RUNNER_RUN_STATE.SUCCESSFUL, RUNNER_RUN_STATE.UNKNOWN].includes(runStatus.state)) {
-        if (runnerType === 'etl' && runStatus.state === RUNNER_RUN_STATE.SUCCESSFUL) {
-          // Datasets created in the Dataset Manager are the first entry in runners' property "datasets.bases"
-          const datasetId = runner?.datasets?.bases?.[0];
-          if (datasetId != null) yield call(getDataset, organizationId, workspaceId, datasetId, true);
-        }
-
-        const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, runStatus.state);
-        yield put(updateRunner({ runnerId, runner: { ...lastRunInfoPatch } }));
-        yield put(addOrUpdateRunStatus({ data: runStatus }));
-
-        yield put(forgeStopPollingAction(runnerId));
+      if (FINAL_RUN_STATES.includes(runStatus.state)) {
+        yield call(handleFinalRunStatus, action, runner, runStatus, updateRunner);
       }
 
       yield delay(RUNNER_STATUS_POLLING_DELAY); // Wait before retrying
@@ -76,18 +98,7 @@ export function* pollRunnerState(action) {
       ) {
         yield delay(RUNNER_STATUS_POLLING_DELAY);
       } else {
-        console.error(error);
-        // If the status polling was started because the scenario has been launched, show an error banner, otherwise,
-        // fail silently without changing the runner status
-        if (lastRunStatusBeforePolling === RUNNER_RUN_STATE.RUNNING) {
-          const errorMessage = t('commoncomponents.banner.run', 'A problem occurred during the scenario run.');
-          yield put(setApplicationErrorMessage({ error, errorMessage }));
-
-          const lastRunInfoPatch = RunnersUtils.forgeRunnerLastRunInfoPatch(lastRunId, RUNNER_RUN_STATE.FAILED);
-          yield put(updateRunner({ runnerId, status: STATUSES.ERROR, runner: { ...lastRunInfoPatch } }));
-        }
-
-        yield put(forgeStopPollingAction(runnerId));
+        yield call(handlePollingFailure, action, error, lastRunStatusBeforePolling, updateRunner);
       }
     }
   }

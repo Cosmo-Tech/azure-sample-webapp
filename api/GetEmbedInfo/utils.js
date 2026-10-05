@@ -105,6 +105,7 @@ const _validateAndDecodeQueryToken = async (req) => {
       options.algorithms = algorithms;
       console.log(`Using custom list of algorithms for token validation: ${algorithms}`);
     } catch (error) {
+      console.error(error);
       throw new ServiceAccountError(
         500,
         'Configuration error',

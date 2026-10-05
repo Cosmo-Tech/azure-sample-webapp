@@ -125,87 +125,104 @@ const _patchColumnTypes = (columns, parameterId) => {
   });
 };
 
+// Scenario select parameters must not have enumValues defined
+const _removeEnumOptionsOfScenariosParameter = (parameter) => {
+  ['enumValues', 'dynamicEnumValues'].forEach((optionName) => {
+    if (ConfigUtils.getParameterAttribute(parameter, optionName) == null) return;
+    console.warn(
+      `Ignored unnecessary option "${optionName}" of ${parameter.varType} parameter ${parameter.id} because ` +
+        'the parameter has the subType "SCENARIOS". Please check your Solution configuration.'
+    );
+    delete parameter.additionalData[optionName];
+  });
+};
+
+// Ignore "required" for enum parameters if no enumValues are defined, to avoid users not being able to save or
+// launch scenarios
+const _patchRequiredOptionOfEnumParameter = (parameter) => {
+  const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
+  if (Array.isArray(enumValues) && enumValues.length > 0) return;
+
+  if (ConfigUtils.getParameterAttribute(parameter, 'required') === true)
+    console.warn(
+      `Ignored option "required" of ${parameter.varType} parameter ${parameter.id} because no enum values ` +
+        'are provided. Please check your Solution configuration.'
+    );
+  if (parameter.additionalData == null) parameter.additionalData = {};
+  parameter.additionalData.required = false;
+};
+
+// Ignore "dynamicEnumValues" if configuration is incomplete or invalid
+const _patchDynamicEnumValues = (parameter) => {
+  const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues');
+  if (dynamicSourceConfig == null) return;
+
+  const hasValidType = dynamicSourceConfig.type === 'dbDatasetPart';
+  const hasDatasetPartName = dynamicSourceConfig.datasetPartName != null;
+  if (!hasValidType) {
+    console.error(
+      `Enum parameter ${parameter.id} has unknown type "${dynamicSourceConfig.type}" for dynamicEnumValues. ` +
+        'Currently, the only supported option is "dbDatasetPart".'
+    );
+  }
+  if (!hasDatasetPartName) {
+    console.error(`Enum parameter ${parameter.id} has no datasetPartName defined in dynamicEnumValues.`);
+  }
+
+  if (!hasValidType || !hasDatasetPartName) {
+    delete parameter.additionalData.dynamicEnumValues;
+    console.warn(
+      `Dynamic values have been disabled for parameter ${parameter.id}, static values from the configuration (or ` +
+        ' an empty list) will be shown.'
+    );
+  }
+};
+
+const _patchEnumParameter = (parameter) => {
+  if (ConfigUtils.getParameterAttribute(parameter, 'subType') === 'SCENARIOS') {
+    _removeEnumOptionsOfScenariosParameter(parameter);
+  } else {
+    _patchRequiredOptionOfEnumParameter(parameter);
+  }
+  _patchDynamicEnumValues(parameter);
+};
+
+const _patchTableParameter = (parameter) => {
+  // Check "canChangeRowsNumber" option for Table parameters
+  const columns = ConfigUtils.getParameterAttribute(parameter, 'columns') ?? [];
+  const nonEditableColumn = ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber')
+    ? _getNonEditableColumn(columns)
+    : null;
+  if (nonEditableColumn != null) {
+    console.warn(
+      `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
+        `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
+    );
+    parameter.additionalData.canChangeRowsNumber = false;
+  }
+  // Check columns' "type" option for Table parameters
+  _patchColumnTypes(columns, parameter.id);
+};
+
+const _checkNumberParameter = (parameter) => {
+  if (parameter.defaultValue != null && ConfigUtils.getParameterAttribute(parameter, 'dynamicValues') != null) {
+    console.warn(
+      `In solution configuration, the parameter "${parameter.id}" is defined with ` +
+        'both options "defaultValue" and "additionalData.dynamicValues": the dynamic query may be ignored.'
+    );
+  }
+};
+
 const patchIncorrectParametersInSolution = (solution) => {
   solution.parameters?.forEach((parameter) => {
-    if (parameter.varType === 'enum' || parameter.varType === 'list') {
-      if (ConfigUtils.getParameterAttribute(parameter, 'subType') === 'SCENARIOS') {
-        // Scenario select parameters must not have enumValues defined
-        const optionsToCheck = ['enumValues', 'dynamicEnumValues'];
-        optionsToCheck.forEach((optionName) => {
-          if (ConfigUtils.getParameterAttribute(parameter, optionName) != null) {
-            console.warn(
-              `Ignored unnecessary option "${optionName}" of ${parameter.varType} parameter ${parameter.id} because ` +
-                'the parameter has the subType "SCENARIOS". Please check your Solution configuration.'
-            );
-            delete parameter.additionalData[optionName];
-          }
-        });
-      } else {
-        // Ignore "required" for enum parameters if no enumValues are defined, to avoid users not being able to save or
-        // launch scenarios
-        const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-        const noEnumValues = !Array.isArray(enumValues) || enumValues.length === 0;
-        if (noEnumValues) {
-          if (ConfigUtils.getParameterAttribute(parameter, 'required') === true)
-            console.warn(
-              `Ignored option "required" of ${parameter.varType} parameter ${parameter.id} because no enum values ` +
-                'are provided. Please check your Solution configuration.'
-            );
-          if (parameter.additionalData == null) parameter.additionalData = {};
-          parameter.additionalData.required = false;
-        }
-      }
-
-      // Ignore "dynamicEnumValues" if configuration is incomplete or invalid
-      const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues');
-      if (dynamicSourceConfig == null) return;
-
-      let removeFromConfig = false;
-      if (dynamicSourceConfig.type !== 'dbDatasetPart') {
-        console.error(
-          `Enum parameter ${parameter.id} has unknown type "${dynamicSourceConfig.type}" for dynamicEnumValues. ` +
-            'Currently, the only supported option is "dbDatasetPart".'
-        );
-        removeFromConfig = true;
-      }
-      if (dynamicSourceConfig.datasetPartName == null) {
-        console.error(`Enum parameter ${parameter.id} has no datasetPartName defined in dynamicEnumValues.`);
-        removeFromConfig = true;
-      }
-
-      if (removeFromConfig) {
-        delete parameter.additionalData.dynamicEnumValues;
-        console.warn(
-          `Dynamic values have been disabled for parameter ${parameter.id}, static values from the configuration (or ` +
-            ' an empty list) will be shown.'
-        );
-      }
-    } else if (
-      parameter.varType === FILE_DATASET_PART_ID_VARTYPE &&
+    const { varType } = parameter;
+    if (varType === 'enum' || varType === 'list') _patchEnumParameter(parameter);
+    else if (
+      varType === FILE_DATASET_PART_ID_VARTYPE &&
       ConfigUtils.getParameterAttribute(parameter, 'subType') === 'TABLE'
-    ) {
-      // Check "canChangeRowsNumber" option for Table parameters
-      const columns = ConfigUtils.getParameterAttribute(parameter, 'columns') ?? [];
-      if (ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber')) {
-        const nonEditableColumn = _getNonEditableColumn(columns);
-        if (nonEditableColumn != null) {
-          console.warn(
-            `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
-              `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
-          );
-          parameter.additionalData.canChangeRowsNumber = false;
-        }
-      }
-      // Check columns' "type" option for Table parameters
-      _patchColumnTypes(columns, parameter.id);
-    } else if (parameter.varType === 'int' || parameter.varType === 'number') {
-      if (parameter.defaultValue != null && ConfigUtils.getParameterAttribute(parameter, 'dynamicValues') != null) {
-        console.warn(
-          `In solution configuration, the parameter "${parameter.id}" is defined with ` +
-            'both options "defaultValue" and "additionalData.dynamicValues": the dynamic query may be ignored.'
-        );
-      }
-    }
+    )
+      _patchTableParameter(parameter);
+    else if (varType === 'int' || varType === 'number') _checkNumberParameter(parameter);
   });
 };
 

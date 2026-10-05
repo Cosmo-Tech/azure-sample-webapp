@@ -198,26 +198,28 @@ async function _fetchTwingraphDatasetContent(organizationId, workspaceId, datase
   return { nodes, edges, nodeCategories, edgeCategories };
 }
 
+const _addNodeToContent = (content, node, label) => {
+  content[label] ??= [];
+  if (!content[label].some((item) => item.id === node.id)) content[label].push(node);
+};
+
+const _addEdgeToContent = (content, src, rel, dst, type, identityAttribute) => {
+  content[type] ??= [];
+  const alreadyExists = content[type].some(
+    (item) => item[identityAttribute] === rel[identityAttribute] && item.source === src && item.target === dst
+  );
+  if (!alreadyExists) content[type].push({ source: src, target: dst, ...rel });
+};
+
+const _getEdgeIdentityAttribute = (type, edgeAttributes) => {
+  if (edgeAttributes.includes('id')) return 'id';
+  if (edgeAttributes.includes('name')) return 'name';
+  console.warn(`Links of type ${type} don't have "id" nor "name" attributes. Some arcs may be lost.`);
+  return 'id';
+};
+
 async function _fetchDataFromTwingraphDatasets(organizationId, workspaceId, datasets) {
   const content = {};
-  const addNode = (node, label) => {
-    if (content[label] === undefined) content[label] = [];
-    if (content[label].find((item) => item.id === node.id) === undefined) content[label].push(node);
-  };
-  const addEdge = (src, rel, dst, type, identityAttribute) => {
-    if (content[type] === undefined) content[type] = [];
-    if (
-      !content[type].some(
-        (item) => item[identityAttribute] === rel[identityAttribute] && item.source === src && item.target === dst
-      )
-    )
-      content[type].push({
-        source: src,
-        target: dst,
-        ...rel,
-      });
-  };
-
   const nodesKeys = {};
   const edgesKeys = {};
   for (const datasetId of datasets) {
@@ -229,23 +231,16 @@ async function _fetchDataFromTwingraphDatasets(organizationId, workspaceId, data
     nodeCategories.forEach((nodeCategory) => (nodesKeys[nodeCategory.label] = nodeCategory.keys));
     edgeCategories.forEach((edgeCategory) => (edgesKeys[edgeCategory.type] = edgeCategory.keys));
 
-    for (const label in nodes) {
-      for (const node of nodes[label]) {
-        addNode(node, label);
-      }
+    for (const [label, labelNodes] of Object.entries(nodes)) {
+      labelNodes.forEach((node) => _addNodeToContent(content, node, label));
     }
 
-    for (const type in edges) {
+    for (const [type, typeEdges] of Object.entries(edges)) {
       const edgeAttributes = edgeCategories.find((el) => el.type === type)?.keys ?? [];
-      let edgeIdentityAttribute = 'id';
-      if (!edgeAttributes.includes('id')) {
-        if (!edgeAttributes.includes('name')) {
-          console.warn(`Links of type ${type} don't have "id" nor "name" attributes. Some arcs may be lost.`);
-        } else edgeIdentityAttribute = 'name';
-      }
-      for (const edge of edges[type]) {
-        addEdge(edge.src, edge.properties, edge.dst, type, edgeIdentityAttribute);
-      }
+      const identityAttribute = _getEdgeIdentityAttribute(type, edgeAttributes);
+      typeEdges.forEach((edge) =>
+        _addEdgeToContent(content, edge.src, edge.properties, edge.dst, type, identityAttribute)
+      );
     }
   }
 

@@ -7,12 +7,8 @@ export const MOCK_STORE_ACTIONS = {
 };
 
 function reducer(state = [], action) {
-  switch (action.type) {
-    case MOCK_STORE_ACTIONS.UPDATE:
-      return action.updateData;
-    default:
-      return state;
-  }
+  if (action.type === MOCK_STORE_ACTIONS.UPDATE) return action.updateData;
+  return state;
 }
 
 const reduce = jest.fn();

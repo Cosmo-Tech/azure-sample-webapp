@@ -6,6 +6,7 @@ import js from '@eslint/js';
 import cypress from 'eslint-plugin-cypress';
 import jest from 'eslint-plugin-jest';
 import prettier from 'eslint-plugin-prettier';
+import sonarjs from 'eslint-plugin-sonarjs';
 import globals from 'globals';
 import neostandard from 'neostandard';
 import path from 'node:path';
@@ -34,7 +35,13 @@ export default [
     ],
   },
   ...neostandardConfig,
-  ...compat.extends('plugin:react/recommended', 'prettier', 'plugin:prettier/recommended', 'plugin:jest/recommended'),
+  ...compat.extends(
+    'plugin:react/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:jest/recommended',
+    'plugin:sonarjs/recommended-legacy'
+  ),
 
   cypress.configs.recommended,
   cypress.configs.globals,
@@ -46,6 +53,7 @@ export default [
       cypress,
       prettier,
       jest,
+      sonarjs,
     },
 
     languageOptions: {
@@ -81,8 +89,9 @@ export default [
       'jest/no-focused-tests': 'error',
       'jest/no-identical-title': 'error',
       'jest/prefer-to-have-length': 'warn',
-      semi: [2, 'always'],
+      'sonarjs/todo-tag': 0,
 
+      semi: [2, 'always'],
       'max-len': [
         'error',
         {
@@ -98,6 +107,8 @@ export default [
       'jest/valid-describe-callback': 0,
       'jest/valid-expect': 0,
       'jest/valid-expect-in-promise': 0,
+      'sonarjs/assertions-in-tests': 0,
+      'sonarjs/prefer-specific-assertions': 0,
     },
   },
 ];

@@ -4,14 +4,9 @@ import { DatasetManager, Login, ScenarioParameters, Scenarios, ScenarioSelector 
 import { BreweryParameters } from '../../commons/actions/brewery';
 import { stub } from '../../commons/services/stubbing';
 import { apiUtils as api } from '../../commons/utils';
-import {
-  WORKSPACE,
-  DATASETS_TO_REFRESH,
-  ORGANIZATION_WITH_DEFAULT_ROLE_USER,
-  RUNNERS_FOR_ETL_DATASETS,
-} from '../../fixtures/stubbing/DatasetManager';
+import { WORKSPACE, DATASETS_TO_REFRESH, RUNNERS_FOR_ETL_DATASETS } from '../../fixtures/stubbing/DatasetManager';
 import { SCENARIOS_WITH_DATASET_ERROR } from '../../fixtures/stubbing/DisableLaunchButton/scenarios';
-import { BASIC_PARAMETERS_SIMULATION_RUNNER } from '../../fixtures/stubbing/default';
+import { BASIC_PARAMETERS_SIMULATION_RUNNER, DEFAULT_ORGANIZATION } from '../../fixtures/stubbing/default';
 
 const scenarioWithBrokenDataset = SCENARIOS_WITH_DATASET_ERROR[1];
 const scenarioReadyToLaunch = SCENARIOS_WITH_DATASET_ERROR[2];
@@ -25,7 +20,7 @@ describe('Disable Launch button on invalid dataset', () => {
 
   beforeEach(() => {
     Login.login({ url: '/W-stbbdbrwryWithDM', workspaceId: 'W-stbbdbrwryWithDM' });
-    stub.setOrganizations([ORGANIZATION_WITH_DEFAULT_ROLE_USER]);
+    stub.setOrganizations([DEFAULT_ORGANIZATION]);
     stub.setWorkspaces([WORKSPACE]);
     stub.setDatasets([...DATASETS_TO_REFRESH]);
     stub.setRunners([...RUNNERS_FOR_ETL_DATASETS, ...SCENARIOS_WITH_DATASET_ERROR]);
