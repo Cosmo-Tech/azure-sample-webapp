@@ -46,7 +46,7 @@ const getHighestRole = (roleA = 'none', roleB = 'none', orderedRoles = ORDERED_A
 const getResourceUsersAndGroups = (acl = [], membersAndGroups = {}, orderedRoles = ORDERED_ACL_ROLES) => {
   const groups = membersAndGroups?.groups ?? [];
   const groupIds = new Set(groups.map((group) => group.id));
-  const groupUsers = groups.map((group) => (group?.users ?? []).map((user) => ({ id: user, role: group.role }))).flat();
+  const groupUsers = groups.flatMap((group) => (group?.users ?? []).map((user) => ({ id: user, role: group.role })));
   const usersFromACL = (acl ?? []).filter((aclEntry) => !groupIds.has(aclEntry.id));
   const usersFromMembers = membersAndGroups?.users ?? [];
 
