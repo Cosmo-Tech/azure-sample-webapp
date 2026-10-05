@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const isString = (value) => typeof value === 'string' || value instanceof String;
+const isString = (value) => typeof value === 'string';
 
 const isValidCosmoResourceId = (value) => {
   if (!isString(value)) return false;
