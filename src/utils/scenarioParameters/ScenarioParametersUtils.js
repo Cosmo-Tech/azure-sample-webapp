@@ -371,9 +371,9 @@ const _addFileParameter = (parameters, parameter, parameterValue, runnerToUpdate
 const buildParametersForUpdateRequest = (
   solution,
   parameterValues = {},
-  runTemplateParametersIds,
-  runnerToUpdate,
-  allScenarios
+  runTemplateParametersIds = null,
+  runnerToUpdate = null,
+  allScenarios = null
 ) => {
   const parameterIds = runTemplateParametersIds ?? Object.keys(parameterValues);
 

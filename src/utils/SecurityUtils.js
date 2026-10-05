@@ -255,7 +255,7 @@ const getUserPermissionsForResource = (
   userIdentifier,
   resourceRolesToPermissionsMapping,
   orderedRoles = ORDERED_ACL_ROLES,
-  groups
+  groups = []
 ) => {
   const resourceSecurity = resource?.security;
   if (resourceSecurity == null) {
