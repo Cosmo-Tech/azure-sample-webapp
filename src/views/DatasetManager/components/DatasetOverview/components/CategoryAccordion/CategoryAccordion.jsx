@@ -49,13 +49,13 @@ const CategoryAccordion = (props) => {
       categoryMainKpis = (category?.kpis ?? [])
         .filter((kpi) => kpi.id != null)
         .slice(0, 2)
-        .map((kpi, index) => {
+        .map((kpi) => {
           const kpiWithResult = {
             ...kpi,
             ...queriesResults?.[kpi.queryId]?.[kpi.id],
           };
           return (
-            <Grid key={`kpi${index}`}>
+            <Grid key={`kpi${kpi.id}`}>
               <KPI
                 labelProps={{ sx: { opacity: '70%' } }}
                 valueProps={{ sx: { opacity: '70%' } }}
@@ -103,10 +103,10 @@ const CategoryAccordion = (props) => {
     }));
     let categoryKpis = null;
     if (category.kpis && category.kpis.length > 0)
-      categoryKpis = category.kpis.map((kpi, index) => {
+      categoryKpis = category.kpis.map((kpi) => {
         return (
           <KPI
-            key={`kpi-${index}`}
+            key={`kpi-${kpi.id}`}
             valueProps={{ sx: { opacity: '70%' } }}
             kpi={kpisWithResult.find((kpiResult) => kpiResult.id === kpi.id)}
             categoryId={category.id}

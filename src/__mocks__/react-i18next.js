@@ -13,7 +13,7 @@ const renderNodes = (reactNodes) => {
     return reactNodes;
   }
 
-  return Object.keys(reactNodes).map((key, i) => {
+  return Object.keys(reactNodes).map((key) => {
     const child = reactNodes[key];
     const isElement = React.isValidElement(child);
 
@@ -22,7 +22,7 @@ const renderNodes = (reactNodes) => {
     }
     if (hasChildren(child)) {
       const inner = renderNodes(getChildren(child));
-      return React.cloneElement(child, { ...child.props, key: i }, inner);
+      return React.cloneElement(child, { ...child.props, key: child.key ?? key }, inner);
     }
     if (typeof child === 'object' && !isElement) {
       return Object.keys(child).reduce((str, childKey) => `${str}${child[childKey]}`, '');

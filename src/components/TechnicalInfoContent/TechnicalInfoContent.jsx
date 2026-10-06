@@ -80,9 +80,9 @@ export const TechnicalInfoContent = () => {
       <Grid>
         <Typography gutterBottom={false}>{t('genericcomponent.dialog.technicalInfo.details', 'Details')}</Typography>
         <List dense disablePadding>
-          {infoToDisplay.map((infoItem, index) => (
+          {infoToDisplay.map((infoItem) => (
             <ListItem
-              key={index}
+              key={infoItem.id}
               sx={{ display: 'list-item', listStyleType: 'disc', listStylePosition: 'inside' }}
               dense
             >

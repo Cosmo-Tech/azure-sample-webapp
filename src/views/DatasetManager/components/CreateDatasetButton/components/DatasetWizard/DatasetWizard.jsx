@@ -114,7 +114,7 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
                       data-cy={`new-dataset-tags-tag-${index}`}
                       color="primary"
                       {...getTagProps({ index })}
-                      key={index}
+                      key={`${index}-${tagText}`}
                     />
                   ))
                 }
