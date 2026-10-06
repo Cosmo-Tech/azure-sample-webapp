@@ -100,7 +100,7 @@ const App = () => {
 
   const getAppContent = useCallback(() => {
     if (isConnecting) {
-      return <div className="spinner-border text-success" role="status" />;
+      return <div />;
     }
 
     if (isAuthenticated && isLoading) {
