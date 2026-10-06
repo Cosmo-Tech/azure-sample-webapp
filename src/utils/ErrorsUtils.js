@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 const _isString = (value) => {
-  return typeof value === 'string' || value instanceof String;
+  return typeof value === 'string';
 };
 
 export const parseError = (error) => {

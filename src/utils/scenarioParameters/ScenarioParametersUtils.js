@@ -13,7 +13,7 @@ const clone = rfdc();
 
 const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parametersValues, solutionData) => {
   // Check if the run template uses a hidden scenario parameter
-  const hiddenParametersIds = [
+  const hiddenParametersIds = new Set([
     'ScenarioName',
     'ScenarioId',
     'MasterId',
@@ -22,8 +22,8 @@ const shouldForceScenarioParametersUpdate = (runTemplateParametersIds, parameter
     'ScenarioLastRunId',
     'ParentLastRunId',
     'MasterLastRunId',
-  ];
-  if (runTemplateParametersIds.some((parameterId) => hiddenParametersIds.includes(parameterId))) return true;
+  ]);
+  if (runTemplateParametersIds.some((parameterId) => hiddenParametersIds.has(parameterId))) return true;
 
   // Check if the scenario has dynamically fetched data that must be saved
   const dynamicParametersIds = solutionData?.parameters
@@ -371,9 +371,9 @@ const _addFileParameter = (parameters, parameter, parameterValue, runnerToUpdate
 const buildParametersForUpdateRequest = (
   solution,
   parameterValues = {},
-  runTemplateParametersIds,
-  runnerToUpdate,
-  allScenarios
+  runTemplateParametersIds = null,
+  runnerToUpdate = null,
+  allScenarios = null
 ) => {
   const parameterIds = runTemplateParametersIds ?? Object.keys(parameterValues);
 

@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const { SELF_CMD_LINE, VALID_TARGET_VERSIONS, LATEST_VERSION } = require('./constants.js');
 
 function checkTargetVersion(targetVersion) {

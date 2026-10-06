@@ -70,14 +70,14 @@ const ScenarioParameters = ({ onToggleAccordion, isAccordionExpanded }) => {
 
   useEffect(() => {
     discardLocalChanges();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scenarioId]);
 
   // The useEffect below is currently necessary to prevent a glitch when saving scenario parameters values (without it,
   // the table content briefly shows the previous rows before displaying the new ones)
   useEffect(() => {
     if (scenarioStatus === STATUSES.SUCCESS) reset({ ...getValues() });
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scenarioStatus]);
 
   const preventSubmit = (event) => {

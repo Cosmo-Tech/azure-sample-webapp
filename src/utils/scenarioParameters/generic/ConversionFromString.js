@@ -14,12 +14,12 @@ function _convertStringFromString(parameterValue) {
 
 function _convertIntFromString(parameterValue) {
   if (parameterValue === '') return null;
-  return parseInt(parameterValue);
+  return Number.parseInt(parameterValue);
 }
 
 function _convertNumberFromString(parameterValue) {
   if (parameterValue === '') return null;
-  return parseFloat(parameterValue);
+  return Number.parseFloat(parameterValue);
 }
 
 function _convertBoolFromString(parameterValue) {

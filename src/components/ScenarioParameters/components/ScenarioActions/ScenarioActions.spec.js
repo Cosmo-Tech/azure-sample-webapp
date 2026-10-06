@@ -83,11 +83,11 @@ describe('Test scenario buttons when scenario is not running', () => {
       mockUseStartRunner.mockClear();
     });
 
-    test('Check buttons', async () => {
+    test('Check buttons', () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(launchScenarioButton.Button).toBeEnabled();
       expect(getByDataCy('launch-label')).toBeVisible();
-      await launchScenarioButton.click();
+      launchScenarioButton.click();
       expect(mockSaveParameterValues).not.toHaveBeenCalled();
       expect(mockUseStartRunner).toHaveBeenCalled();
 
@@ -110,20 +110,20 @@ describe('Test scenario buttons when scenario is not running', () => {
       mockOpenDialog.mockClear();
     });
 
-    test('Check buttons', async () => {
+    test('Check buttons', () => {
       expect(launchScenarioButton.Button).toBeVisible();
       expect(getByDataCy('save-and-launch-label')).toBeVisible();
-      await launchScenarioButton.click();
+      launchScenarioButton.click();
       expect(mockSaveParameterValues).toHaveBeenCalled();
       expect(mockUseStartRunner).toHaveBeenCalled();
 
       expect(saveScenarioButton.Button).toBeVisible();
-      await saveScenarioButton.click();
+      saveScenarioButton.click();
       expect(mockSaveParameterValues).toHaveBeenCalled();
 
       expect(discardChangesButton.Button).toBeVisible();
-      await discardChangesButton.click();
-      await expect(mockOpenDialog).toHaveBeenCalled();
+      discardChangesButton.click();
+      expect(mockOpenDialog).toHaveBeenCalled();
     });
   });
 });
@@ -140,7 +140,7 @@ describe('Test scenario buttons when scenario is running', () => {
     mockOpenDialog.mockClear();
   });
 
-  test('Check buttons', async () => {
+  test('Check buttons', () => {
     expect(launchScenarioButton.Button).not.toBeInTheDocument();
     expect(saveScenarioButton.Button).not.toBeInTheDocument();
     expect(discardChangesButton.Button).not.toBeInTheDocument();
@@ -148,7 +148,7 @@ describe('Test scenario buttons when scenario is running', () => {
     expect(stopRunButton.Button).toBeVisible();
     expect(getByDataCy('running-state-spinner')).toBeVisible();
     expect(runningStateLabel.Typography).toBeVisible();
-    await stopRunButton.click();
-    await expect(mockOpenDialog).toHaveBeenCalled();
+    stopRunButton.click();
+    expect(mockOpenDialog).toHaveBeenCalled();
   });
 });

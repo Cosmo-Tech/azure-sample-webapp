@@ -6,6 +6,14 @@ import { SolutionSchema } from '../../services/config/SolutionSchema';
 import { WorkspaceSchema } from '../../services/config/WorkspaceSchema';
 import { ConfigUtils } from '../ConfigUtils';
 
+function mockMethod(param) {
+  return param;
+}
+
+function mockMethod2(param) {
+  return param;
+}
+
 describe('buildExtendedVarType with possible values', () => {
   test.each`
     varType      | extension      | expectedRes
@@ -37,14 +45,6 @@ describe('getConversionMethod with possible values', () => {
   afterEach(() => {
     spyConsoleWarn.mockClear();
   });
-
-  function mockMethod(param) {
-    return param;
-  }
-
-  function mockMethod2(param) {
-    return param;
-  }
 
   const arrayWithoutTypes = { noConversionMethod: true };
   const arrayWithVarType = { varType: mockMethod };

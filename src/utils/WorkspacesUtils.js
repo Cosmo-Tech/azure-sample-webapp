@@ -29,8 +29,7 @@ const forgeDatasetManagerConfiguration = (config) => {
   if (config == null || !(config instanceof Object)) return;
 
   const { categories, kpiCards } = config;
-  if ((categories != null && !(categories instanceof Array)) || (kpiCards != null && !(kpiCards instanceof Array)))
-    return;
+  if ((categories != null && !Array.isArray(categories)) || (kpiCards != null && !Array.isArray(kpiCards))) return;
 
   const kpiIdsByQueryId = {};
   const addKpi = (kpi) => {
@@ -39,7 +38,7 @@ const forgeDatasetManagerConfiguration = (config) => {
     else kpiIdsByQueryId[kpi.queryId].push(kpi.id);
   };
   kpiCards?.forEach(addKpi);
-  categories?.forEach((category) => category.kpis instanceof Array && category.kpis?.forEach(addKpi));
+  categories?.forEach((category) => Array.isArray(category.kpis) && category.kpis?.forEach(addKpi));
 
   return { kpiIdsByQueryId };
 };
@@ -58,14 +57,14 @@ const checkDatasetManagerConfiguration = (workspace) => {
   const logWarning = (warning) => console.warn(`Dataset manager configuration: ${warning}`);
   const config = workspace?.additionalData?.webapp?.datasetManager;
   if (config == null) return;
-  if (!(config instanceof Object) || config instanceof Array) {
+  if (!(config instanceof Object) || Array.isArray(config)) {
     logWarning('"datasetManager" must be an Object');
     return;
   }
 
   const { kpiCards, categories, queries } = config;
 
-  const isQueriesValid = queries instanceof Array;
+  const isQueriesValid = Array.isArray(queries);
   if (queries != null) {
     if (!isQueriesValid) logWarning('property "queries" must be an Array');
     else {
@@ -89,10 +88,8 @@ const checkDatasetManagerConfiguration = (workspace) => {
       else if (kpi.queryId == null) logWarning(`in ${propertyNameForWarnings}, item #${index} has no queryId`);
       else if (kpiIdsByQueryId?.[kpi.queryId]?.includes(kpi.id))
         logWarning(`in ${propertyNameForWarnings}, item #${index} uses a KPI id that already exists (id: ${kpi.id}).`);
-      else {
-        if (!kpiIdsByQueryId?.[kpi.queryId]) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
-        else kpiIdsByQueryId?.[kpi.queryId].push(kpi.id);
-      }
+      else if (!kpiIdsByQueryId?.[kpi.queryId]) kpiIdsByQueryId[kpi.queryId] = [kpi.id];
+      else kpiIdsByQueryId?.[kpi.queryId].push(kpi.id);
 
       if (kpi.queryId == null) return;
       if (!isQueriesValid || queries.find((query) => query.id === kpi.queryId) === undefined) {
@@ -105,18 +102,17 @@ const checkDatasetManagerConfiguration = (workspace) => {
   };
 
   if (kpiCards != null) {
-    if (!(kpiCards instanceof Array)) logWarning('property "kpiCards" must be an Array');
+    if (!Array.isArray(kpiCards)) logWarning('property "kpiCards" must be an Array');
     else checkKpisList(kpiCards, 'kpiCards');
   }
 
   if (categories != null) {
-    if (!(categories instanceof Array)) logWarning('property "categories" must be an Array');
+    if (!Array.isArray(categories)) logWarning('property "categories" must be an Array');
     else {
       categories.forEach((category, index) => {
         if (category.id == null) logWarning(`in categories, item #${index} has no id`);
         if (category.kpis != null) {
-          if (!(category.kpis instanceof Array))
-            logWarning(`property "kpis" in category item #${index} must be an Array`);
+          if (!Array.isArray(category.kpis)) logWarning(`property "kpis" in category item #${index} must be an Array`);
           else checkKpisList(category.kpis, 'categories kpis');
         }
       });

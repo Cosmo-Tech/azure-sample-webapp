@@ -41,15 +41,17 @@ export function* applyRunnerSharingChanges(action) {
     );
 
     const solutionParameters = yield select(getSolutionParameters);
-    const defaultDatasetsIds = solutionParameters
-      .filter((parameter) => parameter.varType === FILE_DATASET_PART_ID_VARTYPE && parameter.defaultValue != null)
-      .map((parameter) => parameter.defaultValue);
+    const defaultDatasetsIds = new Set(
+      solutionParameters
+        .filter((parameter) => parameter.varType === FILE_DATASET_PART_ID_VARTYPE && parameter.defaultValue != null)
+        .map((parameter) => parameter.defaultValue)
+    );
 
     const runnerDatasetsIds = (currentSimulationRunner.parametersValues ?? [])
       .filter((value) => value.varType === FILE_DATASET_PART_ID_VARTYPE)
       .map((dataset) => dataset.value);
     for (const datasetId of runnerDatasetsIds) {
-      if (defaultDatasetsIds.includes(datasetId)) continue; // Do not update access to common "default datasets"
+      if (defaultDatasetsIds.has(datasetId)) continue; // Do not update access to common "default datasets"
 
       const dataset = datasets.find((el) => el.id === datasetId);
       if (!dataset) {

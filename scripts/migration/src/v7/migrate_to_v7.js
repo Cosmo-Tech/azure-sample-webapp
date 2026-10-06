@@ -1,8 +1,8 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const path = require('path');
-const fs = require('fs');
+const path = require('node:path');
+const fs = require('node:fs');
 const { checkFileExists } = require('../common/check.js');
 const json = require('../common/json.js');
 const yaml = require('../common/yaml.js');

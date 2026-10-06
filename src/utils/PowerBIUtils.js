@@ -28,10 +28,8 @@ const _forgeFiltersInReportConfig = (reportConfig) => {
 const _fillReportsConfig = (reportsConfig) => {
   if (!reportsConfig) return reportsConfig;
 
-  if (Array.isArray(reportsConfig)) {
-    return reportsConfig.map((reportConfig) => _forgeFiltersInReportConfig(reportConfig));
-  }
-  Object.values(reportsConfig).forEach((reportConfig) => _forgeFiltersInReportConfig(reportConfig));
+  if (Array.isArray(reportsConfig)) reportsConfig.forEach((reportConfig) => _forgeFiltersInReportConfig(reportConfig));
+  else Object.values(reportsConfig).forEach((reportConfig) => _forgeFiltersInReportConfig(reportConfig));
 };
 
 const fillChartsConfig = (chartsConfig) => {

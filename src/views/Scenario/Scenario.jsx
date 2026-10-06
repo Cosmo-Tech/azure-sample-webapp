@@ -8,12 +8,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Card, Divider, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { ScenarioValidationStatusChip, PermissionsGate, FadingTooltip } from '@cosmotech/ui';
 import {
-  ScenarioParameters,
-  ShareScenarioButton,
   CreateScenarioButton,
   CurrentScenarioSelector,
+  ShareScenarioButton,
+  ScenarioParameters,
+  ScenarioRunStateChip,
 } from '../../components';
-import { ScenarioRunStateChip } from '../../components';
 import { useConfirmOnRouteChange, useRedirectionToScenario } from '../../hooks/RouterHooks';
 import { RUNNER_VALIDATION_STATUS } from '../../services/config/ApiConstants.js';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';

@@ -21,14 +21,11 @@ ALLOWED_CSP_FILES = ["azure", "custom", "default"]
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description='''This script is a python executable, whose goal is to patch a Cosmo Tech webapp package (i.e. a
-        "build" folder) by applying changes to the webapp configuration, based on environment variables and
-        configuration files. Configuration files can be loaded either from a local folder, or fetched from a git
-        repository.
+        "build" folder) by applying changes to the webapp configuration based on local configuration files.
         '''
     )
     parser.add_argument(
         "-n", "--dry-run", action='store_true', help="Print changes to console without applying them", default=False)
-    parser.add_argument("-e", "--env-file", help="Path to file to use as source for environment variables")
     parser.add_argument(
         "-i", "--input-folder", help="Path to a local folder to use as configuration input", required=True)
     parser.add_argument("-o", "--output-folder", help="Path to the build output folder", default="./build")
@@ -183,7 +180,7 @@ def merge_csp_files(input_config_folder, csp_sources_arg):
         if csp_source == 'custom':
             file_path = os.path.join(input_config_folder, 'config', 'ContentSecurityPolicy.json')
             if not os.path.isfile(file_path):
-                print(f"  - [WARNING] skipped custom CSP file ContentSecurityPolicy.json (file not found)" )
+                print("  - [WARNING] skipped custom CSP file ContentSecurityPolicy.json (file not found)" )
                 continue
         csp_part = load_json(file_path)
         csp_dict = merge_csp_parts(csp_dict, csp_part)
@@ -211,8 +208,8 @@ def apply_csp(output_folder, csp_html):
     find_replace_in_file(html_file_path, pattern_to_replace, csp_html)
 
 
-def load_config_values(input_config_folder, env_file):
-    print(f"\nLoading configuration values:" )
+def load_config_values(input_config_folder):
+    print("\nLoading configuration values:" )
     config_values = {}
     mandatory_file_names = ["GlobalConfiguration.json"]
     optional_file_names = ["HelpMenuConfiguration.json"]
@@ -257,7 +254,7 @@ def apply_config_values(output_folder, js_env_file_content, public_url=""):
     # Add JS script loading in index.html
     html_file_path = os.path.join(output_folder, 'index.html')
     pattern = '<script id="publicWebappConfigElement"></script>'
-    script_tag = f'<script src="/assets/publicWebappConfig.js"></script>'
+    script_tag = '<script src="/assets/publicWebappConfig.js"></script>'
     find_replace_in_file(html_file_path, pattern, script_tag)
 
     # Inject public URL in path of static resources (src="/foo", href="/bar")
@@ -306,7 +303,7 @@ def main():
     asset_copy_mapping = load_asset_copy_mapping(input_config_folder)
     csp = merge_csp_files(input_config_folder, args.csp)
     csp_html = generate_csp_html(csp)
-    config_values = load_config_values(input_config_folder, args.env_file)
+    config_values = load_config_values(input_config_folder)
     js_env_file_content = generate_config_values_js(config_values)
     new_translation_files = merge_translation_files(input_config_folder, args.output_folder)
 

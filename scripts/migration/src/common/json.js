@@ -1,7 +1,7 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
 
-const fs = require('fs');
+const fs = require('node:fs');
 const prettier = require('prettier');
 
 const PRETTIER_DEFAULT_OPTIONS = {

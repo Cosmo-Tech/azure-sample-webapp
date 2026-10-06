@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 const yaml = require('js-yaml');
-const fs = require('fs');
+const fs = require('node:fs');
 
 const readFromFile = (filePath, encoding = 'utf8') => {
   try {

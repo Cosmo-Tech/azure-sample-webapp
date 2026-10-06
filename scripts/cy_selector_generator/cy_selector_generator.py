@@ -114,8 +114,8 @@ def display_actions_exports(selectors):
 
 
 def main():
-    input = parse_arguments()
-    file_content = parse_file(input)
+    input_args = parse_arguments()
+    file_content = parse_file(input_args)
     selectors = get_selectors_from_file(file_content)
     extract_parameters_from_selectors(selectors)
     generate_ids_constants(selectors)

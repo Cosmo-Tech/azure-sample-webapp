@@ -47,8 +47,7 @@ export const useScenarioRunStateChip = (scenarioId) => {
   const getScenarioRunState = useCallback(
     (runnerId) => {
       const runner = getRunnerById(runnerId);
-      if (!runner) return RUNNER_RUN_STATE.UNKNOWN;
-      const status = RunnersUtils.getLastRunStatus(runner);
+      const status = runner != null ? RunnersUtils.getLastRunStatus(runner) : RUNNER_RUN_STATE.UNKNOWN;
       const label = getRunStatusLabel(status);
       const icon = RUN_STATUS_BADGE_ICONS[status?.toLowerCase()];
 

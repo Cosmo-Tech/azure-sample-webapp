@@ -40,7 +40,7 @@ export const ScenarioInfoTooltip = ({ scenario }) => {
     tags.length > 0 ? (
       <Grid container spacing={1.5}>
         {tags.map((tag, index) => (
-          <Chip key={index} label={tag} data-cy={`scenario-info-tag-${index}`} color="primary" />
+          <Chip key={`${index}-${tag}`} label={tag} data-cy={`scenario-info-tag-${index}`} color="primary" />
         ))}
       </Grid>
     ) : (

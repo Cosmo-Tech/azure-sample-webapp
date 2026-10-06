@@ -10,8 +10,8 @@ const operatorsDict = {
 };
 
 const getIsVarTypesComparisonValid = (varType, varTypeToCompare) => {
-  const numberVarTypes = ['int', 'number'];
-  return varType === varTypeToCompare || [varType, varTypeToCompare].every((el) => numberVarTypes.includes(el));
+  const numberVarTypes = new Set(['int', 'number']);
+  return varType === varTypeToCompare || [varType, varTypeToCompare].every((el) => numberVarTypes.has(el));
 };
 
 const getParameterValidationConstraint = (validationString, varType, parametersList) => {

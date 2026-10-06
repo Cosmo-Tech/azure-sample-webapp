@@ -18,7 +18,7 @@ export const forgePowerBIError = (
   statusText = 'Unexpected error',
   errorMessage = 'Something went wrong when trying to display PowerBI dashboards. If the problem persists, please ' +
     'contact an administrator.',
-  description,
+  description = null,
   titlePrefix = ''
 ) => {
   if (description) console.error(description); // Log error details in console, they may not be displayed in the UI
