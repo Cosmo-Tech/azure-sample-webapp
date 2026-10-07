@@ -33,6 +33,11 @@ export const useDatasetMetadata = () => {
         : '';
     }
   }, [currentDataset, runners, t]);
+  const refreshTimestamp = useMemo(() => {
+    const runnerId = DatasetsUtils.getDatasetOption(currentDataset, 'runnerId');
+    const datasetRunner = runnerId == null ? null : runners?.find((runner) => runner.id === runnerId);
+    return DatasetsUtils.getDatasetLastRefreshTimestamp(currentDataset, datasetRunner);
+  }, [currentDataset, runners]);
   const updateDataset = useUpdateDataset();
 
   const datasets = useDatasets();
@@ -51,5 +56,6 @@ export const useDatasetMetadata = () => {
     selectedDatasetIndex,
     parentDatasetName,
     etlDatasetRunTemplateName,
+    refreshTimestamp,
   };
 };

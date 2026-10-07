@@ -23,6 +23,7 @@ export const DatasetMetadata = () => {
     selectedDatasetIndex,
     parentDatasetName,
     etlDatasetRunTemplateName,
+    refreshTimestamp,
   } = useDatasetMetadata();
   const datasetId = dataset?.id;
   const userPermissionsOnDataset = dataset?.security?.currentUserPermissions ?? [];
@@ -136,10 +137,7 @@ export const DatasetMetadata = () => {
         <MetadataItem
           id="refresh-date"
           label={t('commoncomponents.datasetmanager.metadata.refreshDate', 'Last refresh')}
-          value={
-            dataset?.updateInfo?.timestamp &&
-            new Date(dataset?.updateInfo?.timestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })
-          }
+          value={refreshTimestamp && new Date(refreshTimestamp)?.toLocaleString('en-US', { timeZone: 'UTC' })}
         />
         <MetadataItem
           id="source-type"
