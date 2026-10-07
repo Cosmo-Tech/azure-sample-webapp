@@ -651,6 +651,16 @@ const interceptDeleteDatasetPart = (datasetPartId) => {
   return alias;
 };
 
+const interceptReplaceDatasetPart = (datasetId, datasetPartId, replacementPart) => {
+  const alias = forgeAlias('reqReplaceDatasetPart');
+  cy.intercept({ method: 'PUT', url: API_REGEX.DATASET_PART, times: 1 }, (req) => {
+    expect(req.url).to.match(new RegExp(`/datasets/${datasetId}/parts/${datasetPartId}$`));
+    if (stub.isEnabledFor('GET_DATASETS')) stub.patchDataset(datasetId, { parts: [replacementPart] });
+    req.reply(replacementPart);
+  }).as(alias);
+  return alias;
+};
+
 // Parameters:
 //   - options: dict with properties:
 //     - id (optional): id of the runner to create
@@ -812,6 +822,7 @@ export const apiUtils = {
   interceptSetDatasetDefaultSecurity,
   interceptDeleteDataset,
   interceptDeleteDatasetPart,
+  interceptReplaceDatasetPart,
   interceptCreateRunner,
   interceptUpdateRunner,
   interceptGetOrganizationPermissions,

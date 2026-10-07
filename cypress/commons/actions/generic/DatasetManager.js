@@ -51,6 +51,18 @@ export const getRefreshDatasetSpinner = (datasetId, timeout = 10) =>
 export const getRefreshDatasetErrorIcon = (datasetId) =>
   cy.get(SELECTORS.list.refreshErrorIconByDatasetId.replace('$DATASETID', datasetId));
 export const getConfirmDatasetRefreshButton = () => cy.get(SELECTORS.confirmRefreshButton);
+
+export const reuploadDataset = (datasetId, datasetPartId, replacementPart, filePath) => {
+  const alias = api.interceptReplaceDatasetPart(datasetId, datasetPartId, replacementPart);
+
+  // Note: the two next lines are not strictly necessary, because the following step forces an upload anyway
+  getDatasetReuploadButton(datasetId).click();
+  getConfirmDatasetRefreshButton().click();
+
+  getDatasetReuploadInput(datasetId).selectFile(filePath, { force: true });
+  api.waitAlias(alias);
+};
+
 export const getAllDeleteDatasetButtons = () => cy.get(SELECTORS.list.deleteButtons);
 export const getDatasetDeleteButton = (datasetId) =>
   cy.get(SELECTORS.list.deleteButtonByDatasetId.replace('$DATASETID', datasetId));
