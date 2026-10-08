@@ -249,7 +249,7 @@ export const confirmDatasetCreation = (options = {}) => {
     aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
     aliases.push(api.interceptStartRunner());
     aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
-    aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
+    aliases.push(api.interceptGetDataset()); // Intercept GET query on runner's base dataset after the ETL has run
   }
 
   getConfirmDatasetCreation().click();
@@ -377,7 +377,7 @@ export const updateDatasetParameters = (datasetId, options) => {
   aliases.push(api.interceptUpdateRunner(options));
   aliases.push(api.interceptStartRunner());
   aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
-  aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
+  aliases.push(api.interceptGetDataset()); // Intercept GET query on runner's base dataset after the ETL has run
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };
