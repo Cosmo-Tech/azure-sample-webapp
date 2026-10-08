@@ -92,7 +92,20 @@ const hasDBDatasetParts = (dataset) => {
   return parts.some((part) => part.type === 'DB');
 };
 
+const getMaxTimestamp = (timestamps) => {
+  const validTimestamps = timestamps.filter((timestamp) => timestamp != null && !isNaN(new Date(timestamp)));
+  if (validTimestamps.length === 0) return undefined;
+  return validTimestamps.reduce((max, current) => (new Date(current) > new Date(max) ? current : max));
+};
+
+const getDatasetLastRefreshTimestamp = (dataset, runner) => {
+  const runnerTimestamp = runner?.updateInfo?.timestamp;
+  const partsTimestamp = getMaxTimestamp((dataset?.parts ?? []).map((part) => part?.updateInfo?.timestamp));
+  return getMaxTimestamp([partsTimestamp, runnerTimestamp]) ?? dataset?.updateInfo?.timestamp;
+};
+
 export const DatasetsUtils = {
+  getDatasetLastRefreshTimestamp,
   patchDatasetWithCurrentUserPermissions,
   getAllChildrenDatasetsNames,
   uploadZipWithFetchApi,

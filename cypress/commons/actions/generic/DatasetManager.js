@@ -51,6 +51,18 @@ export const getRefreshDatasetSpinner = (datasetId, timeout = 10) =>
 export const getRefreshDatasetErrorIcon = (datasetId) =>
   cy.get(SELECTORS.list.refreshErrorIconByDatasetId.replace('$DATASETID', datasetId));
 export const getConfirmDatasetRefreshButton = () => cy.get(SELECTORS.confirmRefreshButton);
+
+export const reuploadDataset = (datasetId, datasetPartId, replacementPart, filePath) => {
+  const alias = api.interceptReplaceDatasetPart(datasetId, datasetPartId, replacementPart);
+
+  // Note: the two next lines are not strictly necessary, because the following step forces an upload anyway
+  getDatasetReuploadButton(datasetId).click();
+  getConfirmDatasetRefreshButton().click();
+
+  getDatasetReuploadInput(datasetId).selectFile(filePath, { force: true });
+  api.waitAlias(alias);
+};
+
 export const getAllDeleteDatasetButtons = () => cy.get(SELECTORS.list.deleteButtons);
 export const getDatasetDeleteButton = (datasetId) =>
   cy.get(SELECTORS.list.deleteButtonByDatasetId.replace('$DATASETID', datasetId));
@@ -237,7 +249,7 @@ export const confirmDatasetCreation = (options = {}) => {
     aliases.push(api.interceptUpdateRunner(options.runnerUpdateOptions));
     aliases.push(api.interceptStartRunner());
     aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
-    aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
+    aliases.push(api.interceptGetDataset()); // Intercept GET query on runner's base dataset after the ETL has run
   }
 
   getConfirmDatasetCreation().click();
@@ -365,7 +377,7 @@ export const updateDatasetParameters = (datasetId, options) => {
   aliases.push(api.interceptUpdateRunner(options));
   aliases.push(api.interceptStartRunner());
   aliases.push(api.interceptGetRunnerRunState(options.importJobOptions?.expectedPollsCount));
-  aliases.push(api.interceptGetDatasets()); // Intercept GET query on runner's base dataset after the ETL has run
+  aliases.push(api.interceptGetDataset()); // Intercept GET query on runner's base dataset after the ETL has run
   getUpdateParametersButton().click();
   api.waitAliases(aliases, { timeout: 10 * 1000 });
 };

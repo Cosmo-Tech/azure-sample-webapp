@@ -56,6 +56,12 @@ cypress/
       solutions.js
 ```
 
+**Rule of thumb:** Keep API URL patterns in `commons/constants/generic/TestConstants.js`
+(`API_ENDPOINT` / `API_REGEX`), request interception helpers in
+`commons/utils/apiUtils.js`, and reusable UI workflows in `commons/actions/`.
+Test specs should compose those helpers and keep scenario-specific setup and
+assertions close to the behavior under test.
+
 ---
 
 ## Minimal test skeleton
