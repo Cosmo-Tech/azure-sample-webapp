@@ -1,3 +1,23 @@
+## **7.5.0** <sub><sup>2026-10-08 ([7032a2f...446e742](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/7032a2f4...446e7426?diff=split))</sup></sub>
+
+### Features
+
+- show scenario run state in Scenario view ([2caa123](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2caa1235))
+
+### Bug Fixes
+
+- fix 'Last refresh date' shown in Dataset Manager ([3a1b76d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/3a1b76de))
+- fix selector in DatasetManager not showing scenario currently selected in Scenario view ([0688888](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/06888884))
+- fix loading backdrop in scenario manager not covering appbar and button menus ([d40d296](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d40d2968))
+- return empty list when parameter value could not be parsed as JSON from string ([72dc811](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/72dc8111))
+- fix placeholder message in dataset overview in case no datasets are selected ([bdd7ada](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/bdd7ada9))
+
+### Documentation
+
+- add documentation for runTemplateFilter workspace option ([91a6ea6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/91a6ea6a))
+- fix wrong path for webapp options in workspace configuration ([a3a68b9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a3a68b98))
+- fix documentation of disableOutOfSyncWarningBanner workspace option \(default value changed in v7\.0\.0\) ([b06922b](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b06922bb))
+
 ## **7.4.0** <sub><sup>2026-09-25 ([137be7a...eb30f0d](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/137be7a5...eb30f0da?diff=split))</sup></sub>
 
 ### Features
