@@ -36,6 +36,7 @@
           "confirm": "Edit",
           "dialogTitle": "Edit scenario \"{{scenarioName}}\"",
           "label": "Edit",
+          "scenarioNameEditModeHelperText": "Dashboards may show the old name until the scenario is run again",
           "tooltipIfDisabled": "You do not have the required permissions to edit this scenario"
         },
         "parameters": {

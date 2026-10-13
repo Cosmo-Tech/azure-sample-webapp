@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { ResourceUtils } from '@cosmotech/core';
 import { useHasUserPermissionOnScenario } from '../../hooks/SecurityHooks';
 import { ACL_PERMISSIONS } from '../../services/config/accessControl';
+import { useChartMode } from '../../state/charts/hooks';
 import { useGetRunnerById, useRunners, useUpdateRunnerData } from '../../state/runner/hooks';
 import { getScenarioEditionLabels } from './labels';
 
@@ -13,14 +14,15 @@ export const useEditScenarioButton = ({ scenarioToEdit }) => {
   const getRunner = useGetRunnerById();
   const hasUserPermissionOnScenario = useHasUserPermissionOnScenario();
   const updateRunnerData = useUpdateRunnerData();
+  const chartMode = useChartMode();
 
   const scenarios = useRunners();
   const sortedScenarioList = useMemo(() => ResourceUtils.getResourceTree(scenarios), [scenarios]);
   const { disabled, dialogLabels } = useMemo(() => {
     const disabled = !hasUserPermissionOnScenario(ACL_PERMISSIONS.SCENARIO.WRITE, scenarioToEdit);
-    const dialogLabels = getScenarioEditionLabels(t, scenarioToEdit, disabled);
+    const dialogLabels = getScenarioEditionLabels(t, scenarioToEdit, disabled, chartMode != null);
     return { disabled, dialogLabels };
-  }, [t, hasUserPermissionOnScenario, scenarioToEdit]);
+  }, [t, hasUserPermissionOnScenario, scenarioToEdit, chartMode]);
 
   const updateScenario = useCallback(
     (newScenarioMetadata) => {

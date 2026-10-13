@@ -36,6 +36,7 @@
           "confirm": "Éditer",
           "dialogTitle": "Édition du scénario \"{{scenarioName}}\"",
           "label": "Éditer",
+          "scenarioNameEditModeHelperText": "Les dashboards peuvent afficher l'ancien nom jusqu'à la prochaine exécution du scénario",
           "tooltipIfDisabled": "Vous n'avez pas les permissions nécessaires pour éditer ce scénario"
         },
         "parameters": {

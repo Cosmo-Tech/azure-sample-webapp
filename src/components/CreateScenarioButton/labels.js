@@ -49,7 +49,7 @@ export const getCreateScenarioDialogLabels = (t, disabled) => {
   };
 };
 
-export const getScenarioEditionLabels = (t, scenario, disabled = false) => {
+export const getScenarioEditionLabels = (t, scenario, disabled = false, isDashboardViewEnabled = false) => {
   // The 'disabled' argument can be omitted here because we'll override the associated label
   const labels = getCreateScenarioDialogLabels(t);
   if (disabled)
@@ -66,5 +66,11 @@ export const getScenarioEditionLabels = (t, scenario, disabled = false) => {
     'Edit scenario "{{scenarioName}}"'
   );
   labels.dialog.create = t('commoncomponents.button.scenario.edit.confirm', 'Edit');
+  if (isDashboardViewEnabled) {
+    labels.dialog.scenarioNameEditModeHelperText = t(
+      'commoncomponents.button.scenario.edit.scenarioNameEditModeHelperText',
+      'Dashboards may show the old name until the scenario is run again'
+    );
+  }
   return labels;
 };
