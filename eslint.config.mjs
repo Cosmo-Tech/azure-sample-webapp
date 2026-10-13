@@ -7,6 +7,7 @@ import cypress from 'eslint-plugin-cypress';
 import jest from 'eslint-plugin-jest';
 import prettier from 'eslint-plugin-prettier';
 import sonarjs from 'eslint-plugin-sonarjs';
+import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import neostandard from 'neostandard';
 import path from 'node:path';
@@ -43,6 +44,7 @@ export default [
     'plugin:sonarjs/recommended-legacy'
   ),
 
+  unicorn.configs.recommended,
   cypress.configs.recommended,
   cypress.configs.globals,
 
@@ -54,6 +56,7 @@ export default [
       prettier,
       jest,
       sonarjs,
+      unicorn,
     },
 
     languageOptions: {
