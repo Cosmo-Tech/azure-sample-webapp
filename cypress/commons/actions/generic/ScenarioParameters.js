@@ -58,6 +58,14 @@ function getDynamicValueErrorIcon() {
   return cy.get(GENERIC_SELECTORS.scenario.parameters.dynamicValueErrorIcon);
 }
 
+function getDynamicParameterValueError(parameterId) {
+  const selector = GENERIC_SELECTORS.scenario.parameters.dynamicValueErrorByParameterId.replace(
+    '$PARAMETERID',
+    parameterId
+  );
+  return cy.get(selector);
+}
+
 // TODO: add generic setters for scenario parameters input ()
 
 //  - timeout: max time to wait before throwing an error (seconds)
@@ -240,4 +248,5 @@ export const ScenarioParameters = {
   getTabsErrorBadge,
   getDynamicParameterLoadingSpinner,
   getDynamicValueErrorIcon,
+  getDynamicParameterValueError,
 };
