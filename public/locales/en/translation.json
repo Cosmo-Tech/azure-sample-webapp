@@ -489,6 +489,7 @@
           "readOnlyTitle": "Permissions for ",
           "emptyGroup": "This group is empty",
           "groupMembers": "Group members:",
+          "otherMembers": "other member(s)",
           "select": {
             "addPeople": "Add people",
             "userSelected": "Selected user",
