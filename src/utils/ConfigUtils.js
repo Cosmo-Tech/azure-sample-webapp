@@ -79,6 +79,7 @@ const getParameterAttribute = (parameter, attributeName) => {
     'enumValues',
     'hasHeader',
     'hidden',
+    'readOnly',
     'maxLength',
     'minLength',
     'required',
