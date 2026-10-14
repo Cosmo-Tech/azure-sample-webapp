@@ -487,6 +487,7 @@
           },
           "title": "Share ",
           "readOnlyTitle": "Permissions for ",
+          "emptyGroup": "This group is empty",
           "select": {
             "addPeople": "Add people",
             "userSelected": "Selected user",

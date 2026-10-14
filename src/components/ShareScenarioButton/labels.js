@@ -34,6 +34,7 @@ export const getShareScenarioDialogLabels = (t, currentScenarioName, isDirty, ha
       usersAccess: t('commoncomponents.dialog.share.dialog.editor.usersAccess', 'Users access'),
       generalAccess: t('commoncomponents.dialog.share.dialog.editor.generalAccess', 'General access'),
       removeAccess: t('commoncomponents.dialog.share.dialog.editor.removeAccess', 'Remove specific access'),
+      emptyGroup: t('commoncomponents.dialog.share.dialog.emptyGroup', 'This group is empty'),
       editor: {
         helperText: {
           admin: t('commoncomponents.dialog.share.dialog.editor.helperText.admin', 'Anyone in this workspace is admin'),
