@@ -487,6 +487,9 @@
           },
           "title": "Partager ",
           "readOnlyTitle": "Permissions pour ",
+          "emptyGroup": "Ce groupe est vide",
+          "groupMembers": "Membres du groupe :",
+          "otherMembers": "autre(s) membre(s)",
           "select": {
             "addPeople": "Ajouter un utilisateur",
             "userSelected": "Utilisateur sélectionné",
