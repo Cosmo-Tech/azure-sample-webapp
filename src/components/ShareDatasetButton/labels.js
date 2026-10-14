@@ -30,6 +30,7 @@ export const getShareDatasetDialogLabels = (t, datasetName, hasReadSecurityPermi
       generalAccess: t('commoncomponents.dialog.share.dialog.editor.generalAccess', 'General access'),
       removeAccess: t('commoncomponents.dialog.share.dialog.editor.removeAccess', 'Remove specific access'),
       emptyGroup: t('commoncomponents.dialog.share.dialog.emptyGroup', 'This group is empty'),
+      groupMembers: t('commoncomponents.dialog.share.dialog.groupMembers', 'Group members:'),
       editor: {
         helperText: {
           admin: t('commoncomponents.dialog.share.dialog.editor.helperText.admin', 'Anyone in this workspace is admin'),

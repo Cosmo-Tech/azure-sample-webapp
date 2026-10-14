@@ -488,6 +488,7 @@
           "title": "Partager ",
           "readOnlyTitle": "Permissions pour ",
           "emptyGroup": "Ce groupe est vide",
+          "groupMembers": "Membres du groupe :",
           "select": {
             "addPeople": "Ajouter un utilisateur",
             "userSelected": "Utilisateur sélectionné",
