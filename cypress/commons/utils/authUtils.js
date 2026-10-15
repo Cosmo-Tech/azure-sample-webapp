@@ -3,8 +3,8 @@
 
 const jwt = require('jwt-simple');
 
-const USE_SERVICE_ACCOUNT = Cypress.env('AUTHENTICATE_WITH_SERVICE_ACCOUNT') === 1;
-const USE_API_KEY = Cypress.env('AUTHENTICATE_WITH_API_KEY') === 1;
+const USE_SERVICE_ACCOUNT = Cypress.expose('AUTHENTICATE_WITH_SERVICE_ACCOUNT') === '1';
+const USE_API_KEY = Cypress.expose('AUTHENTICATE_WITH_API_KEY') === '1';
 
 const decodeJWT = (token, secret = null) => jwt.decode(token, secret, secret === null);
 const encodeJWT = (data, secret = 'dummy_secret') => jwt.encode(data, secret);
