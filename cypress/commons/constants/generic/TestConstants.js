@@ -11,9 +11,9 @@ let urlRoot = BREWERY_URL_ROOT;
 let workspaceId1 = BREWERY_WORKSPACE_ID1;
 let workspaceId2 = BREWERY_WORKSPACE_ID2;
 if (typeof Cypress !== 'undefined') {
-  urlRoot = Cypress.env('COSMO_API_URL');
-  workspaceId1 = Cypress.env('WORKSPACE_ID1');
-  workspaceId2 = Cypress.env('WORKSPACE_ID2');
+  urlRoot = Cypress.expose('COSMO_API_URL');
+  workspaceId1 = Cypress.expose('WORKSPACE_ID1');
+  workspaceId2 = Cypress.expose('WORKSPACE_ID2');
   if (urlRoot == null) throw Error('Environment variable CYPRESS_COSMO_API_URL is not defined');
   if (workspaceId1 == null || workspaceId2 == null)
     throw Error('Environment variables CYPRESS_WORKSPACE_ID1 and CYPRESS_WORKSPACE_ID2 must be defined');
