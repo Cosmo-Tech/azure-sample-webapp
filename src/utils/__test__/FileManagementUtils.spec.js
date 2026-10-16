@@ -9,7 +9,6 @@ describe('isFileFormatValid', () => {
     ${'application/zip'}                                                   | ${true}
     ${'application/xml'}                                                   | ${true}
     ${'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'} | ${true}
-    ${'mats-officedocument.spreadsheetml.sheet'}                           | ${true}
     ${'application/x-tika-ooxml'}                                          | ${true}
     ${'text/csv'}                                                          | ${true}
     ${'text/plain'}                                                        | ${true}

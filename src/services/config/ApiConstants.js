@@ -26,7 +26,6 @@ export const VALID_MIME_TYPES = [
   'application/x-zip-compressed', // Windows-specific
   'application/xml',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'mats-officedocument.spreadsheetml.sheet',
   'application/x-tika-ooxml',
   'text/csv',
   'text/plain',
@@ -35,6 +34,7 @@ export const VALID_MIME_TYPES = [
   'application/x-yaml',
   'application/yaml',
 ];
+export const VALID_FILE_EXTENSIONS = ['.json', '.zip', '.xml', '.xlsx', '.csv', '.txt', '.yaml', '.yml'];
 
 export const NATIVE_DATASOURCE_TYPES = {
   FILE_UPLOAD: 'FileUploadToDataset',
