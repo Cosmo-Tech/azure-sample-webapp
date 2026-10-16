@@ -141,7 +141,8 @@ const _removeEnumOptionsOfScenariosParameter = (parameter) => {
 // launch scenarios
 const _patchRequiredOptionOfEnumParameter = (parameter) => {
   const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-  if (Array.isArray(enumValues) && enumValues.length > 0) return;
+  const hasDynamicEnumValues = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues') != null;
+  if (hasDynamicEnumValues || (Array.isArray(enumValues) && enumValues.length > 0)) return;
 
   if (ConfigUtils.getParameterAttribute(parameter, 'required') === true)
     console.warn(
