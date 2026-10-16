@@ -17,6 +17,7 @@ import {
   StepLabel,
   Stepper,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { BasicTextInput } from '@cosmotech/ui';
@@ -38,15 +39,29 @@ export const DatasetWizard = ({ open, closeDialog, onConfirm, dataSourceRunTempl
   const optionalSubTitle = useMemo(() => {
     if (!isSubDatasetCreationWizard) return null;
 
+    const parentDatasetName = parentDataset.name ?? 'N/A';
+    const subtitle = t(
+      'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
+      'Parent dataset: {{parentDatasetName}}',
+      { parentDatasetName }
+    );
+
     return (
       <Grid size={12} sx={{ pb: 0.5, pt: 0, pl: 2 }}>
-        <Typography data-cy="wizard-subtitle-parent-dataset-name">
-          {t(
-            'commoncomponents.datasetmanager.wizard.firstScreen.subtitle.parentDataset',
-            'Parent dataset: {{parentDatasetName}}',
-            { parentDatasetName: parentDataset.name ?? 'N/A' }
-          )}
-        </Typography>
+        <Tooltip title={parentDatasetName.length > 100 ? subtitle : ''} describeChild>
+          <Typography
+            data-cy="wizard-subtitle-parent-dataset-name"
+            sx={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical',
+              WebkitLineClamp: 2,
+              overflow: 'hidden',
+              overflowWrap: 'anywhere',
+            }}
+          >
+            {subtitle}
+          </Typography>
+        </Tooltip>
       </Grid>
     );
   }, [t, parentDataset, isSubDatasetCreationWizard]);
