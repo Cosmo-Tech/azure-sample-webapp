@@ -6,7 +6,10 @@ import PropTypes from 'prop-types';
 import { Refresh as RefreshIcon } from '@mui/icons-material';
 import { Button, IconButton } from '@mui/material';
 import { FadingTooltip } from '@cosmotech/ui';
+import { VALID_FILE_EXTENSIONS, VALID_MIME_TYPES } from '../../../../services/config/ApiConstants';
 import { useReuploadFileDatasetButton } from './ReuploadFileDatasetButtonHook';
+
+const ACCEPTED_FILE_TYPES = [...VALID_MIME_TYPES, ...VALID_FILE_EXTENSIONS].join(',');
 
 export const ReuploadFileDatasetButton = ({ confirmAndCallback, dataset, disabled = false, iconButton = true }) => {
   const { t } = useTranslation();
@@ -20,7 +23,7 @@ export const ReuploadFileDatasetButton = ({ confirmAndCallback, dataset, disable
       <input
         hidden
         type="file"
-        accept="*"
+        accept={ACCEPTED_FILE_TYPES}
         id={inputId}
         data-cy={inputId}
         onChange={(event) => handleFileUpload(event, dataset)}

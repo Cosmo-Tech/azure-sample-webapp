@@ -34,6 +34,7 @@ export const VALID_MIME_TYPES = [
   'application/x-yaml',
   'application/yaml',
 ];
+export const VALID_FILE_EXTENSIONS = ['.json', '.zip', '.xml', '.xlsx', '.csv', '.txt', '.yaml', '.yml'];
 
 export const NATIVE_DATASOURCE_TYPES = {
   FILE_UPLOAD: 'FileUploadToDataset',
