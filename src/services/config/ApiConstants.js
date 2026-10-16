@@ -26,7 +26,6 @@ export const VALID_MIME_TYPES = [
   'application/x-zip-compressed', // Windows-specific
   'application/xml',
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'mats-officedocument.spreadsheetml.sheet',
   'application/x-tika-ooxml',
   'text/csv',
   'text/plain',
