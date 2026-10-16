@@ -292,10 +292,32 @@ export const REQUIRED_BY_DEFAULT_PARAMETERS = [
   TABLE_REQUIRED_UNDEFINED,
 ];
 
+export const DYNAMIC_VALUES_OPTIONAL_PARAMETER = {
+  id: 'dynamicValuesOptional',
+  varType: 'enum',
+  additionalData: {
+    required: false,
+    dynamicEnumValues: {
+      type: 'dbDatasetPart',
+      datasetPartName: 'customers',
+      resultKey: 'id',
+      options: { selects: 'id' },
+    },
+  },
+};
+
+export const DYNAMIC_VALUES_REQUIRED_PARAMETER = {
+  ...DYNAMIC_VALUES_OPTIONAL_PARAMETER,
+  id: 'dynamicValuesRequired',
+  additionalData: { ...DYNAMIC_VALUES_OPTIONAL_PARAMETER.additionalData, required: true },
+};
+
 export const ALL_PARAMETERS = [
   ...REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_PARAMETERS,
   ...NOT_IMPACTED_BY_REQUIRED_PARAMETERS,
   ...REQUIRED_ENABLED_IN_CONFIG_PARAMETERS,
   ...REQUIRED_DISABLED_IN_CONFIG_PARAMETERS,
   ...REQUIRED_BY_DEFAULT_PARAMETERS,
+  DYNAMIC_VALUES_OPTIONAL_PARAMETER,
+  DYNAMIC_VALUES_REQUIRED_PARAMETER,
 ];

@@ -72,6 +72,24 @@ export const REQUIRED_BY_DEFAULT_RUN_TEMPLATE = {
   parameterGroups: ['parameter-group-requiredByDefault'],
 };
 
+export const REQUIRED_BY_DEFAULT_SUBDATASOURCE_RUN_TEMPLATE = {
+  id: 'run-template-requiredByDefaultSubdatasource',
+  tags: ['subdatasource'],
+  parameterGroups: ['parameter-group-requiredByDefault', 'parameter-group-dynamicValuesOptional'],
+};
+
+export const REQUIRED_DYNAMIC_VALUES_RUN_TEMPLATE = {
+  id: 'run-template-requiredDynamicValues',
+  tags: ['datasource'],
+  parameterGroups: ['parameter-group-dynamicValuesRequired'],
+};
+
+export const REQUIRED_DYNAMIC_VALUES_SUBDATASOURCE_RUN_TEMPLATE = {
+  id: 'run-template-requiredDynamicValuesSubdatasource',
+  tags: ['subdatasource'],
+  parameterGroups: ['parameter-group-dynamicValuesRequired'],
+};
+
 export const ALL_RUN_TEMPLATES = [
   REQUIRED_ENABLED_WITH_INCONSISTENT_CONFIG_RUN_TEMPLATE,
   NOT_IMPACTED_BY_REQUIRED_RUN_TEMPLATE,
@@ -85,4 +103,7 @@ export const ALL_RUN_TEMPLATES = [
   TABLE_REQUIRED_TRUE_RUN_TEMPLATE,
   REQUIRED_DISABLED_IN_CONFIG_RUN_TEMPLATE,
   REQUIRED_BY_DEFAULT_RUN_TEMPLATE,
+  REQUIRED_BY_DEFAULT_SUBDATASOURCE_RUN_TEMPLATE,
+  REQUIRED_DYNAMIC_VALUES_RUN_TEMPLATE,
+  REQUIRED_DYNAMIC_VALUES_SUBDATASOURCE_RUN_TEMPLATE,
 ];
