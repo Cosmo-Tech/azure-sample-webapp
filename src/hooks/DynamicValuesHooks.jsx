@@ -205,6 +205,7 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   const parametersValues = useCurrentSimulationRunnerParametersValues();
 
   const isUnmounted = useRef(false);
+  const previousParametersValues = useRef(parametersValues);
   useEffect(() => () => (isUnmounted.current = true), []);
 
   // Possible value types for dynamicValue:
@@ -213,24 +214,29 @@ export const useLoadInitialValueFromDataset = (parameterValue, parameter, target
   // - a value when the query is successful, it will be displayed in the input
   const [dynamicValue, setDynamicValue] = useState(undefined);
   const [dynamicValueError, setDynamicValueError] = useState(null);
+
   const defaultValue = parameter?.defaultValue ?? GENERIC_VAR_TYPES_DEFAULT_VALUES[parameter?.varType];
   const dynamicSourceConfig = ConfigUtils.getParameterAttribute(parameter, 'dynamicValues');
   const resultKey = dynamicSourceConfig?.resultKey;
 
   useEffect(() => {
     if (isUnmounted.current || dynamicSourceConfig == null) return;
-    const scenarioParameterValue =
-      parametersValues?.find((scenarioParameter) => scenarioParameter.parameterId === parameter.id) ?? null;
-    if (scenarioParameterValue !== null) {
+
+    const parametersValuesChanged = previousParametersValues.current !== parametersValues;
+    previousParametersValues.current = parametersValues;
+    if (
+      parametersValuesChanged &&
+      parametersValues?.some((scenarioParameter) => scenarioParameter.parameterId === parameter.id)
+    ) {
       setDynamicValueError(null);
     }
 
-    const fetchDynamicValue = async () => {
-      if (parameterValue !== null) {
-        setDynamicValue(undefined);
-        return;
-      }
+    if (parameterValue !== null) {
+      setDynamicValue(undefined);
+      return;
+    }
 
+    const fetchDynamicValue = async () => {
       if (!targetDataset) {
         setDynamicValue(defaultValue);
         setDynamicValueError('notExistingDataset');

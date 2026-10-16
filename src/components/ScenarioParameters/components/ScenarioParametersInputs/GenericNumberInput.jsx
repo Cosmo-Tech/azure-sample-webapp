@@ -29,10 +29,7 @@ export const GenericNumberInput = ({
   const gridItemProps = GRID_ITEM_PROPS_MAPPING[context?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL];
 
   const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
-  const textFieldProps = {
-    disabled: !context.editMode,
-    id: `number-input-${parameterData.id}`,
-  };
+  const textFieldProps = { disabled: !context.editMode, id: `number-input-${parameterData.id}` };
   const { dynamicValue, loadingDynamicValuePlaceholder, dynamicValueErrorMessage } = useLoadInitialValueFromDataset(
     parameterValue,
     parameterData,
@@ -42,8 +39,6 @@ export const GenericNumberInput = ({
   useEffect(() => {
     if (parameterValue == null && dynamicValue != null && !isDirty) {
       if (ConfigUtils.getParameterAttribute(parameterData, 'dynamicValues')) {
-        if (typeof dynamicValue !== 'string') resetParameterValue(dynamicValue);
-
         let number;
         try {
           number = Number(dynamicValue);
@@ -60,13 +55,7 @@ export const GenericNumberInput = ({
     }
   }, [parameterValue, dynamicValue, isDirty, resetParameterValue, parameterData]);
 
-  const changeValue = useCallback(
-    (newValue) => {
-      setParameterValue(newValue);
-    },
-    [setParameterValue]
-  );
-
+  const changeValue = useCallback((newValue) => setParameterValue(newValue), [setParameterValue]);
   if (loadingDynamicValuePlaceholder) return loadingDynamicValuePlaceholder;
 
   return (
