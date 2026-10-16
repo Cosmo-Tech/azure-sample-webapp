@@ -35,13 +35,14 @@ describe('Scenario renaming in the ScenarioManager view', () => {
 
     // Start editing name and cancel edition
     ScenarioManager.openScenarioEditDialog(SCENARIO_A_ID);
-    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.have.class', 'Mui-error');
     ScenarioManager.setEditedScenarioName(SCENARIO_NAME_B1);
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('have.class', 'Mui-error');
     ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().contains('already exists');
     ScenarioManager.setEditedScenarioName(SCENARIO_NAME_A1);
-    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.have.class', 'Mui-error');
     ScenarioManager.setEditedScenarioName(SCENARIO_NAME_A2);
-    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.exist');
+    ScenarioManager.getScenarioEditionDialogNameInputErrorLabel().should('not.have.class', 'Mui-error');
     ScenarioManager.cancelScenarioEdition();
     ScenarioManager.getScenarioName(SCENARIO_A_ID).should('have.text', SCENARIO_NAME_A1);
 
