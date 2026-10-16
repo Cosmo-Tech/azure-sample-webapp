@@ -35,17 +35,17 @@ jobs:
         # Branch main
         - name: Upload SBOM files (main - webapp-server)
           if: github.ref_name == 'main'
-          uses: DependencyTrack/gh-upload-sbom@331f980a6eba119842052f447c54b09e4888b4c6 # v4
+          uses: DependencyTrack/gh-upload-sbom@331f980a6eba119842052f447c54b09e4888b4c6 # v4.3.0
           with:
-            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            server-hostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            api-key: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
             project: a75e5d88-27ef-4f7a-8ce6-c3fb8aac8b17
-            bomfilename: sbom-webapp-server-dependencies.json
+            bom-filename: sbom-webapp-server-dependencies.json
         - name: Upload SBOM files (main - webapp-functions)
           if: github.ref_name == 'main'
-          uses: DependencyTrack/gh-upload-sbom@331f980a6eba119842052f447c54b09e4888b4c6 # v4
+          uses: DependencyTrack/gh-upload-sbom@331f980a6eba119842052f447c54b09e4888b4c6 # v4.3.0
           with:
-            serverhostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-            apikey: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
+            server-hostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
+            api-key: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
             project: 493e9e7c-ee43-4482-9dd4-d5ad26d6ab9a
-            bomfilename: sbom-webapp-functions-dependencies.json
+            bom-filename: sbom-webapp-functions-dependencies.json
