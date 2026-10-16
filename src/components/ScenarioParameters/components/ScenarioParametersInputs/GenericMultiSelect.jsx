@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
-import { MultiSelect } from '@cosmotech/ui';
+import { BasicInputPlaceholder, MultiSelect } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
@@ -72,9 +72,23 @@ export const GenericMultiSelect = ({
       noValues: t('genericcomponent.multiSelect.noValues', 'No selected values'),
     };
   }, [t, parameterData.id]);
-  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
 
-  if (dynamicValuesError) return dynamicValuesError;
+  const isRequired = ConfigUtils.getParameterAttribute(parameterData, 'required') ?? false;
+  const tooltipText = t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '');
+
+  if (dynamicValuesError)
+    return (
+      <Grid {...gridItemProps}>
+        <BasicInputPlaceholder
+          id={`multi-input-${parameterData.id}`}
+          label={labels.label}
+          tooltipText={tooltipText}
+          value={dynamicValuesError}
+          required={isRequired}
+        />
+      </Grid>
+    );
+
   return (
     <Grid {...gridItemProps}>
       <Grid container direction="row" sx={{ alignItems: 'stretch' }}>
@@ -83,7 +97,7 @@ export const GenericMultiSelect = ({
           <MultiSelect
             id={parameterData.id}
             labels={labels}
-            tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+            tooltipText={tooltipText}
             selectedKeys={Array.isArray(parameterValue) ? parameterValue : []}
             onChange={setParameterValue}
             disabled={!context.editMode}

@@ -117,13 +117,17 @@ export const useDynamicValues = (parameter, targetDataset) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetDataset]);
 
-  const dynamicValuesError = useMemo(
-    () =>
-      typeof dynamicValues === 'string' ? (
-        <Typography sx={{ px: 2, color: (theme) => theme.palette.error.main }}>{dynamicValues}</Typography>
-      ) : null,
-    [dynamicValues]
-  );
+  const dynamicValuesError = useMemo(() => {
+    if (typeof dynamicValues !== 'string') return null;
+
+    const dataCy = `dynamic-value-error-${parameter?.id}`;
+    const sx = { px: 2, color: (theme) => theme.palette.error.main };
+    return (
+      <Typography data-cy={dataCy} sx={sx}>
+        {dynamicValues}
+      </Typography>
+    );
+  }, [dynamicValues, parameter?.id]);
 
   const loadingDynamicValuesPlaceholder = useMemo(
     () =>
