@@ -12,6 +12,8 @@ import { useScenarioResetValues } from '../../ScenarioParametersContext';
 
 const ScenarioParameterInput = ({ parameterData, context }) => {
   const subType = ConfigUtils.getParameterAttribute(parameterData, 'subType');
+  const isReadOnly = ConfigUtils.getParameterAttribute(parameterData, 'readOnly') ?? false;
+  const inputContext = isReadOnly ? { ...context, editMode: false } : context;
   const parameterVarType = ConfigUtils.buildExtendedVarType(parameterData.varType, subType);
   const fieldName = context?.fieldName ?? parameterData.id;
 
@@ -68,7 +70,7 @@ const ScenarioParameterInput = ({ parameterData, context }) => {
 
         const props = {
           parameterData,
-          context,
+          context: inputContext,
           key: fieldName,
           parameterValue,
           setParameterValue,

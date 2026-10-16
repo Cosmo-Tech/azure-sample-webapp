@@ -395,7 +395,8 @@ mode is enabled by setting `additionalData.subType` to `TABLE`. The `additionalD
 
 - `subType`: you must set its value to `TABLE` to replace the usual file upload widget by a table
 - `columns`: an array describing **the expected columns of the table** (see section below "Columns definition")
-- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (default: `false`); this option is forced to `false` if some columns are non-editable
+- `canChangeRowsNumber`: a boolean defining if the table can use the add row and delete rows features (default:
+  `false`); this option is forced to `false` if the parameter is read-only or if some columns are non-editable
 - `dateFormat`: a string describing the expected format of dates in the table based on
   [date-fns format patterns](https://date-fns.org/v2.25.0/docs/parse) (default: `yyyy-MM-dd`)
 
@@ -648,6 +649,22 @@ parameterGroups:
     additionalData:
       hidden: true
     parameters: ['parameter1', 'parameter2']
+```
+
+### Read-only scenario parameters
+
+To display a scenario parameter without allowing users to edit it, set `additionalData.readOnly` to `true` in the
+parameter definition. When not defined, `additionalData.readOnly` is `false` by default.
+
+Example:
+
+```yaml
+parameters:
+  - id: 'myReadOnlyParameter'
+    additionalData:
+      readOnly: true
+    varType: int
+    defaultValue: 100
 ```
 
 ### Information tooltips for scenario parameters

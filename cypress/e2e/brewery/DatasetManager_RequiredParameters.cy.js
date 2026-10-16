@@ -21,10 +21,13 @@ import {
   TABLE_REQUIRED_TRUE_RUN_TEMPLATE,
   REQUIRED_DISABLED_IN_CONFIG_RUN_TEMPLATE,
   REQUIRED_BY_DEFAULT_RUN_TEMPLATE,
+  REQUIRED_BY_DEFAULT_SUBDATASOURCE_RUN_TEMPLATE,
+  REQUIRED_DYNAMIC_VALUES_RUN_TEMPLATE,
+  REQUIRED_DYNAMIC_VALUES_SUBDATASOURCE_RUN_TEMPLATE,
+  REQUIRED_PARAMETERS_PARENT_DATASET,
 } from '../../fixtures/stubbing/DatasetManager_RequiredParameters';
 import {
   WORKSPACE_WITH_DATASET_MANAGER,
-  DEFAULT_RUNNER_BASE_DATASET,
   DEFAULT_RUNNER_PARAMETER_DATASET,
   DEFAULT_ETL_RUNNER,
   DEFAULT_SIMULATION_RUNNER,
@@ -41,12 +44,69 @@ const startETLDatasetCreation = (datasourceName) => {
   DatasetManager.selectNewDatasetSourceType(datasourceName);
 };
 
+const checkRequiredByDefaultParameters = () => {
+  const getTable = () => RTParams.getTableContainer('tableRequiredUndefined');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+
+  RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
+  RTParams.setNumber('numberRequiredUndefined', '1');
+  RTParams.setNumber('intRequiredUndefined', '2');
+  RTParams.setString('stringRequiredUndefined', 'a');
+  RTParams.toggleInMultiSelect('listRequiredUndefined', 'A');
+  RTParams.uploadFile('fileRequiredUndefined', NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
+  TableParameters.addRow(getTable());
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  ScenarioParameters.clearDateParameterInput(RTParams.getDateInput('dateRequiredUndefined'));
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  ScenarioParameters.typeInDateParameterInput(RTParams.getDateInput('dateRequiredUndefined'), '01/01/2100');
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.getScenarioSelectInput('scenarioRequiredUndefined').click().clear().blur();
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.clearNumber('numberRequiredUndefined');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.setNumber('numberRequiredUndefined', '2');
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.clearNumber('intRequiredUndefined');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.setNumber('intRequiredUndefined', '1.5');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.setNumber('intRequiredUndefined', '2');
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.clearString('stringRequiredUndefined');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.setString('stringRequiredUndefined', 'b');
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.toggleInMultiSelect('listRequiredUndefined', 'A', true);
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.toggleInMultiSelect('listRequiredUndefined', 'B', true);
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  RTParams.deleteFile('fileRequiredUndefined');
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  RTParams.uploadFile('fileRequiredUndefined', NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+
+  TableParameters.getRow(getTable(), 0).click();
+  TableParameters.deleteRows(getTable());
+  DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+  TableParameters.addRow(getTable());
+  DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+};
+
 describe('Dataset Manager - Required Parameters', () => {
   before(() => {
     stub.start();
     stub.setSolutions([SOLUTION]);
     stub.setWorkspaces([WORKSPACE_WITH_DATASET_MANAGER]);
-    stub.setDatasets([DEFAULT_RUNNER_BASE_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET]);
+    stub.setDatasets([REQUIRED_PARAMETERS_PARENT_DATASET, DEFAULT_RUNNER_PARAMETER_DATASET]);
     stub.setRunners([DEFAULT_ETL_RUNNER, DEFAULT_SIMULATION_RUNNER]);
   });
 
@@ -125,64 +185,47 @@ describe('Dataset Manager - Required Parameters', () => {
   });
 
   it('must consider parameters as required by default during dataset creation', () => {
-    const getTable = () => RTParams.getTableContainer('tableRequiredUndefined');
     DatasetManager.switchToDatasetManagerView();
     startETLDatasetCreation(REQUIRED_BY_DEFAULT_RUN_TEMPLATE.id);
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
+    checkRequiredByDefaultParameters();
+  });
 
-    // Set a value to all fields
-    RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
-    RTParams.setNumber('numberRequiredUndefined', '1');
-    RTParams.setNumber('intRequiredUndefined', '2');
-    RTParams.setString('stringRequiredUndefined', 'a');
-    RTParams.toggleInMultiSelect('listRequiredUndefined', 'A');
-    RTParams.uploadFile('fileRequiredUndefined', NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
-    TableParameters.addRow(getTable());
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+  it('must consider parameters as required by default during subdataset creation', () => {
+    DatasetManager.ignoreDatasetQueries();
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.selectDatasetById(REQUIRED_PARAMETERS_PARENT_DATASET.id);
+    DatasetManager.startSubdatasetCreation();
+    DatasetManager.getDatasetCreationNextStep().click();
+    const waitForDynamicValues = DatasetManager.expectDatasetQuery('id\nCustomer 1');
+    DatasetManager.selectNewDatasetSourceType(REQUIRED_BY_DEFAULT_SUBDATASOURCE_RUN_TEMPLATE.id);
+    waitForDynamicValues();
+    ScenarioParameters.getDynamicParameterValueError('dynamicValuesOptional').should('not.exist');
+    checkRequiredByDefaultParameters();
+  });
 
-    // Reset each field & check that Confirm button is disabled
-    ScenarioParameters.clearDateParameterInput(RTParams.getDateInput('dateRequiredUndefined'));
+  it('must prevent dataset creation when a required dynamic value cannot be fetched', () => {
+    DatasetManager.ignoreDatasetQueries();
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.startDatasetCreation();
+    DatasetManager.setNewDatasetName('Cypress - DatasetManager_RequiredDynamicValues');
+    DatasetManager.getDatasetCreationNextStep().click();
+    DatasetManager.selectNewDatasetSourceType(REQUIRED_DYNAMIC_VALUES_RUN_TEMPLATE.id);
+    ScenarioParameters.getDynamicParameterValueError('dynamicValuesRequired').should('exist');
     DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    ScenarioParameters.typeInDateParameterInput(RTParams.getDateInput('dateRequiredUndefined'), '01/01/2100');
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+  });
 
-    RTParams.getScenarioSelectInput('scenarioRequiredUndefined').click().clear().blur();
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setScenarioSelect('scenarioRequiredUndefined', DEFAULT_SIMULATION_RUNNER.id);
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
+  it('must prevent subdataset creation when a required dynamic value cannot be fetched', () => {
+    DatasetManager.ignoreDatasetQueries();
+    DatasetManager.switchToDatasetManagerView();
+    DatasetManager.selectDatasetById(REQUIRED_PARAMETERS_PARENT_DATASET.id);
+    DatasetManager.startSubdatasetCreation();
+    DatasetManager.getDatasetCreationNextStep().click();
+    const waitForDynamicValues = DatasetManager.expectDatasetQuery({ statusCode: 500 });
+    DatasetManager.selectNewDatasetSourceType(REQUIRED_DYNAMIC_VALUES_SUBDATASOURCE_RUN_TEMPLATE.id);
+    waitForDynamicValues();
 
-    RTParams.clearNumber('numberRequiredUndefined');
+    ScenarioParameters.getDynamicParameterValueError('dynamicValuesRequired').should('exist');
     DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setNumber('numberRequiredUndefined', '2');
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
-
-    RTParams.clearNumber('intRequiredUndefined');
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setNumber('intRequiredUndefined', '1.5');
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setNumber('intRequiredUndefined', '2');
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
-
-    RTParams.clearString('stringRequiredUndefined');
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.setString('stringRequiredUndefined', 'b');
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
-
-    RTParams.toggleInMultiSelect('listRequiredUndefined', 'A', true);
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.toggleInMultiSelect('listRequiredUndefined', 'B', true);
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
-
-    RTParams.deleteFile('fileRequiredUndefined');
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    RTParams.uploadFile('fileRequiredUndefined', NINE_CUSTOMERS_DATASET_ZIP_FILE_PATH);
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
-
-    TableParameters.getRow(getTable(), 0).click();
-    TableParameters.deleteRows(getTable());
-    DatasetManager.getConfirmDatasetCreation().should('be.disabled');
-    TableParameters.addRow(getTable());
-    DatasetManager.getConfirmDatasetCreation().should('not.be.disabled');
   });
 
   it('must ignore parameters explicitly declared as non-required', () => {

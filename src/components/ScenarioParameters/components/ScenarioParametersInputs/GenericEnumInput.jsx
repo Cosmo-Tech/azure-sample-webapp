@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
-import { BasicEnumInput } from '@cosmotech/ui';
+import { BasicEnumInput, BasicInputPlaceholder } from '@cosmotech/ui';
 import { useDynamicValues } from '../../../../hooks/DynamicValuesHooks';
 import { ConfigUtils, TranslationUtils } from '../../../../utils';
 import { PARAMETER_CONTEXT_WIDTH } from '../../../../utils/scenarioParameters/ParameterContext';
@@ -72,7 +72,21 @@ export const GenericEnumInput = ({
     }
   }, [enumValues, dynamicEnumValues, parameterValue, resetParameterValue]);
 
-  if (dynamicValuesError) return dynamicValuesError;
+  const parameterLabel = t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id);
+  const tooltipText = t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '');
+
+  if (dynamicValuesError)
+    return (
+      <Grid {...gridItemProps}>
+        <BasicInputPlaceholder
+          id={`enum-input-${parameterData.id}`}
+          label={parameterLabel}
+          tooltipText={tooltipText}
+          value={dynamicValuesError}
+          required={isRequired}
+        />
+      </Grid>
+    );
 
   return (
     <Grid {...gridItemProps}>
@@ -81,8 +95,8 @@ export const GenericEnumInput = ({
         <BasicEnumInput
           key={parameterData.id}
           id={parameterData.id}
-          label={t(TranslationUtils.getParameterTranslationKey(parameterData.id), parameterData.id)}
-          tooltipText={t(TranslationUtils.getParameterTooltipTranslationKey(parameterData.id), '')}
+          label={parameterLabel}
+          tooltipText={tooltipText}
           value={parameterValue ?? enumValues?.[0]?.key ?? ''}
           changeEnumField={setParameterValue}
           textFieldProps={textFieldProps}

@@ -87,6 +87,7 @@ export const GENERIC_SELECTORS = {
       dialogDiscardAndContinueCancelButton: '[data-cy=discard-and-continue-button1]',
       loadingSpinner: '[data-cy=fetching-dynamic-parameter-spinner]',
       dynamicValueErrorIcon: '[data-cy=dynamic-value-error-icon]',
+      dynamicValueErrorByParameterId: '[data-cy=dynamic-value-error-$PARAMETERID]',
     },
     ownerName: '[data-cy=scenario-owner-name]',
     creationDate: '[data-cy=scenario-creation-date]',

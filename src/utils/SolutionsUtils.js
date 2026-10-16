@@ -141,7 +141,8 @@ const _removeEnumOptionsOfScenariosParameter = (parameter) => {
 // launch scenarios
 const _patchRequiredOptionOfEnumParameter = (parameter) => {
   const enumValues = ConfigUtils.getParameterAttribute(parameter, 'enumValues') ?? [];
-  if (Array.isArray(enumValues) && enumValues.length > 0) return;
+  const hasDynamicEnumValues = ConfigUtils.getParameterAttribute(parameter, 'dynamicEnumValues') != null;
+  if (hasDynamicEnumValues || (Array.isArray(enumValues) && enumValues.length > 0)) return;
 
   if (ConfigUtils.getParameterAttribute(parameter, 'required') === true)
     console.warn(
@@ -189,13 +190,19 @@ const _patchEnumParameter = (parameter) => {
 
 const _patchTableParameter = (parameter) => {
   // Check "canChangeRowsNumber" option for Table parameters
+  const canChangeRowsNumber = ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber');
+  if (canChangeRowsNumber && ConfigUtils.getParameterAttribute(parameter, 'readOnly') === true) {
+    console.warn(
+      `parameter.additionalData.canChangeRowsNumber cannot be true on ${parameter.id} if "readOnly" is enabled.`
+    );
+    parameter.additionalData.canChangeRowsNumber = false;
+  }
+
   const columns = ConfigUtils.getParameterAttribute(parameter, 'columns') ?? [];
-  const nonEditableColumn = ConfigUtils.getParameterAttribute(parameter, 'canChangeRowsNumber')
-    ? _getNonEditableColumn(columns)
-    : null;
+  const nonEditableColumn = canChangeRowsNumber ? _getNonEditableColumn(columns) : null;
   if (nonEditableColumn != null) {
     console.warn(
-      `parameter.additionalData.canChangeRowsNumber can't be true on ${parameter.id} ` +
+      `parameter.additionalData.canChangeRowsNumber cannot be true on ${parameter.id} ` +
         `if column ${nonEditableColumn.field} is nonEditable, please fix it in the solution`
     );
     parameter.additionalData.canChangeRowsNumber = false;
