@@ -4,4 +4,4 @@
 export { DATASETS } from './datasets';
 export { RUNNERS } from './runners';
 export { WORKSPACE } from './workspaces';
-export { SOLUTION } from './solutions';
+export { SOLUTION, SOLUTION_WITH_TABLE_PARAMETER } from './solutions';
