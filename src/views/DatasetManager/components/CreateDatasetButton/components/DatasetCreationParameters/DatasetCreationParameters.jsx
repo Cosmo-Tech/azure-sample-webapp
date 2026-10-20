@@ -54,31 +54,51 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, dialog, pare
     else dialog.setWidth(PARAMETER_CONTEXT_WIDTH.SMALL);
   }, [dataSourceRunTemplates, dataSourceType, dialog]);
 
-  const defaultFormState = useRef({});
+  const runnerForReset = isDatasetParametersEditionDialog ? selectedRunner : null;
+  const defaultFormStateRef = useRef({});
   const { sourceParameters, scenarioResetValues } = useMemo(() => {
-    const resetValues = {};
-    const forgeParameterInput = (originalParameter) => {
-      const parameterId = originalParameter.id;
-      const datasourcePatch = datasourceParameterHelpers?.find((datasource) => datasource.id === dataSourceType);
-      const parametersPatch = datasourcePatch?.parameters?.find((el) => el.id === parameterId);
-      const parameter = clone(originalParameter);
+    const runTemplate = dataSourceRunTemplates[dataSourceType];
+    const datasourcePatch = datasourceParameterHelpers?.find((datasource) => datasource.id === dataSourceType);
+    const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
 
+    const patchParameter = (originalParameter) => {
+      const parametersPatch = datasourcePatch?.parameters?.find((el) => el.id === originalParameter.id);
+      const parameter = clone(originalParameter);
       if (parametersPatch) {
         parameter.defaultValue = parametersPatch.defaultValue;
         parameter.additionalData = parameter.additionalData ?? {};
         parameter.additionalData.tooltipText = parametersPatch.tooltipText;
       }
+      return parameter;
+    };
+
+    const patchedParameters = (runTemplate?.parameters ?? []).map(patchParameter);
+
+    const defaultValuesById = {};
+    for (const parameter of patchedParameters) {
       // Backward compatibility with versions prior to v7.3.0: in the context of the dataset creation dialog, all
       // parameters are considered as required. Starting with v7.3.0, this default behavior can be disabled by setting
       // additional.required to false in the parameter definition
       const required = ConfigUtils.getParameterAttribute(parameter, 'required') !== false;
-      let defaultValue = null;
-      if (required)
-        defaultValue = ScenarioParametersUtils.getDefaultParametersValues([parameterId], [parameter])[parameterId];
+      defaultValuesById[parameter.id] = required
+        ? ScenarioParametersUtils.getDefaultParametersValues([parameter.id], [parameter])[parameter.id]
+        : null;
+    }
 
-      const escapedSourceType = SolutionsUtils.escapeRunTemplateId(dataSourceType);
-      const fieldPath = `${escapedSourceType}.${parameterId}`;
-      defaultFormState.current[fieldPath] = defaultValue;
+    const parameterIds = patchedParameters.map((parameter) => parameter.id);
+    const valuesById = ScenarioParametersUtils.getParametersValuesForReset(
+      parameterIds,
+      defaultValuesById,
+      runnerForReset,
+      { parameters: patchedParameters }
+    );
+
+    const resetValues = {};
+    defaultFormStateRef.current = {};
+    const parameters = patchedParameters.map((parameter) => {
+      const fieldPath = `${escapedSourceType}.${parameter.id}`;
+      const defaultValue = valuesById[parameter.id];
+      defaultFormStateRef.current[fieldPath] = defaultValue;
       resetValues[fieldPath] = defaultValue;
 
       return (
@@ -94,32 +114,35 @@ export const DatasetCreationParameters = ({ dataSourceRunTemplates, dialog, pare
             width: dialog?.width ?? PARAMETER_CONTEXT_WIDTH.SMALL,
             defaultValue,
           }}
-          defaultParameterValue={defaultValue}
         />
       );
-    };
-
-    const runTemplate = dataSourceRunTemplates[dataSourceType];
-    defaultFormState.current = {};
-    const parameters = runTemplate?.parameters?.map((parameter) => forgeParameterInput(parameter));
+    });
     return { sourceParameters: parameters, scenarioResetValues: resetValues };
-  }, [dataSourceRunTemplates, dataSourceType, datasourceParameterHelpers, dialog?.width, isDarkTheme, parentDataset]);
+  }, [
+    dataSourceRunTemplates,
+    dataSourceType,
+    datasourceParameterHelpers,
+    dialog?.width,
+    isDarkTheme,
+    parentDataset,
+    runnerForReset,
+  ]);
 
   useEffect(() => {
-    // Do not reset form when updating an existing dataset (already done in a useEffect in UpdateDatasetDialog)
-    if (isDatasetParametersEditionDialog) return;
-
-    const formValues = getValues();
-    for (const [sourceType, parameters] of Object.entries(formValues)) {
-      // Ignore fields that are not source types
-      if (['name', 'tags', 'description', 'sourceType'].includes(sourceType)) continue;
-      for (const [parameterId, parameterValue] of Object.entries(parameters)) {
-        const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
-        const fieldPath = `${escapedSourceType}.${parameterId}`;
-        defaultFormState.current[fieldPath] = parameterValue;
+    // Keep values of other source types when switching between source types in the creation wizard
+    if (!isDatasetParametersEditionDialog) {
+      const formValues = getValues();
+      for (const [sourceType, parameters] of Object.entries(formValues)) {
+        // Ignore fields that are not source types
+        if (['name', 'tags', 'description', 'sourceType'].includes(sourceType)) continue;
+        for (const [parameterId, parameterValue] of Object.entries(parameters)) {
+          const escapedSourceType = SolutionsUtils.escapeRunTemplateId(sourceType);
+          const fieldPath = `${escapedSourceType}.${parameterId}`;
+          defaultFormStateRef.current[fieldPath] = parameterValue;
+        }
       }
     }
-    for (const [key, defaultValue] of Object.entries(defaultFormState.current)) {
+    for (const [key, defaultValue] of Object.entries(defaultFormStateRef.current)) {
       resetField(key, { defaultValue });
     }
   }, [getValues, isDatasetParametersEditionDialog, resetField, sourceParameters]);

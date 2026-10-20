@@ -1,6 +1,6 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -12,19 +12,14 @@ import { useUpdateDatasetDialog } from './UpdateDatasetDialogHook';
 
 export const UpdateDatasetDialog = ({ open, dataset, closeDialog, selectedRunner }) => {
   const { t } = useTranslation();
-  const { dataSourceRunTemplates, updateRunner, solutionData, parentDataset, formattedParametersValues } =
-    useUpdateDatasetDialog(dataset, selectedRunner);
+  const { dataSourceRunTemplates, updateRunner, solutionData, parentDataset } = useUpdateDatasetDialog(
+    dataset,
+    selectedRunner
+  );
 
   const methods = useForm({ mode: 'onChange' });
   const { isDirty, errors } = methods.formState;
   const isValid = Object.keys(errors ?? {}).length === 0;
-
-  useEffect(() => {
-    if (open) {
-      const escapedSourceType = SolutionsUtils.escapeRunTemplateId(selectedRunner?.runTemplateId);
-      methods.reset({ [escapedSourceType]: formattedParametersValues });
-    }
-  }, [open, methods, selectedRunner?.runTemplateId, formattedParametersValues]);
 
   const updateRunnerAndCloseDialog = useCallback(() => {
     const values = methods.getValues();
