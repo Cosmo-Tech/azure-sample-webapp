@@ -30,8 +30,14 @@ const RUNNER_ENUM_PARAMETER = {
 const etlFile1 = {
   id: 'dp-etlFile1',
   name: 'etl_file_parameter',
-  datasetId: 'D-stbdparams1',
+  datasetId: EDITABLE_RUNNER.datasets.parameter,
   sourceName: 'reference.zip',
+};
+const etlTable1 = {
+  id: 'dp-etlTable1',
+  name: 'etl_table_parameter',
+  datasetId: EDITABLE_RUNNER.datasets.parameter,
+  sourceName: 'table.csv',
 };
 const RUNNER_WITH_FILE = {
   ...EDITABLE_RUNNER,
@@ -50,7 +56,7 @@ const RUNNER_WITH_FILE = {
     },
   ],
 };
-RUNNER_WITH_FILE.datasets.parameters = [etlFile1];
+RUNNER_WITH_FILE.datasets.parameters = [etlFile1, etlTable1];
 
 const etlFile2 = {
   id: 'dp-etlFile2',

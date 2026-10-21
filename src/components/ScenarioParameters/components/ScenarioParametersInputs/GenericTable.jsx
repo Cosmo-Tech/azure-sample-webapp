@@ -17,6 +17,7 @@ import { ConfigUtils, DatasetsUtils, TranslationUtils } from '../../../../utils'
 import { parseCSVFromAPIResponse } from '../../../../utils/DatasetQueryUtils';
 import { FileManagementUtils } from '../../../../utils/FileManagementUtils';
 import { TableUtils } from '../../../../utils/TableUtils';
+import { PARAMETER_CONTEXT_VIEWS } from '../../../../utils/scenarioParameters/ParameterContext';
 import { TableExportDialog, TableRevertDataDialog, TableDeleteRowsDialog } from './components';
 
 const clone = rfdc();
@@ -215,13 +216,9 @@ export const GenericTable = ({
   };
 
   const _checkForLock = () => {
-    if (GenericTable.downloadLocked === undefined) {
-      GenericTable.downloadLocked = {};
-    } else if (lockId in GenericTable.downloadLocked === false) {
-      GenericTable.downloadLocked[lockId] = false;
-    } else if (GenericTable.downloadLocked[lockId]) {
-      return true;
-    }
+    if (GenericTable.downloadLocked === undefined) GenericTable.downloadLocked = {};
+    else if (lockId in GenericTable.downloadLocked === false) GenericTable.downloadLocked[lockId] = false;
+    else if (GenericTable.downloadLocked[lockId]) return true;
     return false;
   };
 
@@ -618,7 +615,7 @@ export const GenericTable = ({
       !parameter.serializedData &&
       parameter.status === UPLOAD_FILE_STATUS_KEY.READY_TO_DOWNLOAD &&
       !alreadyDownloaded &&
-      isValueFromCurrentScenario
+      (isValueFromCurrentScenario || context.view === PARAMETER_CONTEXT_VIEWS.DATASET_MANAGER)
     ) {
       _downloadDatasetFileContentFromStorage(organizationId, workspaceId, parameter, updateParameterValueWithReset);
     } else if (

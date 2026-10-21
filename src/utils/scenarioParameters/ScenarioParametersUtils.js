@@ -264,7 +264,7 @@ const getParametersValuesForReset = (parameterIds, defaultParametersValues, runn
         parameterValues[parameterId] = forgeFileParameterFromDatasetPart(datasetPart, varType, subType);
       else parameterValues[parameterId] = forgeFileParameter(parameterId, varType, subType, null);
     } else {
-      const runnerParameter = runner.parametersValues?.find((parameter) => parameter.parameterId === parameterId);
+      const runnerParameter = runner?.parametersValues?.find((parameter) => parameter.parameterId === parameterId);
       parameterValues[parameterId] = runnerParameter?.value ?? defaultParametersValues?.[parameterId];
     }
   }

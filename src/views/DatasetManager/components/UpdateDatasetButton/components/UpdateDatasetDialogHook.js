@@ -10,7 +10,7 @@ import {
   useSubDataSourceRunTemplates,
 } from '../../../../../state/solutions/hooks';
 import { useWorkspaceData } from '../../../../../state/workspaces/hooks';
-import { DatasetsUtils, ScenarioParametersUtils } from '../../../../../utils';
+import { DatasetsUtils } from '../../../../../utils';
 
 export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
   const solutionData = useSolutionData();
@@ -56,18 +56,6 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
     workspace?.additionalData?.webapp?.datasetManager?.datasourceFilter,
     workspace?.additionalData?.webapp?.datasetManager?.subdatasourceFilter,
   ]);
-  const getRunTemplateParametersIds = (runTemplatesParametersIdsDict, runTemplateId) => {
-    return runTemplatesParametersIdsDict?.[runTemplateId] ?? [];
-  };
-  const runTemplateParametersIds = useMemo(
-    () => getRunTemplateParametersIds(solutionData?.runTemplatesParametersIdsDict, selectedRunner?.runTemplateId),
-    [solutionData?.runTemplatesParametersIdsDict, selectedRunner?.runTemplateId]
-  );
-  const formattedParametersValues = useMemo(
-    () =>
-      ScenarioParametersUtils.getParametersValuesForReset(runTemplateParametersIds, {}, selectedRunner, solutionData),
-    [runTemplateParametersIds, selectedRunner, solutionData]
-  );
 
   return {
     runners,
@@ -76,6 +64,5 @@ export const useUpdateDatasetDialog = (dataset, selectedRunner) => {
     solutionData,
     parentDataset,
     datasets,
-    formattedParametersValues,
   };
 };

@@ -1,7 +1,10 @@
 // Copyright (c) Cosmo Tech.
 // Licensed under the MIT license.
+import rfdc from 'rfdc';
 import { ROLES } from '../../../commons/constants/generic/TestConstants';
 import { DEFAULT_SOLUTION } from '../default';
+
+const clone = rfdc();
 
 export const SOLUTION = {
   ...DEFAULT_SOLUTION,
@@ -62,3 +65,33 @@ export const SOLUTION = {
     },
   ],
 };
+
+const TABLE_PARAMETER = {
+  id: 'etl_table_parameter',
+  varType: '%DATASET_PART_ID_FILE%',
+  additionalData: {
+    subType: 'TABLE',
+    required: false,
+    columns: [{ field: 'name' }],
+  },
+};
+
+export const SOLUTION_WITH_TABLE_PARAMETER = clone(DEFAULT_SOLUTION);
+SOLUTION_WITH_TABLE_PARAMETER.security = {
+  default: ROLES.RUNNER.ADMIN,
+  accessControlList: [],
+};
+SOLUTION_WITH_TABLE_PARAMETER.parameters.push(TABLE_PARAMETER);
+SOLUTION_WITH_TABLE_PARAMETER.parameterGroups.push({
+  id: 'etl_table_parameter_group',
+  parameters: [TABLE_PARAMETER.id],
+});
+SOLUTION_WITH_TABLE_PARAMETER.runTemplates.push({
+  id: 'etl_with_file',
+  labels: {
+    en: 'ETL with table parameter',
+    fr: 'ETL avec un paramètre de tableau',
+  },
+  parameterGroups: ['etl_table_parameter_group'],
+  tags: ['datasource'],
+});

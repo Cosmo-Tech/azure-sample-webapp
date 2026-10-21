@@ -386,6 +386,13 @@ apiUtils.interceptUpdateSimulationRunner({ scenarioId, validateRequest });
 
 ## Common pitfalls
 
+- Table actions can trigger React refreshes that make a previously retrieved element stale. Use a getter and call it for every `TableParameters` action instead of caching the element:
+  ```js
+  const getTableParameter = () => RunTemplateParameters.getTableContainer('my_table_parameter');
+
+  TableParameters.getCell(getTableParameter(), 'name', 0).should('have.text', 'Customer 1');
+  TableParameters.getCell(getTableParameter(), 'name', 1).should('have.text', 'Customer 2');
+  ```
 - **`DEFAULT_RUN_TEMPLATE_PARAMETER` is NOT exported from `default/index.js`.**
   Define parameters as plain objects inline.
 - Always register `cy.intercept` calls **before** the UI action that triggers
