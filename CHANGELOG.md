@@ -1,3 +1,29 @@
+## **7.6.0** <sub><sup>2026-10-21 ([b6ebe97...dd95b20](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/b6ebe979...dd95b20a?diff=split))</sup></sub>
+
+### Features
+
+- add new option `readOnly` for run template parameters ([2d4f602](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2d4f6028))
+
+### Bug Fixes
+
+- add a helper text warning users when renaming a scenario ([c046f64](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c046f642))
+- fix edition & initialization of Table ETL parameters in dataset manager view ([e25e93a](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e25e93a1))
+- improve format of tooltips listing group members in resource sharing components ([58777fe](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/58777fed))
+- improve tooltip for empty groups in role edition components ([d9db4a9](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/d9db4a9d))
+- add limit to number of group members shown in sharing dialog tooltips ([cc158cf](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/cc158cfc))
+- add predefined filter of allowed file types for file dataset reupload button ([c721641](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/c7216418))
+- fix width of sub\-dataset creation dialog when parent dataset name is too long ([b3c962d](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/b3c962d8))
+- fix `required` option previously ignored on enum parameters with dynamic values ([14fd2a0](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/14fd2a06))
+- fix label of input field when dynamic enum parameter value could not be fetched ([e9ddeeb](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e9ddeeb5))
+- fix missing warning message when the fetch of a dynamic number parameter value has failed ([265b135](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/265b1350))
+- fix delay between queries when PowerBI token polling receives errors ([2af31c6](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/2af31c66))
+- remove wrong entry in list of allowed MIME types ([ff8ffde](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/ff8ffde7))
+
+### Documentation
+
+- add documentation for new parameter option `readOnly` ([a3739bc](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/a3739bce))
+- add TableParameters action caveout in bot instructions for cypress tests ([81b6d03](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/81b6d039))
+
 ## **7.5.0** <sub><sup>2026-10-08 ([7032a2f...446e742](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/7032a2f4...446e7426?diff=split))</sup></sub>
 
 ### Features
