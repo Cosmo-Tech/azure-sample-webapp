@@ -1465,12 +1465,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmotech/api-ts@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "@cosmotech/api-ts@npm:5.3.0"
+"@cosmotech/api-ts@npm:^5.3.1":
+  version: 5.3.1
+  resolution: "@cosmotech/api-ts@npm:5.3.1"
   dependencies:
     axios: "npm:^1.18.0"
-  checksum: 10c0/00db568a83d9fa8ecf5a666b45f72b2860c0a35a503475bd3f6d5f219d20897aa904c8badc5d5655a4c4d4e2bf4e049089a235ee2682eb0f947dff376d9bb280
+  checksum: 10c0/e80b00833eb6272c8df8b9016017b8885c6166bb7583cbd144ee2c2a35f5ecc59b38a4af4e728b04f66b88470b4b32da0174d2eb9df6ac468d8a934f08b918e0
   languageName: node
   linkType: hard
 
@@ -4181,7 +4181,7 @@ __metadata:
     "@babel/core": "npm:^7.29.7"
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/preset-react": "npm:^7.29.7"
-    "@cosmotech/api-ts": "npm:^5.3.0"
+    "@cosmotech/api-ts": "npm:^5.3.1"
     "@cosmotech/azure": "npm:^5.0.0"
     "@cosmotech/core": "npm:^4.0.0"
     "@cosmotech/ui": "npm:^12.4.0"
