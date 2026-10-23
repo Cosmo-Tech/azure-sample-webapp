@@ -1,3 +1,9 @@
+## **6.5.6** <sub><sup>2026-10-23 ([38aa497...36b28ac](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/38aa4972...36b28ac6?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- increase height of table parameters to fix hidden error panel ([36b28ac](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/36b28ac6))
+
 ## **6.5.5** <sub><sup>2026-05-13 ([d2d8c9d...76008d9](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/d2d8c9d0...76008d92?diff=split))</sup></sub>
 
 ### Dependencies
