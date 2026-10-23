@@ -135,7 +135,8 @@
     "svgo": "^2.8.4",
     "underscore": "^1.13.8",
     "undici": "^8.3.0",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.0",
+    "webpack": "~5.109.0"
   },
   "packageManager": "yarn@4.12.0"
 }
