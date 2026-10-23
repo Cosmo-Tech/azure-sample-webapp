@@ -56,7 +56,7 @@ __metadata:
     "@azure/msal-node": "npm:^3.8.10"
     jsonwebtoken: "npm:^9.0.3"
     jwks-rsa: "npm:^4.1.0"
-    uuid: "npm:^14.0.2"
+    uuid: "npm:^14.0.3"
   languageName: unknown
   linkType: soft
 
