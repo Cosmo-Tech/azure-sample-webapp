@@ -781,7 +781,7 @@ export const GenericTable = ({
         maxErrorsCount={MAX_ERRORS_COUNT}
         isDirty={isDirty}
         visibilityOptions={context.tableOptions?.buttons}
-        height={context.tableOptions?.height ?? '258px'}
+        height={context.tableOptions?.height ?? '338px'}
       />
       <TableDeleteRowsDialog
         open={isConfirmRowsDeletionDialogOpen}
