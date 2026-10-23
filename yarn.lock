@@ -5773,7 +5773,7 @@ __metadata:
     react-dom: "npm:^17.0.2"
     react-error-overlay: "npm:^6.1.0"
     react-fade-in: "npm:^2.0.1"
-    react-hook-form: "npm:^7.85.0"
+    react-hook-form: "npm:7.86.0"
     react-i18next: "npm:^13.5.0"
     react-idle-timer: "npm:5.7.2"
     react-redux: "npm:^7.2.9"
@@ -15988,16 +15988,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.85.0":
-  version: 7.90.0
-  resolution: "react-hook-form@npm:7.90.0"
+"react-hook-form@npm:7.86.0":
+  version: 7.86.0
+  resolution: "react-hook-form@npm:7.86.0"
   peerDependencies:
-    "@types/react": "*"
     react: ^16.8.0 || ^17 || ^18 || ^19
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10c0/4278859ea6d1ed9288eade929255a21129a726e097121a9b6b290fc33e296d539e3cb290e3d07de37f3f5cc9b84722c1acf23d8657570729a6264230318b792a
+  checksum: 10c0/90cfaf2bbe18061f71d2a8e3e546ab4d9aa861aeab210f2ee3c2009d20e477aa98e290571bd2a2a593e7d412738f178abbea60b81df0b9a5c1b57f8a87b789df
   languageName: node
   linkType: hard
 
