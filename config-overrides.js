@@ -11,8 +11,6 @@ const cspConfigPolicy = {
     '*.api.cosmotech.com',
     'https://login.microsoftonline.com',
     'https://dc.services.visualstudio.com',
-    'https://scenario-download-brewery-dev.azurewebsites.net',
-    'https://kubernetes.cosmotech.com',
   ],
   'script-src': ["'self'"],
   'img-src': ["'self'", 'data:'],
