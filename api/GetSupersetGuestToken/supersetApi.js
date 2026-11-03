@@ -17,7 +17,7 @@ const checkSupersetResponse = async (res, hintsByStatusCode = {}, errorMessageMa
 
   let replacedErrorMessage;
   for (const [messagePartToFind, messageToShow] of Object.entries(errorMessageMapping)) {
-    if (errorMessage.includes(messagePartToFind)) {
+    if (typeof errorMessage === 'string' && errorMessage.includes(messagePartToFind)) {
       replacedErrorMessage = messageToShow;
       break;
     }
@@ -70,7 +70,10 @@ const getSupersetGuestToken = async (adminToken, dashboardIds) => {
   const res = await fetch(queryURL, { method: 'POST', headers, body });
   console.debug('DEBUG: response received');
 
-  const hintsByStatusCode = { 400: `Couldn't retrieve guest token for superset dashboards` };
+  const hintsByStatusCode = {
+    400: `Couldn't retrieve guest token for superset dashboards`,
+    401: `Not authorized: superset admin service account cannot retrieve guest tokens`,
+  };
   const errorMessageMapping = {
     'EmbeddedDashboard not found': 'Incorrect dashboard ids. Please check your workspace configuration.',
   };
