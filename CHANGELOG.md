@@ -1,3 +1,9 @@
+## **7.6.2** <sub><sup>2026-11-03 ([9a67a8b...0d64a88](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/9a67a8b6...0d64a887?diff=split))</sup></sub>
+
+### Bug Fixes
+
+- fix error hints shown when superset token cannot be fetched ([e8c0b80](https://github.com/Cosmo-Tech/azure-sample-webapp/commit/e8c0b800))
+
 ## **7.6.1** <sub><sup>2026-10-23 ([ae7f7bc...264b56a](https://github.com/Cosmo-Tech/azure-sample-webapp/compare/ae7f7bcd...264b56a7?diff=split))</sup></sub>
 
 ### Dependencies
