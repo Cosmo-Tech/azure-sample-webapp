@@ -41,20 +41,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:16.13.0":
-  version: 16.13.0
-  resolution: "@azure/msal-common@npm:16.13.0"
-  checksum: 10c0/cc2857f24bae5ac9693760a9b23c5c6f19a86ae5df16d236e85616a545e6bb15a8b7a587df9c024b43a5386485a84b662574c42cffafef9746e56135f61f654c
+"@azure/msal-common@npm:16.15.0":
+  version: 16.15.0
+  resolution: "@azure/msal-common@npm:16.15.0"
+  checksum: 10c0/591323eb7c169252744b8c955438903f06ca271cc2b1f3f3c63948a4d0f3bb17ef3b214197ca8883125a6ab3a5e527652c5d1190332412ede48a76db97563dc4
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^5.6.0":
-  version: 5.6.0
-  resolution: "@azure/msal-node@npm:5.6.0"
+"@azure/msal-node@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "@azure/msal-node@npm:7.1.2"
   dependencies:
-    "@azure/msal-common": "npm:16.13.0"
+    "@azure/msal-common": "npm:16.15.0"
     jsonwebtoken: "npm:^9.0.0"
-  checksum: 10c0/57e788bb884aa032b66ecfa339c4660b20e63ec91f25774db47b2e043ba6d5f969d66cd80c24bd4f2735388cef6acc2aba79a9b86da18aed2dbe856c88f49df2
+  checksum: 10c0/fa554cdce9fa9b5993311492a23cd807f4a0a2aa28559720d6277a80d1f2778a1bac75fddf3ef8367256a143c0a805f524bfb64e9a5e752086cc710f3f87160b
   languageName: node
   linkType: hard
 
@@ -4192,7 +4192,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azure-sample-webapp@workspace:."
   dependencies:
-    "@azure/msal-node": "npm:^5.6.0"
+    "@azure/msal-node": "npm:^7.1.2"
     "@babel/core": "npm:^7.29.7"
     "@babel/preset-env": "npm:^7.29.7"
     "@babel/preset-react": "npm:^7.29.7"
