@@ -22,6 +22,9 @@ on:
     branches: ['main']
     tags:
       - '*'
+  pull_request:
+    branches:
+      - '**'
 
 env:
   LATEST_BRANCH: 'main'
@@ -45,9 +48,9 @@ jobs:
     steps:
       - name: Checkout git repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
-          ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
+        # with:
+        #   # Use workflow input "targetRef" if provided, or the branch/commit/tag that triggered the job otherwise
+        #   ref: ${{ inputs.targetRef != '' && inputs.targetRef || github.ref_name }}
 
       - name: Log in to the Container registry
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4
@@ -61,6 +64,9 @@ jobs:
           identity: ${{ secrets.CHAINGUARD_IDENTITY_GH_WORKFLOW_MIGRATION }}
 
       # Webapp server image
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
 
       - name: "webapp-server: extract Docker metadata (tags, labels)"
         id: webapp-server-metadata
@@ -84,7 +90,7 @@ jobs:
           context: .
           file: webapp_server/webapp-server.Dockerfile
           push: true
-          tags: ${{ steps.webapp-server-metadata.outputs.tags }}
+          tags: "ghcr.io/cosmo-tech/azure-sample-webapp/webapp-server:sjo"
           labels: ${{ steps.webapp-server-metadata.outputs.labels }}
           # Target stage can be either server-universal or server-specific (default)
           target: server-universal
@@ -107,45 +113,3 @@ jobs:
           api-key: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
           project: 9d413789-1a24-4bd4-84c9-7466490d8885
           bom-filename: sbom-webapp-server-docker.json
-
-      # Webapp functions image
-
-      - name: "webapp-functions: extract Docker metadata (tags, labels)"
-        id: webapp-functions-metadata
-        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6
-        with:
-          # Change the tag and image name below if needed (see https://github.com/docker/metadata-action)
-          flavor: |
-            latest=false
-          tags: |
-            # set latest tag only for one branch
-            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', env.LATEST_BRANCH) }},priority=1200
-            type=raw,value=${{ inputs.imageTag }},enable=${{ inputs.imageTag != '' }},priority=1100
-            type=ref,event=branch
-            type=ref,event=tag
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/webapp-functions
-      - name: "webapp-functions: build and push Docker image"
-        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
-        env:
-          DOCKER_BUILD_RECORD_UPLOAD: false
-        with:
-          context: api
-          file: webapp_server/webapp-functions.Dockerfile
-          push: true
-          tags: ${{ steps.webapp-functions-metadata.outputs.tags }}
-          labels: ${{ steps.webapp-functions-metadata.outputs.labels }}
-      - name: "webapp-functions: generate SBOM from Docker image"
-        if: github.ref_type == 'branch' && github.ref_name == 'main'
-        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
-        with:
-          image-ref: 'ghcr.io/cosmo-tech/azure-sample-webapp/webapp-functions:${{ github.ref_name }}'
-          format: 'cyclonedx'
-          output: 'sbom-webapp-functions-docker.json'
-      - name: "webapp-functions: upload SBOM to DependencyTrack"
-        if: github.ref_type == 'branch' && github.ref_name == 'main'
-        uses: DependencyTrack/gh-upload-sbom@331f980a6eba119842052f447c54b09e4888b4c6 # v4.3.0
-        with:
-          server-hostname: ${{ secrets.DEPENDENCY_TRACK_SERVER_HOSTNAME }}
-          api-key: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-          project: c7aab7a5-87a2-4fe6-b665-128834d42f84
-          bom-filename: sbom-webapp-functions-docker.json

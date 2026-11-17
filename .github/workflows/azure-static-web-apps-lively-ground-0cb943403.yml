@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+  # pull_request:
+  #   types: [opened, synchronize, reopened, closed]
+  #   branches:
+  #     - main
 
 env:
   VITE_BUILD_NUMBER: ${{ github.event.pull_request.head.sha || github.sha }}
